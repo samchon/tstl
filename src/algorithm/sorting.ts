@@ -38,20 +38,20 @@ export function sort<RandomAccessIterator extends General<IRandomAccessIterator<
         comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less
     ): void
 {
-    let size: number = last.index() - first.index();
+    const size: number = last.index() - first.index();
     if (size <= 0)
         return;
 
-    let pivot_it: RandomAccessIterator = first.advance(Math.floor(size / 2));
-    let pivot: IPointer.ValueType<RandomAccessIterator> = pivot_it.value;
+    const pivot_it: RandomAccessIterator = first.advance(Math.floor(size / 2));
+    const pivot: IPointer.ValueType<RandomAccessIterator> = pivot_it.value;
 
     if (pivot_it.index() !== first.index())
         iter_swap(first, pivot_it);
     
-    let i: number = 1;
+        let i: number = 1;
     for (let j: number = 1; j < size; ++j)
     {
-        let j_it: RandomAccessIterator = first.advance(j);
+        const j_it: RandomAccessIterator = first.advance(j);
         if (comp(j_it.value, pivot))
         {
             iter_swap(j_it, first.advance(i));
@@ -77,7 +77,7 @@ export function stable_sort<RandomAccessIterator extends General<IRandomAccessIt
         comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less
     ): void
 {
-    let ramda = function (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>): boolean
+    const ramda = function (x: IPointer.ValueType<RandomAccessIterator>, y: IPointer.ValueType<RandomAccessIterator>): boolean
     {
         return comp(x, y) && !comp(y, x);
     };
@@ -131,10 +131,10 @@ export function partial_sort_copy<
         comp: Comparator<IPointer.ValueType<InputIterator>> = less
     ): OutputIterator
 {
-    let input_size: number = distance(first, last);
-    let result_size: number = distance(<Temporary>output_first, output_last);
+    const input_size: number = distance(first, last);
+    const result_size: number = distance(<Temporary>output_first, output_last);
 
-    let vector: Vector<IPointer.ValueType<InputIterator>> = new Vector(first, last);
+    const vector: Vector<IPointer.ValueType<InputIterator>> = new Vector(first, last);
     sort(vector.begin(), vector.end(), <Temporary>comp);
 
     if (input_size > result_size)
@@ -159,7 +159,7 @@ export function nth_element<RandomAccessIterator extends General<IRandomAccessIt
         comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less
     ): void
 {
-    let n: number = distance(first, nth);
+    const n: number = distance(first, nth);
     for (let i = first; !i.equals(last); i = i.next())
     {
         let count: number = 0;

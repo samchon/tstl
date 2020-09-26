@@ -2,11 +2,11 @@ import * as std from "../../index";
 
 export function test_priority_queue(): void
 {
-    let pq = new std.PriorityQueue<number>(std.greater);
+    const pq = new std.PriorityQueue<number>(std.greater);
     for (let i: number = 0; i < 1000; ++i)
         pq.push(Math.random() * 100);
 
-    let items: std.Vector<number> = new std.Vector();
+    const items: std.Vector<number> = new std.Vector();
     while (pq.empty() === false)
     {
         items.push_back(pq.top());
@@ -20,11 +20,11 @@ export function test_priority_queue(): void
 export function test_adaptors(): void
 {
     // CONSTRUCT ADAPTOR CONATINERS
-    let queue = _Construct_adaptor(new std.Queue<number>());
-    let stack = _Construct_adaptor(new std.Stack<number>());
+    const queue = _Construct_adaptor(new std.Queue<number>());
+    const stack = _Construct_adaptor(new std.Stack<number>());
 
     // VALIDATE QUEUE
-    let queue_items: number[] = [];
+    const queue_items: number[] = [];
     while (queue.empty() === false)
     {
         queue_items.push(queue.front());
@@ -33,7 +33,7 @@ export function test_adaptors(): void
     _Validate_adaptor_items(queue_items, [0, 1, 2, 3, 4]);
 
     // VALIDATE STACK
-    let stack_items: number[] = [];
+    const stack_items: number[] = [];
     while (stack.empty() === false)
     {
         stack_items.push(stack.top());

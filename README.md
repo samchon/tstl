@@ -102,7 +102,7 @@ import std = require("tstl");
 
 function main(): void
 {
-    let map: std.TreeMap<number, string> = new std.TreeMap();
+    const map: std.TreeMap<number, string> = new std.TreeMap();
 
     // INSERT ITEMS
     map.insert(std.make_pair(1, "First")); // Via tuple
@@ -115,7 +115,7 @@ function main(): void
         console.log(it.first, it.second); // (key => number, value => string)
 
     // LOWER_BOUND
-    let x = map.lower_bound(3);
+    const x = map.lower_bound(3);
     console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
 }
 main();

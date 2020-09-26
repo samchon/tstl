@@ -10,7 +10,7 @@ export function test_lists(): void
 
 function _Test_removes(): void
 {
-    let v = new std.Vector<number>();
+    const v = new std.Vector<number>();
     for (let i: number = 0; i < 10; ++i)
         v.push_back(Math.random());
 
@@ -20,7 +20,7 @@ function _Test_removes(): void
 
 function _Test_remove(creator: typeof std.List, v: std.Vector<number>): void
 {
-    let l = new creator(v.begin(), v.end());
+    const l = new creator(v.begin(), v.end());
     l.remove_if(_Remove_if);
     l.reverse();
 
@@ -39,15 +39,15 @@ function _Test_merges(): void
     // PRELIMINARIES
     //----
     // SAMPLE DATA
-    let v1 = new std.Vector<number>([1, 2, 3, 7, 8, 15, 16]);
-    let v2 = new std.Vector<number>([5, 6, 12, 13]);
+    const v1 = new std.Vector<number>([1, 2, 3, 7, 8, 15, 16]);
+    const v2 = new std.Vector<number>([5, 6, 12, 13]);
 
     // ARE SHUFFLED
     std.shuffle(v1.begin(), v1.end());
     std.shuffle(v2.begin(), v2.end());
 
     // VALIDATOR; SORTED & MERGED BY TREE-SET
-    let set = new std.TreeSet<number>(v1.data());
+    const set = new std.TreeSet<number>(v1.data());
     set.push(...v2.data());
 
     //----
@@ -60,8 +60,8 @@ function _Test_merges(): void
 function _Test_merge(creator: typeof std.List, v1: std.Vector<number>, v2: std.Vector<number>, set: std.TreeSet<number>): void
 {
     // CONSTRUCT LISTS
-    let l1 = new creator(v1.data());
-    let l2 = new creator(v2.data());
+    const l1 = new creator(v1.data());
+    const l2 = new creator(v2.data());
 
     // SORT THEM TO MERGE
     l1.sort();
@@ -80,7 +80,7 @@ function _Test_forward_lists(): void
     //----
     // CONSTRUCT ELEMENTS
     //----
-    let fl: std.ForwardList<number> = new std.ForwardList();
+    const fl: std.ForwardList<number> = new std.ForwardList();
     for (let i: number = 9; i >= 0; --i)
         fl.push_front(i);
 
@@ -110,7 +110,7 @@ function _Test_forward_lists(): void
     //----
     // FINAL VALIDATION
     //----
-    let answer = new std.Vector<number>([0, 1, -1, 2, 4, 5, 9]);
+    const answer = new std.Vector<number>([0, 1, -1, 2, 4, 5, 9]);
     if (std.equal(fl.begin(), fl.end(), answer.begin()) === false)
         throw new Error("Bug on std.ForwardList; store elements are wrong.");
 }

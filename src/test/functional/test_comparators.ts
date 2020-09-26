@@ -5,13 +5,13 @@ import { Comparator } from "../../internal/functional/Comparator";
 
 export function test_comparisons(): void
 {
-    let atoms = new std.Vector<Atomic<number>>();
+    const atoms = new std.Vector<Atomic<number>>();
     for (let i: number = 0; i < 10; ++i)
         for (let j: number = 0; j < 3; ++j)
             atoms.push(new Atomic<number>(i));
 
-    for (let x of atoms)
-        for (let y of atoms)
+    for (const x of atoms)
+        for (const y of atoms)
         {
             _Test_comparison_results(x, y, x.value === y.value, std.equal_to);
             _Test_comparison_results(x, y, x.value !== y.value, std.not_equal_to);

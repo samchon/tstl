@@ -10,7 +10,7 @@ export function test_sortings(): void
 
 function _Test_atomic_sorting(): void
 {
-    let array: number[] = [];
+    const array: number[] = [];
     for (let i: number = 1; i <= 15; ++i)
         for (let j: number = 0; j < 3; ++j)
             array.push(i);
@@ -27,7 +27,7 @@ function _Test_object_sorting(): void
     //----
     // CONSTRUCT ITEMS
     //----
-    let cubes: std.Deque<Cube> = new std.Deque<Cube>();
+    const cubes: std.Deque<Cube> = new std.Deque<Cube>();
     for (let i: number = 0; i < 1000; ++i)
         cubes.push_back(new Cube());
 
@@ -45,7 +45,7 @@ function _Test_object_sorting(): void
     // SORT BY inline function
     //----
     // DECLARE INLINE FUNCTION
-    let inline_function = (cx: Cube, cy: Cube) =>
+    const inline_function = (cx: Cube, cy: Cube) =>
     {
         if (cx.x !== cy.x) return cx.x < cy.x;
         else if (cx.y !== cy.y) return cx.y < cy.y;

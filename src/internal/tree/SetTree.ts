@@ -64,7 +64,7 @@ export abstract class SetTree<Key,
     --------------------------------------------------------- */
     public get_by_key(val: Key): XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null
     {
-        let ret = this.nearest_by_key(val);
+        const ret = this.nearest_by_key(val);
         if (ret === null || !this.key_eq_(val, ret.value.value))
             return null;
         else
@@ -74,7 +74,7 @@ export abstract class SetTree<Key,
 
     public lower_bound(val: Key): SetElementList.Iterator<Key, Unique, Source>
     {
-        let node: XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null = this.nearest_by_key(val);
+        const node: XTreeNode<SetElementList.Iterator<Key, Unique, Source>> | null = this.nearest_by_key(val);
 
         if (node === null)
             return this.source_.end();

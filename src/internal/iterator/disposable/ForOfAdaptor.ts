@@ -41,7 +41,7 @@ export class ForOfAdaptor<T, InputIterator extends Readonly<IForwardIterator<T, 
             };
         else
         {
-            let it: InputIterator = this.it_;
+            const it: InputIterator = this.it_;
             this.it_ = this.it_.next();
 
             return {

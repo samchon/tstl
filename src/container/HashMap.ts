@@ -171,7 +171,7 @@ export class HashMap<Key, T>
             return super.end();
         else
         {
-            let bucket = this.buckets_.at(index);
+            const bucket = this.buckets_.at(index);
             return bucket[bucket.length - 1].next();
         }
     }

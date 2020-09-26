@@ -15,11 +15,11 @@ export function test_iterations(): void
 
 function _Test_for_of_iterations(): void
 {
-    let items = new std.Vector<number>();
+    const items = new std.Vector<number>();
     items.assign(1000, 1.5);
 
     let sum: number = 0;
-    let fn = (val: number): void =>
+    const fn = (val: number): void =>
     {
         sum += val;
     };
@@ -33,23 +33,23 @@ function _Test_for_of_iterations(): void
 
 function _Test_union_of_iterations(): void
 {
-    let items = new std.Vector<number>([2, 3, 4]);
-    let flags = new std.Vector<boolean>
+    const items = new std.Vector<number>([2, 3, 4]);
+    const flags = new std.Vector<boolean>
     ([
         std.ranges.all_of(items, val => val > 1.0),
         std.ranges.any_of(items, val => val === 2.0),
         std.ranges.none_of(items, val => val !== Math.floor(val))
     ]);
 
-    let ret: boolean = std.ranges.all_of(flags, val => val);
+    const ret: boolean = std.ranges.all_of(flags, val => val);
     if (ret === false)
         throw new Error("Bug on one of them: all_of(), any_of() or none_of()");
 }
 
 function _Test_equals(): void
 {
-    let v1 = new std.Vector<number>();
-    let v2 = new std.Vector<number>();
+    const v1 = new std.Vector<number>();
+    const v2 = new std.Vector<number>();
 
     for (let i: number = 0; i < SIZE; ++i)
         v1.push_back(Math.random());
@@ -66,8 +66,8 @@ function _Test_equals(): void
 
 function _Test_lexicographical_compare(): void
 {
-    let v1 = new std.Vector<number>([1, 1, 2, 3]);
-    let v2 = new std.Vector<number>([1, 1, 3, 3]);
+    const v1 = new std.Vector<number>([1, 1, 2, 3]);
+    const v2 = new std.Vector<number>([1, 1, 3, 3]);
 
     if (std.lexicographical_compare(v1.begin(), v1.end(), v2.begin(), v2.end()) === false)
         throw new Error("Bug on std.lexicographical_compare()");
@@ -75,8 +75,8 @@ function _Test_lexicographical_compare(): void
 
 function _Test_mismatch(): void
 {
-    let v1 = new std.Vector<number>();
-    let v2 = new std.Vector<number>();
+    const v1 = new std.Vector<number>();
+    const v2 = new std.Vector<number>();
 
     for (let i: number = 0; i < SIZE; ++i)
         v1.push_back(Math.random());
@@ -84,24 +84,24 @@ function _Test_mismatch(): void
 
     v2.set(MID, -90);
 
-    let pair = std.mismatch(v1.begin(), v1.end(), v2.begin());
+    const pair = std.mismatch(v1.begin(), v1.end(), v2.begin());
     if (pair.first.index() !== pair.second.index() || pair.first.index() !== MID)
         throw new Error("Bug on std.mismatch()");
 }
 
 function _Test_count(): void
 {
-    let v = new std.Vector<number>();
+    const v = new std.Vector<number>();
     for (let i: number = 0; i < SIZE; ++i)
         v.push_back(Math.random());
 
-    let fn = function (val: number): boolean
+    const fn = function (val: number): boolean
     {
         return val >= .5;    
     };
 
     let cnt: number = 0;
-    for (let val of v)
+    for (const val of v)
         if (fn(val) === true)
             ++cnt;
     

@@ -44,8 +44,8 @@ export class SystemError extends RuntimeError
 
         if (args.length >= 2 && typeof args[0].valueOf() === "number")
         {
-            let val: number = args[0];
-            let category: ErrorCategory = args[1];
+            const val: number = args[0];
+            const category: ErrorCategory = args[1];
 
             this.code_ = new ErrorCode(val, category);
             this.message = args[2];

@@ -2,7 +2,7 @@ import * as std from "../../index";
 
 export function test_partitions(): void
 {
-    let v = new std.Vector<number>();
+    const v = new std.Vector<number>();
     for (let i: number = 0; i < 1000; ++i)
         v.push_back(i);
 

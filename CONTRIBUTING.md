@@ -55,7 +55,7 @@ When you detect an error, then throw exception such below:
 ```typescript
 export function test_my_specific_logic1(): void
 {
-    let vec = new std.Vector<number>();
+    const vec = new std.Vector<number>();
     for (let i: number = 0; i < 100; ++i)
         vec.push_back(Math.random());
 
@@ -67,10 +67,10 @@ export function test_my_specific_logic1(): void
 
 export async function test_my_specific_logic2(): Promise<void>
 {
-    let t1: Date = new Date();
+    const t1: Date = new Date();
     await std.sleep_for(1000);
 
-    let t2: Date = new Date();
+    const t2: Date = new Date();
     if (t2.getTime() - t1.getTime() < 1000)
         throw new std.DomainError("std.sleep_for doesn't work.");
 }
@@ -90,7 +90,7 @@ When you send a pull request, please include a description, of what your change 
 ### 2. Include adequate tests
 As I've mentioned in the `Contributing Code` section, your PR should pass the test-automation module. Your PR includes *new features* that have not being handled in the ordinary test-automation module, then also update *add the testing unit* please.
 
-If there're some specific reasons that could not pass the test-automation (not error but *intended*), then please update the ordinary test-automation module or write the reasons on your PR content and *let me update the test-automation module*.
+If there're some specific reasons that could not pass the test-automation (not error but *intended*), then please update the ordinary test-automation module or write the reasons on your PR content and *const me update the test-automation module*.
 
 ### 3. Follow coding conventions
 The basic coding convention of STL is the [`snake_case`](https://en.wikipedia.org/wiki/Snake_case). TypeScript-STL follows the basic coding convention; `snake_case`. However, there's a difference when naming the classes. TSTL uses `snake_case` and [`PascalCase`](https://en.wikipedia.org/wiki/PascalCase) on the classes at the same time. 

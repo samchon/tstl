@@ -20,7 +20,7 @@ export async function test_mutexes(): Promise<void>
 --------------------------------------------------------- */
 export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.constructor.name): Promise<void>
 {
-    let start_time: number = Date.now();
+    const start_time: number = Date.now();
 
     // LOCK FOR A SECOND
     mtx.lock();
@@ -31,7 +31,7 @@ export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.con
 
     // TRY LOCK AGAIN
     await mtx.lock();
-    let elapsed_time: number = Date.now() - start_time;
+    const elapsed_time: number = Date.now() - start_time;
     await mtx.unlock();
 
     if (elapsed_time < SLEEP_TIME * .95)
@@ -41,7 +41,7 @@ export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.con
  export async function _Test_try_lock(mtx: ITimedLockable, name: string = mtx.constructor.name): Promise<void>
 {
     await _Test_lock(mtx, name);
-    let start_time: number = Date.now();
+    const start_time: number = Date.now();
 
     // DO LOCK
     let ret: boolean = await mtx.try_lock_for(SLEEP_TIME);
@@ -50,7 +50,7 @@ export async function _Test_lock(mtx: std.base.ILockable, name: string = mtx.con
 
     // TRY LOCK AGAIN
     ret = await mtx.try_lock_for(SLEEP_TIME);
-    let elapsed_time: number = Date.now() - start_time;
+    const elapsed_time: number = Date.now() - start_time;
 
     if (ret === true)
         throw new Error(`Bug on ${name}.try_lock_for(): it does not return exact value`);

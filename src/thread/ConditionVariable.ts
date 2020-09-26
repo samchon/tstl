@@ -75,7 +75,7 @@ export class ConditionVariable
      * 
      * This method is equivalent to:
     ```typescript
-    let at: Date = new Date(Date.now() + ms);
+    const at: Date = new Date(Date.now() + ms);
     while (!await predicator())
     {
         if (!await this.wait_until(at))
@@ -92,7 +92,7 @@ export class ConditionVariable
 
     public wait_for(ms: number, predicator?: ConditionVariable.Predicator): Promise<boolean>
     {
-        let at: Date = new Date(Date.now() + ms);
+        const at: Date = new Date(Date.now() + ms);
         return this.wait_until(at, predicator!);
     }
 
@@ -150,7 +150,7 @@ export class ConditionVariable
     {
         return new Promise<boolean>(resolve =>
         {
-            let it: List.Iterator<IResolver> = this.resolvers_.insert(this.resolvers_.end(), 
+            const it: List.Iterator<IResolver> = this.resolvers_.insert(this.resolvers_.end(), 
             {
                 handler: resolve, 
                 lockType: LockType.KNOCK
@@ -182,7 +182,7 @@ export class ConditionVariable
             return;
 
         // POP THE 1ST RESOLVER
-        let it = this.resolvers_.begin();
+        const it = this.resolvers_.begin();
         this.resolvers_.erase(it);    
 
         // CALL ITS HANDLER
@@ -202,11 +202,11 @@ export class ConditionVariable
             return;
 
         // POP RESOLVERS
-        let resolverList: IResolver[] = this.resolvers_.toJSON();
+        const resolverList: IResolver[] = this.resolvers_.toJSON();
         this.resolvers_.clear();
 
         // ITERATE RESOLVERS
-        for (let resolver of resolverList)
+        for (const resolver of resolverList)
             if (resolver.lockType === LockType.HOLD)
                 resolver.handler();
             else

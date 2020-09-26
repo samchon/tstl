@@ -6,12 +6,12 @@ export async function test_unique_locks(): Promise<void>
     // PREPARE ASSETS
     //----
     // BASIC MUTEX
-    let mtx: std.TimedMutex = new std.TimedMutex();
+    const mtx: std.TimedMutex = new std.TimedMutex();
 
     // PROCEDURES
-    let lambda = _Lambda.bind(undefined, true);
-    let trier = () => mtx.try_lock();
-    let unlocker = () => mtx.unlock();
+    const lambda = _Lambda.bind(undefined, true);
+    const trier = () => mtx.try_lock();
+    const unlocker = () => mtx.unlock();
 
     //----
     // DO TEST
@@ -28,12 +28,12 @@ export async function test_shared_locks(): Promise<void>
     // PREPARE ASSETS
     //----
     // BASIC MUTEX
-    let mtx: std.SharedTimedMutex = new std.SharedTimedMutex();
+    const mtx: std.SharedTimedMutex = new std.SharedTimedMutex();
 
     // PROCEDURES
-    let lambda = _Lambda.bind(undefined, true);
-    let trier = () => mtx.try_lock();
-    let unlocker = () => mtx.unlock();
+    const lambda = _Lambda.bind(undefined, true);
+    const trier = () => mtx.try_lock();
+    const unlocker = () => mtx.unlock();
 
     //----
     // DO TEST

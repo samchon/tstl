@@ -13,9 +13,9 @@ const EXP_NAMES = [
 
 export function test_exception_names(): void
 {
-    for (let name of EXP_NAMES)
+    for (const name of EXP_NAMES)
     {
-        let exp: std.Exception = new std[name]("Error Message");
+        const exp: std.Exception = new std[name]("Error Message");
         if (exp.name !== name)
             throw new std.DomainError(`Bug on ${exp.constructor.name}.name(): result is not ${name} bu ${exp.name}`);
     }

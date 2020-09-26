@@ -51,7 +51,7 @@ function _Test_container_swap<SourceT extends std.base.IContainer<P, SourceT, It
 
     // VALIDATE CONTENTS
     let sum: number = 0;
-    for (let pair of v1)
+    for (const pair of v1)
         sum += pair.first;
 
     if (sum !== 4 + 5 + 6)
@@ -101,12 +101,12 @@ function _Validate_iterators_source<T,
 --------------------------------------------------------- */
 function _Test_vector_bool_swap(): void
 {
-    let refer: std.VectorBoolean = new std.VectorBoolean();
+    const refer: std.VectorBoolean = new std.VectorBoolean();
     for (let i: number = 0; i < 100; ++i)
         refer.push_back(Math.random() < .5 ? false : true);
 
-    let x: std.VectorBoolean = new std.VectorBoolean(refer);
-    let y: std.VectorBoolean = new std.VectorBoolean(refer);
+    const x: std.VectorBoolean = new std.VectorBoolean(refer);
+    const y: std.VectorBoolean = new std.VectorBoolean(refer);
     y.flip(); // {y} = {!x}
 
     x.swap(y);
@@ -119,8 +119,8 @@ function _Test_vector_bool_swap(): void
 
 function _Test_forward_list_swap(): void
 {
-    let x: std.ForwardList<number> = new std.ForwardList();
-    let y: std.ForwardList<number> = new std.ForwardList();
+    const x: std.ForwardList<number> = new std.ForwardList();
+    const y: std.ForwardList<number> = new std.ForwardList();
 
     for (let i: number = 1; i <= 3; ++i)
     {

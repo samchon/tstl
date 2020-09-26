@@ -663,14 +663,14 @@ export function reverse_copy<
 export function shift_left<ForwardIterator extends General<IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
 {
-    let mid = advance(first, n);
+    const mid = advance(first, n);
     return copy(mid, last, first);
 }
 
 export function shift_right<ForwardIterator extends General<IBidirectionalIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>>>
     (first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator
 {
-    let mid = advance(last, -n);
+    const mid = advance(last, -n);
     return copy_backward(first, mid, last);
 }
 
@@ -729,7 +729,7 @@ export function shuffle<RandomAccessIterator extends General<IRandomAccessIterat
 {
     for (let it = first; !it.equals(last); it = it.next())
     {
-        let rand_index: number = randint(first.index(), last.index() - 1);
+        const rand_index: number = randint(first.index(), last.index() - 1);
         if (it.index() !== rand_index)
             iter_swap(it, first.advance(rand_index));
     }

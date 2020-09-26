@@ -143,8 +143,8 @@ export class HashMultiSet<Key>
     public count(key: Key): number
     {
         // FIND MATCHED BUCKET
-        let index = this.bucket(key);
-        let bucket = this.buckets_.at(index);
+        const index = this.bucket(key);
+        const bucket = this.buckets_.at(index);
 
         // ITERATE THE BUCKET
         let cnt: number = 0;
@@ -185,7 +185,7 @@ export class HashMultiSet<Key>
             return super.end();
         else
         {
-            let bucket = this.buckets_.at(index);
+            const bucket = this.buckets_.at(index);
             return bucket[bucket.length - 1].next();
         }
     }
@@ -314,7 +314,7 @@ export class HashMultiSet<Key>
     protected _Insert_by_key(key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
-        let it = this.data_.insert(this.data_.end(), key);
+        const it = this.data_.insert(this.data_.end(), key);
 
         this._Handle_insert(it, it.next()); // POST-PROCESS
         return it;
@@ -323,7 +323,7 @@ export class HashMultiSet<Key>
     protected _Insert_by_hint(hint: HashMultiSet.Iterator<Key>, key: Key): HashMultiSet.Iterator<Key>
     {
         // INSERT
-        let it = this.data_.insert(hint, key);
+        const it = this.data_.insert(hint, key);
 
         // POST-PROCESS
         this._Handle_insert(it, it.next());
@@ -335,7 +335,7 @@ export class HashMultiSet<Key>
         (first: InputIterator, last: InputIterator): void
     {
         // INSERT ELEMENTS
-        let my_first = this.data_.insert(this.data_.end(), first, last);
+        const my_first = this.data_.insert(this.data_.end(), first, last);
 
         // IF NEEDED, HASH_BUCKET TO HAVE SUITABLE SIZE
         if (this.size() > this.buckets_.capacity())

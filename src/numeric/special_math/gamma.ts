@@ -18,7 +18,7 @@ export function tgamma(x: number): number
 
     x -= 1;
     let a: number = P[0];
-    let t: number = x + G + 0.5;
+    const t: number = x + G + 0.5;
     
     for (let i: number = 1; i < P.length; ++i)
         a += P[i] / (x + i);

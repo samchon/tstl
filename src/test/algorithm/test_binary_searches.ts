@@ -8,8 +8,8 @@ export function test_binary_searches(): void
 
 function _Test_binary_search_of_atom(): void
 {
-    let v: std.Vector<number> = new std.Vector();
-    let s: std.TreeMultiSet<number> = new std.TreeMultiSet();
+    const v: std.Vector<number> = new std.Vector();
+    const s: std.TreeMultiSet<number> = new std.TreeMultiSet();
 
     //----
     // FILL VALUES
@@ -17,7 +17,7 @@ function _Test_binary_search_of_atom(): void
     // INSERT ELEMENTS
     for (let i: number = 0; i < 100; ++i)
     {
-        let val: number = Math.random();
+        const val: number = Math.random();
 
         v.push_back(val);
         s.insert(val);
@@ -31,10 +31,10 @@ function _Test_binary_search_of_atom(): void
     //----
     for (let i: number = 0; i < 10000; ++i)
     {
-        let val: number = Math.random();
+        const val: number = Math.random();
 
-        let v_it = std.ranges.equal_range(v, val);
-        let s_it = s.equal_range(val);
+        const v_it = std.ranges.equal_range(v, val);
+        const s_it = s.equal_range(val);
 
         // VALIDATE LOWER BOUND
         if (v_it.first.equals(v.end()) === true)
@@ -58,8 +58,8 @@ function _Test_binary_search_of_atom(): void
 
 function _Test_binary_search_of_pair(): void
 {
-    let v: std.Vector<std.Pair<number, number>> = new std.Vector();
-    let m: std.TreeMultiMap<number, number> = new std.TreeMultiMap();
+    const v: std.Vector<std.Pair<number, number>> = new std.Vector();
+    const m: std.TreeMultiMap<number, number> = new std.TreeMultiMap();
 
     //----
     // FILL VALUES
@@ -67,7 +67,7 @@ function _Test_binary_search_of_pair(): void
     // INSERT ELEMENTS
     for (let i: number = 0; i < 100; ++i)
     {
-        let pair = std.make_pair(Math.random(), 0);
+        const pair = std.make_pair(Math.random(), 0);
 
         v.push_back(pair);
         m.insert(pair);
@@ -81,10 +81,10 @@ function _Test_binary_search_of_pair(): void
     //----
     for (let i: number = 0; i < 10000; ++i)
     {
-        let pair = std.make_pair(Math.random(), 0);
+        const pair = std.make_pair(Math.random(), 0);
 
-        let v_it = std.ranges.equal_range(v, pair, _Compare_numbers_pair);
-        let m_it = m.equal_range(pair.first);
+        const v_it = std.ranges.equal_range(v, pair, _Compare_numbers_pair);
+        const m_it = m.equal_range(pair.first);
 
         // VALIDATE LOWER BOUND
         if (v_it.first.equals(v.end()) === true)

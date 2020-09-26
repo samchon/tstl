@@ -30,7 +30,7 @@ export function assoc_legendre(n: number, m: number, x: number): number
         throw new InvalidArgument(`Error on std.assoc_legendre(): must be |x| <= 1 -> (x = ${x}).`);
 
     // MEMORIZATION
-    let matrix: number[][] = [[1, x]];
+    const matrix: number[][] = [[1, x]];
     matrix.length = m + 1;
     
     for (let i: number = 1; i < matrix.length; ++i)
@@ -45,8 +45,8 @@ function _Compute_legendre(n: number, x: number, memory: number[]): number
     if (memory.length > n)
         return memory[n];
     
-    let pn_1: number = _Compute_legendre(n - 1, x, memory);
-    let pn_2: number = _Compute_legendre(n - 2, x, memory);
+    const pn_1: number = _Compute_legendre(n - 1, x, memory);
+    const pn_2: number = _Compute_legendre(n - 2, x, memory);
 
     let ret: number = (2*n - 1)*x*pn_1 - (n-1)*pn_2;
     ret /= n;
@@ -65,8 +65,8 @@ function _Compute_assoc_legendre(n: number, m: number, x: number, matrix: number
     else if (matrix[m].length > n && matrix[m][n] !== undefined)
         return matrix[m][n];
 
-    let left: number = (n - m + 1) * (n - m + 2) * _Compute_assoc_legendre(n + 1, m - 1, x, matrix);
-    let right: number = (n + m - 1) * (n + m) * _Compute_assoc_legendre(n - 1, m - 1, x, matrix);
+    const left: number = (n - m + 1) * (n - m + 2) * _Compute_assoc_legendre(n + 1, m - 1, x, matrix);
+    const right: number = (n + m - 1) * (n + m) * _Compute_assoc_legendre(n - 1, m - 1, x, matrix);
 
     let ret: number = (left - right) / (2*n + 1);
     ret /= Math.sqrt(1 - x*x);

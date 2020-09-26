@@ -146,7 +146,7 @@ export class Semaphore<Max extends number = number>
             else
             {
                 // RESERVE ACQUIRE
-                let it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), 
+                const it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), 
                 {
                     handler: resolve,
                     lockType: LockType.KNOCK
@@ -187,8 +187,8 @@ export class Semaphore<Max extends number = number>
     public try_acquire_until(at: Date): Promise<boolean>
     {
         // COMPUTE MILLISECONDS TO WAIT
-        let now: Date = new Date();
-        let ms: number = at.getTime() - now.getTime();
+        const now: Date = new Date();
+        const ms: number = at.getTime() - now.getTime();
 
         return this.try_acquire_for(ms);
     }
@@ -236,11 +236,11 @@ export class Semaphore<Max extends number = number>
         //----
         // RELEASE
         //----
-        let resolverList: IResolver[] = [];
+        const resolverList: IResolver[] = [];
         while (this.queue_.empty() === false && resolverList.length < n)
         {
             // COPY IF HANDLER EXISTS
-            let resolver: IResolver = this.queue_.front();
+            const resolver: IResolver = this.queue_.front();
             if (resolver.handler !== null)
                 resolverList.push({ ...resolver });
 
@@ -253,7 +253,7 @@ export class Semaphore<Max extends number = number>
         this.acquiring_ -= (n - resolverList.length);
 
         // CALL HANDLERS
-        for (let resolver of resolverList)
+        for (const resolver of resolverList)
             if (resolver.lockType === LockType.HOLD)
                 resolver.handler!();
             else
@@ -263,7 +263,7 @@ export class Semaphore<Max extends number = number>
     private _Cancel(it: List.Iterator<IResolver>): void
     {
         // POP THE LISTENER
-        let handler: Function = it.value.handler!;
+        const handler: Function = it.value.handler!;
 
         // DESTRUCTION
         it.value.handler = null;

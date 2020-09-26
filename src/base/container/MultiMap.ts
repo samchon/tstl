@@ -86,7 +86,7 @@ export abstract class MultiMap<Key, T,
     
     protected _Erase_by_key(key: Key): number
     {
-        let first = this.find(key);
+        const first = this.find(key);
         if (first.equals(this.end()) === true)
             return 0;
 

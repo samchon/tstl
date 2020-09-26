@@ -24,7 +24,7 @@ export class Exception extends Error
         super(message);
 
         // INHERITANCE POLYFILL
-        let proto = new.target.prototype;
+        const proto = new.target.prototype;
         if (Object.setPrototypeOf)
             Object.setPrototypeOf(this, proto);
         else
@@ -55,7 +55,7 @@ export class Exception extends Error
     /**
      * Native function for `JSON.stringify()`.
      * 
-     * The {@link Exception.toJSON} function returns only three properties; ({@link name}, {@link message} and {@link stack}). If you want to define a new sub-class extending the {@link Exception} and let the class to export additional props (or remove some props), override this {@link Exception.toJSON} method.
+     * The {@link Exception.toJSON} function returns only three properties; ({@link name}, {@link message} and {@link stack}). If you want to define a new sub-class extending the {@link Exception} and const the class to export additional props (or remove some props), override this {@link Exception.toJSON} method.
      * 
      * @return An object for `JSON.stringify()`.
      */

@@ -254,7 +254,7 @@ function _Transform_initialize<
     ): [InputIterator, OutputIterator, IPointer.ValueType<OutputIterator>]
 {
     // WRITE THE FIRST OR INITIAL VALUE
-    let ret: IPointer.ValueType<OutputIterator> = unary(init === undefined 
+    const ret: IPointer.ValueType<OutputIterator> = unary(init === undefined 
         ? first.value
         : init);
     output.value = ret;

@@ -26,8 +26,8 @@ export function sleep_for(ms: number): Promise<void>
  */
 export function sleep_until(at: Date): Promise<void>
 {
-    let now: Date = new Date();
-    let ms: number = at.getTime() - now.getTime(); // MILLISECONDS TO WAIT
+    const now: Date = new Date();
+    const ms: number = at.getTime() - now.getTime(); // MILLISECONDS TO WAIT
 
     return sleep_for(ms); // CONVERT TO THE SLEEP_FOR
 }
@@ -39,8 +39,8 @@ export function sleep_until(at: Date): Promise<void>
  */
 export async function lock(...items: Pick<ILockable, "lock">[]): Promise<void>
 {
-    let promises: Promise<void>[] = [];
-    for (let mtx of items)
+    const promises: Promise<void>[] = [];
+    for (const mtx of items)
         promises.push(mtx.lock());
 
     await Promise.all(promises);

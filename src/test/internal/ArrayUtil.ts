@@ -15,7 +15,7 @@ export namespace ArrayUtil
 
     export function random<T>(elements: readonly T[]): T
     {
-        let index: number = randint(0, elements.length - 1);
+        const index: number = randint(0, elements.length - 1);
         return elements[index];
     }
 }

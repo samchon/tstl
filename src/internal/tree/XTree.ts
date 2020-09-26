@@ -56,7 +56,7 @@ export abstract class XTree<T>
 
     public get(val: T): XTreeNode<T> | null
     {
-        let ret = this.nearest(val);
+        const ret = this.nearest(val);
         if (ret === null || !this.equal_(val, ret.value))
             return null;
         else
@@ -114,8 +114,8 @@ export abstract class XTree<T>
     --------------------------------------------------------- */
     public insert(val: T): void
     {
-        let parent = this.nearest(val);
-        let node = new XTreeNode<T>(val, Color.RED);
+        const parent = this.nearest(val);
+        const node = new XTreeNode<T>(val, Color.RED);
 
         if (parent === null)
             this.root_ = node;
@@ -200,13 +200,13 @@ export abstract class XTree<T>
 
         if (node.left !== null && node.right !== null)
         {
-            let pred: XTreeNode<T> = this._Fetch_maximum(node.left);
+            const pred: XTreeNode<T> = this._Fetch_maximum(node.left);
 
             node.value = pred.value;
             node = pred;
         }
 
-        let child = (node.right === null) ? node.left : node.right;
+        const child = (node.right === null) ? node.left : node.right;
         if (this._Fetch_color(node) === Color.BLACK)
         {
             node.color = this._Fetch_color(child);
@@ -320,7 +320,7 @@ export abstract class XTree<T>
     --------------------------------------------------------- */
     private _Rotate_left(node: XTreeNode<T>): void
     {
-        let right = node.right;
+        const right = node.right;
         this._Replace_node(node, right);
 
         node.right = right!.left;
@@ -333,7 +333,7 @@ export abstract class XTree<T>
 
     private _Rotate_right(node: XTreeNode<T>): void
     {
-        let left = node.left;
+        const left = node.left;
         this._Replace_node(node, left);
 
         node.left = left!.right;

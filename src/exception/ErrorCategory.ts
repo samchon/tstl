@@ -77,15 +77,15 @@ export abstract class ErrorCategory
     {
         if (args[1] instanceof ErrorCondition)
         {
-            let val_code: number = args[0];
-            let cond: ErrorCondition = args[1];
+            const val_code: number = args[0];
+            const cond: ErrorCondition = args[1];
 
             return equal_to(this.default_error_condition(val_code), cond);
         }
         else
         {
-            let code: ErrorCode = args[0];
-            let valcond: number = args[1];
+            const code: ErrorCode = args[0];
+            const valcond: number = args[1];
 
             return equal_to(this, code.category()) && code.value() === valcond;
         }

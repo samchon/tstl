@@ -8,13 +8,13 @@ export function test_mathmatics(): void
 
 function _Test_min_max(): void
 {
-    let v = new std.Vector<number>();
+    const v = new std.Vector<number>();
     for (let i: number = 0; i < 1000; ++i)
         v.push_back(Math.random());
 
-    let pair = std.minmax_element(v.begin(), v.end());
-    let min = Math.min(...v.data());
-    let max = Math.max(...v.data());
+    const pair = std.minmax_element(v.begin(), v.end());
+    const min = Math.min(...v.data());
+    const max = Math.max(...v.data());
 
     if (min !== pair.first.value || max !== pair.second.value)
         throw new Error("Bug on std.minmax_element().");
@@ -22,8 +22,8 @@ function _Test_min_max(): void
 
 function _Test_permutations(): void
 {
-    let x = new std.Vector<number>([0, 1, 2, 3]);
-    let y = new std.Vector<number>([3, 2, 1, 0]);
+    const x = new std.Vector<number>([0, 1, 2, 3]);
+    const y = new std.Vector<number>([3, 2, 1, 0]);
 
     if (std.ranges.is_permutation(x, y) === false)
         throw new Error("Bug on std.is_permutation().");

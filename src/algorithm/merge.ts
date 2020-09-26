@@ -85,7 +85,7 @@ export function inplace_merge<BidirectionalIterator extends General<IBidirection
         comp: Comparator<IPointer.ValueType<BidirectionalIterator>> = less
     ): void
 {
-    let vector: Vector<IPointer.ValueType<BidirectionalIterator>> = new Vector();
+    const vector: Vector<IPointer.ValueType<BidirectionalIterator>> = new Vector();
     merge(first, middle, middle, last, back_inserter(vector), comp);
 
     copy(vector.begin(), vector.end(), first);

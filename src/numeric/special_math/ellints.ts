@@ -18,7 +18,7 @@ import { InvalidArgument } from "../../exception/InvalidArgument";
 export function ellint_1(k: number, phi: number): number
 {
     // FORMULA OF INTEGRAL
-    let formula = function (x: number): number
+    const formula = function (x: number): number
     {
         return 1.0 / _Common_formula(k, x);
     };
@@ -45,7 +45,7 @@ export function comp_ellint_1(k: number): number
  */
 export function ellint_2(k: number, phi: number): number
 {
-    let formula = function (x: number): number
+    const formula = function (x: number): number
     {
         return _Common_formula(k, x);
     };
@@ -74,7 +74,7 @@ export function ellint_3(k: number, v: number, phi: number): number
 {
     
     // SPECIAL VALIDATIONS ONLY FOR SERIES-3
-    let predicator: number = 1 / Math.pow(Math.sin(phi), 2);
+    const predicator: number = 1 / Math.pow(Math.sin(phi), 2);
     if (v > predicator)
         throw new InvalidArgument(`Error on std.ellint_3(): must be v < (1 / sin^2(phi)) -> (v = ${v}, 1 / sin^2(phi) = ${predicator}).`);
     
@@ -93,7 +93,7 @@ export function comp_ellint_3(k: number, n: number): number
 
 function _Ellint_3(k: number, v: number, phi: number): number
 {
-    let formula = function (x: number): number
+    const formula = function (x: number): number
     {
         let denominator: number = 1 - v * Math.pow(Math.sin(x), 2);
         denominator *= _Common_formula(k, x);
@@ -116,6 +116,6 @@ function _Post_process(func: string, k: number, phi: number, formula: (x: number
     if (Math.abs(k) > 1)
         throw new InvalidArgument(`Error on std.${func}(): must be |k| <= 1 -> (k = ${k}).`);
 
-    let area: number = MathUtil.integral(formula, 0, phi);
+    const area: number = MathUtil.integral(formula, 0, phi);
     return (phi < 0) ? -area : area;
 }

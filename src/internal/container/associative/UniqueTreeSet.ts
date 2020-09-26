@@ -37,7 +37,7 @@ export abstract class UniqueTreeSet<Key,
      */
     public find(key: Key): IteratorT
     {
-        let it: IteratorT = this.lower_bound(key);
+        const it: IteratorT = this.lower_bound(key);
         if (!it.equals(this.end()) && this._Key_eq(key, it.value))
             return it;
         else
@@ -59,7 +59,7 @@ export abstract class UniqueTreeSet<Key,
      */
     public equal_range(key: Key): Pair<IteratorT, IteratorT>
     {
-        let it: IteratorT = this.lower_bound(key);
+        const it: IteratorT = this.lower_bound(key);
         return new Pair(it, !it.equals(this.end()) && this._Key_eq(key, it.value) 
             ? it.next() 
             : it);
@@ -102,7 +102,7 @@ export abstract class UniqueTreeSet<Key,
     
     protected _Insert_by_hint(hint: IteratorT, key: Key): IteratorT
     {
-        let validate: boolean = ITreeContainer.emplacable<Key, Key, 
+        const validate: boolean = ITreeContainer.emplacable<Key, Key, 
                 Source, 
                 IteratorT, 
                 ReverseT, 
@@ -111,7 +111,7 @@ export abstract class UniqueTreeSet<Key,
 
         if (validate)
         {
-            let it: IteratorT = this.data_.insert(hint, key);
+            const it: IteratorT = this.data_.insert(hint, key);
             this._Handle_insert(it, it.next());
 
             return it;

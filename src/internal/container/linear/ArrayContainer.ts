@@ -127,7 +127,7 @@ export abstract class ArrayContainer<T extends ElemT,
     
     public back(val?: T): T | void
     {
-        let index: number = this.size() - 1;
+        const index: number = this.size() - 1;
         if (arguments.length === 0)
             return this.at(index);
         else
@@ -184,8 +184,8 @@ export abstract class ArrayContainer<T extends ElemT,
 
     protected _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
     {
-        let first: Repeater<T> = new Repeater(0, val);
-        let last: Repeater<T> = new Repeater(n);
+        const first: Repeater<T> = new Repeater(0, val);
+        const last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(position, first, last);
     }

@@ -62,8 +62,8 @@ export function partition_point<ForwardIterator extends Readonly<IForwardIterato
 
     while (n > 0)
     {
-        let step: number = Math.floor(n / 2);
-        let it: ForwardIterator = advance(first, step);
+        const step: number = Math.floor(n / 2);
+        const it: ForwardIterator = advance(first, step);
 
         if (pred(it.value))
         {

@@ -81,7 +81,7 @@ export namespace IAssociativeContainer
             // INITIALIZER LIST CONSTRUCTOR
             ramda = () =>
             {
-                let items: Elem[] = args[0];
+                const items: Elem[] = args[0];
                 source.push(...items);
             };
             tail = args.slice(1);
@@ -91,8 +91,8 @@ export namespace IAssociativeContainer
             // RANGE CONSTRUCTOR
             ramda = () =>
             {
-                let first: IteratorT = args[0];
-                let last: IteratorT = args[1];
+                const first: IteratorT = args[0];
+                const last: IteratorT = args[1];
 
                 source.assign(first, last);
             };

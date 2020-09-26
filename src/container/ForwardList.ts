@@ -97,10 +97,10 @@ export class ForwardList<T>
 
         if (args.length === 1 && args[0] instanceof Array)
         {
-            let array: Array<T> = args[0];
+            const array: Array<T> = args[0];
             let it = this.before_begin();
 
-            for (let val of array)
+            for (const val of array)
                 it = this.insert_after(it, val);
         }
         else if (args.length === 1 && args[0] instanceof ForwardList)
@@ -177,7 +177,7 @@ export class ForwardList<T>
 
     public front(val?: T): T | void
     {
-        let it: ForwardList.Iterator<T> = this.begin();
+        const it: ForwardList.Iterator<T> = this.begin();
 
         if (arguments.length === 0)
             return it.value;
@@ -282,8 +282,8 @@ export class ForwardList<T>
 
     private _Insert_by_repeating_val(pos: ForwardList.Iterator<T>, n: number, val: T): ForwardList.Iterator<T>
     {
-        let first: Repeater<T> = new Repeater(0, val);
-        let last: Repeater<T> = new Repeater(n);
+        const first: Repeater<T> = new Repeater(0, val);
+        const last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(pos, first, last);
     }
@@ -291,12 +291,12 @@ export class ForwardList<T>
     private _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: ForwardList.Iterator<T>, first: InputIterator, last: InputIterator): ForwardList.Iterator<T>
     {
-        let nodes: ForwardList.Iterator<T>[] = [];
+        const nodes: ForwardList.Iterator<T>[] = [];
         let count: number = 0;
 
         for (; !first.equals(last); first = first.next())
         {
-            let node = ForwardList.Iterator.create(this.ptr_, null!, first.value);
+            const node = ForwardList.Iterator.create(this.ptr_, null!, first.value);
             nodes.push(node);
 
             ++count;
@@ -366,7 +366,7 @@ export class ForwardList<T>
     {
         for (let it = this.begin().next(); !it.equals(this.end()); it = it.next())
         {
-            let next_it = it.next();
+            const next_it = it.next();
             if (next_it.equals(this.end()))
                 break;
 
@@ -413,7 +413,7 @@ export class ForwardList<T>
         let it = this.before_begin();
         while (from.empty() === false)
         {
-            let value = from.begin().value;
+            const value = from.begin().value;
             while (!it.next().equals(this.end()) && comp(it.next().value, value))
                 it = it.next();
             
@@ -484,7 +484,7 @@ export class ForwardList<T>
      */
     public sort(comp: Comparator<T> = less): void
     {
-        let vec = new Vector<T>(this.begin(), this.end());
+        const vec = new Vector<T>(this.begin(), this.end());
         sort_func(vec.begin(), vec.end(), comp);
 
         this.assign(vec.begin(), vec.end());
@@ -495,7 +495,7 @@ export class ForwardList<T>
      */
     public reverse(): void
     {
-        let vec = new Vector<T>(this.begin(), this.end());
+        const vec = new Vector<T>(this.begin(), this.end());
         this.assign(vec.rbegin(), vec.rend());
     }
 
@@ -524,8 +524,8 @@ export class ForwardList<T>
      */
     public toJSON(): Array<T>
     {
-        let ret: T[] = [];
-        for (let elem of this)
+        const ret: T[] = [];
+        for (const elem of this)
             ret.push(elem);
 
         return ret;
@@ -602,7 +602,7 @@ export namespace ForwardList
         {
             if (this.value_ === undefined)
             {
-                let source: ForwardList<T> = this.source();
+                const source: ForwardList<T> = this.source();
 
                 if (this.equals(source.end()) === true)
                     throw ErrorGenerator.iterator_end_value(source);

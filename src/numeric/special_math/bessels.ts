@@ -47,8 +47,8 @@ export function cyl_neumann(v: number, x: number): number
     if (x <= 0)
         throw new InvalidArgument(`Error on std.cyl_neumann(): x must be greater than zero -> (x = ${x}).`);
 
-    let numerator: number = cyl_bessel_j(v, x) * Math.cos(v*Math.PI) - cyl_bessel_j(-v, x)
-    let denominator: number = Math.sin(v * Math.PI);
+    const numerator: number = cyl_bessel_j(v, x) * Math.cos(v*Math.PI) - cyl_bessel_j(-v, x)
+    const denominator: number = Math.sin(v * Math.PI);
     
     return numerator / denominator;
 }
@@ -63,7 +63,7 @@ function _J_int(n: number, x: number): number
 
 function _J_positive(v: number, x: number): number
 {
-    let sigma: number = MathUtil.sigma(function (k: number): number
+    const sigma: number = MathUtil.sigma(function (k: number): number
     {
         let ret: number = Math.pow(-1, k) * Math.pow(x/2, v + 2*k);
         ret /= MathUtil.factorial(k) * tgamma(v + k + 1);
@@ -131,8 +131,8 @@ function _Bessel_i(v: number, x: number): number
 {
     return MathUtil.sigma(function (k: number): number
     {
-        let numerator: number = Math.pow(x / 2, v + 2*k);
-        let denominator: number = MathUtil.factorial(k) * tgamma(v + k + 1);
+        const numerator: number = Math.pow(x / 2, v + 2*k);
+        const denominator: number = MathUtil.factorial(k) * tgamma(v + k + 1);
 
         return numerator / denominator;
     }, 0, INFINITY);

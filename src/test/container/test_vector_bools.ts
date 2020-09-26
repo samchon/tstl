@@ -16,10 +16,10 @@ export function test_vector_bools()
 --------------------------------------------------------- */
 function _Test_vector_bool_elements_io()
 {
-    let v: std.Vector<boolean> = new std.Vector();
-    let d: std.Deque<boolean> = new std.Deque();
-    let l: std.List<boolean> = new std.List();
-    let vb: std.VectorBoolean = new std.VectorBoolean();
+    const v: std.Vector<boolean> = new std.Vector();
+    const d: std.Deque<boolean> = new std.Deque();
+    const l: std.List<boolean> = new std.List();
+    const vb: std.VectorBoolean = new std.VectorBoolean();
 
     //----
     // PARTIAL TESTS
@@ -33,9 +33,9 @@ function _Test_vector_bool_elements_io()
     // REPEAT INSERTIONS
     for (let i: number = 0; i < 100; ++i)
     {
-        let pos: number = std.randint(0, v.size());
-        let size: number = std.randint(1, 10);
-        let value: boolean = rand_bool();
+        const pos: number = std.randint(0, v.size());
+        const size: number = std.randint(1, 10);
+        const value: boolean = rand_bool();
 
         _Modify_bool_containers(vb, v, d, l, function (obj)
         {
@@ -47,8 +47,8 @@ function _Test_vector_bool_elements_io()
     // REPEAT DELETIONS
     for (let i: number = 0; i < 100; ++i)
     {
-        let first: number = std.randint(0, v.size() - 1);
-        let last: number = std.randint(first + 1, v.size());
+        const first: number = std.randint(0, v.size() - 1);
+        const last: number = std.randint(first + 1, v.size());
 
         _Modify_bool_containers(vb, v, d, l, function (obj)
         {
@@ -61,7 +61,7 @@ function _Test_vector_bool_elements_io()
     // REPEATED INSERTIONS & DELETIONS KEEPING SIZE
     //----
     // ASSIGN 10 FLAGS
-    let initial_value: boolean = rand_bool();
+    const initial_value: boolean = rand_bool();
 
     _Modify_bool_containers(vb, v, d, l, function (obj)
     {
@@ -69,10 +69,10 @@ function _Test_vector_bool_elements_io()
     });
 
     // CHANGE VALUES RANDOMLY
-    for (let i = 0; i < 100; ++i)
+    for (let i: number = 0; i < 100; ++i)
     {
-        let index: number = std.randint(0, 99);
-        let value: boolean = rand_bool();
+        const index: number = std.randint(0, 99);
+        const value: boolean = rand_bool();
 
         _Modify_bool_containers(vb, v, d, l, function (obj)
         {
@@ -82,11 +82,11 @@ function _Test_vector_bool_elements_io()
     }
 
     // MASS DELETIONS AND INSERTIONS KEEPING SIZE
-    for (let i = 0; i < 100; ++i)
+    for (let i: number = 0; i < 100; ++i)
     {
         // ERASE ELEMENTS
-        let first_index: number = std.randint(0, v.size() - 1);
-        let last_index: number = std.randint(first_index + 1, v.size());
+        const first_index: number = std.randint(0, v.size() - 1);
+        const last_index: number = std.randint(first_index + 1, v.size());
 
         if (v.empty() || first_index >= last_index)
             continue;
@@ -97,9 +97,9 @@ function _Test_vector_bool_elements_io()
         });
 
         // INSERT ELEMENTS
-        let index: number = std.randint(0, v.size());
-        let size: number = last_index - first_index;
-        let value: boolean = rand_bool();
+        const index: number = std.randint(0, v.size());
+        const size: number = last_index - first_index;
+        const value: boolean = rand_bool();
 
         _Modify_bool_containers(vb, v, d, l, function (obj)
         {
@@ -117,7 +117,7 @@ function _Validate_bool_containers
         l: std.List<boolean>
     ): void
 {
-    for (let container of [v, d, l])
+    for (const container of [v, d, l])
         if (vb.size() !== container.size() || std.equal(vb.begin(), vb.end(), container.begin()) === false)
             throw new Error(`Bug on ${vb.constructor.name}: different elements are stored with ${container.constructor.name}`);
 }
@@ -142,14 +142,14 @@ function _Modify_bool_containers
 --------------------------------------------------------- */
 function _Test_vector_bool_flip()
 {
-    let vb = new std.VectorBoolean();
+    const vb = new std.VectorBoolean();
     for (let i: number = 0; i < 100; ++i)
         vb.push_back(rand_bool());
 
-    let cpy = new std.VectorBoolean(vb);
+    const cpy = new std.VectorBoolean(vb);
     cpy.flip();
 
-    let valid = std.equal(vb.begin(), vb.end(), cpy.begin(), std.not_equal_to);
+    const valid = std.equal(vb.begin(), vb.end(), cpy.begin(), std.not_equal_to);
     if (valid === false)
         throw new std.DomainError(`Bug on std.${vb.constructor.name}.flip().`);
 }

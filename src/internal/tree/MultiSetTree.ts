@@ -28,7 +28,7 @@ export class MultiSetTree<Key,
         super(source, comp, 
             function (x: SetElementList.Iterator<Key, false, Source>, y: SetElementList.Iterator<Key, false, Source>): boolean
             {
-                let ret: boolean = comp(x.value, y.value);
+                const ret: boolean = comp(x.value, y.value);
                 if (!ret && !comp(y.value, x.value))
                     return get_uid(x) < get_uid(y);
                 else
@@ -65,7 +65,7 @@ export class MultiSetTree<Key,
 
         while (true)
         {
-            let it: SetElementList.Iterator<Key, false, Source> = ret.value;
+            const it: SetElementList.Iterator<Key, false, Source> = ret.value;
             let my_node: XTreeNode<SetElementList.Iterator<Key, false, Source>> | null = null;
 
             // COMPARE
@@ -102,7 +102,7 @@ export class MultiSetTree<Key,
     public upper_bound(val: Key): SetElementList.Iterator<Key, false, Source>
     {
         // FIND MATCHED NODE
-        let node: XTreeNode<SetElementList.Iterator<Key, false, Source>> | null = this._Nearest_by_key(val, 
+        const node: XTreeNode<SetElementList.Iterator<Key, false, Source>> | null = this._Nearest_by_key(val, 
             function (node)
             {
                 return node.right;
@@ -111,7 +111,7 @@ export class MultiSetTree<Key,
             return this.source().end();
 
         // MUST BE it.first > key
-        let it: SetElementList.Iterator<Key, false, Source> = node.value;
+        const it: SetElementList.Iterator<Key, false, Source> = node.value;
         
         if (this.key_comp()(val, it.value))
             return it;

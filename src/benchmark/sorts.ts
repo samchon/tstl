@@ -9,12 +9,12 @@ import { sort } from "../ranges/algorithm/sorting";
 
 function watch(n: number): [number, number, number]
 {
-    let items: number[] = [];
+    const items: number[] = [];
     for (let i: number = 0; i < n; ++i)
         items.push(randint(1, n));
 
-    let v: Vector<number> = new Vector(items);
-    let d: Deque<number> = new Deque(items);
+    const v: Vector<number> = new Vector(items);
+    const d: Deque<number> = new Deque(items);
 
     return [
         TimeWatch.measure(() => items.sort((x, y) => x - y)),
@@ -29,10 +29,10 @@ export async function main(): Promise<string>
         + " N | Array | Vector | Deque \n"
         + "---|-------|--------|-------\n";
 
-    for (let n of [1000, 10000, 100000])
+    for (const n of [1000, 10000, 100000])
     {
         let line: string = StringUtil.numberFormat(n);
-        for (let time of watch(n))
+        for (const time of watch(n))
             line += ` | ${StringUtil.numberFormat(time)}`;
 
         ret += line + "\n";

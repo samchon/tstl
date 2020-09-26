@@ -89,7 +89,7 @@ export abstract class ListContainer<T,
      */
     public resize(n: number): void
     {
-        let expansion: number = n - this.size();
+        const expansion: number = n - this.size();
         if (expansion > 0)
             this.insert(this.end(), expansion, undefined!);
         else if (expansion < 0)
@@ -182,8 +182,8 @@ export abstract class ListContainer<T,
             return this.size();
 
         // INSERT BY RANGE
-        let first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
-        let last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
+        const first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
+        const last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
 
@@ -224,8 +224,8 @@ export abstract class ListContainer<T,
 
     private _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
     {
-        let first: Repeater<T> = new Repeater(0, val);
-        let last: Repeater<T> = new Repeater(n);
+        const first: Repeater<T> = new Repeater(0, val);
+        const last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(position, first, last);
     }
@@ -241,7 +241,7 @@ export abstract class ListContainer<T,
         for (let it = begin; it.equals(end) === false; it = it.next())
         {
             // CONSTRUCT ITEM, THE NEW ELEMENT
-            let item: IteratorT = this._Create_iterator(prev, null!, it.value);
+            const item: IteratorT = this._Create_iterator(prev, null!, it.value);
             if (size === 0)
                 first = item;
 
@@ -292,7 +292,7 @@ export abstract class ListContainer<T,
             return this.end_;
 
         // FIND PREV AND NEXT
-        let prev: IteratorT = first.prev();
+        const prev: IteratorT = first.prev();
 
         // SHRINK
         ListIterator._Set_next(prev, last);

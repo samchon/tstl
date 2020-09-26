@@ -90,21 +90,21 @@ export namespace ITreeContainer
         if (args.length === 1 && args[0] instanceof Source)
         {
             // PARAMETERS
-            let container: SourceT = args[0];
+            const container: SourceT = args[0];
             comp = container.key_comp();
 
             // COPY CONSTRUCTOR
             post_process = () =>
             {
-                let first = container.begin();
-                let last = container.end();
+                const first = container.begin();
+                const last = container.end();
 
                 source.assign(first, last);
             };
         }
         else
         {
-            let tuple = IAssociativeContainer.construct(source, ...args);
+            const tuple = IAssociativeContainer.construct(source, ...args);
 
             post_process = tuple.ramda;
             if (tuple.tail.length >= 1) comp = tuple.tail[0];
@@ -135,7 +135,7 @@ export namespace ITreeContainer
             elem: T
         ): boolean
     {
-        let prev = hint.prev();
+        const prev = hint.prev();
         let meet: boolean = prev.equals(source.end()) || source.value_comp()(prev.value, elem);
         meet = meet && (hint.equals(source.end()) || source.value_comp()(elem, hint.value));
 

@@ -59,7 +59,7 @@ export namespace ErrorGenerator
 
     export function iterator_end_value(instance: Instance, method: string = "end"): OutOfRange
     {
-        let className: string = get_class_name(instance);
+        const className: string = get_class_name(instance);
         return new OutOfRange(`Error on ${className}.Iterator.value: cannot access to the ${className}.${method}().value.`);
     }
 

@@ -76,7 +76,7 @@ export class Vector<T>
         else if (args[0] instanceof Array)
         {
             // INITIALIZER CONSTRUCTOR
-            let array: Array<T> = args[0];
+            const array: Array<T> = args[0];
             this.data_ = (args[1] === true)
                 ? array
                 : array.slice();
@@ -84,7 +84,7 @@ export class Vector<T>
         else if (args.length === 1 && args[0] instanceof Vector)
         {
             // COPY CONSTRUCTOR
-            let v: Vector<T> = args[0];
+            const v: Vector<T> = args[0];
             this.data_ = v.data_.slice();
         }
         else if (args.length === 2)

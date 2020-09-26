@@ -49,13 +49,13 @@ function _Test_unique_set<
         throw new Error(`Bug on ${set.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
-    for (let elem of set)
+    for (const elem of set)
     {
         // TO VALIDATE
         sum += elem.value;
 
         // RE-FIND THE ELEMENT BY ITS KEY WITH FIND() FUNCTION.
-        let it = set.find(elem);
+        const it = set.find(elem);
         if (it.equals(set.end()) === true)
             throw new Error(`Bug on ${set.constructor.name}.find(): failed to find anything.`);
         else if (it.value.equals(elem) === false)
@@ -82,14 +82,14 @@ function _Test_multi_set<
         throw new Error(`Bug on ${set.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
-    for (let elem of set)
+    for (const elem of set)
     {
         // TO VALIDATE
         sum += elem.value;
 
         // RE-FIND THE ELEMENT BY ITS KEY WITH FIND() & COUNT() FUNCTION.
-        let it = set.find(elem);
-        let count = set.count(elem);
+        const it = set.find(elem);
+        const count = set.count(elem);
 
         if (it.equals(set.end()) === true)
             throw new Error(`Bug on ${set.constructor.name}: failed to find anything.`);
@@ -117,7 +117,7 @@ function _Construct_set<
             set.push(new Atomic<number>(i));
 
     // TEST SEQUENCE
-    let vec = new std.Vector<Atomic<number>>(set.begin(), set.end());
+    const vec = new std.Vector<Atomic<number>>(set.begin(), set.end());
     if (std.is_sorted(vec.begin(), vec.end()) === false)
         throw new Error(`Bug on ${set.constructor.name}: stored elements are not sorted.`);
 }
@@ -139,13 +139,13 @@ function _Test_unique_map<
         throw new Error(`Bug on ${map.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
-    for (let pair of map)
+    for (const pair of map)
     {
         // TO VALIDATE
         sum += pair.second;
 
         // RE-FIND THE ELEMENT BY ITS KEY WITH FIND() FUNCTION.
-        let it = map.find(pair.first);
+        const it = map.find(pair.first);
         if (it.equals(map.end()) === true)
             throw new Error(`Bug on ${map.constructor.name}.find(): failed to find anything.`);
         else if (it.first.equals(pair.first) === false)
@@ -171,14 +171,14 @@ function _Test_multi_map<
         throw new Error(`Bug on ${map.constructor.name}: wrong number of elements are stored.`);
 
     let sum: number = 0;
-    for (let pair of map)
+    for (const pair of map)
     {
         // TO VALIDATE
         sum += pair.second;
 
         // RE-FIND THE ELEMENT BY ITS KEY WITH FIND() & COUNT() FUNCTION.
-        let it = map.find(pair.first);
-        let count = map.count(pair.first);
+        const it = map.find(pair.first);
+        const count = map.count(pair.first);
 
         if (it.equals(map.end()) === true)
             throw new Error(`Bug on ${map.constructor.name}.find(): failed to find anything.`);
@@ -202,8 +202,8 @@ function _Construct_map<Unique extends boolean,
     for (let i: number = 0; i <= 10; ++i)
         for (let j: number = 0; j < 3; ++j)
         {
-            let key: Atomic<string> = new Atomic<string>(NUMBER_NAMES[i]);
-            let value: number = i;
+            const key: Atomic<string> = new Atomic<string>(NUMBER_NAMES[i]);
+            const value: number = i;
 
             map.push(std.make_pair(key, value));
         }

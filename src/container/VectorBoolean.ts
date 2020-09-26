@@ -87,7 +87,7 @@ export class VectorBoolean
         if (args.length === 1 && args[0] instanceof VectorBoolean)
         {
             // COPY CONSTRUCTOR
-            let obj: VectorBoolean = args[0];
+            const obj: VectorBoolean = args[0];
 
             this.data_ = new TreeMap(obj.data_.begin(), obj.data_.end());
             this.size_ = obj.size_;
@@ -140,7 +140,7 @@ export class VectorBoolean
      */
     public resize(n: number): void
     {
-        let expansion: number = n - this.size();
+        const expansion: number = n - this.size();
         if (expansion > 0)
             this.insert(this.end(), expansion, false);
         else if (expansion < 0)
@@ -152,7 +152,7 @@ export class VectorBoolean
      */
     public flip(): void
     {
-        for (let entry of this.data_)
+        for (const entry of this.data_)
             entry.second = !entry.second;
     }
 
@@ -184,7 +184,7 @@ export class VectorBoolean
     protected _At(index: number): boolean
     {
         // FIND THE NEAREST NODE OF LEFT
-        let it = this._Find_node(index);
+        const it = this._Find_node(index);
         return it.second; // RETURNS
     }
 
@@ -219,8 +219,8 @@ export class VectorBoolean
             return;
 
         // LIST UP NEIGHBORS
-        let prev = it.prev();
-        let next = it.next();
+        const prev = it.prev();
+        const next = it.next();
 
         // ARRANGE LEFT SIDE
         if (not_equal_to(prev, this.data_.end()) && prev.second === it.second)
@@ -275,8 +275,8 @@ export class VectorBoolean
         if (items.length === 0)
             return this.size();
 
-        let first = new NativeArrayIterator(items, 0);
-        let last = new NativeArrayIterator(items, items.length);
+        const first = new NativeArrayIterator(items, 0);
+        const last = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
         return this.size();
@@ -287,8 +287,8 @@ export class VectorBoolean
      */
     public push_back(val: boolean): void
     {
-        let it = this.data_.rbegin();
-        let index: number = this.size_++;
+        const it = this.data_.rbegin();
+        const index: number = this.size_++;
 
         val = !!val; // SIFT
 
@@ -299,8 +299,8 @@ export class VectorBoolean
 
     protected _Pop_back(): void
     {
-        let it: TreeMap.ReverseIterator<number, boolean> = this.data_.rbegin();
-        let index: number = --this.size_;
+        const it: TreeMap.ReverseIterator<number, boolean> = this.data_.rbegin();
+        const index: number = --this.size_;
 
         // ERASE OR NOT
         if (it.first === index)
@@ -313,7 +313,7 @@ export class VectorBoolean
     protected _Insert_by_repeating_val(pos: VectorBoolean.Iterator, n: number, val: boolean): VectorBoolean.Iterator
     {
         // RESERVE ELEMENTS -> THE REPEATED COUNT AND VALUE
-        let elements: Pair<number, boolean>[] = [];
+        const elements: Pair<number, boolean>[] = [];
         elements.push(new Pair(n, val));
 
         // DO INSERT
@@ -327,7 +327,7 @@ export class VectorBoolean
         (pos: VectorBoolean.Iterator, first: InputIterator, last: InputIterator): VectorBoolean.Iterator
     {
         // RESERVE ELEMENTS -> REPEATED SIZE & VALUE
-        let elements: Pair<number, boolean>[] = [];
+        const elements: Pair<number, boolean>[] = [];
 
         for (let it = first; !it.equals(last); it = it.next())
         {
@@ -345,23 +345,23 @@ export class VectorBoolean
 
     private _Insert_to_middle(pos: VectorBoolean.Iterator, elements: Pair<number, boolean>[]): VectorBoolean.Iterator
     {
-        let first = this._Find_node(pos.index());
+        const first = this._Find_node(pos.index());
 
         for (let it = first; !it.equals(this.data_.end()); it = it.next())
         {
             // COMPUTE SIZE TO ENROLL
-            let next: TreeMap.Iterator<number, boolean> = it.next();
+            const next: TreeMap.Iterator<number, boolean> = it.next();
 
-            let sx: number = (it.first < pos.index()) 
+            const sx: number = (it.first < pos.index()) 
                 ? pos.index() // POSITION TO INSERT
                 : it.first; // CURRENT POINT
-            let sy: number = next.equals(this.data_.end()) 
+            const sy: number = next.equals(this.data_.end()) 
                 ? this.size() // IT'S THE LAST ELEMENT
                 : next.first; // TO NEXT ELEMENT
 
             // DO ENROLL
-            let size: number = sy - sx;
-            let value: boolean = !!it.second;
+            const size: number = sy - sx;
+            const value: boolean = !!it.second;
 
             elements.push(new Pair(size, value));
         }
@@ -382,18 +382,18 @@ export class VectorBoolean
 
     private _Insert_to_end(elements: Pair<number, boolean>[]): VectorBoolean.Iterator
     {
-        let old_size: number = this.size();
-        let last_value: boolean | null = this.data_.empty() 
+        const old_size: number = this.size();
+        const last_value: boolean | null = this.data_.empty() 
             ? null 
             : this.data_.rbegin().second;
 
         for (let i: number = 0; i < elements.length; ++i)
         {
-            let p: Pair<number, boolean> = elements[i];
+            const p: Pair<number, boolean> = elements[i];
 
             // INDEXING
-            let index: number = this.size();
-            let value: boolean = !!p.second;
+            const index: number = this.size();
+            const value: boolean = !!p.second;
 
             this.size_ += p.first;
 
@@ -412,21 +412,21 @@ export class VectorBoolean
     --------------------------------------------------------- */
     protected _Erase_by_range(first: VectorBoolean.Iterator, last: VectorBoolean.Iterator): VectorBoolean.Iterator
     {
-        let elements: Pair<number, boolean>[] = [];
+        const elements: Pair<number, boolean>[] = [];
 
         if (last.equals(this.end()) === false)
         {
-            let last_index: number = Math.min(this.size(), last.index());
+            const last_index: number = Math.min(this.size(), last.index());
 
             for (let it = this._Find_node(last_index); !it.equals(this.data_.end()); it = it.next())
             {
-                let next: TreeMap.Iterator<number, boolean> = it.next();
-                let sx: number = Math.max(it.first, last_index);
-                let sy: number = next.equals(this.data_.end()) 
+                const next: TreeMap.Iterator<number, boolean> = it.next();
+                const sx: number = Math.max(it.first, last_index);
+                const sy: number = next.equals(this.data_.end()) 
                     ? this.size() // IT'S THE LAST ELEMENT
                     : next.first; // TO NEXT ELEMENT
-                let size: number = sy - sx;
-                let value: boolean = it.second;
+                const size: number = sy - sx;
+                const value: boolean = it.second;
                 
                 elements.push(new Pair(size, value));
             }

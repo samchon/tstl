@@ -131,7 +131,7 @@ export abstract class VectorContainer<T,
         if (position.index() >= this.size())
         { 
             // WHEN INSERT TO THE LAST
-            let prev_size: number = this.size();
+            const prev_size: number = this.size();
 
             for (; !first.equals(last); first = first.next())
                 this.data_.push(first.value);
@@ -144,7 +144,7 @@ export abstract class VectorContainer<T,
             // INSERT TO THE MIDDLE POSITION
             //----
             // CUT RIGHT SIDE
-            let spliced_array: T[] = this.data_.splice(position.index());
+            const spliced_array: T[] = this.data_.splice(position.index());
 
             // INSERT ELEMENTS
             for (; !first.equals(last); first = first.next())

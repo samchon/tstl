@@ -39,7 +39,7 @@ export abstract class MultiTreeSet<Key,
      */
     public find(key: Key): IteratorT
     {
-        let it: IteratorT = this.lower_bound(key);
+        const it: IteratorT = this.lower_bound(key);
         if (!it.equals(this.end()) && this._Key_eq(key, it.value))
             return it;
         else
@@ -113,7 +113,7 @@ export abstract class MultiTreeSet<Key,
 
     protected _Insert_by_hint(hint: IteratorT, key: Key): IteratorT
     {
-        let validate: boolean = ITreeContainer.emplacable<Key, Key, 
+        const validate: boolean = ITreeContainer.emplacable<Key, Key, 
                 Source, 
                 IteratorT, 
                 ReverseT, 
@@ -122,7 +122,7 @@ export abstract class MultiTreeSet<Key,
 
         if (validate)
         {
-            let it: IteratorT = this.data_.insert(hint, key);
+            const it: IteratorT = this.data_.insert(hint, key);
             this._Handle_insert(it, it.next());
 
             return it;

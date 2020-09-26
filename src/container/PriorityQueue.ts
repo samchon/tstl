@@ -68,13 +68,13 @@ export class PriorityQueue<T>
         // BRANCH - METHOD OVERLOADINGS
         if (args.length === 1 && args[0] instanceof PriorityQueue)
         {
-            let obj: PriorityQueue<T> = args[0];
+            const obj: PriorityQueue<T> = args[0];
             
             comp = obj.comp_;
             post_process = () => 
             {
-                let first = obj.source_.begin();
-                let last = obj.source_.end();
+                const first = obj.source_.begin();
+                const last = obj.source_.end();
 
                 this.source_.assign(first, last);
             };
@@ -87,8 +87,8 @@ export class PriorityQueue<T>
             post_process = () =>
             {
                 // RANGE CONSTRUCTOR
-                let first: Readonly<IForwardIterator<T>> = args[0]; // PARAMETER 1
-                let last: Readonly<IForwardIterator<T>> = args[1]; // PARAMETER 2
+                const first: Readonly<IForwardIterator<T>> = args[0]; // PARAMETER 1
+                const last: Readonly<IForwardIterator<T>> = args[1]; // PARAMETER 2
 
                 this.source_.assign(first, last);
             };
@@ -131,7 +131,7 @@ export class PriorityQueue<T>
      */
     public push(...elems: T[]): number
     {
-        for (let elem of elems)
+        for (const elem of elems)
         {
             this.source_.push_back(elem);
             push_heap(this.source_.begin(), this.source_.end(), this.comp_);

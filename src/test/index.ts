@@ -17,18 +17,18 @@ interface IModule
 
 async function measure(job: () => Promise<void>): Promise<number>
 {
-    let time: number = Date.now();
+    const time: number = Date.now();
     await job();
     return Date.now() - time;
 }
 
 async function iterate(command: ICommand, path: string): Promise<void>
 {
-    let fileList: string[] = await fs.promises.readdir(path);
-    for (let file of fileList)
+    const fileList: string[] = await fs.promises.readdir(path);
+    for (const file of fileList)
     {
-        let currentPath: string = `${path}/${file}`;
-        let stats: fs.Stats = await fs.promises.lstat(currentPath);
+        const currentPath: string = `${path}/${file}`;
+        const stats: fs.Stats = await fs.promises.lstat(currentPath);
 
         if (stats.isDirectory() === true && file !== "internal" && file !== "manual")
         {
@@ -38,8 +38,8 @@ async function iterate(command: ICommand, path: string): Promise<void>
         else if (file.substr(-3) !== `.${EXTENSION}` || currentPath === `${__dirname}/index.${EXTENSION}`)
             continue;
 
-        let external: IModule = await import(currentPath.substr(0, currentPath.length - 3));
-        for (let key in external)
+        const external: IModule = await import(currentPath.substr(0, currentPath.length - 3));
+        for (const key in external)
         {
             // WHETHER TESTING TARGET OR NOT
             if (key.substr(0, 5) !== "test_")
@@ -52,7 +52,7 @@ async function iterate(command: ICommand, path: string): Promise<void>
             // PRINT TITLE & ELAPSED TIME
             process.stdout.write("  - " + key);
 
-            let time: number = await measure(() => external[key]());
+            const time: number = await measure(() => external[key]());
             console.log(`: ${time} ms`);
         }
     }
@@ -67,11 +67,11 @@ async function main(): Promise<void>
     console.log(" TSTL Test Automation Program");
     console.log("==========================================================");
 
-    let command: ICommand = cli.parse();
+    const command: ICommand = cli.parse();
     if (process.argv[2] && process.argv[2][0] !== '-')
         command.target = process.argv[2];
 
-    let time: number = await measure(() => iterate(command, __dirname));
+    const time: number = await measure(() => iterate(command, __dirname));
 
     //----
     // TRACE BENCHMARK
@@ -82,10 +82,10 @@ async function main(): Promise<void>
     console.log(`  - elapsed time: ${time} ms`);
 
     // MEMORY USAGE
-    let memory: NodeJS.MemoryUsage = process.memoryUsage();
-    for (let property in memory)
+    const memory: NodeJS.MemoryUsage = process.memoryUsage();
+    for (const property in memory)
     {
-        let amount: number = memory[property as keyof NodeJS.MemoryUsage] / 10**6;
+        const amount: number = memory[property as keyof NodeJS.MemoryUsage] / 10**6;
         console.log(`  - ${property}: ${amount} MB`);
     }
     console.log("----------------------------------------------------------\n");

@@ -22,7 +22,7 @@ function _Test_for_of_iteration<
     // CONSTRUCTIONS
     //----
     // CONSTRUCT ITEMS TO VALIDATE
-    let items: std.Vector<number> = new std.Vector(10, 0);
+    const items: std.Vector<number> = new std.Vector(10, 0);
     std.iota(std.begin(items), std.end(items), 0);
 
     // PUSH THEM ALL TO THE CONTAINER
@@ -33,7 +33,7 @@ function _Test_for_of_iteration<
     //----
     let i: number = 0;
 
-    for (let elem of vec)
+    for (const elem of vec)
         if (elem !== items.at(i++))
             throw new Error(`Bug on ${vec.constructor.name}[Symbol.iterator]().`);
 }
@@ -44,8 +44,8 @@ function _Test_for_of_map_iteration(): void
     // CONSTRUCTIONS
     //----
     // CONSTRUCT ITEMS TO VALIDATE
-    let map = new std.TreeMap<number, number>();
-    let items: std.Pair<number, number>[] = [];
+    const map = new std.TreeMap<number, number>();
+    const items: std.Pair<number, number>[] = [];
 
     for (let i: number = 0; i < 10; ++i)
         items.push(std.make_pair(i, i));
@@ -58,7 +58,7 @@ function _Test_for_of_map_iteration(): void
     //----
     let i: number = 0;
 
-    for (let pair of map)
+    for (const pair of map)
         if (std.equal_to(pair, items[i++]) === false)
             throw new Error("Bug on TreeMap[Symbol.iterator]().");
 }

@@ -36,8 +36,8 @@ export function lower_bound<ForwardIterator extends Readonly<IForwardIterator<IP
 
     while (count > 0)
     {
-        let step: number = Math.floor(count / 2);
-        let it: ForwardIterator = advance(first, step);
+        const step: number = Math.floor(count / 2);
+        const it: ForwardIterator = advance(first, step);
 
         if (comp(it.value, val))
         {
@@ -71,8 +71,8 @@ export function upper_bound<ForwardIterator extends Readonly<IForwardIterator<IP
     
     while (count > 0)
     {
-        let step: number = Math.floor(count / 2);
-        let it: ForwardIterator = advance(first, step);
+        const step: number = Math.floor(count / 2);
+        const it: ForwardIterator = advance(first, step);
 
         if (!comp(val, it.value))
         {
@@ -103,7 +103,7 @@ export function equal_range<ForwardIterator extends Readonly<IForwardIterator<IP
     ): Pair<ForwardIterator, ForwardIterator>
 {
     first = lower_bound(first, last, val, comp);
-    let second: ForwardIterator = upper_bound(first, last, val, comp);
+    const second: ForwardIterator = upper_bound(first, last, val, comp);
 
     return new Pair(first, second);
 }

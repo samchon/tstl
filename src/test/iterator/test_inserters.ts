@@ -2,8 +2,8 @@ import * as std from "../../index";
 
 export function test_inserters(): void
 {
-    let s: std.TreeSet<number> = new std.TreeSet();
-    let v: std.Vector<number> = new std.Vector();
+    const s: std.TreeSet<number> = new std.TreeSet();
+    const v: std.Vector<number> = new std.Vector();
 
     v.push_back(1);
     v.push_back(2);

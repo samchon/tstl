@@ -337,7 +337,6 @@ export function find_end<
         return last1;
 
     let ret: Iterator1 = last1;
-
     for (; !first1.equals(last1); first1 = first1.next())
     {
         let it1: Iterator1 = first1;
@@ -534,7 +533,7 @@ export function search_n<ForwardIterator extends Readonly<IForwardIterator<IPoin
         pred: BinaryPredicator<IPointer.ValueType<ForwardIterator>> = equal_to
     ): ForwardIterator
 {
-    let limit: ForwardIterator = advance(first, distance(first, last) - count);
+    const limit: ForwardIterator = advance(first, distance(first, last) - count);
 
     for (; !first.equals(limit); first = first.next())
     {

@@ -7,28 +7,28 @@ const PATH = (__filename.substr(-2) === "ts")
 
 export function similar(x: number, y: number, precision = .05): boolean
 {
-    let diff: number = _Difference(x, y);
+    const diff: number = _Difference(x, y);
 
     return diff < precision;
 }
 
 export function test_special_maths(): void
 {
-    let content: string = fs.readFileSync(PATH + "/data.json").toString("utf8");
-    let solutions: ISolution[] = JSON.parse(content);
+    const content: string = fs.readFileSync(PATH + "/data.json").toString("utf8");
+    const solutions: ISolution[] = JSON.parse(content);
 
     // TRACING ERRORS
-    let aggregates: std.HashMap<string, number> = new std.HashMap();
+    const aggregates: std.HashMap<string, number> = new std.HashMap();
     let output: string = "";
 
-    for (let solve of solutions)
+    for (const solve of solutions)
     {
-        let name: string = solve[0];
-        let func: Function = (std as any)[name];
-        let args: number[] = solve.slice(1, solve.length - 1) as number[];
+        const name: string = solve[0];
+        const func: Function = (std as any)[name];
+        const args: number[] = solve.slice(1, solve.length - 1) as number[];
 
-        let ret: number = func(...args);
-        let answer: number = solve[solve.length - 1] as number;
+        const ret: number = func(...args);
+        const answer: number = solve[solve.length - 1] as number;
         let difference: number = _Difference(answer, ret);
 
         if (isNaN(difference))
@@ -49,7 +49,7 @@ export function test_special_maths(): void
         fs.writeFileSync(PATH + "errors.log", output, "utf8");
 
     let validate: boolean = true;
-    for (let entry of aggregates)
+    for (const entry of aggregates)
         if (entry.second > 5)
             validate = false;
 
@@ -66,7 +66,7 @@ function _Difference(x: number, y: number): number
     else if (Math.abs(x - y) < Math.pow(10, -5))
         return 0;
     
-    let diff: number = Math.abs(y - x);
+    const diff: number = Math.abs(y - x);
     if ((x === 0 || y === 0) && diff < .00001)
         return 0;
     else

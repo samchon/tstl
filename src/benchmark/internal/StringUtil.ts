@@ -17,7 +17,7 @@ export class StringUtil
      * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) )
      *
      * ```typescript
-     * let str: string = StringUtil.between("ABCD(EFGH)IJK", "(", ")");
+     * const str: string = StringUtil.between("ABCD(EFGH)IJK", "(", ")");
      * console.log(str); // PRINTS "EFGH"
      * ```
      *
@@ -41,7 +41,7 @@ export class StringUtil
             return str.substr(str.indexOf(start) + start.length);
         else
         {
-            let startIndex: number = str.indexOf(start);
+            const startIndex: number = str.indexOf(start);
             if (startIndex === -1)
                 return "";
 
@@ -85,7 +85,7 @@ export class StringUtil
         else if (start === end)
         {
             // SPLITTERS START AND END ARE EQUAL
-            let prevIndex: number = -1;
+            const prevIndex: number = -1;
             let endIndex: number;
             let n: number = 0;
 
@@ -146,7 +146,6 @@ export class StringUtil
             args = StringUtil.SPACE_ARRAY;
 
         let index: number = 0;
-
         while (index < str.length)
         {
             let maxIndex: number = index;
@@ -185,7 +184,6 @@ export class StringUtil
             args = StringUtil.SPACE_ARRAY;
 
         let index: number = str.length;
-        
         while (index !== 0)
         {
             let minIndex: number = index;
@@ -203,7 +201,6 @@ export class StringUtil
             else
                 index = minIndex;
         }
-
         return str.substr(0, index);
     }
 
@@ -234,7 +231,7 @@ export class StringUtil
             if (args.length === 0)
                 break;
 
-            let min_index: number = StringUtil._Fetch_substitute_index(format);
+            const min_index: number = StringUtil._Fetch_substitute_index(format);
             if (min_index === Number.MAX_VALUE)
                 break;
 
@@ -263,19 +260,19 @@ export class StringUtil
             if (args.length === 0)
                 break;
 
-            let element: any = args[0];
-            let min_index: number = StringUtil._Fetch_substitute_index(format);
+            const element: any = args[0];
+            const min_index: number = StringUtil._Fetch_substitute_index(format);
             if (min_index === Number.MAX_VALUE)
                 break;
 
-            let symbol: string = "{" + min_index + "}";
+            const symbol: string = "{" + min_index + "}";
             if (element === null)
                 format = StringUtil.replaceAll(format, symbol, "NULL");
             else if (typeof element === "boolean" || typeof element === "number")
                 format = StringUtil.replaceAll(format, symbol, String(element));
             else if (typeof element === "string")
             {
-                let str: string = StringUtil._Substitute_sql_string(element);
+                const str: string = StringUtil._Substitute_sql_string(element);
                 format = StringUtil.replaceAll(format, symbol, str);
             }
             args.shift();
@@ -293,12 +290,12 @@ export class StringUtil
 
     private static _Fetch_substitute_index(format: string): number
     {
-        let parenthesis_array: Array<string> = StringUtil.betweens(format, "{", "}");
+        const parenthesis_array: Array<string> = StringUtil.betweens(format, "{", "}");
         let min_index: number = Number.MAX_VALUE;
 
         for (let i: number = 0; i < parenthesis_array.length; i++)
         {
-            let index: number = Number(parenthesis_array[i]);
+            const index: number = Number(parenthesis_array[i]);
             if (isNaN(index) === true)
                 continue;
 
@@ -335,8 +332,8 @@ export class StringUtil
     {
         if (args.length === 2 && typeof args[0] === "string")
         {
-            let before: string = args[0];
-            let after: string = args[1];
+            const before: string = args[0];
+            const after: string = args[1];
 
             return str.split(before).join(after);
         }
@@ -347,7 +344,7 @@ export class StringUtil
 
             for (let i: number = 0; i < args.length; i++)
             {
-                let pair: [string, string] = args[i];
+                const pair: [string, string] = args[i];
                 str = str.split(pair[0]).join(pair[1]);
             }
             return str;
@@ -459,7 +456,7 @@ export class StringUtil
     {
         if (val >= 10000000)
         {
-            let multiplier: number = Math.floor(Math.log10(val));
+            const multiplier: number = Math.floor(Math.log10(val));
 
             return `${StringUtil.numberFormat(val / Math.pow(10, multiplier), precision)} X 10^${multiplier}`;
         }
@@ -471,8 +468,8 @@ export class StringUtil
         val = val / Math.pow(10, precision);
 
         // SEPERATE NUMBERS
-        let is_negative: boolean = (val < 0);
-        let natural: number = Math.floor(Math.abs(val));
+        const is_negative: boolean = (val < 0);
+        const natural: number = Math.floor(Math.abs(val));
         let fraction: number = Math.abs(val) - Math.floor(Math.abs(val));
 
         // NATURAL NUMBER
@@ -481,7 +478,7 @@ export class StringUtil
         else
         {
             // NOT ZERO
-            let cipher_count = Math.floor(Math.log(natural) / Math.log(10)) + 1;
+            const cipher_count = Math.floor(Math.log(natural) / Math.log(10)) + 1;
 
             for (let i: number = 0; i <= cipher_count; i++)
             {
@@ -508,7 +505,7 @@ export class StringUtil
         if (precision > 0 && fraction !== 0)
         {
             fraction = Math.round(fraction * Math.pow(10, precision));
-            let zeros: number = precision - Math.floor(Math.log(fraction) / Math.log(10)) - 1;
+            const zeros: number = precision - Math.floor(Math.log(fraction) / Math.log(10)) - 1;
 
             str += "." + StringUtil.repeat("0", zeros) + fraction;
         }

@@ -28,7 +28,7 @@ export class MultiMapTree<Key, T,
         super(source, comp,
             function (x: MapElementList.Iterator<Key, T, false, Source>, y: MapElementList.Iterator<Key, T, false, Source>): boolean
             {
-                let ret: boolean = comp(x.first, y.first);
+                const ret: boolean = comp(x.first, y.first);
                 
                 if (!ret && !comp(y.first, x.first))
                     return get_uid(x) < get_uid(y);
@@ -66,7 +66,7 @@ export class MultiMapTree<Key, T,
 
         while (true)
         {
-            let it: MapElementList.Iterator<Key, T, false, Source> = ret.value;
+            const it: MapElementList.Iterator<Key, T, false, Source> = ret.value;
             let my_node: XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = null;
 
             // COMPARE
@@ -103,7 +103,7 @@ export class MultiMapTree<Key, T,
     public upper_bound(key: Key): MapElementList.Iterator<Key, T, false, Source>
     {
         // FIND MATCHED NODE
-        let node: XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = this._Nearest_by_key(key, 
+        const node: XTreeNode<MapElementList.Iterator<Key, T, false, Source>> | null = this._Nearest_by_key(key, 
             function (node)
             {
                 return node.right;
@@ -112,7 +112,7 @@ export class MultiMapTree<Key, T,
             return this.source().end();
 
         // MUST BE it.first > key
-        let it: MapElementList.Iterator<Key, T, false, Source> = node.value;
+        const it: MapElementList.Iterator<Key, T, false, Source> = node.value;
         if (this.key_comp()(key, it.first))
             return it;
         else

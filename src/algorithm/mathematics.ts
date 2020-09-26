@@ -206,22 +206,22 @@ export function is_permutation<
     ): boolean
 {
     // find the mismatched
-    let pair: Pair<ForwardIterator1, ForwardIterator2> = <Temporary>mismatch(first1, last1, <Temporary>first2, pred);
+    const pair: Pair<ForwardIterator1, ForwardIterator2> = <Temporary>mismatch(first1, last1, <Temporary>first2, pred);
     first1 = pair.first;
     first2 = pair.second;
 
     if (first1.equals(last1))
         return true;
 
-    let last2: ForwardIterator2 = advance(<Temporary>first2, distance(first1, last1)) as ForwardIterator2;
+    const last2: ForwardIterator2 = advance(<Temporary>first2, distance(first1, last1)) as ForwardIterator2;
 
     for (let it = first1; !it.equals(last1); it = it.next())
     {
-        let lambda = (val: IPointer.ValueType<ForwardIterator1>) => pred(val, it.value);
+        const lambda = (val: IPointer.ValueType<ForwardIterator1>) => pred(val, it.value);
 
         if (find_if(first1, it, lambda).equals(it))
         {
-            let n: number = count_if(<Temporary>first2, <Temporary>last2, lambda);
+            const n: number = count_if(<Temporary>first2, <Temporary>last2, lambda);
             if (n === 0 || count_if(it, last1, lambda) !== n)
                 return false;
         }
@@ -247,7 +247,7 @@ export function prev_permutation<BidirectionalIterator extends General<IBidirect
     if (first.equals(last) === true)
         return false;
 
-    let i: BidirectionalIterator = last.prev();
+        let i: BidirectionalIterator = last.prev();
     if (first.equals(i) === true)
         return false;
 
@@ -294,13 +294,13 @@ export function next_permutation<BidirectionalIterator extends General<IBidirect
     if (first.equals(last) === true)
         return false;
 
-    let i: BidirectionalIterator = last.prev();
+        let i: BidirectionalIterator = last.prev();
     if (first.equals(i) === true)
         return false;
 
     while (true)
     {
-        let x: BidirectionalIterator = i;
+        const x: BidirectionalIterator = i;
         let y: BidirectionalIterator;
 
         i = i.prev();

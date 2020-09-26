@@ -27,8 +27,8 @@ export namespace MathUtil
         else if (first === last)
             return 0;
 
+        const interval: number = (last - first) / segment_count;
         let ret: number = 0.0;
-        let interval: number = (last - first) / segment_count;
 
         for (; first < last; first += interval)
             ret += formula(first) * interval;

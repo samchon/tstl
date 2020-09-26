@@ -43,7 +43,7 @@ export class UniqueSetTree<Key,
 
         while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
         {
-            let it: SetElementList.Iterator<Key, true, Source> = ret.value;
+            const it: SetElementList.Iterator<Key, true, Source> = ret.value;
             let my_node: XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = null;
 
             // COMPARE
@@ -68,14 +68,14 @@ export class UniqueSetTree<Key,
         //--------
         // FIND MATCHED NODE
         //--------
-        let node: XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = this.nearest_by_key(val);
+        const node: XTreeNode<SetElementList.Iterator<Key, true, Source>> | null = this.nearest_by_key(val);
         if (node === null)
             return this.source().end();
 
         //--------
         // RETURN BRANCH
         //--------
-        let it: SetElementList.Iterator<Key, true, Source> = node.value;
+        const it: SetElementList.Iterator<Key, true, Source> = node.value;
 
         // MUST BE it.value > key
         if (this.key_comp()(val, it.value))

@@ -22,7 +22,7 @@ import { sort } from "./sorting";
  */
 export function randint(x: number, y: number): number
 {
-    let rand: number = Math.random() * (y - x + 1);
+    const rand: number = Math.random() * (y - x + 1);
     return Math.floor(rand) + x;
 }
 
@@ -45,8 +45,8 @@ export function sample<
     ): OutputIterator
 {
     // GENERATE REMAINDERS
-    let step: number = distance(first, last);
-    let remainders: number[] = [];
+    const step: number = distance(first, last);
+    const remainders: number[] = [];
 
     for (let i: number = 0; i < step; ++i)
         remainders.push(i);
@@ -54,13 +54,13 @@ export function sample<
     //----
     // CONSTRUCT INDEXES
     //----
-    let advances: Vector<number> = new Vector();
+    const advances: Vector<number> = new Vector();
     n = Math.min(n, step);
 
     // PICK SAMPLE INDEXES
     for (let i: number = 0; i < n; ++i)
     {
-        let idx: number = randint(0, remainders.length - 1);
+        const idx: number = randint(0, remainders.length - 1);
         advances.push(remainders.splice(idx, 1)[0]);
     }
     sort(advances.begin(), advances.end());
@@ -72,7 +72,7 @@ export function sample<
     //----
     // FILL SAMPLES
     //----
-    for (let adv of advances)
+    for (const adv of advances)
     {
         first = advance(first, adv);
 

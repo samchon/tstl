@@ -37,8 +37,8 @@ function _Negative(arg: number): number
 
 function _Fractional(arg: number): number
 {
-    let divider: number = 1 - Math.pow(2, 1 - arg);
-    let sigma: number = MathUtil.sigma(function (n: number): number
+    const divider: number = 1 - Math.pow(2, 1 - arg);
+    const sigma: number = MathUtil.sigma(function (n: number): number
     {
         return Math.pow(-1, n - 1) * Math.pow(n, -arg);
     }, 1, INFINITY);

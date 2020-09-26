@@ -107,7 +107,7 @@ export abstract class UniqueSet<Key,
 
     private _Extract_by_val(key: Key): Key
     {
-        let it = this.find(key);
+        const it = this.find(key);
         if (it.equals(this.end()) === true)
             throw ErrorGenerator.key_nout_found(this, "extract", key);
 
@@ -126,7 +126,7 @@ export abstract class UniqueSet<Key,
 
     protected _Erase_by_val(key: Key): number
     {
-        let it = this.find(key);
+        const it = this.find(key);
         if (it.equals(this.end()) === true)
             return 0;
 

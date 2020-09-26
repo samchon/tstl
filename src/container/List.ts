@@ -91,13 +91,13 @@ export class List<T>
         else if (args.length === 1 && args[0] instanceof Array) 
         {
             // INITIALIZER CONSTRUCTOR
-            let array: Array<T> = args[0];
+            const array: Array<T> = args[0];
             this.push(...array);
         }
         else if (args.length === 1 && (args[0] instanceof List)) 
         {
             // COPY CONSTRUCTOR
-            let container: List<T> = args[0];
+            const container: List<T> = args[0];
             this.assign(container.begin(), container.end());
         }
         else if (args.length === 2) 
@@ -145,7 +145,7 @@ export class List<T>
     
     public back(val?: T): T | void
     {
-        let it = this.end().prev();
+        const it = this.end().prev();
         if (arguments.length === 0)
             return it.value;
         else
@@ -212,10 +212,9 @@ export class List<T>
             return;
 
         let it = this.begin();
-
         while (source.empty() === false)
         {
-            let first = source.begin();
+            const first = source.begin();
             while (!it.equals(this.end()) && comp(it.value, first.value) === true)
                 it = it.next();
 
@@ -283,7 +282,7 @@ export class List<T>
     {
         if (!first.equals(last) && !last.equals(this.end()) && !first.equals(last.next()))
         {
-            let temp: List.Iterator<T> = this._Quick_sort_partition(first, last, comp);
+            const temp: List.Iterator<T> = this._Quick_sort_partition(first, last, comp);
 
             this._Quick_sort(first, temp.prev(), comp);
             this._Quick_sort(temp.next(), last, comp);
@@ -292,7 +291,7 @@ export class List<T>
 
     private _Quick_sort_partition(first: List.Iterator<T>, last: List.Iterator<T>, comp: Comparator<T>): List.Iterator<T>
     {
-        let standard: T = last.value; // TO BE COMPARED
+        const standard: T = last.value; // TO BE COMPARED
         let prev: List.Iterator<T> = first.prev(); // TO BE SMALLEST
 
         let it: List.Iterator<T> = first;
@@ -314,13 +313,13 @@ export class List<T>
      */
     public reverse(): void
     {
-        let begin: List.Iterator<T> = this.end_.prev();
-        let prev_of_end: List.Iterator<T> = this.begin();
+        const begin: List.Iterator<T> = this.end_.prev();
+        const prev_of_end: List.Iterator<T> = this.begin();
 
         for (let it = this.begin(); !it.equals(this.end()); )
         {
-            let prev = it.prev();
-            let next = it.next();
+            const prev = it.prev();
+            const next = it.next();
 
             List.Iterator._Set_prev(it, next);
             List.Iterator._Set_next(it, prev);

@@ -11,31 +11,31 @@ export function test_modifiers(): void
 
 function _Test_removes(): void
 {
-    let v: std.Vector<number> = _Create_sample();
+    const v: std.Vector<number> = _Create_sample();
     v.erase(std.remove(v.begin(), v.end(), 2), v.end());
 
-    let it = std.find(v.begin(), v.end(), 2);
+    const it = std.find(v.begin(), v.end(), 2);
     if (it.equals(v.end()) === false)
         throw new Error("Bug on std.remove().");
 }
 function _Test_replaces(): void
 {
-    let v: std.Vector<number> = _Create_sample();
+    const v: std.Vector<number> = _Create_sample();
     std.replace(v.begin(), v.end(), 2, 4);
 
-    let it = std.find(v.begin(), v.end(), 2);
+    const it = std.find(v.begin(), v.end(), 2);
     if (it.equals(v.end()) === false)
         throw new Error("Bug on std.replace().");
 }
 
 function _Test_uniques(): void
 {
-    let l: std.List<number> = new std.List();
+    const l: std.List<number> = new std.List();
     for (let i: number = 0; i < 1000; ++i)
         l.push_back(Math.floor(Math.random() * 50));
 
     l.sort();
-    let v = new std.Vector<number>(l.begin(), l.end());
+    const v = new std.Vector<number>(l.begin(), l.end());
 
     l.unique();
     v.erase(std.unique(v.begin(), v.end()), v.end());
@@ -46,8 +46,8 @@ function _Test_uniques(): void
 
 function _Test_rotate(): void
 {
-    let x: std.Vector<number> = new std.Vector([0, 1, 2, 3, 4, 5]);
-    let y: std.Vector<number> = new std.Vector([3, 4, 5, 0, 1, 2]);
+    const x: std.Vector<number> = new std.Vector([0, 1, 2, 3, 4, 5]);
+    const y: std.Vector<number> = new std.Vector([3, 4, 5, 0, 1, 2]);
 
     std.ranges.rotate(x, x.nth(3));
 

@@ -39,17 +39,17 @@ export abstract class HashBuckets<T>
         if (size < MIN_BUCKET_COUNT)
             size = MIN_BUCKET_COUNT;
 
-        let prev_matrix: T[][] = this.buckets_;
+        const prev_matrix: T[][] = this.buckets_;
         this.buckets_ = [];
 
         for (let i: number = 0; i < size; ++i)
             this.buckets_.push([]);
 
-        for (let row of prev_matrix)
-            for (let col of row)
+        for (const row of prev_matrix)
+            for (const col of row)
             {
-                let index: number = this.hash_index(col);
-                let bucket: T[] = this.buckets_[index];
+                const index: number = this.hash_index(col);
+                const bucket: T[] = this.buckets_[index];
                 
                 bucket.push(col);
                 ++this.item_size_;
@@ -105,18 +105,18 @@ export abstract class HashBuckets<T>
     --------------------------------------------------------- */
     public insert(val: T): void
     {
-        let capacity: number = this.capacity();
+        const capacity: number = this.capacity();
         if (++this.item_size_ > capacity)
             this.rehash(capacity * 2);
 
-        let index: number = this.hash_index(val);
+        const index: number = this.hash_index(val);
         this.buckets_[index].push(val);
     }
 
     public erase(val: T): void
     {
-        let index: number = this.hash_index(val);
-        let bucket: T[] = this.buckets_[index];
+        const index: number = this.hash_index(val);
+        const bucket: T[] = this.buckets_[index];
 
         for (let i: number = 0; i < bucket.length; ++i)
             if (bucket[i] === val)

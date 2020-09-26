@@ -129,8 +129,8 @@ export abstract class Container<T extends PElem,
      */
     public toJSON(): Array<T>
     {
-        let ret: Array<T> = [];
-        for (let elem of this)
+        const ret: Array<T> = [];
+        for (const elem of this)
             ret.push(elem);
 
         return ret;

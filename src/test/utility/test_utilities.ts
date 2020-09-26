@@ -8,9 +8,9 @@ export function test_utilities()
 
 function _Test_pairs(): void
 {
-    let x = std.make_pair(1, 2);
-    let y = std.make_pair(1, 2);
-    let z = std.make_pair(1, 3);
+    const x = std.make_pair(1, 2);
+    const y = std.make_pair(1, 2);
+    const z = std.make_pair(1, 3);
 
     if (x.hashCode() !== y.hashCode() || x.hashCode() === z.hashCode())
         throw new Error("Bug on Pair.hashCode()");

@@ -96,7 +96,7 @@ export class Barrier
      */
     public async arrive(n: number = 1): Promise<void>
     {
-        let completed: boolean = (this.count_ += n) <= this.size_;
+        const completed: boolean = (this.count_ += n) <= this.size_;
         if (completed === false)
             return;
 

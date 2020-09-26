@@ -28,7 +28,7 @@ export function assoc_laguerre(n: number, m: number, x: number): number
         throw new InvalidArgument(`Error on std.assoc_laguerre(): both n and m must be unsigned integer -> (n = ${n}, m = ${m}).`);
 
     // MEMORIZATION
-    let solutions: number[] = [1, -x+m+1];
+    const solutions: number[] = [1, -x+m+1];
 
     // COMPUTE RETURN VALUE
     return _Compute_assoc_laguerre(n, m, x, solutions);
@@ -39,8 +39,8 @@ function _Compute_assoc_laguerre(n: number, m: number, x: number, solutions: num
     if (solutions.length > n)
         return solutions[n];
 
-    let ln_1: number = _Compute_assoc_laguerre(n - 1, m, x, solutions);
-    let ln_2: number = _Compute_assoc_laguerre(n - 2, m, x, solutions);
+    const ln_1: number = _Compute_assoc_laguerre(n - 1, m, x, solutions);
+    const ln_2: number = _Compute_assoc_laguerre(n - 2, m, x, solutions);
 
     let ret: number = (2*n - 1 + m - x) * ln_1 - (n + m - 1)*ln_2;
     ret = ret / n;

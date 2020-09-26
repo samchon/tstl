@@ -5,7 +5,7 @@ const WAIT_COUNT: number = 10;
 
 export async function test_condition_variables(): Promise<void>
 {
-    let cv: std.ConditionVariable = new std.ConditionVariable();
+    const cv: std.ConditionVariable = new std.ConditionVariable();
     let wait_count: number = 0;
 
     //----

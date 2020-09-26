@@ -49,7 +49,7 @@ export abstract class UniqueMap<Key, T,
      */
     public get(key: Key): T
     {
-        let it = this.find(key);
+        const it = this.find(key);
         if (it.equals(this.end()) === true)
             throw ErrorGenerator.key_nout_found(this, "get", key);
 
@@ -164,7 +164,7 @@ export abstract class UniqueMap<Key, T,
 
     private _Insert_or_assign_with_key_value(key: Key, value: T): Pair<Iterator, boolean>
     {
-        let ret = this.emplace(key, value);
+        const ret = this.emplace(key, value);
         if (ret.second === false)
             ret.first.second = value;
 
@@ -173,7 +173,7 @@ export abstract class UniqueMap<Key, T,
 
     private _Insert_or_assign_with_hint(hint: Iterator, key: Key, value: T): Iterator
     {
-        let ret = this.emplace_hint(hint, key, value);
+        const ret = this.emplace_hint(hint, key, value);
         if (ret.second !== value)
             ret.second = value;
 
@@ -209,11 +209,11 @@ export abstract class UniqueMap<Key, T,
 
     private _Extract_by_key(key: Key): Entry<Key, T>
     {
-        let it = this.find(key);
+        const it = this.find(key);
         if (it.equals(this.end()) === true)
             throw ErrorGenerator.key_nout_found(this, "extract", key);
 
-        let ret: Entry<Key, T> = it.value;
+        const ret: Entry<Key, T> = it.value;
         this._Erase_by_range(it);
 
         return ret;
@@ -230,7 +230,7 @@ export abstract class UniqueMap<Key, T,
 
     protected _Erase_by_key(key: Key): number
     {
-        let it = this.find(key);
+        const it = this.find(key);
         if (it.equals(this.end()) === true)
             return 0;
 

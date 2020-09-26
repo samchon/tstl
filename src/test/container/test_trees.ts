@@ -20,18 +20,18 @@ function _Test_tree_set_inserts_and_erases(): void
 {
     for (let k = 0; k < 100; ++k)
     {
-        let set: std.TreeSet<number> = new std.TreeSet();
+        const set: std.TreeSet<number> = new std.TreeSet();
         for (let i = 0; i < 100; ++i)
             set.insert(std.randint(0, 10000));
 
-        for (let val of set)
+        for (const val of set)
             if (set.has(val) === false)
                 throw new Error(`Bug on ${set.constructor.name}.has(): failed to detect stored element.`);
 
         while (!set.empty())
         {
-            let advance: number = std.randint(0, set.size() - 1);
-            let it: std.TreeSet.Iterator<number> = std.advance(set.begin(), advance);
+            const advance: number = std.randint(0, set.size() - 1);
+            const it: std.TreeSet.Iterator<number> = std.advance(set.begin(), advance);
 
             set.erase(it);
             if (set.has(it.value))
@@ -56,10 +56,10 @@ function _Test_tree_set<Unique extends boolean,
     // VALIDATE FIND
     for (let i: number = 0; i < 100; ++i)
     {
-        let val: number = Math.floor(Math.random() * 100);
+        const val: number = Math.floor(Math.random() * 100);
 
-        let alg_it: IteratorT = std.ranges.find(set, <Temporary>val) as Temporary;
-        let set_it: IteratorT = set.find(val);
+        const alg_it: IteratorT = std.ranges.find(set, <Temporary>val) as Temporary;
+        const set_it: IteratorT = set.find(val);
 
         if (alg_it === set.end())
             if (set_it === set.end())
@@ -87,10 +87,10 @@ function _Test_tree_map<Unique extends boolean,
     // VALIDATE FIND
     for (let i: number = 0; i < 100; ++i)
     {
-        let val: number = Math.floor(Math.random() * 100);
+        const val: number = Math.floor(Math.random() * 100);
 
-        let alg_it: IteratorT = std.ranges.find_if(map, entry => val === (entry as Temporary).first) as Temporary;
-        let set_it = map.find(val);
+        const alg_it: IteratorT = std.ranges.find_if(map, entry => val === (entry as Temporary).first) as Temporary;
+        const set_it = map.find(val);
 
         if (alg_it === map.end())
             if (set_it === map.end())

@@ -4,7 +4,7 @@ export async function test_singleton(): Promise<void>
 {
     // initlaize Singleton generator
     let index: number = 0;
-    let singleton: std.Singleton<number> = new std.Singleton(async () =>
+    const singleton: std.Singleton<number> = new std.Singleton(async () =>
     {
         await std.sleep_for(std.randint(50, 250));
         return ++index;

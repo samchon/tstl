@@ -138,8 +138,8 @@ export abstract class MapContainer<Key, T,
     public push(...items: IPair<Key, T>[]): number
     {
         // INSERT BY RANGE
-        let first = new NativeArrayIterator(items, 0);
-        let last = new NativeArrayIterator(items, items.length);
+        const first = new NativeArrayIterator(items, 0);
+        const last = new NativeArrayIterator(items, items.length);
 
         this.insert(first, last);
 
@@ -202,7 +202,7 @@ export abstract class MapContainer<Key, T,
     protected _Erase_by_range(first: IteratorT, last: IteratorT = first.next()): IteratorT
     {
         // ERASE
-        let it = this.data_.erase(first, last);
+        const it = this.data_.erase(first, last);
         
         // POST-PROCESS
         this._Handle_erase(first, last);

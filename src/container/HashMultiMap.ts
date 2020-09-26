@@ -147,8 +147,8 @@ export class HashMultiMap<Key, T>
     public count(key: Key): number
     {
         // FIND MATCHED BUCKET
-        let index = this.bucket(key);
-        let bucket = this.buckets_.at(index);
+        const index = this.bucket(key);
+        const bucket = this.buckets_.at(index);
 
         // ITERATE THE BUCKET
         let cnt: number = 0;
@@ -189,7 +189,7 @@ export class HashMultiMap<Key, T>
             return super.end();
         else
         {
-            let bucket = this.buckets_.at(index);
+            const bucket = this.buckets_.at(index);
             return bucket[bucket.length - 1].next();
         }
     }
@@ -321,7 +321,7 @@ export class HashMultiMap<Key, T>
     public emplace(key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this.data_.insert(this.data_.end(), new Entry(key, val));
+        const it = this.data_.insert(this.data_.end(), new Entry(key, val));
 
         this._Handle_insert(it, it.next()); // POST-PROCESS
         return it;
@@ -333,7 +333,7 @@ export class HashMultiMap<Key, T>
     public emplace_hint(hint: HashMultiMap.Iterator<Key, T>, key: Key, val: T): HashMultiMap.Iterator<Key, T>
     {
         // INSERT
-        let it = this.data_.insert(hint, new Entry(key, val));
+        const it = this.data_.insert(hint, new Entry(key, val));
 
         // POST-PROCESS
         this._Handle_insert(it, it.next());
@@ -348,12 +348,12 @@ export class HashMultiMap<Key, T>
         // INSERTIONS
         //--------
         // PRELIMINARIES
-        let entries: Array<Entry<Key, T>> = [];
+        const entries: Array<Entry<Key, T>> = [];
         for (let it = first; !it.equals(last); it = it.next())
             entries.push(new Entry(it.value.first, it.value.second));
         
         // INSERT ELEMENTS
-        let my_first = this.data_.insert
+        const my_first = this.data_.insert
             (
                 this.data_.end(), 
                 new NativeArrayIterator(entries, 0), 

@@ -32,14 +32,14 @@ export async function main(): Promise<string>
         " name | message \n" +
         "------|---------\n";
 
-    let v: Vector<number> = new Vector();
-    let fl: ForwardList<number> = new ForwardList();
-    let l: List<number> = new List();
-    let m: FlatMap<number, number> = new FlatMap();
-    let mtx: SharedMutex = new SharedMutex();
-    let sph: Semaphore<4> = new Semaphore(4);
+    const v: Vector<number> = new Vector();
+    const fl: ForwardList<number> = new ForwardList();
+    const l: List<number> = new List();
+    const m: FlatMap<number, number> = new FlatMap();
+    const mtx: SharedMutex = new SharedMutex();
+    const sph: Semaphore<4> = new Semaphore(4);
 
-    let exceptions: string[] = [
+    const exceptions: string[] = [
         // VECTOR
         await except(() => { v.end().value; }),
         await except(() => { v.at(1); }),
@@ -77,8 +77,8 @@ export async function main(): Promise<string>
         await except(() => { cyl_bessel_k(1, -0.3); }),
         await except(() => 
         {
-            let phi: number = 1.5;
-            let v: number = 1 / Math.pow(Math.sin(phi), 2) + 1;
+            const phi: number = 1.5;
+            const v: number = 1 / Math.pow(Math.sin(phi), 2) + 1;
             ellint_3(0.5, v, phi);
         }),
         await except(() => { hermite(-5, 2); }),

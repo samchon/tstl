@@ -68,7 +68,7 @@ export function distance<InputIterator extends Readonly<IRandomAccessIterator<IP
     if (first.index instanceof Function)
         return _Distance_via_index(first, last);
 
-    let ret: number = 0;
+        let ret: number = 0;
     for (; !first.equals(last); first = first.next())
         ++ret;
 
@@ -78,8 +78,8 @@ export function distance<InputIterator extends Readonly<IRandomAccessIterator<IP
 function _Distance_via_index<RandomAccessIterator extends IRandomAccessIterator<IPointer.ValueType<RandomAccessIterator>, RandomAccessIterator>>
     (first: RandomAccessIterator, last: RandomAccessIterator): number
 {
-    let x: number = first.index();
-    let y: number = last.index();
+    const x: number = first.index();
+    const y: number = last.index();
 
     if ((first as any).base instanceof Function)
         return x - y;

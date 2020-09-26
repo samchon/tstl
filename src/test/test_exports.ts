@@ -11,24 +11,24 @@ const EXCLUDES = ["internal"];
 
 async function from_dynamic(map: HashMap<object, string>, path: string): Promise<void>
 {
-    let fileList: string[] = await fs.promises.readdir(path);
-    for (let file of fileList)
+    const fileList: string[] = await fs.promises.readdir(path);
+    for (const file of fileList)
     {
-        let current: string = `${path}/${file}`;
-        let stats: fs.Stats = await fs.promises.stat(current);
+        const current: string = `${path}/${file}`;
+        const stats: fs.Stats = await fs.promises.stat(current);
 
         if (stats.isDirectory() && ArrayUtil.has(HELPERS, current) === false && ArrayUtil.has(EXCLUDES, file) === false)
             await from_dynamic(map, current);
         else if (file.substr(-3) === __filename.substr(-3) && __filename.substr(-5) !== ".d.ts")
         {
-            let elem: any = await import(current);
-            for (let key in elem)
+            const elem: any = await import(current);
+            for (const key in elem)
             {
-                let instance: any = elem[key];
+                const instance: any = elem[key];
                 if (!instance)
                     continue;
 
-                let type: string = typeof instance;
+                const type: string = typeof instance;
                 if (type === "function"
                     || (type === "object" && !(instance.constructor === Object && key[0].toLowerCase() === key[0])))
                     map.set(instance, key);
@@ -42,10 +42,10 @@ function from_index(map: HashMap<object, string>, elem: any): void
     if (map.has(elem) === true)
         return;
 
-    for (let key in elem)
+    for (const key in elem)
     {
-        let instance: any = elem[key];
-        let type: string = typeof instance;
+        const instance: any = elem[key];
+        const type: string = typeof instance;
 
         if (type === "object" && instance.constructor === Object)
             if (key[0].toUpperCase() === key[0])
@@ -59,14 +59,14 @@ function from_index(map: HashMap<object, string>, elem: any): void
 
 export async function test_exports(): Promise<void>
 {
-    let dynamicMap: HashMap<object, string> = new HashMap();
-    let indexMap: HashMap<object, string> = new HashMap();
+    const dynamicMap: HashMap<object, string> = new HashMap();
+    const indexMap: HashMap<object, string> = new HashMap();
 
     await from_dynamic(dynamicMap, MAIN);
     from_index(indexMap, index);
 
-    let ommissions: string[] = [];
-    for (let tuple of dynamicMap)
+    const ommissions: string[] = [];
+    for (const tuple of dynamicMap)
         if (indexMap.has(tuple.first) === false)
             ommissions.push(tuple.second);
     

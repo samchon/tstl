@@ -19,7 +19,7 @@ export function get_uid(obj: object | null | undefined): number
     {
         if (obj.hasOwnProperty("__get_m_iUID") === false)
         {
-            let uid: number = ++_Get_root().__s_iUID;
+            const uid: number = ++_Get_root().__s_iUID;
             Object.defineProperty(obj, "__get_m_iUID", 
             {
                 value: function (): number

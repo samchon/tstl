@@ -104,16 +104,16 @@ export class Deque<T>
         if (args.length === 1 && args[0] instanceof Array)
         {
             // INITIALIZER CONSTRUCTOR
-            let array: Array<T> = args[0];
-            let first = new NativeArrayIterator(array, 0);
-            let last = new NativeArrayIterator(array, array.length);
+            const array: Array<T> = args[0];
+            const first = new NativeArrayIterator(array, 0);
+            const last = new NativeArrayIterator(array, array.length);
 
             this.assign(first, last);
         }
         else if (args.length === 1 && args[0] instanceof Deque)
         {
             // COPY CONSTRUCTOR
-            let container: Deque<T> = args[0];
+            const container: Deque<T> = args[0];
             this.assign(container.begin(), container.end());
         }
         else if (args.length === 2)
@@ -166,7 +166,7 @@ export class Deque<T>
     {
         n = Deque._Emend(n, "resize");
 
-        let expansion: number = n - this.size();
+        const expansion: number = n - this.size();
         if (expansion > 0)
             this.insert(this.end(), expansion, undefined!);
         else if (expansion < 0)
@@ -186,15 +186,15 @@ export class Deque<T>
     private _Reserve(n: number): void
     {
         // NEW MEMBERS TO BE ASSSIGNED
-        let matrix: T[][] = [[]];
-        let col_size: number = this._Compute_col_size(n);
+        const matrix: T[][] = [[]];
+        const col_size: number = this._Compute_col_size(n);
 
         //--------
         // RE-FILL
         //--------
         for (let r: number = 0; r < this.matrix_.length; ++r)
         {
-            let row: T[] = this.matrix_[r];
+            const row: T[] = this.matrix_[r];
 
             for (let c: number = 0; c < row.length; ++c)
             {
@@ -297,13 +297,13 @@ export class Deque<T>
     --------------------------------------------------------- */
     protected _At(index: number): T
     {
-        let indexPair: Pair<number, number> = this._Fetch_index(index);
+        const indexPair: Pair<number, number> = this._Fetch_index(index);
         return this.matrix_[indexPair.first][indexPair.second];
     }
 
     protected _Set(index: number, val: T): void
     {
-        let indexPair: Pair<number, number> = this._Fetch_index(index);
+        const indexPair: Pair<number, number> = this._Fetch_index(index);
         this.matrix_[indexPair.first][indexPair.second] = val;
     }
 
@@ -313,7 +313,7 @@ export class Deque<T>
         let row: number;
         for (row = 0; row < this.matrix_.length; row++)
         {
-            let array: Array<T> = this.matrix_[row];
+            const array: Array<T> = this.matrix_[row];
             if (index < array.length)
                 break;
 
@@ -349,8 +349,8 @@ export class Deque<T>
             return this.size();
 
         // INSERT BY RANGE
-        let first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
-        let last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
+        const first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
+        const last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(this.end(), first, last);
 
@@ -406,7 +406,7 @@ export class Deque<T>
     protected _Pop_back(): void
     {
         // ERASE LAST ELEMENT
-        let lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
+        const lastArray: Array<T> = this.matrix_[this.matrix_.length - 1];
         lastArray.pop();
 
         if (lastArray.length === 0 && this.matrix_.length > 1)
@@ -422,7 +422,7 @@ export class Deque<T>
     protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): Deque.Iterator<T>
     {
-        let size: number = this.size_ + distance(<Temporary>first, last);
+        const size: number = this.size_ + distance(<Temporary>first, last);
         if (size === this.size_) // FIRST === LAST
             return pos;
 
@@ -443,7 +443,7 @@ export class Deque<T>
             if (size > this.capacity_)
             {
                 // A TEMPORARY DEQUE
-                let deque: Deque<T> = new Deque<T>();
+                const deque: Deque<T> = new Deque<T>();
                 deque._Reserve(Math.max(size, Math.floor(this.capacity_ * Deque.MAGNIFIER)));
 
                 // INSERT ITEM SEQUENTIALLY
@@ -465,15 +465,15 @@ export class Deque<T>
     private _Insert_to_middle<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
         (pos: Deque.Iterator<T>, first: InputIterator, last: InputIterator): void
     {
-        let col_size: number = this._Compute_col_size();
+        const col_size: number = this._Compute_col_size();
 
         // POSITION OF MATRIX
-        let indexes: Pair<number, number> = this._Fetch_index(pos.index());
+        const indexes: Pair<number, number> = this._Fetch_index(pos.index());
         let row: Array<T> = this.matrix_[indexes.first];
-        let col: number = indexes.second;
+        const col: number = indexes.second;
 
         // MOVE BACK SIDE TO TEMPORARY ARRAY
-        let back_items: Array<T> = row.splice(col);
+        const back_items: Array<T> = row.splice(col);
 
         // INSERT ITEMS
         for (; !first.equals(last); first = first.next())
@@ -482,7 +482,7 @@ export class Deque<T>
             {
                 row = new Array<T>();
 
-                let spliced_array: T[][] = this.matrix_.splice(++indexes.first);
+                const spliced_array: T[][] = this.matrix_.splice(++indexes.first);
                 this.matrix_.push(row);
                 this.matrix_.push(...spliced_array);
             }
@@ -496,7 +496,7 @@ export class Deque<T>
             {
                 row = new Array<T>();
 
-                let spliced_array: T[][] = this.matrix_.splice(++indexes.first);
+                const spliced_array: T[][] = this.matrix_.splice(++indexes.first);
                 this.matrix_.push(row);
                 this.matrix_.push(...spliced_array);
             }
@@ -532,7 +532,7 @@ export class Deque<T>
 
     private _Try_add_row_at_front(): boolean
     {
-        let col_size: number = this._Compute_col_size();
+        const col_size: number = this._Compute_col_size();
 
         if (this.matrix_[0].length >= col_size && this.matrix_.length < Deque.ROW_SIZE)
         {
@@ -545,7 +545,7 @@ export class Deque<T>
 
     private _Try_add_row_at_back(): boolean
     {
-        let col_size: number = this._Compute_col_size();
+        const col_size: number = this._Compute_col_size();
 
         if (this.matrix_[this.matrix_.length - 1].length >= col_size && this.matrix_.length < Deque.ROW_SIZE)
         {
@@ -581,12 +581,12 @@ export class Deque<T>
         while (size !== 0)
         {
             // FIND MATCHED ROW AND COLUMN
-            let indexes: Pair<number, number> = this._Fetch_index(first.index());
-            let row: Array<T> = this.matrix_[indexes.first];
-            let col: number = indexes.second;
+            const indexes: Pair<number, number> = this._Fetch_index(first.index());
+            const row: Array<T> = this.matrix_[indexes.first];
+            const col: number = indexes.second;
 
             // EARSE FROM THE ROW
-            let my_delete_size: number = Math.min(size, row.length - col);
+            const my_delete_size: number = Math.min(size, row.length - col);
             row.splice(col, my_delete_size);
 
             // TO MERGE
@@ -694,7 +694,7 @@ export namespace Deque
                 }
             else
             {
-                let val: T = this.matrix_[this.row_][this.col_];
+                const val: T = this.matrix_[this.row_][this.col_];
                 if (++this.col_ === this.matrix_[this.row_].length)
                 {
                     ++this.row_;

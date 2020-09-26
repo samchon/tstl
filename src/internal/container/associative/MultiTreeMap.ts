@@ -41,7 +41,7 @@ export abstract class MultiTreeMap<Key, T,
      */
     public find(key: Key): IteratorT
     {
-        let it: IteratorT = this.lower_bound(key);
+        const it: IteratorT = this.lower_bound(key);
         if (!it.equals(this.end()) && this._Key_eq(key, it.first))
             return it;
         else
@@ -121,8 +121,8 @@ export abstract class MultiTreeMap<Key, T,
      */
     public emplace_hint(hint: IteratorT, key: Key, val: T): IteratorT
     {
-        let elem: Entry<Key, T> = new Entry(key, val);
-        let validate: boolean = ITreeContainer.emplacable<Key, 
+        const elem: Entry<Key, T> = new Entry(key, val);
+        const validate: boolean = ITreeContainer.emplacable<Key, 
                 Entry<Key, T>, 
                 Source, 
                 IteratorT,
@@ -132,7 +132,7 @@ export abstract class MultiTreeMap<Key, T,
 
         if (validate)
         {
-            let it: IteratorT = this.data_.insert(hint, elem);
+            const it: IteratorT = this.data_.insert(hint, elem);
             this._Handle_insert(it, it.next());
 
             return it;

@@ -5,7 +5,7 @@ export function test_heaps(): void
 {
     for (let i: number = 0; i < 100; ++i)
     {
-        let elems: std.Vector<number> = Generator.fill(new std.Vector(), 100);
+        const elems: std.Vector<number> = Generator.fill(new std.Vector(), 100);
         std.ranges.make_heap(elems);
 
         if (std.ranges.is_heap(elems) === false)
@@ -22,7 +22,7 @@ export function test_heaps(): void
 
 function _Test_c_plus_plus(): void
 {
-    let v: std.Vector<number> = new std.Vector([10, 20, 30, 5, 15]);
+    const v: std.Vector<number> = new std.Vector([10, 20, 30, 5, 15]);
 
     std.ranges.make_heap(v);
     if (v.front() !== 30 || std.ranges.is_heap(v) === false)
@@ -45,7 +45,7 @@ function _Test_c_plus_plus(): void
 
 function _Test_cpp_reference(): void
 {
-    let v: std.Vector<number> = new std.Vector();
+    const v: std.Vector<number> = new std.Vector();
     v.push(3, 1, 4, 1, 5, 9);
 
     std.ranges.make_heap(v);

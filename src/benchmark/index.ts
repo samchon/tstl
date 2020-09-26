@@ -16,7 +16,7 @@ async function benchmark(feature: string): Promise<void>
     // MAIN PROCESS
     //----
     // LAZY CONSTRUCTION OF THE TARGET MODULE
-    let instance: IModule = await import(`${__dirname}/${feature}`);
+    const instance: IModule = await import(`${__dirname}/${feature}`);
     let time: number = Date.now();
 
     // CONTENT FROM THE SPEICAL MODULE
@@ -26,13 +26,13 @@ async function benchmark(feature: string): Promise<void>
     //----
     // REPORT MEMORY USAGE
     //----
-    let memory: NodeJS.MemoryUsage = global.process.memoryUsage();
+    const memory: NodeJS.MemoryUsage = global.process.memoryUsage();
     let performance: string = "> ## Performance \n"
         + `>  - Elapsed time: ${time} ms\n`;
     
-    for (let key in memory)
+    for (const key in memory)
     {
-        let amount: number = memory[key as keyof NodeJS.MemoryUsage] / (10**6);
+        const amount: number = memory[key as keyof NodeJS.MemoryUsage] / (10**6);
         performance += `>  - ${key}: ${amount} MB\n`;
     }
     content = performance + "\n\n" + content;
@@ -55,14 +55,13 @@ async function main(): Promise<void>
     else
     {
         // ITERATE ALL FEATURES
-        let directory: string[] = await FileSystem.dir(__dirname);
-        for (let file of directory)
+        const directory: string[] = await FileSystem.dir(__dirname);
+        for (const file of directory)
         {
             if (file.substr(-3) !== ".js" || file === "index.js")
                     continue;
-
-            file = file.substr(0, file.length - 3);
-            await benchmark(file);
+            
+            await benchmark(file.substr(0, file.length - 3));
         }
     }
 }

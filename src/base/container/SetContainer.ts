@@ -138,8 +138,8 @@ export abstract class SetContainer<Key,
             return this.size();
 
         // INSERT BY RANGE
-        let first: NativeArrayIterator<Key> = new NativeArrayIterator(items, 0);
-        let last: NativeArrayIterator<Key> = new NativeArrayIterator(items, items.length);
+        const first: NativeArrayIterator<Key> = new NativeArrayIterator(items, 0);
+        const last: NativeArrayIterator<Key> = new NativeArrayIterator(items, items.length);
 
         this._Insert_by_range(first, last);
 
@@ -200,7 +200,7 @@ export abstract class SetContainer<Key,
     protected _Erase_by_range(first: IteratorT, last: IteratorT = first.next()): IteratorT
     {
         // ERASE
-        let it = this.data_.erase(first, last);
+        const it = this.data_.erase(first, last);
         
         // POST-PROCESS
         this._Handle_erase(first, last);

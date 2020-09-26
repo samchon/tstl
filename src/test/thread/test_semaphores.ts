@@ -10,8 +10,8 @@ export async function test_semaphores(): Promise<void>
     //----
     // TEST MUTEX FEATURES
     //----
-    let mtx = new std.Semaphore(1);
-    let wrapper: ITimedLockable = std.Semaphore.get_lockable(mtx);
+    const mtx = new std.Semaphore(1);
+    const wrapper: ITimedLockable = std.Semaphore.get_lockable(mtx);
 
     await _Test_lock(wrapper, "Semaphore.Lockable");
     await _Test_try_lock(wrapper, "Semaphore.Lockable");
@@ -19,7 +19,7 @@ export async function test_semaphores(): Promise<void>
     //----
     // TEST SPECIAL FEATURES OF SEMAPHORE
     //----
-    let semaphore = new std.Semaphore(SIZE);
+    const semaphore = new std.Semaphore(SIZE);
 
     await _Test_semaphore(semaphore);
     await _Test_timed_semaphore(semaphore);
@@ -65,7 +65,7 @@ async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
     // TRY LOCK FIRST
     for (let i: number = 0; i < ts.max(); ++i)
     {
-        let flag: boolean = await ts.try_acquire_for(0);
+        const flag: boolean = await ts.try_acquire_for(0);
         if (flag === false)
             throw new Error("Bug on TimedSemaphore.try_lock_for(); failed to lock when clear");
     }
@@ -91,7 +91,7 @@ async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
 
     for (let i: number = 0; i < ts.max() / 2; ++i)
     {
-        let flag: boolean = await ts.try_acquire_for(100);
+        const flag: boolean = await ts.try_acquire_for(100);
         if (flag === false)
             throw new Error("Bug on TimedSemaphore.try_lock_for(); failed to lock when released.");
     }

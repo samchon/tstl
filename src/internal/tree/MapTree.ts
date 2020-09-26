@@ -73,7 +73,7 @@ export abstract class MapTree<Key, T,
     --------------------------------------------------------- */
     public get_by_key(key: Key): XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null
     {
-        let ret = this.nearest_by_key(key);
+        const ret = this.nearest_by_key(key);
         if (ret === null || !this.key_eq_(key, ret.value.first))
             return null;
         else
@@ -83,7 +83,7 @@ export abstract class MapTree<Key, T,
 
     public lower_bound(key: Key): MapElementList.Iterator<Key, T, Unique, Source>
     {
-        let node: XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null = this.nearest_by_key(key);
+        const node: XTreeNode<MapElementList.Iterator<Key, T, Unique, Source>> | null = this.nearest_by_key(key);
 
         if (node === null)
             return this.source().end();

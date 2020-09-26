@@ -134,22 +134,22 @@ export namespace IHashContainer
         if (args.length === 1 && args[0] instanceof Source)
         {
             // PARAMETERS
-            let container: SourceT = args[0];
+            const container: SourceT = args[0];
             hash_function = container.hash_function();
             key_eq = container.key_eq();
 
             // COPY CONSTRUCTOR
             post_process = () =>
             {
-                let first = container.begin();
-                let last = container.end();
+                const first = container.begin();
+                const last = container.end();
 
                 source.assign(first, last);
             };
         }
         else
         {
-            let tuple = IAssociativeContainer.construct(source, ...args);
+            const tuple = IAssociativeContainer.construct(source, ...args);
 
             post_process = tuple.ramda;
             if (tuple.tail.length >= 1)    hash_function = tuple.tail[0];

@@ -16,7 +16,7 @@ function _Test_rand_ints(): void
         if (x > y)
             [x, y] = [y, x];
 
-        let rand: number = std.randint(x, y);
+        const rand: number = std.randint(x, y);
         if (rand < x || rand > y)
             throw new Error("Bug on std.experimantal.randint().");
     }
@@ -26,11 +26,11 @@ function _Test_samples(): void
 {
     for (let i: number = 0; i < 100; ++i)
     {
-        let size: number = std.randint(10, 100);
-        let populations: std.Vector<number> = _Generate_populations(size);
+        const size: number = std.randint(10, 100);
+        const populations: std.Vector<number> = _Generate_populations(size);
 
-        let n: number = Math.min(size, std.randint(5, 20));
-        let samples: std.Vector<number> = new std.Vector();
+        const n: number = Math.min(size, std.randint(5, 20));
+        const samples: std.Vector<number> = new std.Vector();
 
         std.ranges.sample(populations, std.back_inserter(samples), n);
         if (std.ranges.is_sorted(samples) === false)
@@ -44,7 +44,7 @@ function _Test_samples(): void
 
 function _Generate_populations(size: number): std.Vector<number>
 {
-    let ret: std.Vector<number> = new std.Vector(size, 0);
+    const ret: std.Vector<number> = new std.Vector(size, 0);
     for (let i: number = 0; i < ret.size(); ++i)
         ret.set(i, i);
 

@@ -7,8 +7,8 @@ export function test_numeric_algorithms(): void
     //----
     // CONSTRUCT BASIC DATA
     //----
-    let x: std.Vector<Point2D> = new std.Vector();
-    let y: std.Vector<Point2D> = new std.Vector();
+    const x: std.Vector<Point2D> = new std.Vector();
+    const y: std.Vector<Point2D> = new std.Vector();
 
     for (let i: number = 0; i < 10; ++i)
     {
@@ -36,10 +36,10 @@ export function test_numeric_algorithms(): void
 function _Test_accumulate(vec: std.Vector<Point2D>): void
 {
     let solution: Point2D = new Point2D();
-    for (let elem of vec)
+    for (const elem of vec)
         solution = std.plus(solution, elem);
 
-    let ret: Point2D = std.accumulate(vec.begin(), vec.end(), new Point2D());
+    const ret: Point2D = std.accumulate(vec.begin(), vec.end(), new Point2D());
     if (!std.equal_to(solution, ret))
         throw new std.DomainError("Bug on std.accumulate().");
 }
@@ -50,18 +50,18 @@ function _Test_inner_product(x: std.Vector<Point2D>, y: std.Vector<Point2D>): vo
     for (let i: number = 0; i < x.size(); ++i)
         solution = std.plus(solution, std.multiplies(x.at(i), y.at(i)));
     
-    let ret: Point2D = std.inner_product(x.begin(), x.end(), y.begin(), new Point2D());
+    const ret: Point2D = std.inner_product(x.begin(), x.end(), y.begin(), new Point2D());
     if (!std.equal_to(solution, ret))
         throw new std.DomainError("Bug on std.inner_product().");
 }
 
 function _Test_adjacent_difference(vec: std.Vector<Point2D>): void
 {
-    let solution: std.Vector<Point2D> = new std.Vector([vec.front()]);
+    const solution: std.Vector<Point2D> = new std.Vector([vec.front()]);
     for (let i: number = 1; i < vec.size(); ++i)
         solution.push_back(std.minus(vec.at(i), vec.at(i-1)));
 
-    let ret: std.Vector<Point2D> = new std.Vector();
+    const ret: std.Vector<Point2D> = new std.Vector();
     std.adjacent_difference(vec.begin(), vec.end(), std.back_inserter(ret));
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
@@ -70,16 +70,16 @@ function _Test_adjacent_difference(vec: std.Vector<Point2D>): void
 
 function _Test_partial_sum(vec: std.Vector<Point2D>): void
 {
-    let solution: std.Vector<Point2D> = new std.Vector();
+    const solution: std.Vector<Point2D> = new std.Vector();
     let sum: Point2D = new Point2D();
 
-    for (let elem of vec)
+    for (const elem of vec)
     {
         sum = std.plus(sum, elem);
         solution.push_back(sum);
     }
 
-    let ret: std.Vector<Point2D> = new std.Vector();
+    const ret: std.Vector<Point2D> = new std.Vector();
     std.partial_sum(vec.begin(), vec.end(), std.back_inserter(ret));
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
@@ -91,11 +91,11 @@ function _Test_partial_sum(vec: std.Vector<Point2D>): void
 --------------------------------------------------------- */
 function _Test_inclusive_scan(vec: std.Vector<Point2D>): void
 {
-    let solution: std.Vector<Point2D> = new std.Vector([vec.front()]);
+    const solution: std.Vector<Point2D> = new std.Vector([vec.front()]);
     for (let i: number = 1; i < vec.size(); ++i)
         solution.push_back(std.plus(vec.at(i), solution.at(i-1)));
 
-    let ret: std.Vector<Point2D> = new std.Vector();
+    const ret: std.Vector<Point2D> = new std.Vector();
     std.inclusive_scan(vec.begin(), vec.end(), std.back_inserter(ret));
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)
@@ -104,11 +104,11 @@ function _Test_inclusive_scan(vec: std.Vector<Point2D>): void
 
 function _Test_exclusive_scan(vec: std.Vector<Point2D>): void
 {
-    let solution: std.Vector<Point2D> = new std.Vector([new Point2D()]);
+    const solution: std.Vector<Point2D> = new std.Vector([new Point2D()]);
     for (let i: number = 0; i < vec.size() - 1; ++i)
         solution.push(std.plus(vec.at(i), solution.at(i)));
 
-    let ret: std.Vector<Point2D> = new std.Vector();
+    const ret: std.Vector<Point2D> = new std.Vector();
     std.exclusive_scan(vec.begin(), vec.end(), std.back_inserter(ret), new Point2D());
 
     if (std.equal(solution.begin(), solution.end(), ret.begin()) === false)

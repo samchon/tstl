@@ -413,7 +413,7 @@ export function mismatch<
     if (size(range1) === size(range2))
         return base.mismatch(begin(range1), end(range1), begin(range2), pred);
 
-    let limit: number = Math.min(size(range1), size(range2));
+    const limit: number = Math.min(size(range1), size(range2));
     let x: IForwardContainer.IteratorType<Range1> = begin(range1);
     let y: IForwardContainer.IteratorType<Range2> = begin(range2);
 

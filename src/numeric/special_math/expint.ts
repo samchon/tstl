@@ -33,16 +33,16 @@ function _EI_Factorial(x: number): number
 --------------------------------------------------------------- */
 // function _E1_AB(x: number): number
 // {
-//     let A: number = _Compute_A(x);
-//     let B: number = _Compute_B(x);
+//     const A: number = _Compute_A(x);
+//     const B: number = _Compute_B(x);
 
-//     let ret: number = Math.pow(A, -7.7) + B;
+//     const ret: number = Math.pow(A, -7.7) + B;
 //     return Math.pow(ret, -0.13);
 // }
 
 // function _Compute_A(x: number): number
 // {
-//     let ret: number = 0.56146 / x + 0.65;
+//     const ret: number = 0.56146 / x + 0.65;
 //     ret *= 1 + x;
 //     ret = Math.log(ret) / Math.log(Math.E);
 
@@ -51,7 +51,7 @@ function _EI_Factorial(x: number): number
 
 // function _Compute_B(x: number): number
 // {
-//     let ret: number = Math.pow(x, 4);
+//     const ret: number = Math.pow(x, 4);
 //     ret *= Math.pow(Math.E, 7.7*x);
 //     ret *= Math.pow(2 + x, 3.7);
 
@@ -63,7 +63,7 @@ function _EI_Factorial(x: number): number
 --------------------------------------------------------------- */
 function _E1_G(x: number): number
 {
-    let h: number = _Compute_h(x);
+    const h: number = _Compute_h(x);
 
     let ret: number = G + (1-G) * Math.pow(Math.E, -x / (1-G));
     ret = Math.pow(Math.E, -x) / ret;
@@ -76,9 +76,9 @@ function _E1_G(x: number): number
 
 function _Compute_h(x: number): number
 {
-    let q: number = _Compute_q(x);
-    let left: number = 1 / (1 + Math.pow(x, 1.5));
-    let right: number = (H_INF * q) / (1 + q);
+    const q: number = _Compute_q(x);
+    const left: number = 1 / (1 + Math.pow(x, 1.5));
+    const right: number = (H_INF * q) / (1 + q);
 
     return left + right;
 }

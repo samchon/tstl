@@ -42,7 +42,7 @@ export class UniqueMapTree<Key, T,
         
         while (true) // UNTIL MEET THE MATCHED VALUE OR FINAL BRANCH
         {
-            let it: MapElementList.Iterator<Key, T, true, Source> = ret.value;
+            const it: MapElementList.Iterator<Key, T, true, Source> = ret.value;
             let my_node: XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = null;
             
             // COMPARE
@@ -65,12 +65,12 @@ export class UniqueMapTree<Key, T,
     public upper_bound(key: Key): MapElementList.Iterator<Key, T, true, Source>
     {
         // FIND MATCHED NODE
-        let node: XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = this.nearest_by_key(key);
+        const node: XTreeNode<MapElementList.Iterator<Key, T, true, Source>> | null = this.nearest_by_key(key);
         if (node === null)
             return this.source().end();
 
         // MUST BE it.first > key
-        let it: MapElementList.Iterator<Key, T, true, Source> = node.value;
+        const it: MapElementList.Iterator<Key, T, true, Source> = node.value;
         if (this.key_comp()(key, it.first))
             return it;
         else

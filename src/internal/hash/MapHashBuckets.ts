@@ -71,8 +71,8 @@ export class MapHashBuckets<Key, T,
     --------------------------------------------------------- */
     public find(key: Key): IHashMap.Iterator<Key, T, Unique, Source>
     {
-        let index = this.hash_function_(key) % this.size();
-        let bucket = this.at(index);
+        const index = this.hash_function_(key) % this.size();
+        const bucket = this.at(index);
 
         for (let it of bucket)
             if (this.key_eq_(it.first, key))

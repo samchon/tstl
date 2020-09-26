@@ -67,7 +67,7 @@ export class SharedTimedMutex implements ISharedTimedLockable
         return new Promise<void>(resolve =>
         {
             // CONSTRUCT RESOLVER
-            let resolver: IResolver = {
+            const resolver: IResolver = {
                 handler: (this.writing_++ === 0 && this.reading_ === 0)
                     ? null
                     : resolve,
@@ -111,7 +111,7 @@ export class SharedTimedMutex implements ISharedTimedLockable
         return new Promise<boolean>(resolve =>
         {
             // CONSTRUCT RESOLVER
-            let it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(),
+            const it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(),
             {
                 handler: (this.writing_++ === 0 && this.reading_ === 0)
                     ? null
@@ -144,8 +144,8 @@ export class SharedTimedMutex implements ISharedTimedLockable
     public async try_lock_until(at: Date): Promise<boolean>
     {
         // COMPUTE MILLISECONDS TO WAIT
-        let now: Date = new Date();
-        let ms: number = at.getTime() - now.getTime();
+        const now: Date = new Date();
+        const ms: number = at.getTime() - now.getTime();
 
         return await this.try_lock_for(ms);
     }
@@ -174,7 +174,7 @@ export class SharedTimedMutex implements ISharedTimedLockable
     {
         return new Promise<void>(resolve =>
         {
-            let resolver: IResolver = {
+            const resolver: IResolver = {
                 handler: (this.writing_ === 0)
                     ? null
                     : resolve,
@@ -214,7 +214,7 @@ export class SharedTimedMutex implements ISharedTimedLockable
         return new Promise<boolean>(resolve =>
         {
             // CONSTRUCT RESOLVER
-            let it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), 
+            const it: List.Iterator<IResolver> = this.queue_.insert(this.queue_.end(), 
             {
                 handler: (this.writing_ === 0)
                     ? null
@@ -248,8 +248,8 @@ export class SharedTimedMutex implements ISharedTimedLockable
     public async try_lock_shared_until(at: Date): Promise<boolean>
     {
         // COMPUTE MILLISECONDS TO WAIT
-        let now: Date = new Date();
-        let ms: number = at.getTime() - now.getTime();
+        const now: Date = new Date();
+        const ms: number = at.getTime() - now.getTime();
 
         return await this.try_lock_shared_for(ms);
     }
@@ -274,10 +274,10 @@ export class SharedTimedMutex implements ISharedTimedLockable
     private _Release(): void
     {
         // STEP TO THE NEXT LOCKS
-        let current: AccessType = this._Current_access_type()!;
-        let resolverList: IResolver[] = [];
+        const current: AccessType = this._Current_access_type()!;
+        const resolverList: IResolver[] = [];
 
-        for (let resolver of this.queue_)
+        for (const resolver of this.queue_)
         {
             // DIFFERENT ACCESS TYPE COMES?
             if (resolver.accessType !== current)
@@ -296,7 +296,7 @@ export class SharedTimedMutex implements ISharedTimedLockable
         }
 
         // CALL THE HANDLERS
-        for (let resolver of resolverList)
+        for (const resolver of resolverList)
             if (resolver.lockType === LockType.HOLD)
                 resolver.handler!();
             else
@@ -312,14 +312,14 @@ export class SharedTimedMutex implements ISharedTimedLockable
         this.queue_.erase(it);
 
         // EXTRACT HANDLER TO AVOID THE `this._Release()`
-        let handler: Function = it.value.handler!;
+        const handler: Function = it.value.handler!;
         it.value.handler = null;
 
         //----
         // POST-PROCESS
         //----
         // CHECK THE PREVIOUS RESOLVER
-        let prev: List.Iterator<IResolver> = it.prev();
+        const prev: List.Iterator<IResolver> = it.prev();
 
         // RELEASE IF IT IS THE LASTEST RESOLVER
         if (prev.equals(this.queue_.end()) === false && prev.value.handler === null)

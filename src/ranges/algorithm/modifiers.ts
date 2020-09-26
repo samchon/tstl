@@ -163,7 +163,7 @@ export function transform<
 export function transform<Range1 extends Array<any> | IForwardContainer<any>>
     (range1: Range1, ...args: any[]): any
 {
-    let fn: Function = base.transform.bind(undefined, begin(range1), end(range1));
+    const fn: Function = base.transform.bind(undefined, begin(range1), end(range1));
     if (args.length === 3)
         return fn(...args);
     else // args: #4
