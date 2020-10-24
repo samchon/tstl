@@ -18,12 +18,10 @@ import { Hasher } from "../functional/Hasher";
 export class MapHashBuckets<Key, T, 
         Unique extends boolean, 
         Source extends IHashMap<Key, T, Unique, Source>>
-    extends HashBuckets<IHashMap.Iterator<Key, T, Unique, Source>>
+    extends HashBuckets<Key, IHashMap.Iterator<Key, T, Unique, Source>>
 {
     private source_: IHashMap<Key, T, Unique, Source>;
-    
-    private hash_function_: Hasher<Key>;
-    private key_eq_: Comparator<Key>;
+    private readonly key_eq_: Comparator<Key>;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -32,15 +30,14 @@ export class MapHashBuckets<Key, T,
      * Initializer Constructor
      * 
      * @param source Source map container
-     * @param hash Hash function
+     * @param hasher Hash function
      * @param pred Equality function
      */
-    public constructor(source: IHashMap<Key, T, Unique, Source>, hash: Hasher<Key>, pred: Comparator<Key>)
+    public constructor(source: IHashMap<Key, T, Unique, Source>, hasher: Hasher<Key>, pred: Comparator<Key>)
     {
-        super();
+        super(fetcher, hasher);
 
         this.source_ = source;
-        this.hash_function_ = hash;
         this.key_eq_ = pred;
     }
 
@@ -52,37 +49,30 @@ export class MapHashBuckets<Key, T,
     {
         [x.source_, y.source_] = [y.source_, x.source_];
     }
-
-    /* ---------------------------------------------------------
-        ACCESSORS
-    --------------------------------------------------------- */
-    public hash_function(): Hasher<Key>
-    {
-        return this.hash_function_;
-    }
-
-    public key_eq(): Comparator<Key>
-    {
-        return this.key_eq_;
-    }
     
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
+    public key_eq(): Comparator<Key>
+    {
+        return this.key_eq_;
+    }
+
     public find(key: Key): IHashMap.Iterator<Key, T, Unique, Source>
     {
-        const index = this.hash_function_(key) % this.size();
-        const bucket = this.at(index);
+        const index: number = this.hash_function()(key) % this.length();
+        const bucket: IHashMap.Iterator<Key, T, Unique, Source>[] = this.at(index);
 
-        for (let it of bucket)
+        for (const it of bucket)
             if (this.key_eq_(it.first, key))
                 return it;
 
         return this.source_.end();
     }
+}
 
-    public hash_index(it: IHashMap.Iterator<Key, T, Unique, Source>): number
-    {
-        return this.hash_function_(it.first) % this.size();
-    }
+function fetcher<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
+    (elem: IHashMap.Iterator<Key, T, Unique, Source>): Key
+{
+    return elem.first;
 }

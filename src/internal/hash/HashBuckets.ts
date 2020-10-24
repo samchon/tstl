@@ -4,90 +4,99 @@
  * @module std.internal  
  */
 //================================================================
+
+import { Hasher } from "../functional/Hasher";
+
 /**
  * Hash buckets
  * 
  * @author Jeongho Nam - https://github.com/samchon
  */
-export abstract class HashBuckets<T>
+export class HashBuckets<Key, Elem>
 {
-    private buckets_!: T[][];
-    private item_size_!: number;
+    private readonly fetcher_: Fetcher<Key, Elem>;
+    private readonly hasher_: Hasher<Key>;
+
     private max_load_factor_: number;
+    private data_: Elem[][];
+    private size_: number;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
-    protected constructor()
+    public constructor(fetcher: Fetcher<Key, Elem>, hasher: Hasher<Key>)
     {
-        this.clear();
-        
+        this.fetcher_ = fetcher;
+        this.hasher_ = hasher;
+
         this.max_load_factor_ = DEFAULT_MAX_FACTOR;
+        this.data_ = [];
+        this.size_ = 0;
+
+        this.initialize();
     }
 
     public clear(): void
     {
-        this.buckets_ = [];
-        this.item_size_ = 0;
+        this.data_ = [];
+        this.size_ = 0;
 
-        for (let i: number = 0; i < MIN_BUCKET_COUNT; ++i)
-            this.buckets_.push([]);
+        this.initialize();
     }
 
-    public rehash(size: number): void
+    public rehash(length: number): void
     {
-        if (size < MIN_BUCKET_COUNT)
-            size = MIN_BUCKET_COUNT;
+        length = Math.max(length, MIN_BUCKET_COUNT);
 
-        const prev_matrix: T[][] = this.buckets_;
-        this.buckets_ = [];
+        const data: Elem[][] = [];
+        for (let i: number = 0; i < length; ++i)
+            data.push([]);
 
-        for (let i: number = 0; i < size; ++i)
-            this.buckets_.push([]);
-
-        for (const row of prev_matrix)
-            for (const col of row)
+        for (const row of this.data_)
+            for (const elem of row)
             {
-                const index: number = this.hash_index(col);
-                const bucket: T[] = this.buckets_[index];
-                
-                bucket.push(col);
-                ++this.item_size_;
+                const index: number = this.hasher_(this.fetcher_(elem)) % data.length;
+                data[index].push(elem);
             }
+        this.data_ = data;
     }
 
-    public reserve(size: number): void
+    public reserve(length: number): void
     {
-        this.item_size_ += size;
+        if (length > this.capacity())
+        {
+            length = Math.floor(length / this.max_load_factor_);
+            this.rehash(length);
+        }
+    }
 
-        if (this.item_size_ > this.capacity())
-            this.rehash(Math.max(this.item_size_, this.capacity() * 2));
+    private initialize(): void
+    {
+        for (let i: number = 0; i < MIN_BUCKET_COUNT; ++i)
+            this.data_.push([]);
     }
 
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
-    public abstract hash_index(val: T): number;
-
-    public size(): number
+    public length(): number
     {
-        return this.buckets_.length;
+        return this.data_.length;
     }
 
     public capacity(): number
     {
-        return this.buckets_.length * this.max_load_factor_;
+        return this.data_.length * this.max_load_factor_;
     }
 
-
-    public at(index: number): T[]
+    public at(index: number): Elem[]
     {
-        return this.buckets_[index];
+        return this.data_[index];
     }
 
     public load_factor(): number
     {
-        return this.item_size_ / this.size();
+        return this.size_ / this.length();
     }
 
     public max_load_factor(): number;
@@ -100,30 +109,39 @@ export abstract class HashBuckets<T>
             this.max_load_factor_ = z;
     }
 
+    public hash_function(): Hasher<Key>
+    {
+        return this.hasher_;
+    }
+
     /* ---------------------------------------------------------
         ELEMENTS I/O
     --------------------------------------------------------- */
-    public insert(val: T): void
+    private index(elem: Elem): number
     {
-        const capacity: number = this.capacity();
-        if (++this.item_size_ > capacity)
-            this.rehash(capacity * 2);
-
-        const index: number = this.hash_index(val);
-        this.buckets_[index].push(val);
+        return this.hasher_(this.fetcher_(elem)) % this.length();
     }
 
-    public erase(val: T): void
+    public insert(val: Elem): void
     {
-        const index: number = this.hash_index(val);
-        const bucket: T[] = this.buckets_[index];
+        const capacity: number = this.capacity();
+        if (++this.size_ > capacity)
+            this.reserve(capacity * 2);
+
+        const index: number = this.index(val);
+        this.data_[index].push(val);
+    }
+
+    public erase(val: Elem): void
+    {
+        const index: number = this.index(val);
+        const bucket: Elem[] = this.data_[index];
 
         for (let i: number = 0; i < bucket.length; ++i)
             if (bucket[i] === val)
             {
                 bucket.splice(i, 1);
-                --this.item_size_;
-
+                --this.size_;
                 break;
             }
     }
@@ -131,3 +149,5 @@ export abstract class HashBuckets<T>
 
 const MIN_BUCKET_COUNT = 10;
 const DEFAULT_MAX_FACTOR = 1.0;
+
+type Fetcher<Key, Elem> = (elem: Elem) => Key;

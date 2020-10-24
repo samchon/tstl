@@ -208,7 +208,7 @@ export class HashSet<Key>
      */
     public bucket_count(): number
     {
-        return this.buckets_.size();
+        return this.buckets_.length();
     }
 
     /**
@@ -248,7 +248,7 @@ export class HashSet<Key>
      */
     public bucket(key: Key): number
     {
-        return this.hash_function()(key) % this.buckets_.size();
+        return this.hash_function()(key) % this.buckets_.length();
     }
 
     /**
@@ -269,7 +269,7 @@ export class HashSet<Key>
      */
     public reserve(n: number): void
     {
-        this.buckets_.rehash(Math.ceil(n * this.max_load_factor()));
+        this.buckets_.reserve(n);
     }
 
     /**
@@ -277,9 +277,6 @@ export class HashSet<Key>
      */
     public rehash(n: number): void
     {
-        if (n <= this.bucket_count())
-            return;
-
         this.buckets_.rehash(n);
     }
     

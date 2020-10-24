@@ -228,7 +228,7 @@ export class HashMultiMap<Key, T>
      */
     public bucket_count(): number
     {
-        return this.buckets_.size();
+        return this.buckets_.length();
     }
 
     /**
@@ -268,7 +268,7 @@ export class HashMultiMap<Key, T>
      */
     public bucket(key: Key): number
     {
-        return this.hash_function()(key) % this.buckets_.size();
+        return this.hash_function()(key) % this.buckets_.length();
     }
 
     /**

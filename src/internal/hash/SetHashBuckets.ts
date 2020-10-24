@@ -16,22 +16,26 @@ import { Hasher } from "../functional/Hasher";
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class SetHashBuckets<Key, Unique extends boolean, Source extends IHashSet<Key, Unique, Source>>
-    extends HashBuckets<IHashSet.Iterator<Key, Unique, Source>>
+    extends HashBuckets<Key, IHashSet.Iterator<Key, Unique, Source>>
 {
     private source_: IHashSet<Key, Unique, Source>;
-
-    private hash_function_: Hasher<Key>;
-    private key_eq_: Comparator<Key>;
+    private readonly key_eq_: Comparator<Key>;
     
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
-    public constructor(source: IHashSet<Key, Unique, Source>, hash: Hasher<Key>, pred: Comparator<Key>)
+    /**
+     * Initializer Constructor
+     * 
+     * @param source Source set container
+     * @param hasher Hash function
+     * @param pred Equality function
+     */
+    public constructor(source: IHashSet<Key, Unique, Source>, hasher: Hasher<Key>, pred: Comparator<Key>)
     {
-        super();
+        super(fetcher, hasher);
 
         this.source_ = source;
-        this.hash_function_ = hash;
         this.key_eq_ = pred;
     }
 
@@ -45,35 +49,28 @@ export class SetHashBuckets<Key, Unique extends boolean, Source extends IHashSet
     }
 
     /* ---------------------------------------------------------
-        ACCESSORS
+        FINDERS
     --------------------------------------------------------- */
-    public hash_function(): Hasher<Key>
-    {
-        return this.hash_function_;
-    }
-    
     public key_eq(): Comparator<Key>
     {
         return this.key_eq_;
     }
 
-    /* ---------------------------------------------------------
-        FINDERS
-    --------------------------------------------------------- */
     public find(val: Key): IHashSet.Iterator<Key, Unique, Source>
     {
-        const index = this.hash_function_(val) % this.size();
-        const bucket = this.at(index);
+        const index: number = this.hash_function()(val) % this.length();
+        const bucket: IHashSet.Iterator<Key, Unique, Source>[] = this.at(index);
 
-        for (let it of bucket)
+        for (const it of bucket)
             if (this.key_eq_(it.value, val))
                 return it;
 
         return this.source_.end();
     }
+}
 
-    public hash_index(it: IHashSet.Iterator<Key, Unique, Source>): number
-    {
-        return this.hash_function_(it.value) % this.size();
-    }
+function fetcher<Key, Unique extends boolean, Source extends IHashSet<Key, Unique, Source>>
+    (elem: IHashSet.Iterator<Key, Unique, Source>): Key
+{
+    return elem.value;
 }

@@ -210,7 +210,7 @@ export class HashMap<Key, T>
      */
     public bucket_count(): number
     {
-        return this.buckets_.size();
+        return this.buckets_.length();
     }
 
     /**
@@ -250,7 +250,7 @@ export class HashMap<Key, T>
      */
     public bucket(key: Key): number
     {
-        return this.hash_function()(key) % this.buckets_.size();
+        return this.hash_function()(key) % this.buckets_.length();
     }
 
     /**
@@ -279,9 +279,6 @@ export class HashMap<Key, T>
      */
     public rehash(n: number): void
     {
-        if (n <= this.bucket_count())
-            return;
-
         this.buckets_.rehash(n);
     }
 
