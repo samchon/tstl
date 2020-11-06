@@ -112,6 +112,7 @@ export abstract class MapTree<Key, T,
     {
         return this.key_compare_;
     }
+    
     public key_eq(): Comparator<Key>
     {
         return this.key_eq_;    

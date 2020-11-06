@@ -38,18 +38,18 @@ export function sort<RandomAccessIterator extends General<IRandomAccessIterator<
         comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less
     ): void
 {
-    const size: number = last.index() - first.index();
-    if (size <= 0)
+    const length: number = last.index() - first.index();
+    if (length <= 0)
         return;
 
-    const pivot_it: RandomAccessIterator = first.advance(Math.floor(size / 2));
+    const pivot_it: RandomAccessIterator = first.advance(Math.floor(length / 2));
     const pivot: IPointer.ValueType<RandomAccessIterator> = pivot_it.value;
 
     if (pivot_it.index() !== first.index())
         iter_swap(first, pivot_it);
     
-        let i: number = 1;
-    for (let j: number = 1; j < size; ++j)
+    let i: number = 1;
+    for (let j: number = 1; j < length; ++j)
     {
         const j_it: RandomAccessIterator = first.advance(j);
         if (comp(j_it.value, pivot))
@@ -106,8 +106,8 @@ export function partial_sort<RandomAccessIterator extends General<IRandomAccessI
             if (comp(j.value, min.value))
                 min = j;
         
-            if (!i.equals(min))
-                iter_swap(i, min);
+        if (!i.equals(min))
+            iter_swap(i, min);
     }
 }
 

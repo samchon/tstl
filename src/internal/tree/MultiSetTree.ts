@@ -49,7 +49,7 @@ export class MultiSetTree<Key,
     --------------------------------------------------------- */
     private _Nearest_by_key
         (
-            val: Key, 
+            key: Key, 
             equal_mover: (node: XTreeNode<SetElementList.Iterator<Key, false, Source>>) => XTreeNode<SetElementList.Iterator<Key, false, Source>> | null
         ): XTreeNode<SetElementList.Iterator<Key, false, Source>> | null
     {
@@ -65,26 +65,26 @@ export class MultiSetTree<Key,
 
         while (true)
         {
-            const it: SetElementList.Iterator<Key, false, Source> = ret.value;
-            let my_node: XTreeNode<SetElementList.Iterator<Key, false, Source>> | null = null;
+            const candidate: SetElementList.Iterator<Key, false, Source> = ret.value;
+            let node: XTreeNode<SetElementList.Iterator<Key, false, Source>> | null = null;
 
             // COMPARE
-            if (this.key_comp()(val, it.value))
-                my_node = ret.left;
-            else if (this.key_comp()(it.value, val))
-                my_node = ret.right;
+            if (this.key_comp()(key, candidate.value))
+                node = ret.left;
+            else if (this.key_comp()(candidate.value, key))
+                node = ret.right;
             else
             {
                 // EQUAL, RESERVE THAT POINT
                 matched = ret;
-                my_node = equal_mover(ret);
+                node = equal_mover(ret);
             }
 
             // ULTIL CHILD NODE EXISTS
-            if (my_node === null)
+            if (node === null)
                 break;
             else
-                ret = my_node;
+                ret = node;
         }
 
         // RETURNS -> MATCHED OR NOT

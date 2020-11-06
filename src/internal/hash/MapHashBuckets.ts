@@ -33,7 +33,7 @@ export class MapHashBuckets<Key, T,
      * @param hasher Hash function
      * @param pred Equality function
      */
-    public constructor(source: IHashMap<Key, T, Unique, Source>, hasher: Hasher<Key>, pred: Comparator<Key>)
+    public constructor(source: Source, hasher: Hasher<Key>, pred: Comparator<Key>)
     {
         super(fetcher, hasher);
 

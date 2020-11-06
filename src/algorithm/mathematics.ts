@@ -23,7 +23,6 @@ import { Temporary } from "../internal/functional/Temporary";
     MATHMATICS
         - MIN & MAX
         - PERMUTATION
-        - MISCELLANEOUS
 ============================================================
     MIN & MAX
 --------------------------------------------------------- */
@@ -247,28 +246,27 @@ export function prev_permutation<BidirectionalIterator extends General<IBidirect
     if (first.equals(last) === true)
         return false;
 
-        let i: BidirectionalIterator = last.prev();
-    if (first.equals(i) === true)
+    let previous: BidirectionalIterator = last.prev();
+    if (first.equals(previous) === true)
         return false;
 
     while (true)
     {
-        let x: BidirectionalIterator = i;
-        let y: BidirectionalIterator;
+        let x: BidirectionalIterator = previous;
+        previous = previous.prev();
 
-        i = i.prev();
-        if (comp(x.value, i.value) === true)
+        if (comp(x.value, previous.value) === true)
         {
-            y = last.prev();
-            while (comp(y.value, i.value) === false)
+            let y: BidirectionalIterator = last.prev();
+            while (comp(y.value, previous.value) === false)
                 y = y.prev();
             
-            iter_swap(i, y);
+            iter_swap(previous, y);
             reverse(x, last);
             return true;
         }
 
-        if (i.equals(first) === true)
+        if (previous.equals(first) === true)
         {
             reverse(first, last);
             return false;
@@ -294,28 +292,27 @@ export function next_permutation<BidirectionalIterator extends General<IBidirect
     if (first.equals(last) === true)
         return false;
 
-        let i: BidirectionalIterator = last.prev();
-    if (first.equals(i) === true)
+    let previous: BidirectionalIterator = last.prev();
+    if (first.equals(previous) === true)
         return false;
 
     while (true)
     {
-        const x: BidirectionalIterator = i;
-        let y: BidirectionalIterator;
+        const x: BidirectionalIterator = previous;
+        previous = previous.prev();
 
-        i = i.prev();
-        if (comp(i.value, x.value) === true)
+        if (comp(previous.value, x.value) === true)
         {
-            y = last.prev();
-            while (comp(i.value, y.value) === false)
+            let y: BidirectionalIterator = last.prev();
+            while (comp(previous.value, y.value) === false)
                 y = y.prev();
             
-            iter_swap(i, y);
+            iter_swap(previous, y);
             reverse(x, last);
             return true;
         }
 
-        if (i.equals(first) === true)
+        if (previous.equals(first) === true)
         {
             reverse(first, last);
             return false;

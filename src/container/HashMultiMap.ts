@@ -93,7 +93,7 @@ export class HashMultiMap<Key, T>
             this, HashMultiMap, 
             (hash, pred) =>
             {
-                this.buckets_ = new MapHashBuckets(this, hash, pred);
+                this.buckets_ = new MapHashBuckets(this as HashMultiMap<Key, T>, hash, pred);
             },
             ...args
         );

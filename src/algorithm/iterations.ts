@@ -435,7 +435,7 @@ export function adjacent_find<InputIterator extends Readonly<IForwardIterator<IP
 
         while (!next.equals(last))
         {
-            if (pred(first.value, last.value))
+            if (pred(first.value, next.value))
                 return first;
 
             first = first.next();
@@ -503,13 +503,13 @@ export function search<
 
         while (pred(it1.value, it2.value))
         {
-            it1 = it1.next();
-            it2 = it2.next();
-
             if (it2.equals(last2))
                 return first1;
             else if (it1.equals(last1))
                 return last1;
+
+            it1 = it1.next();
+            it2 = it2.next();
         }
     }
     return last1;

@@ -256,7 +256,6 @@ export function set_difference<
             first1 = first1.next();
             first2 = first2.next();
         }
-    // return output;
     return copy(first1, last1, output);
 }
 

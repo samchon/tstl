@@ -187,7 +187,7 @@ export class Deque<T>
     {
         // NEW MEMBERS TO BE ASSSIGNED
         const matrix: T[][] = [[]];
-        const col_size: number = this._Compute_col_size(n);
+        const length: number = this._Compute_col_size(n);
 
         //--------
         // RE-FILL
@@ -199,7 +199,7 @@ export class Deque<T>
             for (let c: number = 0; c < row.length; ++c)
             {
                 let new_row: T[] = matrix[matrix.length - 1];
-                if (matrix.length < Deque.ROW_SIZE && new_row.length === col_size)
+                if (matrix.length < Deque.ROW_SIZE && new_row.length === length)
                 {
                     new_row = [];
                     matrix.push(new_row);

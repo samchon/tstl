@@ -61,8 +61,8 @@ export function push_heap<RandomAccessIterator extends General<IRandomAccessIter
         comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less
     ): void
 {
-    const tempBottom: IPointer.ValueType<RandomAccessIterator> = last.prev().value;
-    _Promote_heap(first, 0, distance(first, last) - 1, tempBottom, comp);
+    const temp: IPointer.ValueType<RandomAccessIterator> = last.prev().value;
+    _Promote_heap(first, 0, distance(first, last) - 1, temp, comp);
 }
 
 /**
@@ -79,10 +79,11 @@ export function pop_heap<RandomAccessIterator extends General<IRandomAccessItera
         comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less
     ): void
 {
-    const tempBottom: IPointer.ValueType<RandomAccessIterator> = last.prev().value;
-    last.prev().value = first.value;
+    const bottom: RandomAccessIterator = last.prev();
+    const temp: IPointer.ValueType<RandomAccessIterator> = bottom.value;
 
-    _Adjust_heap(first, 0, distance(first, last) - 1, 0, tempBottom, comp);
+    bottom.value = first.value;
+    _Adjust_heap(first, 0, distance(first, last) - 1, 0, temp, comp);
 }
 
 /* ---------------------------------------------------------

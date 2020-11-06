@@ -2,19 +2,37 @@ import * as std from "../../index";
 
 export function test_priority_queue(): void
 {
-    const pq = new std.PriorityQueue<number>(std.greater);
-    for (let i: number = 0; i < 1000; ++i)
-        pq.push(Math.random() * 100);
+    const adaptor: std.PriorityQueue<number> = new std.PriorityQueue();
 
-    const items: std.Vector<number> = new std.Vector();
-    while (pq.empty() === false)
-    {
-        items.push_back(pq.top());
-        pq.pop();
-    }
+    // const elements: number[] = [];
+    for (let i: number = 0; i < 10; ++i)
+        for (let j: number = 0; j < 4; ++j)
+            adaptor.push(i);
+    // std.ranges.shuffle(elements);
 
-    if (std.is_sorted(std.begin(items), std.end(items), std.less) === false)
-        throw new Error("Bug on PriorityQueue: stored elements are not sorted");
+    for (let i = 0; i < 10; ++i)
+        adaptor.pop();
+    for (const elem of adaptor["source_"])
+        console.log(elem);
+
+    // while (elements.length !== 0)
+    // {
+    //     const index: number = std.randint(0, elements.length - 1);
+    //     const value: number = elements[index];
+
+    //     adaptor.push(value);
+    //     elements.splice(index, 1);
+    // }
+
+    // let previous: number = 1000;
+    // while (adaptor.empty() === false)
+    // {
+    //     if (previous < adaptor.top())
+    //         throw new Error("Bug on PriorityQueue: elements are not reversly sorted - " + previous.toString() + " < " + adaptor.top().toString());
+        
+    //     previous = adaptor.top();
+    //     adaptor.pop();
+    // }
 }
 
 export function test_adaptors(): void

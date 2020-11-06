@@ -93,7 +93,7 @@ export class HashMap<Key, T>
             this, HashMap, 
             (hash, pred) =>
             {
-                this.buckets_ = new MapHashBuckets(this, hash, pred);
+                this.buckets_ = new MapHashBuckets(this as HashMap<Key, T>, hash, pred);
             },
             ...args
         );
