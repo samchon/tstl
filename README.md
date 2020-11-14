@@ -98,24 +98,21 @@ npm install --save tstl
 
 ### Usage
 ``` typescript
-import std = require("tstl");
+import std from "tstl";
 
 function main(): void
 {
     const map: std.TreeMap<number, string> = new std.TreeMap();
 
-    // INSERT ITEMS
-    map.insert(std.make_pair(1, "First")); // Via tuple
-    map.emplace(4, "Fourth"); // C++11 Feature
-    map.insert_or_assign(5, "Fifth"); // C++17 Feature
-    map.set(9, "Nineth"); // Instead of the operetor[](Key)
+    map.emplace(1, "First");
+    map.emplace(4, "Fourth");
+    map.emplace(5, "Fifth");
+    map.set(9, "Nineth");
 
-    // ITERATION
     for (let it = map.begin(); !it.equals(map.end()); it = it.next())
-        console.log(it.first, it.second); // (key => number, value => string)
+        console.log(it.first, it.second);
 
-    // LOWER_BOUND
-    const x = map.lower_bound(3);
+    const it: std.TreeMap.Iterator<number, string> = map.lower_bound(3);
     console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
 }
 main();
@@ -133,6 +130,7 @@ main();
     - [API Documents](http://tstl.dev/api)
     - [Release Notes](https://github.com/samchon/tstl/releases)
   - **Extensions**
+    - [ASTL](https://github.com/samchon/astl) - C++ STL for AssemblyScript
     - [ECol](https://github.com/samchon/ecol) - Collections dispatching events
     - [**TGrid**](https://github.com/samchon/tgrid) - Network & Thread extension
     - [Mutex-Server](https://github.com/samchon/mutex-server) - Critical sections in the network level
