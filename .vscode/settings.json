@@ -1,0 +1,10 @@
+{
+    "files.exclude": {
+        "node_modules": true,
+        "package-lock.json": true,
+        "**/*.d.ts": true,
+        "**/*.d.ts.map": true,
+        "**/*.js": true,
+        "**/*.js.map": true,
+    }
+}

@@ -1,4 +1,10 @@
+.git/
+.github/
+.vscode/
+
 test/
-benchmark/
+tsconfig.json
+package-lock.json
 
 *.js.map
+*.ts

@@ -1,0 +1,18 @@
+import { IForwardContainer } from "../container/IForwardContainer";
+import { IForwardIterator } from "../../iterator/IForwardIterator";
+import { IPointer } from "../../functional/IPointer";
+import { Writeonly } from "../../internal/functional/Writeonly";
+declare type UnaryTransformer<Range extends Array<any> | IForwardContainer<any>, OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>> = (val: IForwardContainer.ValueType<Range>) => IPointer.ValueType<OutputIterator>;
+declare type BinaryTransformer<OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>> = (x: IPointer.ValueType<OutputIterator>, y: IPointer.ValueType<OutputIterator>) => IPointer.ValueType<OutputIterator>;
+declare type Operator<Range1 extends Array<any> | IForwardContainer<any>, Range2 extends Array<any> | IForwardContainer<any> = Range1> = (x: IForwardContainer.ValueType<Range1>, y: IForwardContainer.ValueType<Range2>) => IForwardContainer.ValueType<Range1>;
+export declare function iota<Range extends Array<any> | IForwardContainer<IForwardIterator<number, any>>>(range: Range, value: number): void;
+export declare function accumulate<Range extends Array<any> | IForwardContainer<any>>(range: Range, init: IForwardContainer.ValueType<Range>, op?: Operator<Range>): IForwardContainer.ValueType<Range>;
+export declare function inner_product<Range1 extends Array<any> | IForwardContainer<any>, Range2 extends Array<any> | IForwardContainer<any>>(range1: Range1, range2: Range2, value: IForwardContainer.ValueType<Range1>, adder?: Operator<Range1>, multiplier?: Operator<Range1, Range2>): IForwardContainer.ValueType<Range1>;
+export declare function adjacent_difference<Range extends Array<any> | IForwardContainer<any>, OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>(range: Range, output: OutputIterator, subtracter?: Operator<Range>): OutputIterator;
+export declare function partial_sum<Range extends Array<any> | IForwardContainer<any>, OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>(range: Range, output: OutputIterator, adder?: Operator<Range>): OutputIterator;
+export declare function inclusive_scan<Range extends Array<any> | IForwardContainer<any>, OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>(range: Range, output: OutputIterator, adder?: Operator<Range>, init?: IForwardContainer.ValueType<Range>): OutputIterator;
+export declare function exclusive_scan<Range extends Array<any> | IForwardContainer<any>, OutputIterator extends Writeonly<IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator>>>(range: Range, output: OutputIterator, init: IForwardContainer.ValueType<Range>, adder?: Operator<Range>): OutputIterator;
+export declare function transform_inclusive_scan<Range extends Array<any> | IForwardContainer<any>, OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>(range: Range, output: OutputIterator, binary: BinaryTransformer<OutputIterator>, unary: UnaryTransformer<Range, OutputIterator>, init?: IForwardContainer.ValueType<Range>): OutputIterator;
+export declare function transform_exclusive_scan<Range extends Array<any> | IForwardContainer<any>, OutputIterator extends IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>>(range: Range, output: OutputIterator, init: IForwardContainer.ValueType<Range>, binary: BinaryTransformer<OutputIterator>, unary: UnaryTransformer<Range, OutputIterator>): OutputIterator;
+export {};
+//# sourceMappingURL=operations.d.ts.map

@@ -1,0 +1,12 @@
+/**
+ * @packageDocumentation
+ * @module std.internal
+ */
+import { IArrayContainer } from "../../base/container/IArrayContainer";
+import { ArrayReverseIteratorBase } from "./ArrayReverseIteratorBase";
+import { ArrayContainer } from "../container/linear/ArrayContainer";
+import { ArrayIterator } from "./ArrayIterator";
+export declare class ArrayReverseIterator<T, SourceT extends ArrayContainer<T, SourceT, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>, T>> extends ArrayReverseIteratorBase<T, SourceT, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>, T> implements IArrayContainer.ReverseIterator<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>> {
+    protected _Create_neighbor(base: ArrayIterator<T, SourceT>): ArrayReverseIterator<T, SourceT>;
+}
+//# sourceMappingURL=ArrayReverseIterator.d.ts.map
