@@ -9,7 +9,7 @@ import { IHashMap } from "../base/container/IHashMap";
 import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
 import { MapElementList } from "../internal/container/associative/MapElementList";
-import { MapHashBuckets } from "../internal/hash/MapHashBuckets";
+import { HashBuckets } from "../internal/hash/HashBuckets";
 
 import { NativeArrayIterator } from "../internal/iterator/disposable/NativeArrayIterator";
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -32,7 +32,7 @@ export class HashMultiMap<Key, T>
         HashMultiMap.ReverseIterator<Key, T>>
     implements IHashMap<Key, T, false, HashMultiMap<Key, T>>
 {
-    private buckets_!: MapHashBuckets<Key, T, false, HashMultiMap<Key, T>>;
+    private buckets_!: HashBuckets<Key, HashMultiMap.Iterator<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -93,7 +93,7 @@ export class HashMultiMap<Key, T>
             this, HashMultiMap, 
             (hash, pred) =>
             {
-                this.buckets_ = new MapHashBuckets(this as HashMultiMap<Key, T>, hash, pred);
+                this.buckets_ = new HashBuckets(it => it.first, hash, pred);
             },
             ...args
         );
@@ -118,11 +118,10 @@ export class HashMultiMap<Key, T>
     public swap(obj: HashMultiMap<Key, T>): void
     {
         // SWAP CONTENTS
-        [this.data_, obj.data_] = [obj.data_, this.data_];
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
 
         // SWAP BUCKETS
-        MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -138,7 +137,8 @@ export class HashMultiMap<Key, T>
      */
     public find(key: Key): HashMultiMap.Iterator<Key, T>
     {
-        return this.buckets_.find(key);
+        const it: HashMultiMap.Iterator<Key, T> | null = this.buckets_.find(key);
+        return (it !== null) ? it : this.end();
     }
 
     /**
@@ -228,7 +228,7 @@ export class HashMultiMap<Key, T>
      */
     public bucket_count(): number
     {
-        return this.buckets_.length();
+        return this.buckets_.row_size();
     }
 
     /**
@@ -268,7 +268,7 @@ export class HashMultiMap<Key, T>
      */
     public bucket(key: Key): number
     {
-        return this.hash_function()(key) % this.buckets_.length();
+        return this.hash_function()(key) % this.buckets_.row_size();
     }
 
     /**

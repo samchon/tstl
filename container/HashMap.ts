@@ -9,7 +9,7 @@ import { IHashMap } from "../base/container/IHashMap";
 import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
 import { MapElementList } from "../internal/container/associative/MapElementList";
-import { MapHashBuckets } from "../internal/hash/MapHashBuckets";
+import { HashBuckets } from "../internal/hash/HashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPair } from "../utility/IPair";
@@ -32,7 +32,7 @@ export class HashMap<Key, T>
         HashMap.ReverseIterator<Key, T>>
     implements IHashMap<Key, T, true, HashMap<Key, T>>
 {
-    private buckets_!: MapHashBuckets<Key, T, true, HashMap<Key, T>>;
+    private buckets_!: HashBuckets<Key, HashMap.Iterator<Key, T>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -93,7 +93,7 @@ export class HashMap<Key, T>
             this, HashMap, 
             (hash, pred) =>
             {
-                this.buckets_ = new MapHashBuckets(this as HashMap<Key, T>, hash, pred);
+                this.buckets_ = new HashBuckets(it => it.first, hash, pred);
             },
             ...args
         );
@@ -118,11 +118,10 @@ export class HashMap<Key, T>
     public swap(obj: HashMap<Key, T>): void
     {
         // SWAP CONTENTS
-        [this.data_, obj.data_] = [obj.data_, this.data_];
         MapElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
 
         // SWAP BUCKETS
-        MapHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -138,7 +137,8 @@ export class HashMap<Key, T>
      */
     public find(key: Key): HashMap.Iterator<Key, T>
     {
-        return this.buckets_.find(key);
+        const it: HashMap.Iterator<Key, T> | null = this.buckets_.find(key);
+        return (it !== null) ? it : this.end();
     }
 
     /**
@@ -210,7 +210,7 @@ export class HashMap<Key, T>
      */
     public bucket_count(): number
     {
-        return this.buckets_.length();
+        return this.buckets_.row_size();
     }
 
     /**
@@ -250,7 +250,7 @@ export class HashMap<Key, T>
      */
     public bucket(key: Key): number
     {
-        return this.hash_function()(key) % this.buckets_.length();
+        return this.hash_function()(key) % this.buckets_.row_size();
     }
 
     /**

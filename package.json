@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "3.0.0-dev.20201116",
+  "version": "3.0.0-dev.20201227",
   "main": "./index.js",
   "typings": "./index.ts",
   "scripts": {
@@ -15,7 +15,7 @@
     "benchmark": "node benchmark",
     "build": "npm run compile && npm run test",
     "compile": "tsc",
-    "dev": "tsc --watch",
+    "dev": "tsc --watch --noEmit",
     "test": "node test"
   },
   "dependencies": {

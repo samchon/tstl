@@ -9,7 +9,7 @@ import { IHashSet } from "../base/container/IHashSet";
 import { IHashContainer } from "../internal/container/associative/IHashContainer";
 
 import { SetElementList } from "../internal/container/associative/SetElementList";
-import { SetHashBuckets } from "../internal/hash/SetHashBuckets";
+import { HashBuckets } from "../internal/hash/HashBuckets";
 
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
@@ -28,7 +28,7 @@ export class HashMultiSet<Key>
         HashMultiSet.ReverseIterator<Key>>
     implements IHashSet<Key, false, HashMultiSet<Key>>
 {
-    private buckets_!: SetHashBuckets<Key, false, HashMultiSet<Key>>;
+    private buckets_!: HashBuckets<Key, HashMultiSet.Iterator<Key>>;
 
     /* =========================================================
         CONSTRUCTORS & SEMI-CONSTRUCTORS
@@ -89,7 +89,7 @@ export class HashMultiSet<Key>
             this, HashMultiSet, 
             (hash, pred) =>
             {
-                this.buckets_ = new SetHashBuckets(this, hash, pred);
+                this.buckets_ = new HashBuckets(it => it.value, hash, pred);
             },
             ...args
         );
@@ -114,11 +114,10 @@ export class HashMultiSet<Key>
     public swap(obj: HashMultiSet<Key>): void
     {
         // SWAP CONTENTS
-        [this.data_, obj.data_] = [obj.data_, this.data_];
         SetElementList._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
+        [this.data_, obj.data_] = [obj.data_, this.data_];
 
         // SWAP BUCKETS
-        SetHashBuckets._Swap_source(this.buckets_, obj.buckets_);
         [this.buckets_, obj.buckets_] = [obj.buckets_, this.buckets_];
     }
 
@@ -134,7 +133,8 @@ export class HashMultiSet<Key>
      */
     public find(key: Key): HashMultiSet.Iterator<Key>
     {
-        return this.buckets_.find(key);
+        const it: HashMultiSet.Iterator<Key> | null = this.buckets_.find(key);
+        return (it !== null) ? it : this.end();
     }
 
     /**
@@ -224,7 +224,7 @@ export class HashMultiSet<Key>
      */
     public bucket_count(): number
     {
-        return this.buckets_.length();
+        return this.buckets_.row_size();
     }
 
     /**
@@ -264,7 +264,7 @@ export class HashMultiSet<Key>
      */
     public bucket(key: Key): number
     {
-        return this.hash_function()(key) % this.buckets_.length();
+        return this.hash_function()(key) % this.buckets_.row_size();
     }
 
     /**

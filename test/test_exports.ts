@@ -17,7 +17,7 @@ async function from_dynamic(map: index.HashMap<object, string>, path: string): P
 
         if (stats.isDirectory() && ArrayUtil.has(HELPERS, current) === false && ArrayUtil.has(EXCLUDES, file) === false)
             await from_dynamic(map, current);
-        else if (file.substr(-3) === __filename.substr(-3) && __filename.substr(-5) !== ".d.ts")
+        else if (file.substr(-3) === __filename.substr(-3) && file.substr(-5) !== ".d.ts")
         {
             const elem: any = await import(current);
             for (const key in elem)

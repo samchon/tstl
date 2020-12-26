@@ -35,7 +35,7 @@ async function iterate(command: ICommand, path: string): Promise<void>
             await iterate(command, currentPath);
             continue;
         }
-        else if (file.substr(-3) !== `.${EXTENSION}` || currentPath === `${__dirname}/index.${EXTENSION}`)
+        else if (file.substr(-3) !== `.${EXTENSION}` || file.substr(-5) === ".d.ts" || currentPath === `${__dirname}/index.${EXTENSION}`)
             continue;
 
         const external: IModule = await import(currentPath.substr(0, currentPath.length - 3));
