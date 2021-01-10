@@ -1,5 +1,9 @@
 # TypeScript Standard Template Library
-![Make STL Great Again](https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png)
+![TSTL logo](https://raw.githubusercontent.com/samchon/logos/master/tstl.svg)
+
+```bash
+npm install --save tstl
+```
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samchon/tstl/blob/master/LICENSE)
 [![npm version](https://badge.fury.io/js/tstl.svg)](https://www.npmjs.com/package/tstl)

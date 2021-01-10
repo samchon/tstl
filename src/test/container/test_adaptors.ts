@@ -4,35 +4,33 @@ export function test_priority_queue(): void
 {
     const adaptor: std.PriorityQueue<number> = new std.PriorityQueue();
 
-    // const elements: number[] = [];
+    const elements: number[] = [];
     for (let i: number = 0; i < 10; ++i)
         for (let j: number = 0; j < 4; ++j)
             adaptor.push(i);
-    // std.ranges.shuffle(elements);
+    std.ranges.shuffle(elements);
 
     for (let i = 0; i < 10; ++i)
         adaptor.pop();
-    for (const elem of adaptor["source_"])
-        console.log(elem);
 
-    // while (elements.length !== 0)
-    // {
-    //     const index: number = std.randint(0, elements.length - 1);
-    //     const value: number = elements[index];
+    while (elements.length !== 0)
+    {
+        const index: number = std.randint(0, elements.length - 1);
+        const value: number = elements[index];
 
-    //     adaptor.push(value);
-    //     elements.splice(index, 1);
-    // }
+        adaptor.push(value);
+        elements.splice(index, 1);
+    }
 
-    // let previous: number = 1000;
-    // while (adaptor.empty() === false)
-    // {
-    //     if (previous < adaptor.top())
-    //         throw new Error("Bug on PriorityQueue: elements are not reversly sorted - " + previous.toString() + " < " + adaptor.top().toString());
+    let previous: number = 1000;
+    while (adaptor.empty() === false)
+    {
+        if (previous < adaptor.top())
+            throw new Error("Bug on PriorityQueue: elements are not reversly sorted - " + previous.toString() + " < " + adaptor.top().toString());
         
-    //     previous = adaptor.top();
-    //     adaptor.pop();
-    // }
+        previous = adaptor.top();
+        adaptor.pop();
+    }
 }
 
 export function test_adaptors(): void
