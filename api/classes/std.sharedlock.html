@@ -123,7 +123,7 @@
 					<div class="tsd-signature tsd-kind-icon">Closure<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedLock.ts#L182">thread/SharedLock.ts:182</a></li>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/SharedLock.ts#L182">thread/SharedLock.ts:182</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -160,7 +160,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedLock.ts#L53">thread/SharedLock.ts:53</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/SharedLock.ts#L53">thread/SharedLock.ts:53</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -219,7 +219,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedLock.ts#L88">thread/SharedLock.ts:88</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/SharedLock.ts#L88">thread/SharedLock.ts:88</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -280,7 +280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedLock.ts#L128">thread/SharedLock.ts:128</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/SharedLock.ts#L128">thread/SharedLock.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -288,9 +288,9 @@
 									<p>Tries to read lock a shared mutex with your business until timeout.</p>
 								</div>
 								<p>Attemps to share a mutex until timeout. If succeeded to share the mutex until timeout, it
-									returns <code>true</code> after calling the <em>closure*. Otherwise failed to acquiring the shared lock
-										in the given time, the function gives up the trial and returns <code>false</code> without calling the
-								*closure</em>.</p>
+									returns <code>true</code> after calling the <em>closure</em>. Otherwise failed to acquiring the shared lock
+									in the given time, the function gives up the trial and returns <code>false</code> without calling the
+								<em>closure</em>.</p>
 								<p>Failed to acquring the shared lock in the given time (returns <code>false</code>), it means that
 									there&#39;s someone who has already <a href="../interfaces/std.base-1.ilockable.html#lock">monopolied</a> the mutex and does not
 								return it over the timeout.</p>
@@ -350,7 +350,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/SharedLock.ts#L168">thread/SharedLock.ts:168</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/SharedLock.ts#L168">thread/SharedLock.ts:168</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -358,9 +358,9 @@
 									<p>Tries to read lock a shared mutex with your business until time expiration.</p>
 								</div>
 								<p>Attemps to share a mutex until time expiration. If succeeded to share the mutex until the
-									time expiration, it returns <code>true</code> after calling the <em>closure*. Otherwise failed to
-										acquiring the shared lock in the given time, the function gives up the trial and returns
-								<code>false</code> without calling the *closure</em>.</p>
+									time expiration, it returns <code>true</code> after calling the <em>closure</em>. Otherwise failed to
+									acquiring the shared lock in the given time, the function gives up the trial and returns
+								<code>false</code> without calling the <em>closure</em>.</p>
 								<p>Failed to acquring the shared lock in the given time (returns <code>false</code>), it means that
 									there&#39;s someone who has already <a href="../interfaces/std.base-1.ilockable.html#lock">monopolied</a> the mutex and does not
 								return it over the time expiration.</p>

@@ -67,7 +67,8 @@
 				<a href="#typescript-standard-template-library" id="typescript-standard-template-library" style="color: inherit; text-decoration: none;">
 					<h1>TypeScript Standard Template Library</h1>
 				</a>
-				<p><img src="https://user-images.githubusercontent.com/13158709/59512339-799c6300-8ef3-11e9-961c-64f32432646f.png" alt="Make STL Great Again"></p>
+				<p><img src="https://raw.githubusercontent.com/samchon/logos/master/tstl.svg" alt="TSTL logo"></p>
+				<pre><code class="language-bash">npm install --save tstl</code></pre>
 				<p><a href="https://github.com/samchon/tstl/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="GitHub license"></a>
 					<a href="https://www.npmjs.com/package/tstl"><img src="https://badge.fury.io/js/tstl.svg" alt="npm version"></a>
 					<a href="https://www.npmjs.com/package/tstl"><img src="https://img.shields.io/npm/dm/tstl.svg" alt="Downloads"></a>
@@ -81,7 +82,7 @@
 					<li>Algorithms</li>
 					<li>Functors</li>
 				</ul>
-				<p><strong>TSTL</strong> is an open-source project providing features of STL, migrated from <em>C++</em> to <em>TypeScript*. You can enjoy the STL&#39;s own specific *containers</em>, <em>algorithms</em> and <em>functors</em> in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.</p>
+				<p><strong>TSTL</strong> is an open-source project providing features of STL, migrated from <em>C++</em> to <em>TypeScript</em>. You can enjoy the STL&#39;s own specific <em>containers</em>, <em>algorithms</em> and <em>functors</em> in the JavaScript. If TypeScript, you also can take advantage of type restrictions and generic programming with the TypeScript.</p>
 				<p>Below components are list of provided objects in the <strong>TSTL</strong>. If you want to know more about the <strong>TSTL</strong>, then please read the <a href="https://github.com/samchon/tstl/wiki"><strong>Guide Documents</strong></a>.</p>
 				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 					<h2>Features</h2>
@@ -197,24 +198,21 @@ npm install --save tstl</code></pre>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h3>Usage</h3>
 				</a>
-				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> std = <span class="hljs-built_in">require</span>(<span class="hljs-string">&quot;tstl&quot;</span>);
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> std <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;tstl&quot;</span>;
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">main</span>(<span class="hljs-params"></span>): <span class="hljs-title">void</span>
 </span>{
-    <span class="hljs-keyword">let</span> map: std.TreeMap&lt;<span class="hljs-built_in">number</span>, <span class="hljs-built_in">string</span>&gt; = <span class="hljs-keyword">new</span> std.TreeMap();
+    <span class="hljs-keyword">const</span> map: std.TreeMap&lt;<span class="hljs-built_in">number</span>, <span class="hljs-built_in">string</span>&gt; = <span class="hljs-keyword">new</span> std.TreeMap();
 
-    <span class="hljs-comment">// INSERT ITEMS</span>
-    map.insert(std.make_pair(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;First&quot;</span>)); <span class="hljs-comment">// Via tuple</span>
-    map.emplace(<span class="hljs-number">4</span>, <span class="hljs-string">&quot;Fourth&quot;</span>); <span class="hljs-comment">// C++11 Feature</span>
-    map.insert_or_assign(<span class="hljs-number">5</span>, <span class="hljs-string">&quot;Fifth&quot;</span>); <span class="hljs-comment">// C++17 Feature</span>
-    map.set(<span class="hljs-number">9</span>, <span class="hljs-string">&quot;Nineth&quot;</span>); <span class="hljs-comment">// Instead of the operetor[](Key)</span>
+    map.emplace(<span class="hljs-number">1</span>, <span class="hljs-string">&quot;First&quot;</span>);
+    map.emplace(<span class="hljs-number">4</span>, <span class="hljs-string">&quot;Fourth&quot;</span>);
+    map.emplace(<span class="hljs-number">5</span>, <span class="hljs-string">&quot;Fifth&quot;</span>);
+    map.set(<span class="hljs-number">9</span>, <span class="hljs-string">&quot;Nineth&quot;</span>);
 
-    <span class="hljs-comment">// ITERATION</span>
     <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> it = map.begin(); !it.equals(map.end()); it = it.next())
-        <span class="hljs-built_in">console</span>.log(it.first, it.second); <span class="hljs-comment">// (key =&gt; number, value =&gt; string)</span>
+        <span class="hljs-built_in">console</span>.log(it.first, it.second);
 
-    <span class="hljs-comment">// LOWER_BOUND</span>
-    <span class="hljs-keyword">let</span> x = map.lower_bound(<span class="hljs-number">3</span>);
+    <span class="hljs-keyword">const</span> it: std.TreeMap.Iterator&lt;<span class="hljs-built_in">number</span>, <span class="hljs-built_in">string</span>&gt; = map.lower_bound(<span class="hljs-number">3</span>);
     <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`lower bound of 3 is: <span class="hljs-subst">${x.first}</span>, <span class="hljs-subst">${x.second}</span>`</span>);
 }
 main();</code></pre>
@@ -234,8 +232,10 @@ main();</code></pre>
 						</ul>
 					</li>
 					<li><strong>Extensions</strong><ul>
+							<li><a href="https://github.com/samchon/astl">ASTL</a> - C++ STL for AssemblyScript</li>
 							<li><a href="https://github.com/samchon/ecol">ECol</a> - Collections dispatching events</li>
 							<li><a href="https://github.com/samchon/tgrid"><strong>TGrid</strong></a> - Network &amp; Thread extension</li>
+							<li><a href="https://github.com/samchon/mutex-server">Mutex-Server</a> - Critical sections in the network level</li>
 						</ul>
 					</li>
 				</ul>

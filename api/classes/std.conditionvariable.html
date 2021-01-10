@@ -127,7 +127,7 @@
 					<div class="tsd-signature tsd-kind-icon">Predicator<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L225">thread/ConditionVariable.ts:225</a></li>
+							<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L225">thread/ConditionVariable.ts:225</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -164,7 +164,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L21">thread/ConditionVariable.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L21">thread/ConditionVariable.ts:21</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -189,7 +189,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L198">thread/ConditionVariable.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L198">thread/ConditionVariable.ts:198</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -211,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L178">thread/ConditionVariable.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L178">thread/ConditionVariable.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -234,7 +234,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L40">thread/ConditionVariable.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L40">thread/ConditionVariable.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -247,7 +247,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L54">thread/ConditionVariable.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L54">thread/ConditionVariable.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -282,7 +282,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L71">thread/ConditionVariable.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L71">thread/ConditionVariable.ts:71</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -305,7 +305,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L91">thread/ConditionVariable.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L91">thread/ConditionVariable.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -313,7 +313,7 @@
 									<p>Wait until timeout or predicator returns true.</p>
 								</div>
 								<p>This method is equivalent to:</p>
-								<pre><code class="language-typescript"><span class="hljs-keyword">let</span> at: <span class="hljs-built_in">Date</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-built_in">Date</span>.now() + ms);
+								<pre><code class="language-typescript"><span class="hljs-keyword">const</span> at: <span class="hljs-built_in">Date</span> = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(<span class="hljs-built_in">Date</span>.now() + ms);
 <span class="hljs-keyword">while</span> (!<span class="hljs-keyword">await</span> predicator())
 {
 <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">await</span> <span class="hljs-built_in">this</span>.wait_until(at))
@@ -352,7 +352,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L105">thread/ConditionVariable.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L105">thread/ConditionVariable.ts:105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -375,7 +375,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/samchon/tstl/blob/190d260/src/thread/ConditionVariable.ts#L124">thread/ConditionVariable.ts:124</a></li>
+									<li>Defined in <a href="https://github.com/samchon/tstl/blob/85cc003/src/thread/ConditionVariable.ts#L124">thread/ConditionVariable.ts:124</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
