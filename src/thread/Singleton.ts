@@ -4,7 +4,8 @@
  * @module std  
  */
 //================================================================
-import { Mutex } from "./Mutex";
+import { SharedMutex } from "./SharedMutex";
+import { SharedLock } from "./SharedLock";
 import { UniqueLock } from "./UniqueLock";
 
 /**
@@ -41,7 +42,7 @@ export class Singleton<T>
     /**
      * @hidden
      */
-    private mutex_: Mutex;    
+    private mutex_: SharedMutex;    
 
     /**
      * @hidden
@@ -61,7 +62,7 @@ export class Singleton<T>
     public constructor(lazyConstructor: () => Promise<T>)
     {
         this.lazy_constructor_ = lazyConstructor;
-        this.mutex_ = new Mutex();
+        this.mutex_ = new SharedMutex();
         this.value_ = NOT_MOUNTED_YET;
     }
 
@@ -73,16 +74,17 @@ export class Singleton<T>
      * construction* has been completed in sometime, the `Singleton.reload()` will call the *lazy
      * constructor* again.
      * 
-     * However, unlike {@link Singleton.get}(), `Singleton.reload()` does not ensure the safety 
-     * in the race condition. Therefore, you've to be careful by yourself when using this 
-     * `Singleton.reload()` method. Try not to call this method simultaneously.
-     * 
      * @return Re-constructed value.
      */
     public async reload(): Promise<T>
     {
-        this.value_ = NOT_MOUNTED_YET;
-        return await this.get();
+        let output: T;
+        await UniqueLock.lock(this.mutex_, async () =>
+        {
+            output = await this.lazy_constructor_();
+            this.value_ = output;
+        });
+        return output!;
     }
 
     /* ---------------------------------------------------------------
@@ -121,6 +123,26 @@ export class Singleton<T>
                 this.value_ = await this.lazy_constructor_();
             });
         return this.value_ as T;
+    }
+
+    /**
+     * Test whether the value has been loaded.
+     * 
+     * The `Singleton.is_loaded()` method tests whether the singleton has coompleted to 
+     * constructing its value or not. If the singleton value is on the construction by the 
+     * {@link Singleton.get} or {@link Singleton.reload} method, the `Singleton.is_loaded()` 
+     * would wait returning value until the construction has been completed.
+     * 
+     * @returns Whether loaded or not
+     */
+    public async is_loaded(): Promise<boolean>
+    {
+        let loaded: boolean = false;
+        await SharedLock.lock(this.mutex_, async () =>
+        {
+            loaded = this.value_ === NOT_MOUNTED_YET;
+        });
+        return loaded;
     }
 }
 
