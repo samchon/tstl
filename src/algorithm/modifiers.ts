@@ -338,7 +338,7 @@ export function is_unique<InputIterator extends General<IForwardIterator<IPointe
     let next: InputIterator = first.next();
     for (; !next.equals(last); next = next.next())
     {
-        if (pred(first.value, last.value) === true)
+        if (pred(first.value, next.value) === true)
             return false;
         first = first.next();
     }
