@@ -318,6 +318,34 @@ export function generate_n<ForwardIterator extends Writeonly<IForwardIterator<IP
     REMOVE
 --------------------------------------------------------- */
 /**
+ * Test whether elements are unique in sorted range.
+ * 
+ * @param first Input iteartor of the first position.
+ * @param last Input iterator of the last position.
+ * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * 
+ * @returns Whether unique or not.
+ */
+export function is_unique<InputIterator extends General<IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>>>
+    (
+        first: InputIterator, last: InputIterator, 
+        pred: BinaryPredicator<IPointer.ValueType<InputIterator>> = equal_to
+    ): boolean
+{
+    if (first.equals(last))
+        return true;
+
+    let next: InputIterator = first.next();
+    for (; !next.equals(last); next = next.next())
+    {
+        if (pred(first.value, last.value) === true)
+            return false;
+        first = first.next();
+    }
+    return true;
+}
+
+/**
  * Remove duplicated elements in sorted range.
  * 
  * @param first Input iteartor of the first position.

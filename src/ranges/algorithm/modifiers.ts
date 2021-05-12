@@ -205,6 +205,20 @@ export function generate_n<Range extends Array<any> | IForwardContainer<any>>
     REMOVE
 --------------------------------------------------------- */
 /**
+ * Test whether elements are unique in sorted range.
+ * 
+ * @param range An iterable ranged container.
+ * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * 
+ * @returns Whether unique or not.
+ */
+export function is_unique<Range extends Array<any> | IForwardContainer<any>>
+    (range: Range, pred: BinaryPredicator<IForwardContainer.ValueType<Range>> = equal_to): boolean
+{
+    return base.is_unique(begin(range), end(range), pred);
+}
+
+/**
  * Remove duplicated elements in sorted range.
  * 
  * @param range An iterable ranged container.
