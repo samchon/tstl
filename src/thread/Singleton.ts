@@ -111,18 +111,27 @@ export class Singleton<T>
      */
     public async get(): Promise<T>
     {
-        // UNIQUE-LOCK FOR THE RACE CONDITION
-        if (this.value_ === NOT_MOUNTED_YET)
+        let output: T | object = NOT_MOUNTED_YET as any;
+        await SharedLock.lock(this.mutex_, async () =>
+        {
+            output = this.value_;
+        });
+
+        if (output === NOT_MOUNTED_YET)
             await UniqueLock.lock(this.mutex_, async () =>
             {
                 // COULD BE COMPLETED DURING WAITING
                 if (this.value_ !== NOT_MOUNTED_YET)
+                {
+                    output = this.value_;
                     return;
+                }
 
                 // CALL THE LAZY-CONSTRUCTOR
-                this.value_ = await this.lazy_constructor_();
+                output = await this.lazy_constructor_();
+                this.value_ = output;
             });
-        return this.value_ as T;
+        return output as T;
     }
 
     /**
