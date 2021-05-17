@@ -32,12 +32,12 @@ import { UniqueLock } from "./UniqueLock";
  * @template T Type of the promised value to be lazy-constructed.
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class Singleton<T>
+export class Singleton<T, Args extends any[] = []>
 {
     /**
      * @hidden
      */
-    private lazy_constructor_: () => Promise<T>;
+    private lazy_constructor_: (...args: Args) => Promise<T>;
 
     /**
      * @hidden
@@ -59,7 +59,7 @@ export class Singleton<T>
      * 
      * @param lazyConstructor Lazy constructor function returning the promised value.
      */
-    public constructor(lazyConstructor: () => Promise<T>)
+    public constructor(lazyConstructor: (...args: Args) => Promise<T>)
     {
         this.lazy_constructor_ = lazyConstructor;
         this.mutex_ = new SharedMutex();
@@ -76,12 +76,12 @@ export class Singleton<T>
      * 
      * @return Re-constructed value.
      */
-    public async reload(): Promise<T>
+    public async reload(...args: Args): Promise<T>
     {
         let output: T;
         await UniqueLock.lock(this.mutex_, async () =>
         {
-            output = await this.lazy_constructor_();
+            output = await this.lazy_constructor_(...args);
             this.value_ = output;
         });
         return output!;
@@ -109,7 +109,7 @@ export class Singleton<T>
      * 
      * @return The *lazy constructed* value.
      */
-    public async get(): Promise<T>
+    public async get(...args: Args): Promise<T>
     {
         let output: T | object = NOT_MOUNTED_YET as any;
         await SharedLock.lock(this.mutex_, async () =>
@@ -128,7 +128,7 @@ export class Singleton<T>
                 }
 
                 // CALL THE LAZY-CONSTRUCTOR
-                output = await this.lazy_constructor_();
+                output = await this.lazy_constructor_(...args);
                 this.value_ = output;
             });
         return output as T;
