@@ -1,11 +1,12 @@
-import { FileSystem } from "./internal/FileSystem";
+import fs from "fs";
+
 import { TreeSet } from "../container/TreeSet";
 import { Pair } from "../utility/Pair";
 
 async function load(path: string): Promise<TreeSet<Pair<string, string>>>
 {
     const ret: TreeSet<Pair<string, string>> = new TreeSet();
-    const directory: string[] = await FileSystem.dir(path);
+    const directory: string[] = await fs.promises.readdir(path);
 
     for (const file of directory)
     {

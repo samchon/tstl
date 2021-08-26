@@ -2,7 +2,7 @@ const EXTENSION = __filename.substr(-2);
 if (EXTENSION === "js")
     require("source-map-support").install();
 
-import { FileSystem } from "./internal/FileSystem";
+import fs from "fs";
 
 interface IModule
 {
@@ -40,12 +40,16 @@ async function benchmark(feature: string): Promise<void>
     //----
     // DO ARCHIVE
     //----
-    await FileSystem.write(`${EXPORT_PATH}/${feature}.md`, content);
+    await fs.promises.writeFile(`${EXPORT_PATH}/${feature}.md`, content, "utf8");
 }
 
 async function main(): Promise<void>
 {
-    await FileSystem.mkdir(EXPORT_PATH);
+    try
+    {
+        await fs.promises.mkdir(EXPORT_PATH);
+    }
+    catch {}
 
     if (process.argv[2])
     {
@@ -55,7 +59,7 @@ async function main(): Promise<void>
     else
     {
         // ITERATE ALL FEATURES
-        const directory: string[] = await FileSystem.dir(__dirname);
+        const directory: string[] = await fs.promises.readdir(__dirname);
         for (const file of directory)
         {
             if (file.substr(-3) !== ".js" || file === "index.js")

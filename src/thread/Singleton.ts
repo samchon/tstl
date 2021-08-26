@@ -87,6 +87,21 @@ export class Singleton<T, Args extends any[] = []>
         return output!;
     }
 
+    /**
+     * Configure value.
+     * 
+     * The `Singleton.set()` method enforces the singleton to have a specific value.
+     * 
+     * @param value The value to configure
+     */
+    public async set(value: T): Promise<void>
+    {
+        await UniqueLock.lock(this.mutex_, () =>
+        {
+            this.value_ = value;
+        });
+    }
+
     /* ---------------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------------- */
