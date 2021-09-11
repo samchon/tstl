@@ -6,7 +6,7 @@
     "email": "samchon@samchon.org",
     "url": "http://samchon.org"
   },
-  "version": "2.4.22",
+  "version": "2.5.0",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -28,6 +28,7 @@
     "@types/cli": "^0.11.19",
     "@types/node": "^14.6.3",
     "cli": "^1.0.1",
+    "rimraf": "^3.0.2",
     "source-map-support": "^0.5.19",
     "ts-node": "^9.0.0",
     "typedoc": "^0.19.0",

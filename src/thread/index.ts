@@ -17,5 +17,9 @@ export * from "./Semaphore";
 export * from "./Latch";
 export * from "./Barrier";
 
+export * from "./MutableSingleton";
+export * from "./VariadicMutableSingleton";
+export * from "./VariadicSingleton";
 export * from "./Singleton";
+
 export * from "./global";

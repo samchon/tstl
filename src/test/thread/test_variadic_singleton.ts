@@ -6,9 +6,9 @@ function closure(counter: std.IPointer<number>, x: number, y: number, z: number)
     return x + y + z;
 }
 
-export function test_singleton(): void
+export function test_variadic_singleton(): void
 {
-    const variadic = new std.Singleton(closure);
+    const variadic = new std.VariadicSingleton(closure);
     const counter: std.IPointer<number> = { value: 0 };
 
     for (let i: number = 0; i < 10; ++i)
@@ -17,9 +17,9 @@ export function test_singleton(): void
         for (let z: number = 0; z < 3; ++z)
         {
             const solution: number = variadic.get(counter, x, y, z);
-            if (solution !== 0)
-                throw new Error("Bug on Singleton.get(): retried arguments must not afftect to the return value.");
+            if (solution !== x + y + z)
+                throw new Error("Bug on VariadicSingleton.get(): failed to detect the different arguments.");
         }
-    if (counter.value !== 1)
-        throw new Error("Bug on Singleton.get(): failed to memoize the pre-generated value.");
+    if (counter.value !== 27)
+        throw new Error("Bug on VariadicSingleton.get(): failed to memoize the pre-generated value.");
 }
