@@ -164,7 +164,7 @@ export class MutableSingleton<T, Args extends any[] = []>
         let loaded: boolean = false;
         await SharedLock.lock(this.mutex_, async () =>
         {
-            loaded = this.value_ === NOT_MOUNTED_YET;
+            loaded = this.value_ !== NOT_MOUNTED_YET;
         });
         return loaded;
     }
