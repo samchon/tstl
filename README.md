@@ -1,5 +1,5 @@
 # TypeScript Standard Template Library
-![TSTL logo](https://raw.githubusercontent.com/samchon/logos/master/tstl.svg)
+![TSTL logo](https://raw.githubusercontent.com/samchon/logos/master/tstl.svg?token=ADEMSNKR53UIHDFF5VDPHBLBZ4M4U)
 
 ```bash
 npm install --save tstl
@@ -28,32 +28,32 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 ## Features
 ### Containers
   - **Linear Containers**
-    - [Vector](http://tstl.dev/api/classes/std.vector.html)
-    - [Deque](http://tstl.dev/api/classes/std.deque.html)
-    - [List](http://tstl.dev/api/classes/std.list.html)
-    - [ForwardList](http://tstl.dev/api/classes/std.forwardlist.html)
-    - [VectorBoolean](http://tstl.dev/api/classes/std.vectorboolean.html)
+    - [Vector](https://samchon.github.io/tstl/api/classes/std.vector.html)
+    - [Deque](https://samchon.github.io/tstl/api/classes/std.deque.html)
+    - [List](https://samchon.github.io/tstl/api/classes/std.list.html)
+    - [ForwardList](https://samchon.github.io/tstl/api/classes/std.forwardlist.html)
+    - [VectorBoolean](https://samchon.github.io/tstl/api/classes/std.vectorboolean.html)
   - **Associative Containers**
     - *Tree-structured Containers*
-      - [TreeSet](http://tstl.dev/api/classes/std.treeset.html)
-      - [TreeMultiSet](http://tstl.dev/api/classes/std.treemultiset.html)
-      - [TreeMap](http://tstl.dev/api/classes/std.treemap.html)
-      - [TreeMultiMap](http://tstl.dev/api/classes/std.treemultimap.html)
+      - [TreeSet](https://samchon.github.io/tstl/api/classes/std.treeset.html)
+      - [TreeMultiSet](https://samchon.github.io/tstl/api/classes/std.treemultiset.html)
+      - [TreeMap](https://samchon.github.io/tstl/api/classes/std.treemap.html)
+      - [TreeMultiMap](https://samchon.github.io/tstl/api/classes/std.treemultimap.html)
     - *Hash-buckets based Container*
-      - [HashSet](http://tstl.dev/api/classes/std.hashset.html)
-      - [HashMultiSet](http://tstl.dev/api/classes/std.hashmultiset.html)
-      - [HashMap](http://tstl.dev/api/classes/std.hashmap.html)
-      - [HashMultiMap](http://tstl.dev/api/classes/std.hashmultimap.html)
+      - [HashSet](https://samchon.github.io/tstl/api/classes/std.hashset.html)
+      - [HashMultiSet](https://samchon.github.io/tstl/api/classes/std.hashmultiset.html)
+      - [HashMap](https://samchon.github.io/tstl/api/classes/std.hashmap.html)
+      - [HashMultiMap](https://samchon.github.io/tstl/api/classes/std.hashmultimap.html)
   - **Adaptor Containers**
     - *Linear Adaptors*
-      - [Queue](http://tstl.dev/api/classes/std.queue.html)
-      - [Stack](http://tstl.dev/api/classes/std.stack.html)
-      - [PriorityQueue](http://tstl.dev/api/classes/std.priorityqueue.html)
+      - [Queue](https://samchon.github.io/tstl/api/classes/std.queue.html)
+      - [Stack](https://samchon.github.io/tstl/api/classes/std.stack.html)
+      - [PriorityQueue](https://samchon.github.io/tstl/api/classes/std.priorityqueue.html)
     - Associative Adaptors
-      - (experimental) [FlatSet](http://tstl.dev/api/classes/std_experimental.flatset.html)
-      - (experimental) [FlatMultiSet](http://tstl.dev/api/classes/std_experimental.flatmultiset.html)
-      - (experimental) [FlatMap](http://tstl.dev/api/classes/std_experimental.flatmap.html)
-      - (experimental) [FlatMultiMap](http://tstl.dev/api/classes/std_experimental.flatmultimap.html)
+      - (experimental) [FlatSet](https://samchon.github.io/tstl/api/classes/std_experimental.flatset.html)
+      - (experimental) [FlatMultiSet](https://samchon.github.io/tstl/api/classes/std_experimental.flatmultiset.html)
+      - (experimental) [FlatMap](https://samchon.github.io/tstl/api/classes/std_experimental.flatmap.html)
+      - (experimental) [FlatMultiMap](https://samchon.github.io/tstl/api/classes/std_experimental.flatmultimap.html)
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
@@ -68,25 +68,25 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 
 ### Functors
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
-    - [Exception](http://tstl.dev/api/classes/std.exception.html)
-      - [LogicError](http://tstl.dev/api/classes/std.logicerror.html)
-      - [RuntimeError](http://tstl.dev/api/classes/std.runtimeerror.html)
+    - [Exception](https://samchon.github.io/tstl/api/classes/std.exception.html)
+      - [LogicError](https://samchon.github.io/tstl/api/classes/std.logicerror.html)
+      - [RuntimeError](https://samchon.github.io/tstl/api/classes/std.runtimeerror.html)
   - [`<functional>`](http://www.cplusplus.com/reference/functional/)
-    - [IComparable](http://tstl.dev/api/interfaces/std.icomparable.html)
-    - [IPointer](https://tstl.dev/api/modules/std.ipointer.html)
+    - [IComparable](https://samchon.github.io/tstl/api/interfaces/std.icomparable.html)
+    - [IPointer](https://samchon.github.io/tstl/api/interfaces/std.ipointer.html)
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
-    - [Pair](http://tstl.dev/api/classes/std.pair.html)
+    - [Pair](https://samchon.github.io/tstl/api/classes/std.pair.html)
   - [`<numeric>`](http://en.cppreference.com/w/cpp/numeric)
     - [IComputable](https://github.com/samchon/tstl/blob/master/src/numeric/IComputable.ts)
     - [operations](https://github.com/samchon/tstl/blob/master/src/numeric/operations.ts)
     - [special math](http://en.cppreference.com/w/cpp/numeric/special_math)
   - [`<thread>`](https://github.com/samchon/tstl/blob/master/src/thread.ts)
-    - [ConditionVariable](http://tstl.dev/api/classes/std.conditionvariable.html)
-    - [Mutex](http://tstl.dev/api/classes/std.mutex.html) & [TimedMutex](http://tstl.dev/api/classes/std.timedmutex.html)
-    - [SharedMutex](http://tstl.dev/api/classes/std.sharedmutex.html) & [SharedTimeMutex](http://tstl.dev/api/classes/std.sharedtimedmutex.html)
-    - [Semaphore](http://tstl.dev/api/classes/std.semaphore.html)
-    - [Latch](http://tstl.dev/api/classes/std.latch.html)
-    - [Barrier](http://tstl.dev/api/classes/std.barrier.html)
+    - [ConditionVariable](https://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
+    - [Mutex](https://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex](https://samchon.github.io/tstl/api/classes/std.timedmutex.html)
+    - [SharedMutex](https://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex](https://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
+    - [Semaphore](https://samchon.github.io/tstl/api/classes/std.semaphore.html)
+    - [Latch](https://samchon.github.io/tstl/api/classes/std.latch.html)
+    - [Barrier](https://samchon.github.io/tstl/api/classes/std.barrier.html)
 
 
 
@@ -131,7 +131,7 @@ main();
     - [NPM Repository](https://www.npmjs.com/package/tstl)
   - **Documents**
     - [**Guide Documents**](https://github.com/samchon/tstl/wiki)
-    - [API Documents](http://tstl.dev/api)
+    - [API Documents](https://samchon.github.io/tstl/api)
     - [Release Notes](https://github.com/samchon/tstl/releases)
   - **Extensions**
     - [ASTL](https://github.com/samchon/astl) - C++ STL for AssemblyScript
