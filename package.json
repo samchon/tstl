@@ -3,10 +3,10 @@
   "description": "TypeScript-STL (Standard Template Library, migrated from C++)",
   "author": {
     "name": "Jeongho Nam",
-    "email": "samchon@samchon.org",
-    "url": "http://samchon.org"
+    "email": "samchon.github@gmail.com",
+    "url": "https://github.com/samchon"
   },
-  "version": "2.5.1",
+  "version": "2.5.2",
   "main": "./index.js",
   "typings": "./index.d.ts",
   "scripts": {
@@ -94,6 +94,7 @@
     "SharedMutex",
     "SharedTimedMutex",
     "SharedLock",
-    "UniqueLock"
+    "UniqueLock",
+    "Singleton"
   ]
 }
