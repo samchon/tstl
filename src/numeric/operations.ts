@@ -136,7 +136,7 @@ export function inclusive_scan<
         OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>>>
     (
         first: InputIterator, last: InputIterator, output: OutputIterator,
-        adder: Operator<InputIterator, InputIterator> = plus,
+        adder: Operator<InputIterator, InputIterator> = <any>plus,
         init?: IPointer.ValueType<InputIterator>
     ): OutputIterator
 {
@@ -150,7 +150,7 @@ export function exclusive_scan<
         first: InputIterator, last: InputIterator, 
         output: OutputIterator,
         init: IPointer.ValueType<InputIterator>,
-        op: Operator<InputIterator, InputIterator> = plus
+        op: Operator<InputIterator, InputIterator> = <any>plus
     ): OutputIterator
 {
     return transform_exclusive_scan(first, last, <any>output, init, op, val => val);
