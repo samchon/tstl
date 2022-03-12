@@ -11,13 +11,13 @@ import { UniqueLock } from "./UniqueLock";
 /**
  * Mutable singleton generator.
  * 
- * The `Singleton` is an asynchronous singleton generator class who guarantees the *lazy 
+ * The `MutableSingleton` is an asynchronous singleton generator class who guarantees the *lazy 
  * constructor* to be called *"only one at time"*. The *"only one at time"* would always be 
  * kepted, even in the race condition.
  *  
- * Create a `Singleton` instance with your custom *lazy constructor* and get the promised value 
- * through the {@link MutableSingleton.get}() method. The {@link MutableSingleton.get}() method would construct 
- * the return value following below logics:
+ * Create a `MutableSingleton` instance with your custom *lazy constructor* and get the promised 
+ * value through the {@link MutableSingleton.get}() method. The {@link MutableSingleton.get}() 
+ * method would construct the return value following below logics:
  * 
  *   - At the first time: calls the *lazy constructor* and returns the value.
  *   - After the *lazy construction*: returns the pre-constructed value.
@@ -26,8 +26,8 @@ import { UniqueLock } from "./UniqueLock";
  *     - guarantees the *"only one at time"* through a *mutex*.
  * 
  * If you want to reload the promised value, regardless of whether the *lazy construction* has 
- * been completed or not, call the {@link MutableSingleton.reload}() method. It would call the *lazy
- * constructor* forcibly, even if the *lany construction* has been completed in sometime.
+ * been completed or not, call the {@link MutableSingleton.reload}() method. It would call the 
+ * *lazy constructor* forcibly, even if the *lany construction* has been completed in sometime.
  * 
  * @template T Type of the promised value to be lazy-constructed.
  * @author Jeongho Nam - https://github.com/samchon
@@ -69,10 +69,10 @@ export class MutableSingleton<T, Args extends any[] = []>
     /**
      * Reload value.
      * 
-     * The `Singleton.reload()` method enforces to call the *lazy constructor*, regardless of 
-     * whether the *lazy construction* has been completed or not. Therefore, even if the *lazy
-     * construction* has been completed in sometime, the `Singleton.reload()` will call the *lazy
-     * constructor* again.
+     * The `MutableSingleton.reload()` method enforces to call the *lazy constructor*, regardless 
+     * of whether the *lazy construction* has been completed or not. Therefore, even if the *lazy
+     * construction* has been completed in sometime, the `MutableSingleton.reload()` will call 
+     * the *lazy constructor* again.
      * 
      * @return Re-constructed value.
      */
@@ -90,7 +90,7 @@ export class MutableSingleton<T, Args extends any[] = []>
     /**
      * Configure value.
      * 
-     * The `Singleton.set()` method enforces the singleton to have a specific value.
+     * The `MutableSingleton.set()` method enforces the singleton to have a specific value.
      * 
      * @param value The value to configure
      */
@@ -108,19 +108,19 @@ export class MutableSingleton<T, Args extends any[] = []>
     /**
      * Get promised value.
      * 
-     * `Singleton.get()` method returns the *lazy constructed value*. It guarantees the *lazy
-     * constructor* to be called *"only one at time"*. It ensures the *"only one at time"*, even 
-     * in the race condition.
+     * `MutableSingleton.get()` method returns the *lazy constructed value*. It guarantees the 
+     * *lazy constructor* to be called *"only one at time"*. It ensures the *"only one at time"*, 
+     * even in the race condition.
      * 
      * If the promised value is not constructed yet (call this method at the first time), the 
      * *lazy constructor* would be called and returns the promised value. Otherwise, the promised 
      * value has been already constructed by the *lazy constructor* (this method already had been 
      * called), returns the pre-generated value.
      * 
-     * Also, you don't need to worry anything even race condition has been occured, calling 
-     * `Singleton.get()` simultaneously when the *lazy construction* is not completed but on 
-     * going. The `Singleton` guarantees the *lazy constructor* to be called only one at time by 
-     * using the *unique-lock* on a *mutex*.
+     * Also, you don't need to worry anything about the race condition, who may be occured by
+     * calling the `MutableSingleton.get()` method simultaneously during the *lazy construction* 
+     * is on going. The `MutableSingleton` guarantees the *lazy constructor* to be called 
+     * only one at time by using the {@link UniqueLock.lock} on a {@link Mutex}.
      * 
      * @return The *lazy constructed* value.
      */
@@ -152,10 +152,11 @@ export class MutableSingleton<T, Args extends any[] = []>
     /**
      * Test whether the value has been loaded.
      * 
-     * The `Singleton.is_loaded()` method tests whether the singleton has coompleted to 
+     * The `MutableSingleton.is_loaded()` method tests whether the singleton has coompleted to 
      * constructing its value or not. If the singleton value is on the construction by the 
-     * {@link MutableSingleton.get} or {@link MutableSingleton.reload} method, the `Singleton.is_loaded()` 
-     * would wait returning value until the construction has been completed.
+     * {@link MutableSingleton.get} or {@link MutableSingleton.reload} method, the 
+     * `MutableSingleton.is_loaded()` would wait returning value until the construction has been 
+     * completed.
      * 
      * @returns Whether loaded or not
      */
