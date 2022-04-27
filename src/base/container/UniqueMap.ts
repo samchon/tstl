@@ -57,13 +57,15 @@ export abstract class UniqueMap<Key, T,
     }
 
     /**
+     * Take a value.
+     * 
      * Get a value, or set the value and returns it.
      * 
      * @param key Key to search for.
      * @param generator Value generator when the matched key not found
      * @returns Value, anyway
      */
-    public get_or_set(key: Key, generator: () => T): T
+    public take(key: Key, generator: () => T): T
     {
         const it = this.find(key);
         return it.equals(this.end())
