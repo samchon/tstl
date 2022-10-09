@@ -1,23 +1,25 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
-;
 import { IPushBack } from "../internal/container/partial/IPushBack";
 import { Vector } from "../container/Vector";
 import { equal_to } from "../functional/comparators";
 
 /**
  * Back insert iterator.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.ValueType<Source>>>
-    extends InsertIteratorBase<BackInsertIterator.ValueType<Source>, BackInsertIterator<Source>>
-{
+export class BackInsertIterator<
+    Source extends IPushBack<BackInsertIterator.ValueType<Source>>,
+> extends InsertIteratorBase<
+    BackInsertIterator.ValueType<Source>,
+    BackInsertIterator<Source>
+> {
     private source_: Source;
 
     /* ---------------------------------------------------------
@@ -25,11 +27,10 @@ export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.Valu
     --------------------------------------------------------- */
     /**
      * Initializer Constructor.
-     * 
+     *
      * @param source The source container.
      */
-    public constructor(source: Source)
-    {
+    public constructor(source: Source) {
         super();
         this.source_ = source;
     }
@@ -37,38 +38,31 @@ export class BackInsertIterator<Source extends IPushBack<BackInsertIterator.Valu
     /**
      * @inheritDoc
      */
-    public set value(val: BackInsertIterator.ValueType<Source>)
-    {
+    public set value(val: BackInsertIterator.ValueType<Source>) {
         this.source_.push_back(val);
     }
 
     /**
      * @inheritDoc
      */
-    public equals(obj: BackInsertIterator<Source>): boolean
-    {
+    public equals(obj: BackInsertIterator<Source>): boolean {
         return equal_to(this.source_, obj.source_);
     }
 }
 
 /**
- * 
+ *
  */
-export namespace BackInsertIterator
-{
+export namespace BackInsertIterator {
     /**
      * Deduct value type.
      */
-    export type ValueType<Source extends IPushBack<any>> = 
-        Source extends IPushBack<infer T>
-            ? T
-            : unknown;
+    export type ValueType<Source extends IPushBack<any>> =
+        Source extends IPushBack<infer T> ? T : unknown;
 
     /**
-     * Deduct source type. 
+     * Deduct source type.
      */
     export type SourceType<Source extends Array<any> | IPushBack<any>> =
-        Source extends Array<infer T>
-            ? Vector<T>
-            : Source;
+        Source extends Array<infer T> ? Vector<T> : Source;
 }

@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { RuntimeError } from "./RuntimeError";
@@ -11,19 +11,18 @@ import { ErrorCategory } from "./ErrorCategory";
 
 /**
  * System Error.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class SystemError extends RuntimeError
-{
+export class SystemError extends RuntimeError {
     protected code_: ErrorCode;
-    
+
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
     /**
      * Initializer Constructor.
-     * 
+     *
      * @param code An error code.
      * @param message A detailed error message.
      */
@@ -31,27 +30,23 @@ export class SystemError extends RuntimeError
 
     /**
      * Construct from references.
-     * 
+     *
      * @param val Identnfier of an error code in *category*.
      * @param category An error category.
      * @param message A detailed error message.
      */
     public constructor(val: number, category: ErrorCategory, message?: string);
 
-    public constructor(...args: any[])
-    {
+    public constructor(...args: any[]) {
         super("");
 
-        if (args.length >= 2 && typeof args[0].valueOf() === "number")
-        {
+        if (args.length >= 2 && typeof args[0].valueOf() === "number") {
             const val: number = args[0];
             const category: ErrorCategory = args[1];
 
             this.code_ = new ErrorCode(val, category);
             this.message = args[2];
-        }
-        else
-        {
+        } else {
             this.code_ = args[0];
             this.message = args[1];
         }
@@ -62,22 +57,20 @@ export class SystemError extends RuntimeError
     --------------------------------------------------------- */
     /**
      * Get error code.
-     * 
+     *
      * @return The error code.
      */
-    public code(): ErrorCode
-    {
+    public code(): ErrorCode {
         return this.code_;
     }
 
     /**
      * @inheritDoc
      */
-    public toJSON(): object
-    {
+    public toJSON(): object {
         return {
             ...super.toJSON(),
-            code: this.code_.toJSON()
+            code: this.code_.toJSON(),
         };
     }
 }

@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
@@ -14,14 +14,16 @@ import { equal_to } from "../functional/comparators";
 
 /**
  * Insert iterator.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class InsertIterator<
-        Container extends IInsert<Iterator>, 
-        Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>>
-    extends InsertIteratorBase<IPointer.ValueType<Iterator>, InsertIterator<Container, Iterator>>
-{
+    Container extends IInsert<Iterator>,
+    Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>,
+> extends InsertIteratorBase<
+    IPointer.ValueType<Iterator>,
+    InsertIterator<Container, Iterator>
+> {
     private container_: Container;
     private it_: Iterator;
 
@@ -30,12 +32,11 @@ export class InsertIterator<
     --------------------------------------------------------- */
     /**
      * Initializer Constructor.
-     * 
+     *
      * @param container Target container to insert.
      * @param it Iterator to the position to insert.
      */
-    public constructor(container: Container, it: Iterator)
-    {
+    public constructor(container: Container, it: Iterator) {
         super();
 
         this.container_ = container;
@@ -45,8 +46,7 @@ export class InsertIterator<
     /**
      * @inheritDoc
      */
-    public set value(val: IPointer.ValueType<Iterator>)
-    {
+    public set value(val: IPointer.ValueType<Iterator>) {
         this.it_ = this.container_.insert(this.it_, val);
         this.it_ = this.it_.next() as Iterator;
     }
@@ -54,8 +54,7 @@ export class InsertIterator<
     /**
      * @inheritDoc
      */
-    public equals(obj: InsertIterator<Container, Iterator>): boolean
-    {
+    public equals(obj: InsertIterator<Container, Iterator>): boolean {
         return equal_to(this.it_, obj.it_);
     }
 }

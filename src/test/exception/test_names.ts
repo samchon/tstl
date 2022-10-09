@@ -3,20 +3,20 @@ import * as std from "../../index";
 const EXP_NAMES = [
     "Exception",
     "LogicError",
-        "DomainError",
-        "LengthError",
-        "OutOfRange",
+    "DomainError",
+    "LengthError",
+    "OutOfRange",
     "RuntimeError",
-        "OverflowError",
-        "UnderflowError"
+    "OverflowError",
+    "UnderflowError",
 ] as const;
 
-export function test_exception_names(): void
-{
-    for (const name of EXP_NAMES)
-    {
+export function test_exception_names(): void {
+    for (const name of EXP_NAMES) {
         const exp: std.Exception = new std[name]("Error Message");
         if (exp.name !== name)
-            throw new std.DomainError(`Bug on ${exp.constructor.name}.name(): result is not ${name} bu ${exp.name}`);
+            throw new std.DomainError(
+                `Bug on ${exp.constructor.name}.name(): result is not ${name} bu ${exp.name}`,
+            );
     }
 }

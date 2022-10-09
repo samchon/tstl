@@ -1,11 +1,10 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export interface ISize
-{
+export interface ISize {
     /**
      * Number of elements in the container.
      */

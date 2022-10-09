@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer";
@@ -15,12 +15,14 @@ import { less } from "../functional/comparators";
 
 /**
  * Priority Queue; Greater Out First.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class PriorityQueue<T>
-    extends AdaptorContainer<T, Vector<T>, PriorityQueue<T>>
-{
+export class PriorityQueue<T> extends AdaptorContainer<
+    T,
+    Vector<T>,
+    PriorityQueue<T>
+> {
     private comp_: Comparator<T>;
 
     /* ---------------------------------------------------------
@@ -28,34 +30,32 @@ export class PriorityQueue<T>
     --------------------------------------------------------- */
     /**
      * Default Constructor.
-     * 
+     *
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
     public constructor(comp?: Comparator<T>);
 
     /**
      * Copy Constructor.
-     * 
+     *
      * @param obj Object to copy.
      */
     public constructor(obj: PriorityQueue<T>);
 
     /**
      * Range Constructor.
-     * 
+     *
      * @param first Input iterator of the first position.
      * @param last Input iterator of the last position.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor
-    (
-        first: Readonly<IForwardIterator<T>>, 
-        last: Readonly<IForwardIterator<T>>, 
-        comp?: Comparator<T>
+    public constructor(
+        first: Readonly<IForwardIterator<T>>,
+        last: Readonly<IForwardIterator<T>>,
+        comp?: Comparator<T>,
     );
 
-    public constructor(...args: any[])
-    {
+    public constructor(...args: any[]) {
         super(new Vector());
 
         // DECLARE MEMBERS
@@ -66,42 +66,38 @@ export class PriorityQueue<T>
         // INITIALIZE MEMBERS AND POST-PROCESS
         //----
         // BRANCH - METHOD OVERLOADINGS
-        if (args.length === 1 && args[0] instanceof PriorityQueue)
-        {
+        if (args.length === 1 && args[0] instanceof PriorityQueue) {
             const obj: PriorityQueue<T> = args[0];
-            
+
             comp = obj.comp_;
-            post_process = () => 
-            {
+            post_process = () => {
                 const first = obj.source_.begin();
                 const last = obj.source_.end();
 
                 this.source_.assign(first, last);
             };
-        }
-        else if (args.length >= 2 && args[0].next instanceof Function && args[1].next instanceof Function)
-        {
+        } else if (
+            args.length >= 2 &&
+            args[0].next instanceof Function &&
+            args[1].next instanceof Function
+        ) {
             // FUNCTION TEMPLATE
-            if (args.length === 3)    comp = args[2];
+            if (args.length === 3) comp = args[2];
 
-            post_process = () =>
-            {
+            post_process = () => {
                 // RANGE CONSTRUCTOR
                 const first: Readonly<IForwardIterator<T>> = args[0]; // PARAMETER 1
                 const last: Readonly<IForwardIterator<T>> = args[1]; // PARAMETER 2
 
                 this.source_.assign(first, last);
             };
-        }
-        else if (args.length === 1)
-            comp = args[0];
+        } else if (args.length === 1) comp = args[0];
 
         //----
         // DO PROCESS
         //----
         this.comp_ = comp;
-        if (post_process !== null)
-            post_process();
+        if (post_process !== null) post_process();
     }
 
     /* ---------------------------------------------------------
@@ -110,16 +106,14 @@ export class PriorityQueue<T>
     /**
      * Get value comparison function.
      */
-    public value_comp(): Comparator<T>
-    {
+    public value_comp(): Comparator<T> {
         return this.comp_;
     }
 
     /**
      * Get top element.
      */
-    public top(): T
-    {
+    public top(): T {
         return this.source_.front();
     }
 
@@ -129,21 +123,18 @@ export class PriorityQueue<T>
     /**
      * @inheritDoc
      */
-    public push(...elems: T[]): number
-    {
-        for (const elem of elems)
-        {
+    public push(...elems: T[]): number {
+        for (const elem of elems) {
             this.source_.push_back(elem);
             push_heap(this.source_.begin(), this.source_.end(), this.comp_);
         }
         return this.size();
     }
-    
+
     /**
      * @inheritDoc
      */
-    public pop(): void
-    {
+    public pop(): void {
         pop_heap(this.source_.begin(), this.source_.end(), this.comp_);
         this.source_.pop_back();
     }
@@ -151,8 +142,7 @@ export class PriorityQueue<T>
     /**
      * @inheritDoc
      */
-    public swap(obj: PriorityQueue<T>): void
-    {
+    public swap(obj: PriorityQueue<T>): void {
         super.swap(obj);
         [this.comp_, obj.comp_] = [obj.comp_, this.comp_];
     }

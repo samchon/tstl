@@ -1,11 +1,10 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export const enum LockType
-{
+export const enum LockType {
     HOLD,
-    KNOCK
+    KNOCK,
 }

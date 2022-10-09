@@ -1,22 +1,23 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.base  
+ * @module std.base
  */
 //================================================================
 import { IContainer } from "../../base/container/IContainer";
 
 /**
  * Basic reverse iterator.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export abstract class ReverseIterator<T extends PElem, 
-        Source extends IContainer<T, Source, Base, This, PElem>, 
-        Base extends IContainer.Iterator<T, Source, Base, This, PElem>, 
-        This extends ReverseIterator<T, Source, Base, This, PElem>,
-        PElem = T>
-    implements IContainer.ReverseIterator<T, Source, Base, This, PElem>
+export abstract class ReverseIterator<
+    T extends PElem,
+    Source extends IContainer<T, Source, Base, This, PElem>,
+    Base extends IContainer.Iterator<T, Source, Base, This, PElem>,
+    This extends ReverseIterator<T, Source, Base, This, PElem>,
+    PElem = T,
+> implements IContainer.ReverseIterator<T, Source, Base, This, PElem>
 {
     protected base_: Base;
 
@@ -25,11 +26,10 @@ export abstract class ReverseIterator<T extends PElem,
     --------------------------------------------------------- */
     /**
      * Initializer Constructor.
-     * 
+     *
      * @param base The base iterator.
      */
-    public constructor(base: Base)
-    {
+    public constructor(base: Base) {
         this.base_ = base.prev();
     }
 
@@ -41,27 +41,24 @@ export abstract class ReverseIterator<T extends PElem,
     --------------------------------------------------------- */
     /**
      * Get source container.
-     * 
+     *
      * @return The source container.
      */
-    public source(): Source
-    {
+    public source(): Source {
         return this.base_.source();
     }
 
     /**
      * @inheritDoc
      */
-    public base(): Base
-    {
+    public base(): Base {
         return this.base_.next();
     }
-    
+
     /**
      * @inheritDoc
      */
-    public get value(): T
-    {
+    public get value(): T {
         return this.base_.value;
     }
 
@@ -71,8 +68,7 @@ export abstract class ReverseIterator<T extends PElem,
     /**
      * @inheritDoc
      */
-    public prev(): This
-    {
+    public prev(): This {
         // this.base().next()
         return this._Create_neighbor(this.base().next());
     }
@@ -80,8 +76,7 @@ export abstract class ReverseIterator<T extends PElem,
     /**
      * @inheritDoc
      */
-    public next(): This
-    {
+    public next(): This {
         // this.base().prev()
         return this._Create_neighbor(this.base_);
     }
@@ -92,8 +87,7 @@ export abstract class ReverseIterator<T extends PElem,
     /**
      * @inheritDoc
      */
-    public equals(obj: This): boolean
-    {
+    public equals(obj: This): boolean {
         return this.base_.equals(obj.base_);
     }
 }

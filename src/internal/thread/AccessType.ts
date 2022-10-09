@@ -1,11 +1,10 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export const enum AccessType
-{
+export const enum AccessType {
     WRITE,
-    READ
+    READ,
 }

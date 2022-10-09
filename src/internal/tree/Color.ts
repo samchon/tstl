@@ -1,11 +1,10 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export const enum Color
-{
+export const enum Color {
     BLACK,
-    RED
+    RED,
 }

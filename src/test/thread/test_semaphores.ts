@@ -5,8 +5,7 @@ import { _Test_lock, _Test_try_lock } from "./test_mutexes";
 
 const SIZE = 8;
 
-export async function test_semaphores(): Promise<void>
-{
+export async function test_semaphores(): Promise<void> {
     //----
     // TEST MUTEX FEATURES
     //----
@@ -25,25 +24,21 @@ export async function test_semaphores(): Promise<void>
     await _Test_timed_semaphore(semaphore);
 }
 
-async function _Test_semaphore(s: std.Semaphore): Promise<void>
-{
+async function _Test_semaphore(s: std.Semaphore): Promise<void> {
     let acquired_count: number = 0;
-    
+
     // LOCK 4 TIMES
-    for (let i: number = 0; i < s.max(); ++i)
-    {
+    for (let i: number = 0; i < s.max(); ++i) {
         await s.acquire();
         ++acquired_count;
     }
-    if (acquired_count !== s.max())
-        throw new Error(`Bug on Semaphore.lock()`);
-    else if (await s.try_acquire() === true)
+    if (acquired_count !== s.max()) throw new Error(`Bug on Semaphore.lock()`);
+    else if ((await s.try_acquire()) === true)
         throw new Error(`Bug on Semaphore.try_lock()`);
 
     // LOCK 4 TIMES AGAIN -> THEY SHOULD BE HOLD
     for (let i: number = 0; i < s.max(); ++i)
-        s.acquire().then(() =>
-        {
+        s.acquire().then(() => {
             ++acquired_count;
         });
     if (acquired_count !== s.max())
@@ -60,40 +55,44 @@ async function _Test_semaphore(s: std.Semaphore): Promise<void>
     await s.release(s.max());
 }
 
-async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void>
-{
+async function _Test_timed_semaphore(ts: std.Semaphore): Promise<void> {
     // TRY LOCK FIRST
-    for (let i: number = 0; i < ts.max(); ++i)
-    {
+    for (let i: number = 0; i < ts.max(); ++i) {
         const flag: boolean = await ts.try_acquire_for(0);
         if (flag === false)
-            throw new Error("Bug on TimedSemaphore.try_lock_for(); failed to lock when clear");
+            throw new Error(
+                "Bug on TimedSemaphore.try_lock_for(); failed to lock when clear",
+            );
     }
 
     // TRY LOCK FOR -> MUST BE FAILED
-    if (await ts.try_acquire_for(50) === true)
-        throw new Error("Bug on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.");
+    if ((await ts.try_acquire_for(50)) === true)
+        throw new Error(
+            "Bug on TimedSemaphore.try_lock_for(); succeeded to lock when must be failed.",
+        );
 
     // LOCK WOULD BE HOLD
     let cnt: number = 0;
     for (let i: number = 0; i < ts.max() / 2; ++i)
-        ts.acquire().then(() =>
-        {
+        ts.acquire().then(() => {
             ++cnt;
         });
 
     await std.sleep_for(100);
     if (cnt === ts.max() / 2)
-        throw new Error("Bug on TimedSemaphore.try_lock_for(); failed to release holdings.");
+        throw new Error(
+            "Bug on TimedSemaphore.try_lock_for(); failed to release holdings.",
+        );
 
     // RELEASE AND LOCK
     await ts.release(ts.max());
 
-    for (let i: number = 0; i < ts.max() / 2; ++i)
-    {
+    for (let i: number = 0; i < ts.max() / 2; ++i) {
         const flag: boolean = await ts.try_acquire_for(100);
         if (flag === false)
-            throw new Error("Bug on TimedSemaphore.try_lock_for(); failed to lock when released.");
+            throw new Error(
+                "Bug on TimedSemaphore.try_lock_for(); failed to lock when released.",
+            );
     }
     await ts.release(ts.max());
 }

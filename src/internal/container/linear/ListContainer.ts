@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IContainer } from "../../../base/container/IContainer";
@@ -21,18 +21,32 @@ import { Temporary } from "../../functional/Temporary";
 
 /**
  * Basic List Container.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export abstract class ListContainer<T, 
+export abstract class ListContainer<
+        T,
         SourceT extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, T>,
-        IteratorT extends ListIterator<T, SourceT, IteratorT, ReverseIteratorT, T>,
-        ReverseIteratorT extends ReverseIterator<T, SourceT, IteratorT, ReverseIteratorT, T>>
+        IteratorT extends ListIterator<
+            T,
+            SourceT,
+            IteratorT,
+            ReverseIteratorT,
+            T
+        >,
+        ReverseIteratorT extends ReverseIterator<
+            T,
+            SourceT,
+            IteratorT,
+            ReverseIteratorT,
+            T
+        >,
+    >
     extends Container<T, SourceT, IteratorT, ReverseIteratorT, T>
     implements ILinearContainerBase<T, SourceT, IteratorT, ReverseIteratorT, T>
 {
     private size_!: number;
-    
+
     protected begin_!: IteratorT;
     protected end_: IteratorT;
 
@@ -42,8 +56,7 @@ export abstract class ListContainer<T,
     /**
      * Default Constructor.
      */
-    protected constructor()
-    {
+    protected constructor() {
         super();
 
         // INIT MEMBERS
@@ -51,7 +64,11 @@ export abstract class ListContainer<T,
         this.clear();
     }
 
-    protected abstract _Create_iterator(prev: IteratorT, next: IteratorT, val?: T): IteratorT;
+    protected abstract _Create_iterator(
+        prev: IteratorT,
+        next: IteratorT,
+        val?: T,
+    ): IteratorT;
 
     /**
      * @inheritDoc
@@ -61,11 +78,11 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void;
+    public assign<
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
+    >(first: InputIterator, last: InputIterator): void;
 
-    public assign(par1: any, par2: any): void
-    {
+    public assign(par1: any, par2: any): void {
         this.clear();
         this.insert(this.end(), par1, par2);
     }
@@ -73,12 +90,11 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public clear(): void
-    {
+    public clear(): void {
         // DISCONNECT NODES
         ListIterator._Set_prev(this.end_, this.end_);
         ListIterator._Set_next(this.end_, this.end_);
-        
+
         // RE-SIZE -> 0
         this.begin_ = this.end_;
         this.size_ = 0;
@@ -87,11 +103,9 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public resize(n: number): void
-    {
+    public resize(n: number): void {
         const expansion: number = n - this.size();
-        if (expansion > 0)
-            this.insert(this.end(), expansion, undefined!);
+        if (expansion > 0) this.insert(this.end(), expansion, undefined!);
         else if (expansion < 0)
             this.erase(advance(<Temporary>this.end(), -expansion), this.end());
     }
@@ -102,24 +116,21 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public begin(): IteratorT
-    {
+    public begin(): IteratorT {
         return this.begin_;
     }
 
     /**
      * @inheritDoc
      */
-    public end(): IteratorT
-    {
+    public end(): IteratorT {
         return this.end_;
     }
 
     /**
      * @inheritDoc
      */
-    public size(): number
-    {
+    public size(): number {
         return this.size_;
     }
 
@@ -135,26 +146,26 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public push_front(val: T): void
-    {
+    public push_front(val: T): void {
         this.insert(this.begin_, val);
     }
 
     /**
      * @inheritDoc
      */
-    public push_back(val: T): void
-    {
+    public push_back(val: T): void {
         this.insert(this.end_, val);
     }
 
     /**
      * @inheritDoc
      */
-    public pop_front(): void
-    {
+    public pop_front(): void {
         if (this.empty() === true)
-            throw ErrorGenerator.empty(this.end_.source().constructor.name, "pop_front");
+            throw ErrorGenerator.empty(
+                this.end_.source().constructor.name,
+                "pop_front",
+            );
 
         this.erase(this.begin_);
     }
@@ -162,10 +173,12 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public pop_back(): void
-    {
+    public pop_back(): void {
         if (this.empty() === true)
-            throw ErrorGenerator.empty(this.end_.source().constructor.name, "pop_back");
+            throw ErrorGenerator.empty(
+                this.end_.source().constructor.name,
+                "pop_back",
+            );
 
         this.erase(this.end_.prev());
     }
@@ -176,14 +189,15 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public push(...items: T[]): number 
-    {
-        if (items.length === 0)
-            return this.size();
+    public push(...items: T[]): number {
+        if (items.length === 0) return this.size();
 
         // INSERT BY RANGE
         const first: NativeArrayIterator<T> = new NativeArrayIterator(items, 0);
-        const last: NativeArrayIterator<T> = new NativeArrayIterator(items, items.length);
+        const last: NativeArrayIterator<T> = new NativeArrayIterator(
+            items,
+            items.length,
+        );
 
         this._Insert_by_range(this.end(), first, last);
 
@@ -202,11 +216,11 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-        (position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT;
+    public insert<
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
+    >(position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT;
 
-    public insert(pos: IteratorT, ...args: any[]): IteratorT
-    {
+    public insert(pos: IteratorT, ...args: any[]): IteratorT {
         // VALIDATION
         if (pos.source() !== this.end_.source())
             throw ErrorGenerator.not_my_iterator(this.end_.source(), "insert");
@@ -218,32 +232,40 @@ export abstract class ListContainer<T,
             return this._Insert_by_repeating_val(pos, 1, args[0]);
         else if (args.length === 2 && typeof args[0] === "number")
             return this._Insert_by_repeating_val(pos, args[0], args[1]);
-        else
-            return this._Insert_by_range(pos, args[0], args[1]);
+        else return this._Insert_by_range(pos, args[0], args[1]);
     }
 
-    private _Insert_by_repeating_val(position: IteratorT, n: number, val: T): IteratorT
-    {
+    private _Insert_by_repeating_val(
+        position: IteratorT,
+        n: number,
+        val: T,
+    ): IteratorT {
         const first: Repeater<T> = new Repeater(0, val);
         const last: Repeater<T> = new Repeater(n);
 
         return this._Insert_by_range(position, first, last);
     }
 
-    protected _Insert_by_range<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-        (position: IteratorT, begin: InputIterator, end: InputIterator): IteratorT
-    {
+    protected _Insert_by_range<
+        InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
+    >(
+        position: IteratorT,
+        begin: InputIterator,
+        end: InputIterator,
+    ): IteratorT {
         let prev: IteratorT = <IteratorT>position.prev();
         let first: IteratorT = null!;
 
         let size: number = 0;
 
-        for (let it = begin; it.equals(end) === false; it = it.next())
-        {
+        for (let it = begin; it.equals(end) === false; it = it.next()) {
             // CONSTRUCT ITEM, THE NEW ELEMENT
-            const item: IteratorT = this._Create_iterator(prev, null!, it.value);
-            if (size === 0)
-                first = item;
+            const item: IteratorT = this._Create_iterator(
+                prev,
+                null!,
+                it.value,
+            );
+            if (size === 0) first = item;
 
             // PLACE ITEM ON THE NEXT OF "PREV"
             ListIterator._Set_next(prev, item);
@@ -254,8 +276,7 @@ export abstract class ListContainer<T,
         }
 
         // WILL FIRST BE THE BEGIN?
-        if (position.equals(this.begin()) === true)
-            this.begin_ = (first);
+        if (position.equals(this.begin()) === true) this.begin_ = first;
 
         // CONNECT BETWEEN LAST AND POSITION
         ListIterator._Set_next(prev, position);
@@ -276,20 +297,17 @@ export abstract class ListContainer<T,
      * @inheritDoc
      */
     public erase(first: IteratorT, last: IteratorT): IteratorT;
-    public erase(first: IteratorT, last: IteratorT = first.next()): IteratorT
-    {
+    public erase(first: IteratorT, last: IteratorT = first.next()): IteratorT {
         return this._Erase_by_range(first, last);
     }
 
-    protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT
-    {
+    protected _Erase_by_range(first: IteratorT, last: IteratorT): IteratorT {
         // VALIDATION
         if (first.source() !== this.end_.source())
             throw ErrorGenerator.not_my_iterator(this.end_.source(), "insert");
         else if (first.erased_ === true)
             throw ErrorGenerator.erased_iterator(this.end_.source(), "insert");
-        else if (first.equals(this.end_))
-            return this.end_;
+        else if (first.equals(this.end_)) return this.end_;
 
         // FIND PREV AND NEXT
         const prev: IteratorT = first.prev();
@@ -298,13 +316,11 @@ export abstract class ListContainer<T,
         ListIterator._Set_next(prev, last);
         ListIterator._Set_prev(last, prev);
 
-        for (let it = first; !it.equals(last); it = it.next())
-        {
+        for (let it = first; !it.equals(last); it = it.next()) {
             it.erased_ = true;
             --this.size_;
         }
-        if (first.equals(this.begin_))
-            this.begin_ = (last);
+        if (first.equals(this.begin_)) this.begin_ = last;
 
         return last;
     }
@@ -315,8 +331,7 @@ export abstract class ListContainer<T,
     /**
      * @inheritDoc
      */
-    public swap(obj: SourceT): void
-    {
+    public swap(obj: SourceT): void {
         [this.begin_, (obj as any).begin_] = [(obj as any).begin_, this.begin_];
         [this.end_, (obj as any).end_] = [(obj as any).end_, this.end_];
         [this.size_, (obj as any).size_] = [(obj as any).size_, this.size_];

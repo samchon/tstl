@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.base  
+ * @module std.base
  */
 //================================================================
 import { IContainer } from "./IContainer";
@@ -11,21 +11,34 @@ import { ForOfAdaptor } from "../../internal/iterator/disposable/ForOfAdaptor";
 
 /**
  * Basic container.
- * 
+ *
  * @template T Stored elements' type
  * @template SourceT Derived type extending this {@link Container}
  * @template IteratorT Iterator type
  * @template ReverseT Reverse iterator type
  * @template PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export abstract class Container<T extends PElem, 
-        SourceT extends Container<T, SourceT, IteratorT, ReverseT, PElem>,
-        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, PElem>,
-        ReverseT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, PElem>,
-        PElem = T>
-    implements IContainer<T, SourceT, IteratorT, ReverseT, PElem>
+export abstract class Container<
+    T extends PElem,
+    SourceT extends Container<T, SourceT, IteratorT, ReverseT, PElem>,
+    IteratorT extends IContainer.Iterator<
+        T,
+        SourceT,
+        IteratorT,
+        ReverseT,
+        PElem
+    >,
+    ReverseT extends IContainer.ReverseIterator<
+        T,
+        SourceT,
+        IteratorT,
+        ReverseT,
+        PElem
+    >,
+    PElem = T,
+> implements IContainer<T, SourceT, IteratorT, ReverseT, PElem>
 {
     /* ---------------------------------------------------------
         ASSIGN & CLEAR
@@ -33,14 +46,15 @@ export abstract class Container<T extends PElem,
     /**
      * @inheritDoc
      */
-    public abstract assign<InputIterator extends Readonly<IForwardIterator<PElem, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void;
+    public abstract assign<
+        InputIterator extends Readonly<IForwardIterator<PElem, InputIterator>>,
+    >(first: InputIterator, last: InputIterator): void;
 
     /**
      * @inheritDoc
      */
     public abstract clear(): void;
-    
+
     /* =========================================================
         ACCESSORS
             - SIZE
@@ -52,12 +66,11 @@ export abstract class Container<T extends PElem,
      * @inheritDoc
      */
     public abstract size(): number;
-    
+
     /**
      * @inheritDoc
      */
-    public empty(): boolean
-    {
+    public empty(): boolean {
         return this.size() === 0;
     }
 
@@ -77,24 +90,21 @@ export abstract class Container<T extends PElem,
     /**
      * @inheritDoc
      */
-    public rbegin(): ReverseT
-    {
+    public rbegin(): ReverseT {
         return this.end().reverse();
     }
 
     /**
      * @inheritDoc
      */
-    public rend(): ReverseT
-    {
+    public rend(): ReverseT {
         return this.begin().reverse();
     }
 
     /**
      * @inheritDoc
      */
-    public [Symbol.iterator](): IterableIterator<T>
-    {
+    public [Symbol.iterator](): IterableIterator<T> {
         return new ForOfAdaptor(this.begin(), this.end());
     }
 
@@ -127,11 +137,9 @@ export abstract class Container<T extends PElem,
     /**
      * @inheritDoc
      */
-    public toJSON(): Array<T>
-    {
+    public toJSON(): Array<T> {
         const ret: Array<T> = [];
-        for (const elem of this)
-            ret.push(elem);
+        for (const elem of this) ret.push(elem);
 
         return ret;
     }

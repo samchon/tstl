@@ -1,30 +1,31 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 /**
  * Adaptor for `for ... of` iteration.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class ForOfAdaptor<T, InputIterator extends Readonly<IForwardIterator<T, InputIterator>>> 
-    implements IterableIterator<T>
+export class ForOfAdaptor<
+    T,
+    InputIterator extends Readonly<IForwardIterator<T, InputIterator>>,
+> implements IterableIterator<T>
 {
     private it_: InputIterator;
     private last_: InputIterator;
 
     /**
      * Initializer Constructor.
-     * 
+     *
      * @param first Input iteartor of the first position.
      * @param last Input iterator of the last position.
      */
-    public constructor(first: InputIterator, last: InputIterator)
-    {
+    public constructor(first: InputIterator, last: InputIterator) {
         this.it_ = first;
         this.last_ = last;
     }
@@ -32,30 +33,27 @@ export class ForOfAdaptor<T, InputIterator extends Readonly<IForwardIterator<T, 
     /**
      * @inheritDoc
      */
-    public next(): IteratorResult<T>
-    {
+    public next(): IteratorResult<T> {
         if (this.it_.equals(this.last_))
             return {
                 done: true,
-                value: undefined!
+                value: undefined!,
             };
-        else
-        {
+        else {
             const it: InputIterator = this.it_;
             this.it_ = this.it_.next();
 
             return {
                 done: false,
-                value: it.value
-            }
+                value: it.value,
+            };
         }
     }
 
     /**
      * @inheritDoc
      */
-    public [Symbol.iterator](): IterableIterator<T>
-    {
+    public [Symbol.iterator](): IterableIterator<T> {
         return this;
     }
 }

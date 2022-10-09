@@ -1,19 +1,21 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 import { Writeonly } from "../functional/Writeonly";
 
-export abstract class InsertIteratorBase<T, This extends InsertIteratorBase<T, This>>
-    implements Writeonly<IForwardIterator<T, This>>
+export abstract class InsertIteratorBase<
+    T,
+    This extends InsertIteratorBase<T, This>,
+> implements Writeonly<IForwardIterator<T, This>>
 {
     /**
      * Set value.
-     * 
+     *
      * @param val The value to set.
      */
     public abstract set value(val: T);
@@ -21,8 +23,7 @@ export abstract class InsertIteratorBase<T, This extends InsertIteratorBase<T, T
     /**
      * @inheritDoc
      */
-    public next(): This
-    {
+    public next(): This {
         return this as any;
     }
 

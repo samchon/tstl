@@ -1,12 +1,12 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 export * from "./Mutex";
 export * from "./TimedMutex";
-export * from "./SharedMutex"
+export * from "./SharedMutex";
 export * from "./SharedTimedMutex";
 
 export * from "./ConditionVariable";

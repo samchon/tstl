@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { ITimedLockable } from "../base/thread/ITimedLockable";
@@ -9,11 +9,10 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
  * Timed mutex.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class TimedMutex implements ITimedLockable
-{
+export class TimedMutex implements ITimedLockable {
     private mutex_: SharedTimedMutex;
 
     /* ---------------------------------------------------------
@@ -22,8 +21,7 @@ export class TimedMutex implements ITimedLockable
     /**
      * Default Constructor.
      */
-    public constructor()
-    {
+    public constructor() {
         this.mutex_ = new SharedTimedMutex(this);
     }
 
@@ -33,24 +31,21 @@ export class TimedMutex implements ITimedLockable
     /**
      * @inheritDoc
      */
-    public lock(): Promise<void>
-    {
+    public lock(): Promise<void> {
         return this.mutex_.lock();
     }
 
     /**
      * @inheritDoc
      */
-    public try_lock(): Promise<boolean>
-    {
+    public try_lock(): Promise<boolean> {
         return this.mutex_.try_lock();
     }
 
     /**
      * @inheritDoc
      */
-    public unlock(): Promise<void>
-    {
+    public unlock(): Promise<void> {
         return this.mutex_.unlock();
     }
 
@@ -60,16 +55,14 @@ export class TimedMutex implements ITimedLockable
     /**
      * @inheritDoc
      */
-    public try_lock_for(ms: number): Promise<boolean>
-    {
+    public try_lock_for(ms: number): Promise<boolean> {
         return this.mutex_.try_lock_for(ms);
     }
-    
+
     /**
      * @inheritDoc
      */
-    public try_lock_until(at: Date): Promise<boolean>
-    {
+    public try_lock_until(at: Date): Promise<boolean> {
         return this.mutex_.try_lock_until(at);
     }
 }

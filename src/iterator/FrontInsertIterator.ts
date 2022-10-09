@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
@@ -11,12 +11,15 @@ import { equal_to } from "../functional/comparators";
 
 /**
  * Front insert iterator.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.ValueType<Source>>>
-    extends InsertIteratorBase<FrontInsertIterator.ValueType<Source>, FrontInsertIterator<Source>>
-{
+export class FrontInsertIterator<
+    Source extends IPushFront<FrontInsertIterator.ValueType<Source>>,
+> extends InsertIteratorBase<
+    FrontInsertIterator.ValueType<Source>,
+    FrontInsertIterator<Source>
+> {
     private source_: Source;
 
     /* ---------------------------------------------------------
@@ -24,11 +27,10 @@ export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.V
     --------------------------------------------------------- */
     /**
      * Initializer Constructor.
-     * 
+     *
      * @param source The source container.
      */
-    public constructor(source: Source)
-    {
+    public constructor(source: Source) {
         super();
         this.source_ = source;
     }
@@ -36,26 +38,21 @@ export class FrontInsertIterator<Source extends IPushFront<FrontInsertIterator.V
     /**
      * @inheritDoc
      */
-    public set value(val: FrontInsertIterator.ValueType<Source>)
-    {
+    public set value(val: FrontInsertIterator.ValueType<Source>) {
         this.source_.push_front(val);
     }
 
     /**
      * @inheritDoc
      */
-    public equals(obj: FrontInsertIterator<Source>): boolean
-    {
+    public equals(obj: FrontInsertIterator<Source>): boolean {
         return equal_to(this.source_, obj.source_);
     }
 }
-export namespace FrontInsertIterator
-{
+export namespace FrontInsertIterator {
     /**
      * Deduct value type.
      */
-    export type ValueType<Source extends IPushFront<any>> = 
-        Source extends IPushFront<infer T>
-            ? T
-            : unknown;
+    export type ValueType<Source extends IPushFront<any>> =
+        Source extends IPushFront<infer T> ? T : unknown;
 }
