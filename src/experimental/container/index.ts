@@ -1,11 +1,11 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.experimental  
+ * @module std.experimental
  */
 //================================================================
 export * from "./FlatSet";
 export * from "./FlatMultiSet";
 
 export * from "./FlatMap";
-export * from "./FlatMultiMap"
+export * from "./FlatMultiMap";

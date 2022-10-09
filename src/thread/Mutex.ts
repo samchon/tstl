@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { ILockable } from "../base/thread/ILockable";
@@ -9,11 +9,10 @@ import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
  * Mutex.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class Mutex implements ILockable
-{
+export class Mutex implements ILockable {
     private mutex_: SharedTimedMutex;
 
     /* ---------------------------------------------------------
@@ -22,8 +21,7 @@ export class Mutex implements ILockable
     /**
      * Default Constructor.
      */
-    public constructor()
-    {
+    public constructor() {
         this.mutex_ = new SharedTimedMutex(this);
     }
 
@@ -33,24 +31,21 @@ export class Mutex implements ILockable
     /**
      * @inheritDoc
      */
-    public lock(): Promise<void>
-    {
+    public lock(): Promise<void> {
         return this.mutex_.lock();
     }
 
     /**
      * @inheritDoc
      */
-    public try_lock(): Promise<boolean>
-    {
+    public try_lock(): Promise<boolean> {
         return this.mutex_.try_lock();
     }
 
     /**
      * @inheritDoc
      */
-    public unlock(): Promise<void>
-    {
+    public unlock(): Promise<void> {
         return this.mutex_.unlock();
     }
 }

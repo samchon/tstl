@@ -1,7 +1,6 @@
 import std from "../../index";
 
-export async function test_timed_singleton(): Promise<void>
-{
+export async function test_timed_singleton(): Promise<void> {
     let i: number = 0;
     const singleton = new std.TimedSingleton(10, () => i);
     singleton.get();

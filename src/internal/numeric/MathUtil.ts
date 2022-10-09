@@ -1,13 +1,11 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export namespace MathUtil
-{
-    export function factorial(k: number): number
-    {
+export namespace MathUtil {
+    export function factorial(k: number): number {
         if (FACTORIALS.length <= k)
             for (let i: number = FACTORIALS.length; i <= k; ++i)
                 FACTORIALS.push(FACTORIALS[i - 1] * i);
@@ -16,16 +14,13 @@ export namespace MathUtil
     }
 
     export function integral(
-            formula: (x: number) => number,
-            first: number,
-            last: number,
-            segment_count: number = 100 * 1000
-        ): number
-    {
-        if (first > last)
-            [first, last] = [last, first];
-        else if (first === last)
-            return 0;
+        formula: (x: number) => number,
+        first: number,
+        last: number,
+        segment_count: number = 100 * 1000,
+    ): number {
+        if (first > last) [first, last] = [last, first];
+        else if (first === last) return 0;
 
         const interval: number = (last - first) / segment_count;
         let ret: number = 0.0;
@@ -37,15 +32,13 @@ export namespace MathUtil
     }
 
     export function sigma(
-            formula: (k: number) => number,
-            first: number,
-            last: number
-        ): number
-    {
+        formula: (k: number) => number,
+        first: number,
+        last: number,
+    ): number {
         let ret: number = 0.0;
-        for (; first <= last; ++first)
-            ret += formula(first);
-    
+        for (; first <= last; ++first) ret += formula(first);
+
         return ret;
     }
 

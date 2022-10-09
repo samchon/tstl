@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 // <exception>
@@ -18,7 +18,7 @@ export * from "./LengthError";
 export * from "./OutOfRange";
 
 export * from "./RuntimeError";
-export * from "./RangeError"
+export * from "./RangeError";
 export * from "./OverflowError";
 export * from "./UnderflowError";
 export * from "./SystemError";

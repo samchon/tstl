@@ -1,21 +1,19 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
-export class Repeater<T> implements Readonly<IForwardIterator<T, Repeater<T>>>
-{
+export class Repeater<T> implements Readonly<IForwardIterator<T, Repeater<T>>> {
     private index_: number;
     private value_: T | undefined;
 
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
-    public constructor(index: number, value?: T)
-    {
+    public constructor(index: number, value?: T) {
         this.index_ = index;
         this.value_ = value;
     }
@@ -23,27 +21,23 @@ export class Repeater<T> implements Readonly<IForwardIterator<T, Repeater<T>>>
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
-    public index(): number
-    {
+    public index(): number {
         return this.index_;
     }
 
-    public get value(): T
-    {
+    public get value(): T {
         return this.value_!;
     }
 
     /* ---------------------------------------------------------
         MOVERS & COMPARE
     --------------------------------------------------------- */
-    public next(): Repeater<T>
-    {
+    public next(): Repeater<T> {
         ++this.index_;
         return this;
     }
-    
-    public equals(obj: Repeater<T>): boolean
-    {
+
+    public equals(obj: Repeater<T>): boolean {
         return this.index_ === obj.index_;
     }
 }

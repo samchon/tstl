@@ -1,20 +1,16 @@
 import * as std from "../../index";
 
-export function test_randoms(): void
-{
+export function test_randoms(): void {
     _Test_rand_ints();
     _Test_samples();
 }
 
-function _Test_rand_ints(): void
-{
-    for (let i: number = 0; i < 100; ++i)
-    {
+function _Test_rand_ints(): void {
+    for (let i: number = 0; i < 100; ++i) {
         let x: number = Math.floor(Math.random() * 100);
         let y: number = Math.floor(Math.random() * 100);
 
-        if (x > y)
-            [x, y] = [y, x];
+        if (x > y) [x, y] = [y, x];
 
         const rand: number = std.randint(x, y);
         if (rand < x || rand > y)
@@ -22,10 +18,8 @@ function _Test_rand_ints(): void
     }
 }
 
-function _Test_samples(): void
-{
-    for (let i: number = 0; i < 100; ++i)
-    {
+function _Test_samples(): void {
+    for (let i: number = 0; i < 100; ++i) {
         const size: number = std.randint(10, 100);
         const populations: std.Vector<number> = _Generate_populations(size);
 
@@ -35,18 +29,16 @@ function _Test_samples(): void
         std.ranges.sample(populations, std.back_inserter(samples), n);
         if (std.ranges.is_sorted(samples) === false)
             throw new Error("Bug on std.sample(); Elements are not sorted.");
-        
+
         samples.erase(std.ranges.unique(samples), samples.end());
         if (samples.size() !== n)
             throw new Error("Bug on std.sample(); Elements are not unique.");
     }
 }
 
-function _Generate_populations(size: number): std.Vector<number>
-{
+function _Generate_populations(size: number): std.Vector<number> {
     const ret: std.Vector<number> = new std.Vector(size, 0);
-    for (let i: number = 0; i < ret.size(); ++i)
-        ret.set(i, i);
+    for (let i: number = 0; i < ret.size(); ++i) ret.set(i, i);
 
     return ret;
 }

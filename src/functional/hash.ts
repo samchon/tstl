@@ -1,4 +1,4 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
  * @module std
@@ -9,52 +9,50 @@ import { get_uid } from "./uid";
 
 /**
  * Hash function.
- * 
+ *
  * @param itemList The items to be hashed.
  * @return The hash code.
  */
-export function hash(...itemList: any[]): number
-{
+export function hash(...itemList: any[]): number {
     let ret: number = INIT_VALUE;
-    
-    for (let item of itemList)
-    {
+
+    for (let item of itemList) {
         item = item ? item.valueOf() : item;
         const type: string = typeof item;
 
-        if (type === "boolean") // BOOLEAN -> 1 BYTE
+        if (type === "boolean")
+            // BOOLEAN -> 1 BYTE
             ret = _Hash_boolean(item, ret);
-        else if (type === "number" || type === "bigint") // NUMBER -> 8 BYTES
+        else if (type === "number" || type === "bigint")
+            // NUMBER -> 8 BYTES
             ret = _Hash_number(item, ret);
-        else if (type === "string") // STRING -> {LENGTH} BYTES
+        else if (type === "string")
+            // STRING -> {LENGTH} BYTES
             ret = _Hash_string(item, ret);
-        else if (item instanceof Object && (<any>item as IComparable<{}>).hashCode instanceof Function)
-        {
-            const hashed: number = (<any>item as IComparable<{}>).hashCode();
-            if (itemList.length === 1)
-                return hashed;
-            else
-            {
+        else if (
+            item instanceof Object &&
+            ((<any>item) as IComparable<{}>).hashCode instanceof Function
+        ) {
+            const hashed: number = ((<any>item) as IComparable<{}>).hashCode();
+            if (itemList.length === 1) return hashed;
+            else {
                 ret = ret ^ hashed;
                 ret *= MULTIPLIER;
             }
-        }
-        else // object | null | undefined
-            ret = _Hash_number(get_uid(item), ret);
+        } // object | null | undefined
+        else ret = _Hash_number(get_uid(item), ret);
     }
     return Math.abs(ret);
 }
 
-function _Hash_boolean(val: boolean, ret: number): number
-{
+function _Hash_boolean(val: boolean, ret: number): number {
     ret ^= val ? 1 : 0;
     ret *= MULTIPLIER;
 
     return ret;
 }
 
-function _Hash_number(val: number, ret: number): number
-{
+function _Hash_number(val: number, ret: number): number {
     return _Hash_string(val.toString(), ret);
     // // ------------------------------------------
     // //    IN C++
@@ -77,10 +75,8 @@ function _Hash_number(val: number, ret: number): number
     // return Math.abs(ret);
 }
 
-function _Hash_string(str: string, ret: number): number
-{
-    for (let i: number = 0; i < str.length; ++i)
-    {
+function _Hash_string(str: string, ret: number): number {
+    for (let i: number = 0; i < str.length; ++i) {
         ret ^= str.charCodeAt(i);
         ret *= MULTIPLIER;
     }

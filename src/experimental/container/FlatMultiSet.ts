@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.experimental  
+ * @module std.experimental
  */
 //================================================================
 import { MultiTreeSet } from "../../internal/container/associative/MultiTreeSet";
@@ -16,15 +16,15 @@ import { lower_bound, upper_bound } from "../../algorithm/binary_search";
 
 /**
  * Multiple-key Set based on sorted array.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class FlatMultiSet<Key>
-    extends MultiTreeSet<Key, 
-        FlatMultiSet<Key>, 
-        FlatMultiSet.Iterator<Key>, 
-        FlatMultiSet.ReverseIterator<Key>>
-{
+export class FlatMultiSet<Key> extends MultiTreeSet<
+    Key,
+    FlatMultiSet<Key>,
+    FlatMultiSet.Iterator<Key>,
+    FlatMultiSet.ReverseIterator<Key>
+> {
     private key_comp_!: Comparator<Key>;
 
     /* ---------------------------------------------------------
@@ -32,14 +32,14 @@ export class FlatMultiSet<Key>
     --------------------------------------------------------- */
     /**
      * Default Constructor.
-     * 
+     *
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
     public constructor(comp?: Comparator<Key>);
 
     /**
      * Initializer Constructor.
-     * 
+     *
      * @param items Items to assign.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
@@ -47,54 +47,56 @@ export class FlatMultiSet<Key>
 
     /**
      * Copy Constructor.
-     * 
+     *
      * @param obj Object to copy.
      */
     public constructor(obj: FlatMultiSet<Key>);
 
     /**
      * Range Constructor.
-     * 
+     *
      * @param first Input iterator of the first position.
      * @param last Input iterator of the last position.
      * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
      */
-    public constructor
-        (
-            first: Readonly<IForwardIterator<Key>>, 
-            last: Readonly<IForwardIterator<Key>>,
-            comp?: Comparator<Key>
-        );
-    
-    public constructor(...args: any[])
-    {
+    public constructor(
+        first: Readonly<IForwardIterator<Key>>,
+        last: Readonly<IForwardIterator<Key>>,
+        comp?: Comparator<Key>,
+    );
+
+    public constructor(...args: any[]) {
         // INITIALIZATION
-        super(thisArg => new SetElementVector(thisArg));
-        
+        super((thisArg) => new SetElementVector(thisArg));
+
         // OVERLOADINGS
-        ITreeContainer.construct<Key, Key, 
-                FlatMultiSet<Key>,
-                FlatMultiSet.Iterator<Key>,
-                FlatMultiSet.ReverseIterator<Key>,
-                Key>
-        (
-            this, FlatMultiSet, 
-            comp => 
-            {
+        ITreeContainer.construct<
+            Key,
+            Key,
+            FlatMultiSet<Key>,
+            FlatMultiSet.Iterator<Key>,
+            FlatMultiSet.ReverseIterator<Key>,
+            Key
+        >(
+            this,
+            FlatMultiSet,
+            (comp) => {
                 this.key_comp_ = comp;
             },
-            ...args
+            ...args,
         );
     }
 
     /**
      * @inheritDoc
      */
-    public swap(obj: FlatMultiSet<Key>): void
-    {
+    public swap(obj: FlatMultiSet<Key>): void {
         // SWAP CONTENTS
         [this.data_, obj.data_] = [obj.data_, this.data_];
-        SetElementVector._Swap_associative(this.data_ as Temporary, obj.data_ as Temporary);
+        SetElementVector._Swap_associative(
+            this.data_ as Temporary,
+            obj.data_ as Temporary,
+        );
 
         // SWAP COMPARATORS
         [this.key_comp_, obj.key_comp_] = [obj.key_comp_, this.key_comp_];
@@ -106,32 +108,30 @@ export class FlatMultiSet<Key>
     /**
      * @inheritDoc
      */
-    public nth(index: number): FlatMultiSet.Iterator<Key>
-    {
-        return (this.data_ as SetElementVector<Key, false, FlatMultiSet<Key>>).nth(index);
+    public nth(index: number): FlatMultiSet.Iterator<Key> {
+        return (
+            this.data_ as SetElementVector<Key, false, FlatMultiSet<Key>>
+        ).nth(index);
     }
 
     /**
      * @inheritDoc
      */
-    public key_comp(): Comparator<Key>
-    {
+    public key_comp(): Comparator<Key> {
         return this.key_comp_;
     }
-    
+
     /**
      * @inheritDoc
      */
-    public lower_bound(key: Key): FlatMultiSet.Iterator<Key>
-    {
+    public lower_bound(key: Key): FlatMultiSet.Iterator<Key> {
         return lower_bound(this.begin(), this.end(), key, this.value_comp());
     }
 
     /**
      * @inheritDoc
      */
-    public upper_bound(key: Key): FlatMultiSet.Iterator<Key>
-    {
+    public upper_bound(key: Key): FlatMultiSet.Iterator<Key> {
         return upper_bound(this.begin(), this.end(), key, this.value_comp());
     }
 
@@ -144,13 +144,20 @@ export class FlatMultiSet<Key>
 }
 
 /**
- * 
+ *
  */
-export namespace FlatMultiSet
-{
+export namespace FlatMultiSet {
     // HEAD
-    export type Iterator<Key> = SetElementVector.Iterator<Key, false, FlatMultiSet<Key>>;
-    export type ReverseIterator<Key> = SetElementVector.ReverseIterator<Key, false, FlatMultiSet<Key>>;
+    export type Iterator<Key> = SetElementVector.Iterator<
+        Key,
+        false,
+        FlatMultiSet<Key>
+    >;
+    export type ReverseIterator<Key> = SetElementVector.ReverseIterator<
+        Key,
+        false,
+        FlatMultiSet<Key>
+    >;
 
     // BODY
     export const Iterator = SetElementVector.Iterator;

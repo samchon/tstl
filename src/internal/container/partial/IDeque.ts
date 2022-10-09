@@ -1,13 +1,12 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IPushFront } from "./IPushFront";
 
-export interface IDeque<T> extends IPushFront<T>
-{
+export interface IDeque<T> extends IPushFront<T> {
     /**
      * Erase the first element.
      */

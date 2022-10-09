@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IContainer } from "../../../base/container/IContainer";
@@ -9,20 +9,26 @@ import { IPushBack } from "../partial/IPushBack";
 
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
-export interface ILinearContainerBase<T extends ElemT, 
-        SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, T>, 
-        IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>, 
-        ReverseT extends IContainer.ReverseIterator<T, SourceT, IteratorT, ReverseT, T>,
-        ElemT = T>
-    extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>, 
-        IPushBack<T>
-{
+export interface ILinearContainerBase<
+    T extends ElemT,
+    SourceT extends IContainer<T, SourceT, IteratorT, ReverseT, T>,
+    IteratorT extends IContainer.Iterator<T, SourceT, IteratorT, ReverseT, T>,
+    ReverseT extends IContainer.ReverseIterator<
+        T,
+        SourceT,
+        IteratorT,
+        ReverseT,
+        T
+    >,
+    ElemT = T,
+> extends IContainer<T, SourceT, IteratorT, ReverseT, ElemT>,
+        IPushBack<T> {
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
     /**
      * Fill Assigner.
-     * 
+     *
      * @param n Initial size.
      * @param val Value to fill.
      */
@@ -30,16 +36,18 @@ export interface ILinearContainerBase<T extends ElemT,
 
     /**
      * Range Assigner.
-     * 
+     *
      * @param first Input iterator of the first position.
      * @param last Input iterator of the last position.
      */
-    assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-        (first: InputIterator, last: InputIterator): void;
+    assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>(
+        first: InputIterator,
+        last: InputIterator,
+    ): void;
 
     /**
      * Resize this {@link Vector} forcibly.
-     * 
+     *
      * @param n New container size.
      */
     resize(n: number): void;
@@ -59,7 +67,7 @@ export interface ILinearContainerBase<T extends ElemT,
 
     /**
      * Insert a single element.
-     * 
+     *
      * @param pos Position to insert.
      * @param val Value to insert.
      * @return An iterator to the newly inserted element.
@@ -68,7 +76,7 @@ export interface ILinearContainerBase<T extends ElemT,
 
     /**
      * Insert repeated elements.
-     * 
+     *
      * @param pos Position to insert.
      * @param n Number of elements to insert.
      * @param val Value to insert repeatedly.
@@ -78,12 +86,15 @@ export interface ILinearContainerBase<T extends ElemT,
 
     /**
      * Insert range elements.
-     * 
+     *
      * @param pos Position to insert.
      * @param first Input iterator of the first position.
      * @param last Input iteartor of the last position.
      * @return An iterator to the first of the newly inserted elements.
      */
-    insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>
-        (pos: IteratorT, first: InputIterator, last: InputIterator): IteratorT;
+    insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>(
+        pos: IteratorT,
+        first: InputIterator,
+        last: InputIterator,
+    ): IteratorT;
 }

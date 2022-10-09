@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IEmpty } from "../partial/IEmpty";
@@ -10,37 +10,35 @@ import { ISize } from "../partial/ISize";
 
 /**
  * Base class for Adaptor Containers.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export abstract class AdaptorContainer<T, 
-        Source extends IEmpty & ISize & IPush<T>,
-        This extends AdaptorContainer<T, Source, This>>
-    implements IEmpty, ISize, IPush<T>
+export abstract class AdaptorContainer<
+    T,
+    Source extends IEmpty & ISize & IPush<T>,
+    This extends AdaptorContainer<T, Source, This>,
+> implements IEmpty, ISize, IPush<T>
 {
     protected source_: Source;
 
-    protected constructor(source: Source)
-    {
+    protected constructor(source: Source) {
         this.source_ = source;
     }
-    
+
     /* ---------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------- */
     /**
      * @inheritDoc
      */
-    public size(): number
-    {
+    public size(): number {
         return this.source_.size();
     }
 
     /**
      * @inheritDoc
      */
-    public empty(): boolean
-    {
+    public empty(): boolean {
         return this.source_.empty();
     }
 
@@ -50,8 +48,7 @@ export abstract class AdaptorContainer<T,
     /**
      * @inheritDoc
      */
-    public push(...elems: T[]): number
-    {
+    public push(...elems: T[]): number {
         return this.source_.push(...elems);
     }
 
@@ -62,11 +59,10 @@ export abstract class AdaptorContainer<T,
 
     /**
      * Swap elements.
-     * 
+     *
      * @param obj Target container to swap.
      */
-    public swap(obj: This): void
-    {
+    public swap(obj: This): void {
         [this.source_, obj.source_] = [obj.source_, this.source_];
     }
 }

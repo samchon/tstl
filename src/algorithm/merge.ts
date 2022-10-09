@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { IForwardIterator } from "../iterator/IForwardIterator";
@@ -27,41 +27,42 @@ import { Comparator } from "../internal/functional/Comparator";
 --------------------------------------------------------- */
 /**
  * Merge two sorted ranges.
- * 
+ *
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
  * @param output Output iterator of the first position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
- * 
+ *
  * @return Output Iterator of the last position by advancing.
  */
 export function merge<
-        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
-    (
-        first1: InputIterator1, last1: InputIterator1, 
-        first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, 
-        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
-    ): OutputIterator
-{
-    while (true)
-    {
-        if (first1.equals(last1))
-            return copy(<Temporary>first2, last2, output);
-        else if (first2.equals(last2))
-            return copy(first1, last1, output);
+    InputIterator1 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+    >,
+    InputIterator2 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
+    >,
+    OutputIterator extends Writeonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>
+    >,
+>(
+    first1: InputIterator1,
+    last1: InputIterator1,
+    first2: InputIterator2,
+    last2: InputIterator2,
+    output: OutputIterator,
+    comp: Comparator<IPointer.ValueType<InputIterator1>> = less,
+): OutputIterator {
+    while (true) {
+        if (first1.equals(last1)) return copy(<Temporary>first2, last2, output);
+        else if (first2.equals(last2)) return copy(first1, last1, output);
 
-        if (comp(first1.value, first2.value))
-        {
+        if (comp(first1.value, first2.value)) {
             output.value = first1.value;
             first1 = first1.next();
-        }
-        else
-        {
+        } else {
             output.value = first2.value;
             first2 = first2.next();
         }
@@ -71,21 +72,27 @@ export function merge<
 
 /**
  * Merge two sorted & consecutive ranges.
- * 
+ *
  * @param first Bidirectional iterator of the first position.
  * @param middle Bidirectional iterator of the initial position of the 2nd range.
  * @param last Bidirectional iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
-export function inplace_merge<BidirectionalIterator extends General<IBidirectionalIterator<IPointer.ValueType<BidirectionalIterator>, BidirectionalIterator>>>
-    (
-        first: BidirectionalIterator, 
-        middle: BidirectionalIterator, 
-        last: BidirectionalIterator,
-        comp: Comparator<IPointer.ValueType<BidirectionalIterator>> = less
-    ): void
-{
-    const vector: Vector<IPointer.ValueType<BidirectionalIterator>> = new Vector();
+export function inplace_merge<
+    BidirectionalIterator extends General<
+        IBidirectionalIterator<
+            IPointer.ValueType<BidirectionalIterator>,
+            BidirectionalIterator
+        >
+    >,
+>(
+    first: BidirectionalIterator,
+    middle: BidirectionalIterator,
+    last: BidirectionalIterator,
+    comp: Comparator<IPointer.ValueType<BidirectionalIterator>> = less,
+): void {
+    const vector: Vector<IPointer.ValueType<BidirectionalIterator>> =
+        new Vector();
     merge(first, middle, middle, last, back_inserter(vector), comp);
 
     copy(vector.begin(), vector.end(), first);
@@ -96,30 +103,33 @@ export function inplace_merge<BidirectionalIterator extends General<IBidirection
 --------------------------------------------------------- */
 /**
  * Test whether two sorted ranges are in inclusion relationship.
- * 
+ *
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
- * 
+ *
  * @return Whether [first, last1) includes [first2, last2).
  */
 export function includes<
-        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>>
-    (
-        first1: InputIterator1, last1: InputIterator1, 
-        first2: InputIterator2, last2: InputIterator2,
-        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
-    ): boolean
-{
-    while (!first2.equals(last2))
-    {
+    InputIterator1 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+    >,
+    InputIterator2 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
+    >,
+>(
+    first1: InputIterator1,
+    last1: InputIterator1,
+    first2: InputIterator2,
+    last2: InputIterator2,
+    comp: Comparator<IPointer.ValueType<InputIterator1>> = less,
+): boolean {
+    while (!first2.equals(last2)) {
         if (first1.equals(last1) || comp(first2.value, first1.value))
             return false;
-        else if (!comp(first1.value, first2.value))
-            first2 = first2.next();
+        else if (!comp(first1.value, first2.value)) first2 = first2.next();
 
         first1 = first1.next();
     }
@@ -129,46 +139,46 @@ export function includes<
 
 /**
  * Combine two sorted ranges to union relationship.
- * 
+ *
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
  * @param output Output iterator of the first position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
- * 
+ *
  * @return Output Iterator of the last position by advancing.
  */
 export function set_union<
-        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
-    (
-        first1: InputIterator1, last1: InputIterator1, 
-        first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, 
-        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
-    ): OutputIterator
-{
-    while (true)
-    {
-        if (first1.equals(last1))
-            return copy(<Temporary>first2, last2, output);
-        else if (first2.equals(last2))
-            return copy(first1, last1, output);
+    InputIterator1 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+    >,
+    InputIterator2 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
+    >,
+    OutputIterator extends Writeonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>
+    >,
+>(
+    first1: InputIterator1,
+    last1: InputIterator1,
+    first2: InputIterator2,
+    last2: InputIterator2,
+    output: OutputIterator,
+    comp: Comparator<IPointer.ValueType<InputIterator1>> = less,
+): OutputIterator {
+    while (true) {
+        if (first1.equals(last1)) return copy(<Temporary>first2, last2, output);
+        else if (first2.equals(last2)) return copy(first1, last1, output);
 
-        if (comp(first1.value, first2.value))
-        {
+        if (comp(first1.value, first2.value)) {
             output.value = first1.value;
             first1 = first1.next();
-        }
-        else if (comp(first2.value, first1.value))
-        {
+        } else if (comp(first2.value, first1.value)) {
             output.value = first2.value;
             first2 = first2.next();
-        }
-        else 
-        {// equals
+        } else {
+            // equals
             output.value = first1.value;
 
             first1 = first1.next();
@@ -181,34 +191,38 @@ export function set_union<
 
 /**
  * Combine two sorted ranges to intersection relationship.
- * 
+ *
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
  * @param output Output iterator of the first position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
- * 
+ *
  * @return Output Iterator of the last position by advancing.
  */
 export function set_intersection<
-        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
-    (
-        first1: InputIterator1, last1: InputIterator1, 
-        first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, 
-        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
-    ): OutputIterator
-{
+    InputIterator1 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+    >,
+    InputIterator2 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
+    >,
+    OutputIterator extends Writeonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>
+    >,
+>(
+    first1: InputIterator1,
+    last1: InputIterator1,
+    first2: InputIterator2,
+    last2: InputIterator2,
+    output: OutputIterator,
+    comp: Comparator<IPointer.ValueType<InputIterator1>> = less,
+): OutputIterator {
     while (!first1.equals(last1) && !first2.equals(last2))
-        if (comp(first1.value, first2.value))
-            first1 = first1.next();
-        else if (comp(first2.value, first1.value))
-            first2 = first2.next();
-        else
-        {
+        if (comp(first1.value, first2.value)) first1 = first1.next();
+        else if (comp(first2.value, first1.value)) first2 = first2.next();
+        else {
             output.value = first1.value;
 
             output = output.next();
@@ -220,39 +234,42 @@ export function set_intersection<
 
 /**
  * Combine two sorted ranges to difference relationship.
- * 
+ *
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
  * @param output Output iterator of the first position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
- * 
+ *
  * @return Output Iterator of the last position by advancing.
  */
 export function set_difference<
-        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
-    (
-        first1: InputIterator1, last1: InputIterator1, 
-        first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, 
-        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
-    ): OutputIterator
-{
+    InputIterator1 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+    >,
+    InputIterator2 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
+    >,
+    OutputIterator extends Writeonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>
+    >,
+>(
+    first1: InputIterator1,
+    last1: InputIterator1,
+    first2: InputIterator2,
+    last2: InputIterator2,
+    output: OutputIterator,
+    comp: Comparator<IPointer.ValueType<InputIterator1>> = less,
+): OutputIterator {
     while (!first1.equals(last1) && !first2.equals(last2))
-        if (comp(first1.value, first2.value))
-        {
+        if (comp(first1.value, first2.value)) {
             output.value = first1.value;
 
             output = output.next();
             first1 = first1.next();
-        }
-        else if (comp(first2.value, first1.value))
-            first2 = first2.next();
-        else
-        {
+        } else if (comp(first2.value, first1.value)) first2 = first2.next();
+        else {
             first1 = first1.next();
             first2 = first2.next();
         }
@@ -261,50 +278,50 @@ export function set_difference<
 
 /**
  * Combine two sorted ranges to symmetric difference relationship.
- * 
+ *
  * @param first1 Input iteartor of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
  * @param output Output iterator of the first position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
- * 
+ *
  * @return Output Iterator of the last position by advancing.
  */
 export function set_symmetric_difference<
-        InputIterator1 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>>, 
-        InputIterator2 extends Readonly<IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>>,
-        OutputIterator extends Writeonly<IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>>>
-    (
-        first1: InputIterator1, last1: InputIterator1, 
-        first2: InputIterator2, last2: InputIterator2,
-        output: OutputIterator, 
-        comp: Comparator<IPointer.ValueType<InputIterator1>> = less
-    ): OutputIterator
-{
-    while (true)
-    {
-        if (first1.equals(last1))
-            return copy(<Temporary>first2, last2, output);
-        else if (first2.equals(last2))
-            return copy(first1, last1, output);
+    InputIterator1 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+    >,
+    InputIterator2 extends Readonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
+    >,
+    OutputIterator extends Writeonly<
+        IForwardIterator<IPointer.ValueType<InputIterator1>, OutputIterator>
+    >,
+>(
+    first1: InputIterator1,
+    last1: InputIterator1,
+    first2: InputIterator2,
+    last2: InputIterator2,
+    output: OutputIterator,
+    comp: Comparator<IPointer.ValueType<InputIterator1>> = less,
+): OutputIterator {
+    while (true) {
+        if (first1.equals(last1)) return copy(<Temporary>first2, last2, output);
+        else if (first2.equals(last2)) return copy(first1, last1, output);
 
-        if (comp(first1.value, first2.value))
-        {
+        if (comp(first1.value, first2.value)) {
             output.value = first1.value;
 
             output = output.next();
             first1 = first1.next();
-        }
-        else if (comp(first2.value, first1.value))
-        {
+        } else if (comp(first2.value, first1.value)) {
             output.value = first2.value;
 
             output = output.next();
             first2 = first2.next();
-        }
-        else 
-        {// equals
+        } else {
+            // equals
             first1 = first1.next();
             first2 = first2.next();
         }

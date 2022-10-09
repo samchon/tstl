@@ -1,16 +1,15 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 /**
  * Pair of two elements.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export interface IPair<First, Second>
-{
+export interface IPair<First, Second> {
     /**
      * The first element.
      */

@@ -1,11 +1,10 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export interface IEmpty
-{
+export interface IEmpty {
     /**
      * Test whether container is empty.
      */

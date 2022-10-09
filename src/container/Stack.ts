@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std  
+ * @module std
  */
 //================================================================
 import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer";
@@ -9,12 +9,10 @@ import { Vector } from "./Vector";
 
 /**
  * Stack; LIFO (Last In First Out).
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class Stack<T> 
-    extends AdaptorContainer<T, Vector<T>, Stack<T>>
-{
+export class Stack<T> extends AdaptorContainer<T, Vector<T>, Stack<T>> {
     /* ---------------------------------------------------------
         CONSTRUCTORS
     --------------------------------------------------------- */
@@ -25,15 +23,14 @@ export class Stack<T>
 
     /**
      * Copy Constructor.
-     * 
+     *
      * @param obj Object to copy.
      */
     public constructor(obj: Stack<T>);
 
-    public constructor(obj?: Stack<T>)
-    {
+    public constructor(obj?: Stack<T>) {
         super(new Vector());
-        
+
         if (obj !== undefined)
             this.source_.assign(obj.source_.begin(), obj.source_.end());
     }
@@ -43,19 +40,17 @@ export class Stack<T>
     --------------------------------------------------------- */
     /**
      * Get the last element.
-     * 
+     *
      * @return The last element.
      */
-    public top(): T
-    {
+    public top(): T {
         return this.source_.back();
     }
 
     /**
      * @inheritDoc
      */
-    public pop(): void
-    {
+    public pop(): void {
         this.source_.pop_back();
     }
 }

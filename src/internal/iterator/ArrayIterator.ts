@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { IArrayContainer } from "../../base/container/IArrayContainer";
@@ -10,31 +10,44 @@ import { ArrayIteratorBase } from "./ArrayIteratorBase";
 import { ArrayContainer } from "../container/linear/ArrayContainer";
 import { ArrayReverseIterator } from "./ArrayReverseIterator";
 
-export class ArrayIterator<T, 
-        SourceT extends ArrayContainer<T, 
-            SourceT, SourceT, 
-            ArrayIterator<T, SourceT>, 
-            ArrayReverseIterator<T, SourceT>, 
-            T>>
-    extends ArrayIteratorBase<T, SourceT, SourceT, 
+export class ArrayIterator<
+        T,
+        SourceT extends ArrayContainer<
+            T,
+            SourceT,
+            SourceT,
+            ArrayIterator<T, SourceT>,
+            ArrayReverseIterator<T, SourceT>,
+            T
+        >,
+    >
+    extends ArrayIteratorBase<
+        T,
+        SourceT,
+        SourceT,
         ArrayIterator<T, SourceT>,
-        ArrayReverseIterator<T, SourceT>, 
-        T>
-    implements IArrayContainer.Iterator<T, SourceT, ArrayIterator<T, SourceT>, ArrayReverseIterator<T, SourceT>>
+        ArrayReverseIterator<T, SourceT>,
+        T
+    >
+    implements
+        IArrayContainer.Iterator<
+            T,
+            SourceT,
+            ArrayIterator<T, SourceT>,
+            ArrayReverseIterator<T, SourceT>
+        >
 {
     /**
      * @inheritDoc
      */
-    public reverse(): ArrayReverseIterator<T, SourceT>
-    {
+    public reverse(): ArrayReverseIterator<T, SourceT> {
         return new ArrayReverseIterator(this);
     }
 
     /**
      * @inheritDoc
      */
-    public source(): SourceT
-    {
+    public source(): SourceT {
         return this._Get_array();
     }
 }

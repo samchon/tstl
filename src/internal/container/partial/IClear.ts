@@ -1,11 +1,10 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export interface IClear
-{
+export interface IClear {
     /**
      * Clear elements.
      */

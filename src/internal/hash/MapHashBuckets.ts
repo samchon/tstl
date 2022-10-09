@@ -1,7 +1,7 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
 import { HashBuckets } from "./HashBuckets";
@@ -12,14 +12,15 @@ import { Hasher } from "../functional/Hasher";
 
 /**
  * Hash buckets for map containers.
- * 
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
-export class MapHashBuckets<Key, T, 
-        Unique extends boolean, 
-        Source extends IHashMap<Key, T, Unique, Source>>
-    extends HashBuckets<Key, IHashMap.Iterator<Key, T, Unique, Source>>
-{
+export class MapHashBuckets<
+    Key,
+    T,
+    Unique extends boolean,
+    Source extends IHashMap<Key, T, Unique, Source>,
+> extends HashBuckets<Key, IHashMap.Iterator<Key, T, Unique, Source>> {
     private source_: IHashMap<Key, T, Unique, Source>;
     private readonly key_eq_: Comparator<Key>;
 
@@ -28,13 +29,16 @@ export class MapHashBuckets<Key, T,
     --------------------------------------------------------- */
     /**
      * Initializer Constructor
-     * 
+     *
      * @param source Source map container
      * @param hasher Hash function
      * @param pred Equality function
      */
-    public constructor(source: Source, hasher: Hasher<Key>, pred: Comparator<Key>)
-    {
+    public constructor(
+        source: Source,
+        hasher: Hasher<Key>,
+        pred: Comparator<Key>,
+    ) {
         super(fetcher, hasher);
 
         this.source_ = source;
@@ -44,35 +48,41 @@ export class MapHashBuckets<Key, T,
     /**
      * @internal
      */
-    public static _Swap_source<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
-        (x: MapHashBuckets<Key, T, Unique, Source>, y: MapHashBuckets<Key, T, Unique, Source>): void
-    {
+    public static _Swap_source<
+        Key,
+        T,
+        Unique extends boolean,
+        Source extends IHashMap<Key, T, Unique, Source>,
+    >(
+        x: MapHashBuckets<Key, T, Unique, Source>,
+        y: MapHashBuckets<Key, T, Unique, Source>,
+    ): void {
         [x.source_, y.source_] = [y.source_, x.source_];
     }
-    
+
     /* ---------------------------------------------------------
         FINDERS
     --------------------------------------------------------- */
-    public key_eq(): Comparator<Key>
-    {
+    public key_eq(): Comparator<Key> {
         return this.key_eq_;
     }
 
-    public find(key: Key): IHashMap.Iterator<Key, T, Unique, Source>
-    {
+    public find(key: Key): IHashMap.Iterator<Key, T, Unique, Source> {
         const index: number = this.hash_function()(key) % this.length();
-        const bucket: IHashMap.Iterator<Key, T, Unique, Source>[] = this.at(index);
+        const bucket: IHashMap.Iterator<Key, T, Unique, Source>[] =
+            this.at(index);
 
-        for (const it of bucket)
-            if (this.key_eq_(it.first, key))
-                return it;
+        for (const it of bucket) if (this.key_eq_(it.first, key)) return it;
 
         return this.source_.end();
     }
 }
 
-function fetcher<Key, T, Unique extends boolean, Source extends IHashMap<Key, T, Unique, Source>>
-    (elem: IHashMap.Iterator<Key, T, Unique, Source>): Key
-{
+function fetcher<
+    Key,
+    T,
+    Unique extends boolean,
+    Source extends IHashMap<Key, T, Unique, Source>,
+>(elem: IHashMap.Iterator<Key, T, Unique, Source>): Key {
     return elem.first;
 }

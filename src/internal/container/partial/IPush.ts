@@ -1,14 +1,13 @@
-//================================================================ 
+//================================================================
 /**
  * @packageDocumentation
- * @module std.internal  
+ * @module std.internal
  */
 //================================================================
-export interface IPush<T>
-{
+export interface IPush<T> {
     /**
      * Insert items at the end.
-     * 
+     *
      * @param items Items to insert.
      * @return Number of elements in the container after insertion.
      */

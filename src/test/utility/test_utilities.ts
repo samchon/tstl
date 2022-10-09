@@ -1,13 +1,11 @@
 import * as std from "../../index";
 
-export function test_utilities()
-{
+export function test_utilities() {
     _Test_pairs();
     _Test_node();
 }
 
-function _Test_pairs(): void
-{
+function _Test_pairs(): void {
     const x = std.make_pair(1, 2);
     const y = std.make_pair(1, 2);
     const z = std.make_pair(1, 3);
@@ -18,8 +16,7 @@ function _Test_pairs(): void
         throw new Error("Bug on Pair.equals()");
 }
 
-function _Test_node(): void
-{
+function _Test_node(): void {
     if (std.is_node() === false)
         throw new Error("Bug on is_node(): wrong result");
 }
