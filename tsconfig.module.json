@@ -1,0 +1,8 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "target": "ES2015",
+        "module": "ES2020",
+        "downlevelIteration": false
+    }
+}

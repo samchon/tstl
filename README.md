@@ -113,7 +113,7 @@ function main(): void
     map.emplace(5, "Fifth");
     map.set(9, "Nineth");
 
-    for (let it = map.begin(); !it.equals(map.end()); it = it.next())
+    for (const it of map)
         console.log(it.first, it.second);
 
     const it: std.TreeMap.Iterator<number, string> = map.lower_bound(3);
