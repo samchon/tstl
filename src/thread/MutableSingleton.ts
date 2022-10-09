@@ -102,6 +102,21 @@ export class MutableSingleton<T, Args extends any[] = []>
         });
     }
 
+    /**
+     * Clear value.
+     * 
+     * The `MutableSingleton.clear()` is a method clearing cached value.
+     * 
+     * Therefore, when {@link get} being called, closure of constructor would be reused.
+     */
+    public async clear(): Promise<void> 
+    {
+        await UniqueLock.lock(this.mutex_, () => 
+        {
+            this.value_ = NOT_MOUNTED_YET;
+        })
+    }
+
     /* ---------------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------------- */

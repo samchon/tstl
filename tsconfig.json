@@ -64,13 +64,5 @@
         /* Advanced Options */
         "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
     },
-    "exclude": [        
-        "**/*.d.ts",
-        "build",
-        "node_modules/typedoc-plugin-external-module-name"
-    ],
-    "include": [
-        "node_modules",
-        "src"
-    ]
+    "include": ["src"]
 }

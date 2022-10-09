@@ -53,6 +53,16 @@ export class VariadicMutableSingleton<T, Args extends any[]>
         return this._Get_singleton(args).reload(...args);
     }
 
+    public clear(): Promise<void>;
+    public clear(...args: Args): Promise<void>;
+    public async clear(...args: Args): Promise<void>
+    {
+        if (args.length === 0)
+            this.dict_.clear();
+        else
+            await this._Get_singleton(args).clear();
+    }
+
     /* ---------------------------------------------------------------
         ACCESSORS
     --------------------------------------------------------------- */
