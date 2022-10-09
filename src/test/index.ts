@@ -1,6 +1,9 @@
-﻿const EXTENSION = __filename.substr(-2);
-if (EXTENSION === "js")
-    require("source-map-support").install();
+﻿const EXTENSION = (() => {
+    const index: number = __filename.lastIndexOf(".");
+    return __filename.substring(index + 1);
+})();
+if (EXTENSION === "js" || EXTENSION === "mjs")
+    require("source-map-support").install(); 
 
 import * as cli from "cli";
 import * as fs from "fs";
@@ -27,18 +30,18 @@ async function iterate(command: ICommand, path: string): Promise<void>
     const fileList: string[] = await fs.promises.readdir(path);
     for (const file of fileList)
     {
-        const currentPath: string = `${path}/${file}`;
-        const stats: fs.Stats = await fs.promises.lstat(currentPath);
+        const location: string = `${path}/${file}`;
+        const stats: fs.Stats = await fs.promises.lstat(location);
 
         if (stats.isDirectory() === true && file !== "internal" && file !== "manual")
         {
-            await iterate(command, currentPath);
+            await iterate(command, location);
             continue;
         }
-        else if (file.substr(-3) !== `.${EXTENSION}` || currentPath === `${__dirname}/index.${EXTENSION}`)
+        else if (file.substr(-(EXTENSION.length + 1)) !== `.${EXTENSION}` || location === `${__dirname}/index.${EXTENSION}`)
             continue;
 
-        const external: IModule = await import(currentPath.substr(0, currentPath.length - 3));
+        const external: IModule = await import(location);
         for (const key in external)
         {
             // WHETHER TESTING TARGET OR NOT

@@ -6,8 +6,10 @@
     "email": "samchon.github@gmail.com",
     "url": "https://github.com/samchon"
   },
-  "version": "2.5.8",
+  "version": "2.5.9",
   "main": "./index.js",
+  "module": "./index.mjs",
+  "esnext": "./index.mjs",
   "typings": "./index.d.ts",
   "scripts": {
     "api": "typedoc src --exclude \"**/+(test|benchmark)/**\" --excludeNotDocumented --plugin typedoc-plugin-external-module-name --plugin typedoc-plugin-exclude-references --out ../tstl@gh-pages/api",
@@ -18,8 +20,9 @@
     "compile": "tsc",
     "dev": "tsc --watch",
     "dev:ts": "tsc --watch --noEmit --module esnext",
+    "dist": "ts-node build/dist",
     "module": "tsc --noEmit --module amd && tsc --noEmit --module system && tsc --noEmit --module umd && tsc --noEmit --module esnext",
-    "package": "npm run build && ts-node build/dist && cd dist && npm publish",
+    "package": "npm run test:ts && npm run dist && cd dist && npm publish",
     "package:next": "npm run package -- --tag next",
     "test": "node dist/test",
     "test:ts": "ts-node src/test"
