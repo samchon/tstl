@@ -6,7 +6,7 @@
     "email": "samchon.github@gmail.com",
     "url": "https://github.com/samchon"
   },
-  "version": "2.5.10",
+  "version": "2.5.11",
   "main": "./index.js",
   "module": "./index.mjs",
   "esnext": "./index.mjs",
