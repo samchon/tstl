@@ -4,7 +4,7 @@
  * @module std
  */
 //================================================================
-var is_node_: boolean | null = null;
+let is_node_: boolean | null = null;
 
 /**
  * Test whether the code is running on NodeJS.

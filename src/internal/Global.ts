@@ -28,4 +28,4 @@ export function _Get_root(): IGlobal {
 /**
  * @internal
  */
-var __s_pRoot: IGlobal | null = null;
+let __s_pRoot: IGlobal | null = null;
