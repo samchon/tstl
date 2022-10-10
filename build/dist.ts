@@ -17,18 +17,36 @@ async function documents(): Promise<void> {
         await fs.promises.link(`${ROOT}/${file}`, `${DIST}/${file}`);
 }
 
-async function module(): Promise<void> {
-    const javascript = async (location: string, file: string) => {
-        const content: string = await fs.promises.readFile(location, "utf8");
-        const replaced: string = content
-            .replace(/(import|export)(.*)from "(.\/|..\/)(.*)"/g, str => {
+const substitude = 
+    (content: string) => 
+        content.replace(
+            /(import|export)(.*)from "(.\/|..\/)(.*)"/g, 
+            str => {
                 const to: number = str.lastIndexOf(`"`);
                 return [
                     str.substring(0, to),
                     `.mjs"`,
                     str.substring(to + 1)
                 ].join("");
-            })
+            }
+        );
+
+async function module(): Promise<void> {
+    const declaration = async (location: string)=> {
+        const content = substitude(
+            await fs.promises.readFile(location, "utf8")
+        );
+        await fs.promises.unlink(location);
+        await fs.promises.writeFile(
+            `${location.substring(0, location.length - 5)}.d.mts`, 
+            content, 
+            "utf8"
+        );
+    };
+    const javascript = async (location: string, file: string) => {
+        const content = substitude(
+                await fs.promises.readFile(location, "utf8")
+            )
             .replace(
                 `//# sourceMappingURL=${file}.map`, 
                 `//# sourceMappingURL=${file.substring(0, file.length - 3)}.mjs.map`
@@ -36,7 +54,7 @@ async function module(): Promise<void> {
         await fs.promises.unlink(location);
         await fs.promises.writeFile(
             `${location.substring(0, location.length - 3)}.mjs`, 
-            replaced, 
+            content, 
             "utf8"
         );
     };
@@ -52,6 +70,7 @@ async function module(): Promise<void> {
             "utf8"
         );
     };
+
     const iterate = async (path: string): Promise<void> => {
         const directory: string[] = await fs.promises.readdir(path);
         for (const file of directory) {
@@ -61,6 +80,8 @@ async function module(): Promise<void> {
             if (stats.isDirectory()) await iterate(location);
             else if (location.substr(-3) === ".js")
                 await javascript(location, file);
+            else if (location.substr(-5) === ".d.ts")
+                await declaration(location);
             else if (location.substr(-7) === ".js.map")
                 await mapper(location);
         }
