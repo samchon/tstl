@@ -13,19 +13,45 @@ async function documents(): Promise<void> {
         "package.json",
         "README.md",
     ];
-
     for (const file of FILES)
         await fs.promises.link(`${ROOT}/${file}`, `${DIST}/${file}`);
 }
 
-async function compile(mode: "CommonJS" | "EsModule"): Promise<void> {
-    const extension: string = mode === "CommonJS" ? "cjs" : "mjs";
-    const file: string = `${ROOT}/tsconfig.${
-        mode === "CommonJS" ? "" : "module."
-    }json`;
-    cp.execSync(`tsc -p ${file}`, { stdio: "inherit" });
+async function module(): Promise<void> {
+    const javascript = async (location: string, file: string) => {
+        const content: string = await fs.promises.readFile(location, "utf8");
+        const replaced: string = content
+            .replace(/(import|export)(.*)from "(.\/|..\/)(.*)"/g, str => {
+                const to: number = str.lastIndexOf(`"`);
+                return [
+                    str.substring(0, to),
+                    `.mjs"`,
+                    str.substring(to + 1)
+                ].join("");
+            })
+            .replace(
+                `//# sourceMappingURL=${file}.map`, 
+                `//# sourceMappingURL=${file.substring(0, file.length - 3)}.mjs.map`
+            );
+        await fs.promises.unlink(location);
+        await fs.promises.writeFile(
+            `${location.substring(0, location.length - 3)}.mjs`, 
+            replaced, 
+            "utf8"
+        );
+    };
+    const mapper = async (location: string) => {
+        const content: string = await fs.promises.readFile(location, "utf8");
+        const parsed: {file: string } = JSON.parse(content);
+        parsed.file = parsed.file.substring(0, parsed.file.length - 3) + ".mjs";
 
-    if (mode === "CommonJS") return;
+        await fs.promises.unlink(location);
+        await fs.promises.writeFile(
+            `${location.substring(0, location.length - 7)}.mjs.map`, 
+            JSON.stringify(parsed), 
+            "utf8"
+        );
+    };
     const iterate = async (path: string): Promise<void> => {
         const directory: string[] = await fs.promises.readdir(path);
         for (const file of directory) {
@@ -34,29 +60,22 @@ async function compile(mode: "CommonJS" | "EsModule"): Promise<void> {
 
             if (stats.isDirectory()) await iterate(location);
             else if (location.substr(-3) === ".js")
-                await fs.promises.rename(
-                    location,
-                    `${location.substr(0, location.length - 3)}.${extension}`,
-                );
+                await javascript(location, file);
             else if (location.substr(-7) === ".js.map")
-                await fs.promises.rename(
-                    location,
-                    `${location.substr(
-                        0,
-                        location.length - 7,
-                    )}.${extension}.map`,
-                );
+                await mapper(location);
         }
     };
+
+    cp.execSync(`npx tsc -p tsconfig.module.json`, { stdio: "inherit" });
     await iterate(DIST);
 }
 
 async function main(): Promise<void> {
-    cp.execSync(`rimraf ${DIST}`, { stdio: "inherit" });
+    cp.execSync(`npx rimraf ${DIST}`, { stdio: "inherit" });
     await fs.promises.mkdir(DIST);
 
     await documents();
-    await compile("EsModule");
-    await compile("CommonJS");
+    await module();
+    cp.execSync(`npx tsc -p tsconfig.json`, { stdio: "inherit" });
 }
 main();
