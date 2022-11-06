@@ -68,7 +68,7 @@ export function max<T>(items: T[], comp: Comparator<T> = less): T {
  *
  * @return A {@link Pair} of minimum & maximum values.
  */
-export function minmax<T>(items: T[], comp: Comparator<T>): Pair<T, T> {
+export function minmax<T>(items: T[], comp: Comparator<T> = less): Pair<T, T> {
     let minimum: T = items[0];
     let maximum: T = items[0];
 
