@@ -1,5 +1,5 @@
 # TypeScript Standard Template Library
-![TSTL logo](https://raw.githubusercontent.com/samchon/logos/master/tstl.svg?token=ADEMSNKR53UIHDFF5VDPHBLBZ4M4U)
+![tstl](https://user-images.githubusercontent.com/13158709/222362879-3da6c27f-8f73-4b1d-b63a-ec23ff51e71e.png)
 
 ```bash
 npm install --save tstl
