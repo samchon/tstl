@@ -117,7 +117,7 @@ function main(): void
         console.log(it.first, it.second);
 
     const it: std.TreeMap.Iterator<number, string> = map.lower_bound(3);
-    console.log(`lower bound of 3 is: ${x.first}, ${x.second}`);
+    console.log(`lower bound of 3 is: ${it.first}, ${it.second}`);
 }
 main();
 ```
