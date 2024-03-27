@@ -4,15 +4,7 @@
 assets/benchmarks/
 node_modules/
 lib/
-dist/
 
 package-lock.json
+pnpm-lock.yaml
 *.log
-
-#----
-# COMPILED FILES
-#----
-*.js
-*.js.map
-*.d.ts
-*.d.ts.map

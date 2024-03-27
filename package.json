@@ -6,36 +6,38 @@
     "email": "samchon.github@gmail.com",
     "url": "https://github.com/samchon"
   },
-  "version": "2.5.16",
-  "typings": "./index.d.ts",
-  "main": "./index.js",
+  "version": "3.0.0",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js",
+      "import": "./lib/index.mjs"
+    }
+  },
   "scripts": {
     "api": "typedoc src --exclude \"**/+(test|benchmark)/**\" --excludeNotDocumented --plugin typedoc-plugin-external-module-name --plugin typedoc-plugin-exclude-references --out ../tstl@gh-pages/api",
-    "migration": "ts-node build/migration",
     "benchmark": "node benchmark",
-    "build": "npm run clean && npm run module && npm run compile && npm run test",
-    "clean": "rimraf dist",
-    "compile": "tsc",
-    "dev": "tsc --watch",
-    "dev:ts": "tsc --watch --noEmit --module esnext",
-    "dist": "ts-node build/dist",
-    "module": "tsc --noEmit --module amd && tsc --noEmit --module system && tsc --noEmit --module umd && tsc --noEmit --module esnext",
-    "package": "npm run test:ts && npm run dist && cd dist && npm publish",
-    "package:next": "npm run package -- --tag next",
-    "prettier": "prettier --write ./**/*.ts",
-    "test": "node dist/test",
-    "test:ts": "ts-node src/test"
+    "build": "rimraf lib && tsc && rollup -c",
+    "dev": "rimraf lib && tsc --watch",
+    "prettier": "prettier --write ./src",
+    "test": "node lib/test"
   },
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
     "@types/cli": "^0.11.19",
     "@types/node": "^14.6.3",
     "cli": "^1.0.1",
     "prettier": "^2.7.1",
     "rimraf": "^3.0.2",
+    "rollup": "^4.13.1",
     "source-map-support": "^0.5.21",
     "ts-node": "^10.7.0",
-    "typedoc": "^0.22.13",
-    "typescript": "^4.6.2"
+    "tslib": "^2.6.2",
+    "typedoc": "^0.25.12",
+    "typescript": "^5.4.3"
   },
   "homepage": "https://github.com/samchon/tstl",
   "repository": {
@@ -97,5 +99,15 @@
     "SharedLock",
     "UniqueLock",
     "Singleton"
+  ],
+  "files": [
+    "LICENSE",
+    "README.md",
+    "lib/",
+    "src/",
+    "!lib/benchmark",
+    "!lib/test",
+    "!src/benchmark",
+    "!src/test"
   ]
 }

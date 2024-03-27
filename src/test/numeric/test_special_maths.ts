@@ -4,7 +4,7 @@ import * as std from "../../index";
 const PATH =
     __filename.substr(-2) === "ts"
         ? `${__dirname}/special_math`
-        : `${__dirname}/special_math`.replace("dist", "src");
+        : `${__dirname}/special_math`.replace("lib", "src");
 
 export function similar(x: number, y: number, precision = 0.05): boolean {
     const diff: number = _Difference(x, y);
