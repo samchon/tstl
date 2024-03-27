@@ -26,5 +26,3 @@ export * from "./SystemError";
 export * from "./ErrorCategory";
 export * from "./ErrorCode";
 export * from "./ErrorCondition";
-
-export * from "./global";
