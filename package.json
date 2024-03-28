@@ -21,7 +21,7 @@
     "benchmark": "node benchmark",
     "build": "rimraf lib && tsc && rollup -c",
     "dev": "rimraf lib && tsc --watch",
-    "prettier": "prettier --write ./src",
+    "prettier": "prettier --write ./src/**/*.ts",
     "test": "node lib/test"
   },
   "devDependencies": {
