@@ -1,4 +1,5 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std
@@ -12,16 +13,16 @@ import { IForwardIterator } from "./IForwardIterator";
  * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IBidirectionalIterator<
+  T,
+  Iterator extends IBidirectionalIterator<T, Iterator> = IBidirectionalIterator<
     T,
-    Iterator extends IBidirectionalIterator<
-        T,
-        Iterator
-    > = IBidirectionalIterator<T, any>,
+    any
+  >,
 > extends IForwardIterator<T, Iterator> {
-    /**
-     * Get previous iterator.
-     *
-     * @return The previous iterator.
-     */
-    prev(): Iterator;
+  /**
+   * Get previous iterator.
+   *
+   * @return The previous iterator.
+   */
+  prev(): Iterator;
 }

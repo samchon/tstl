@@ -1,14 +1,15 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std.internal
  */
 //================================================================
-import { IForwardIterator } from "../../../iterator/IForwardIterator";
 import { IPointer } from "../../../functional/IPointer";
+import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 export interface IInsert<
-    Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>,
+  Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>,
 > {
-    insert(it: Iterator, value: IPointer.ValueType<Iterator>): Iterator;
+  insert(it: Iterator, value: IPointer.ValueType<Iterator>): Iterator;
 }

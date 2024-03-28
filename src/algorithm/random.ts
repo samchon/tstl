@@ -1,14 +1,14 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
-import { IForwardIterator } from "../iterator/IForwardIterator";
-import { IPointer } from "../functional/IPointer";
 import { Vector } from "../container/Vector";
-
+import { IPointer } from "../functional/IPointer";
 import { Writeonly } from "../internal/functional/Writeonly";
+import { IForwardIterator } from "../iterator/IForwardIterator";
 import { advance, distance } from "../iterator/global";
 import { sort } from "./sorting";
 
@@ -21,8 +21,8 @@ import { sort } from "./sorting";
  * @return A random integer between [x, y].
  */
 export function randint(x: number, y: number): number {
-    const rand: number = Math.random() * (y - x + 1);
-    return Math.floor(rand) + x;
+  const rand: number = Math.random() * (y - x + 1);
+  return Math.floor(rand) + x;
 }
 
 /**
@@ -36,49 +36,49 @@ export function randint(x: number, y: number): number {
  * @return Output Iterator of the last position by advancing.
  */
 export function sample<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
-    OutputIterator extends Writeonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
+  OutputIterator extends Writeonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    output: OutputIterator,
-    n: number,
+  first: InputIterator,
+  last: InputIterator,
+  output: OutputIterator,
+  n: number,
 ): OutputIterator {
-    // GENERATE REMAINDERS
-    const step: number = distance(first, last);
-    const remainders: number[] = [];
+  // GENERATE REMAINDERS
+  const step: number = distance(first, last);
+  const remainders: number[] = [];
 
-    for (let i: number = 0; i < step; ++i) remainders.push(i);
+  for (let i: number = 0; i < step; ++i) remainders.push(i);
 
-    //----
-    // CONSTRUCT INDEXES
-    //----
-    const advances: Vector<number> = new Vector();
-    n = Math.min(n, step);
+  //----
+  // CONSTRUCT INDEXES
+  //----
+  const advances: Vector<number> = new Vector();
+  n = Math.min(n, step);
 
-    // PICK SAMPLE INDEXES
-    for (let i: number = 0; i < n; ++i) {
-        const idx: number = randint(0, remainders.length - 1);
-        advances.push(remainders.splice(idx, 1)[0]);
-    }
-    sort(advances.begin(), advances.end());
+  // PICK SAMPLE INDEXES
+  for (let i: number = 0; i < n; ++i) {
+    const idx: number = randint(0, remainders.length - 1);
+    advances.push(remainders.splice(idx, 1)[0]);
+  }
+  sort(advances.begin(), advances.end());
 
-    // CHANGE INDEXES TO ADVANCES
-    for (let i: number = n - 1; i >= 1; --i)
-        advances.set(i, advances.at(i) - advances.at(i - 1));
+  // CHANGE INDEXES TO ADVANCES
+  for (let i: number = n - 1; i >= 1; --i)
+    advances.set(i, advances.at(i) - advances.at(i - 1));
 
-    //----
-    // FILL SAMPLES
-    //----
-    for (const adv of advances) {
-        first = advance(first, adv);
+  //----
+  // FILL SAMPLES
+  //----
+  for (const adv of advances) {
+    first = advance(first, adv);
 
-        output.value = first.value;
-        output = output.next();
-    }
-    return output;
+    output.value = first.value;
+    output = output.next();
+  }
+  return output;
 }

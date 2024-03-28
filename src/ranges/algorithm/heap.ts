@@ -1,15 +1,15 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std.ranges
  */
 //================================================================
 import * as base from "../../algorithm/heap";
-
-import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
+import { less } from "../../functional/comparators";
 import { Comparator } from "../../internal/functional/Comparator";
 import { begin, end } from "../../iterator/factory";
-import { less } from "../../functional/comparators";
+import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
 
 /* ---------------------------------------------------------
     PUSH & POP
@@ -21,12 +21,12 @@ import { less } from "../../functional/comparators";
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function make_heap<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
 ): void {
-    return base.make_heap(begin(range), end(range), comp);
+  return base.make_heap(begin(range), end(range), comp);
 }
 
 /**
@@ -36,12 +36,12 @@ export function make_heap<
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function push_heap<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
 ): void {
-    return base.push_heap(begin(range), end(range), comp);
+  return base.push_heap(begin(range), end(range), comp);
 }
 
 /**
@@ -51,12 +51,12 @@ export function push_heap<
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function pop_heap<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
 ): void {
-    return base.pop_heap(begin(range), end(range), comp);
+  return base.pop_heap(begin(range), end(range), comp);
 }
 
 /* ---------------------------------------------------------
@@ -71,10 +71,10 @@ export function pop_heap<
  * @return Whether the range is heap.
  */
 export function is_heap<Range extends Array<any> | IRandomAccessContainer<any>>(
-    range: Range,
-    comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
 ): boolean {
-    return base.is_heap(begin(range), end(range), comp);
+  return base.is_heap(begin(range), end(range), comp);
 }
 
 /**
@@ -86,12 +86,12 @@ export function is_heap<Range extends Array<any> | IRandomAccessContainer<any>>(
  * @return Iterator to the first element not in heap order.
  */
 export function is_heap_until<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
 ): IRandomAccessContainer.IteratorType<Range> {
-    return base.is_heap_until(<any>begin(range), <any>end(range), <any>comp);
+  return base.is_heap_until(<any>begin(range), <any>end(range), <any>comp);
 }
 
 /**
@@ -101,10 +101,10 @@ export function is_heap_until<
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function sort_heap<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IRandomAccessContainer.ValueType<Range>> = less,
 ): void {
-    return base.sort_heap(begin(range), end(range), comp);
+  return base.sort_heap(begin(range), end(range), comp);
 }

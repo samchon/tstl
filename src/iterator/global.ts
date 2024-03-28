@@ -1,19 +1,17 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
+import { InvalidArgument } from "../exception/InvalidArgument";
 import { IPointer } from "../functional/IPointer";
-
-import { IForwardIterator } from "./IForwardIterator";
-import { IBidirectionalIterator } from "./IBidirectionalIterator";
-import { IRandomAccessIterator } from "./IRandomAccessIterator";
-
 import { IEmpty } from "../internal/container/partial/IEmpty";
 import { ISize } from "../internal/container/partial/ISize";
-
-import { InvalidArgument } from "../exception/InvalidArgument";
+import { IBidirectionalIterator } from "./IBidirectionalIterator";
+import { IForwardIterator } from "./IForwardIterator";
+import { IRandomAccessIterator } from "./IRandomAccessIterator";
 
 /* =========================================================
     GLOBAL FUNCTIONS
@@ -30,8 +28,8 @@ import { InvalidArgument } from "../exception/InvalidArgument";
  * @return Whether empty or not.
  */
 export function empty(source: Array<any> | IEmpty): boolean {
-    if (source instanceof Array) return source.length !== 0;
-    else return source.empty();
+  if (source instanceof Array) return source.length !== 0;
+  else return source.empty();
 }
 
 /**
@@ -41,8 +39,8 @@ export function empty(source: Array<any> | IEmpty): boolean {
  * @return The number of elements in the container.
  */
 export function size(source: Array<any> | ISize): number {
-    if (source instanceof Array) return source.length;
-    else return source.size();
+  if (source instanceof Array) return source.length;
+  else return source.size();
 }
 
 /**
@@ -54,36 +52,35 @@ export function size(source: Array<any> | ISize): number {
  * @return The distance.
  */
 export function distance<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(first: InputIterator, last: InputIterator): number;
 
 export function distance<
-    InputIterator extends Readonly<
-        IRandomAccessIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IRandomAccessIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(first: InputIterator, last: InputIterator): number {
-    if (first.index instanceof Function)
-        return _Distance_via_index(first, last);
+  if (first.index instanceof Function) return _Distance_via_index(first, last);
 
-    let ret: number = 0;
-    for (; !first.equals(last); first = first.next()) ++ret;
+  let ret: number = 0;
+  for (; !first.equals(last); first = first.next()) ++ret;
 
-    return ret;
+  return ret;
 }
 
 function _Distance_via_index<
-    RandomAccessIterator extends IRandomAccessIterator<
-        IPointer.ValueType<RandomAccessIterator>,
-        RandomAccessIterator
-    >,
+  RandomAccessIterator extends IRandomAccessIterator<
+    IPointer.ValueType<RandomAccessIterator>,
+    RandomAccessIterator
+  >,
 >(first: RandomAccessIterator, last: RandomAccessIterator): number {
-    const x: number = first.index();
-    const y: number = last.index();
+  const x: number = first.index();
+  const y: number = last.index();
 
-    if ((first as any).base instanceof Function) return x - y;
-    else return y - x;
+  if ((first as any).base instanceof Function) return x - y;
+  else return y - x;
 }
 
 /* ---------------------------------------------------------
@@ -98,34 +95,34 @@ function _Distance_via_index<
  * @return The advanced iterator.
  */
 export function advance<
-    InputIterator extends IForwardIterator<
-        IPointer.ValueType<InputIterator>,
-        InputIterator
-    >,
+  InputIterator extends IForwardIterator<
+    IPointer.ValueType<InputIterator>,
+    InputIterator
+  >,
 >(it: InputIterator, n: number): InputIterator;
 
 export function advance<
-    InputIterator extends IRandomAccessIterator<
-        IPointer.ValueType<InputIterator>,
-        InputIterator
-    >,
+  InputIterator extends IRandomAccessIterator<
+    IPointer.ValueType<InputIterator>,
+    InputIterator
+  >,
 >(it: InputIterator, n: number): InputIterator {
-    if (n === 0) return it;
-    else if (it.advance instanceof Function) return it.advance(n);
+  if (n === 0) return it;
+  else if (it.advance instanceof Function) return it.advance(n);
 
-    let stepper: (it: InputIterator) => InputIterator;
-    if (n < 0) {
-        if (!(it.prev instanceof Function))
-            throw new InvalidArgument(
-                "Error on std.advance(): parametric iterator is not a bi-directional iterator, thus advancing to negative direction is not possible.",
-            );
+  let stepper: (it: InputIterator) => InputIterator;
+  if (n < 0) {
+    if (!(it.prev instanceof Function))
+      throw new InvalidArgument(
+        "Error on std.advance(): parametric iterator is not a bi-directional iterator, thus advancing to negative direction is not possible.",
+      );
 
-        stepper = (it) => it.prev();
-        n = -n;
-    } else stepper = (it) => it.next();
+    stepper = (it) => it.prev();
+    n = -n;
+  } else stepper = (it) => it.next();
 
-    while (n-- > 0) it = stepper(it);
-    return it;
+  while (n-- > 0) it = stepper(it);
+  return it;
 }
 
 /**
@@ -136,13 +133,13 @@ export function advance<
  * @return An iterator moved to prev *n* steps.
  */
 export function prev<
-    BidirectionalIterator extends IBidirectionalIterator<
-        IPointer.ValueType<BidirectionalIterator>,
-        BidirectionalIterator
-    >,
+  BidirectionalIterator extends IBidirectionalIterator<
+    IPointer.ValueType<BidirectionalIterator>,
+    BidirectionalIterator
+  >,
 >(it: BidirectionalIterator, n: number = 1): BidirectionalIterator {
-    if (n === 1) return it.prev();
-    else return advance(it, -n);
+  if (n === 1) return it.prev();
+  else return advance(it, -n);
 }
 
 /**
@@ -153,11 +150,11 @@ export function prev<
  * @return Iterator moved to next *n* steps.
  */
 export function next<
-    ForwardIterator extends IForwardIterator<
-        IPointer.ValueType<ForwardIterator>,
-        ForwardIterator
-    >,
+  ForwardIterator extends IForwardIterator<
+    IPointer.ValueType<ForwardIterator>,
+    ForwardIterator
+  >,
 >(it: ForwardIterator, n: number = 1): ForwardIterator {
-    if (n === 1) return it.next();
-    else return advance(it, n);
+  if (n === 1) return it.next();
+  else return advance(it, n);
 }

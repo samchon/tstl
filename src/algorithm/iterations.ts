@@ -1,17 +1,17 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
-import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
-import { Pair } from "../utility/Pair";
-
+import { equal_to, less } from "../functional/comparators";
 import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
 import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
-import { equal_to, less } from "../functional/comparators";
+import { IForwardIterator } from "../iterator/IForwardIterator";
 import { advance, distance } from "../iterator/global";
+import { Pair } from "../utility/Pair";
 
 /* =========================================================
     ITERATIONS (NON-MODIFYING SEQUENCE)
@@ -32,14 +32,14 @@ import { advance, distance } from "../iterator/global";
  * @return The function *fn* itself.
  */
 export function for_each<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
-    Func extends (val: IPointer.ValueType<InputIterator>) => any,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
+  Func extends (val: IPointer.ValueType<InputIterator>) => any,
 >(first: InputIterator, last: InputIterator, fn: Func): Func {
-    for (let it = first; !it.equals(last); it = it.next()) fn(it.value);
+  for (let it = first; !it.equals(last); it = it.next()) fn(it.value);
 
-    return fn;
+  return fn;
 }
 
 /**
@@ -52,16 +52,16 @@ export function for_each<
  * @return Iterator advanced from *first* for *n* steps.
  */
 export function for_each_n<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
-    Func extends (val: IPointer.ValueType<InputIterator>) => any,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
+  Func extends (val: IPointer.ValueType<InputIterator>) => any,
 >(first: InputIterator, n: number, fn: Func): InputIterator {
-    for (let i: number = 0; i < n; ++i) {
-        fn(first.value);
-        first = first.next();
-    }
-    return first;
+  for (let i: number = 0; i < n; ++i) {
+    fn(first.value);
+    first = first.next();
+  }
+  return first;
 }
 
 /* ---------------------------------------------------------
@@ -77,18 +77,18 @@ export function for_each_n<
  * @return Whether the *pred* returns always `true` for all elements.
  */
 export function all_of<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
+  first: InputIterator,
+  last: InputIterator,
+  pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
 ): boolean {
-    for (let it = first; !it.equals(last); it = it.next())
-        if (pred(it.value) === false) return false;
+  for (let it = first; !it.equals(last); it = it.next())
+    if (pred(it.value) === false) return false;
 
-    return true;
+  return true;
 }
 
 /**
@@ -101,18 +101,18 @@ export function all_of<
  * @return Whether the *pred* returns at least a `true` for all elements.
  */
 export function any_of<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
+  first: InputIterator,
+  last: InputIterator,
+  pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
 ): boolean {
-    for (let it = first; !it.equals(last); it = it.next())
-        if (pred(it.value) === true) return true;
+  for (let it = first; !it.equals(last); it = it.next())
+    if (pred(it.value) === true) return true;
 
-    return false;
+  return false;
 }
 
 /**
@@ -125,15 +125,15 @@ export function any_of<
  * @return Whether the *pred* doesn't return `true` for all elements.
  */
 export function none_of<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
+  first: InputIterator,
+  last: InputIterator,
+  pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
 ): boolean {
-    return !any_of(first, last, pred);
+  return !any_of(first, last, pred);
 }
 
 /**
@@ -147,16 +147,16 @@ export function none_of<
  * @return Whether two ranges are equal.
  */
 export function equal<
-    InputIterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
-    >,
-    InputIterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
-    >,
+  InputIterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+  >,
+  InputIterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator2>
+  >,
 >(
-    first1: InputIterator1,
-    last1: InputIterator1,
-    first2: InputIterator2,
+  first1: InputIterator1,
+  last1: InputIterator1,
+  first2: InputIterator2,
 ): boolean;
 
 /**
@@ -170,45 +170,45 @@ export function equal<
  * @return Whether two ranges are equal.
  */
 export function equal<
-    InputIterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
-    >,
-    InputIterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>
-    >,
+  InputIterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+  >,
+  InputIterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>
+  >,
 >(
-    first1: InputIterator1,
-    last1: InputIterator1,
-    first2: InputIterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<InputIterator1>,
-        IPointer.ValueType<InputIterator2>
-    >,
+  first1: InputIterator1,
+  last1: InputIterator1,
+  first2: InputIterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<InputIterator1>,
+    IPointer.ValueType<InputIterator2>
+  >,
 ): boolean;
 
 export function equal<
-    InputIterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
-    >,
-    InputIterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>
-    >,
+  InputIterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator1>, InputIterator1>
+  >,
+  InputIterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator2>, InputIterator2>
+  >,
 >(
-    first1: InputIterator1,
-    last1: InputIterator1,
-    first2: InputIterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<InputIterator1>,
-        IPointer.ValueType<InputIterator2>
-    > = equal_to as any,
+  first1: InputIterator1,
+  last1: InputIterator1,
+  first2: InputIterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<InputIterator1>,
+    IPointer.ValueType<InputIterator2>
+  > = equal_to as any,
 ): boolean {
-    while (!first1.equals(last1))
-        if (!pred(first1.value, first2.value)) return false;
-        else {
-            first1 = first1.next();
-            first2 = first2.next();
-        }
-    return true;
+  while (!first1.equals(last1))
+    if (!pred(first1.value, first2.value)) return false;
+    else {
+      first1 = first1.next();
+      first2 = first2.next();
+    }
+  return true;
 }
 
 /**
@@ -223,29 +223,28 @@ export function equal<
  * @return Whether the 1st range precedes the 2nd.
  */
 export function lexicographical_compare<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    last2: Iterator2,
-    comp: BinaryPredicator<IPointer.ValueType<Iterator1>> = less,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  last2: Iterator2,
+  comp: BinaryPredicator<IPointer.ValueType<Iterator1>> = less,
 ): boolean {
-    while (!first1.equals(last1))
-        if (first2.equals(last2) || comp(first2.value, first1.value))
-            return false;
-        else if (comp(first1.value, first2.value)) return true;
-        else {
-            first1 = first1.next();
-            first2 = first2.next();
-        }
+  while (!first1.equals(last1))
+    if (first2.equals(last2) || comp(first2.value, first1.value)) return false;
+    else if (comp(first1.value, first2.value)) return true;
+    else {
+      first1 = first1.next();
+      first2 = first2.next();
+    }
 
-    return !first2.equals(last2);
+  return !first2.equals(last2);
 }
 
 /* ---------------------------------------------------------
@@ -261,15 +260,15 @@ export function lexicographical_compare<
  * @return Iterator to the first element {@link equal to equal_to} the value.
  */
 export function find<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    val: IPointer.ValueType<InputIterator>,
+  first: InputIterator,
+  last: InputIterator,
+  val: IPointer.ValueType<InputIterator>,
 ): InputIterator {
-    return find_if(first, last, (elem) => equal_to(elem, val));
+  return find_if(first, last, (elem) => equal_to(elem, val));
 }
 
 /**
@@ -282,18 +281,18 @@ export function find<
  * @return Iterator to the first element *pred* returns `true`.
  */
 export function find_if<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
+  first: InputIterator,
+  last: InputIterator,
+  pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
 ): InputIterator {
-    for (let it = first; !it.equals(last); it = it.next())
-        if (pred(it.value)) return it;
+  for (let it = first; !it.equals(last); it = it.next())
+    if (pred(it.value)) return it;
 
-    return last;
+  return last;
 }
 
 /**
@@ -306,15 +305,15 @@ export function find_if<
  * @return Iterator to the first element *pred* returns `false`.
  */
 export function find_if_not<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
+  first: InputIterator,
+  last: InputIterator,
+  pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
 ): InputIterator {
-    return find_if(first, last, (elem) => !pred(elem));
+  return find_if(first, last, (elem) => !pred(elem));
 }
 
 /**
@@ -328,17 +327,17 @@ export function find_if_not<
  * @return Iterator to the first element of the last sub range.
  */
 export function find_end<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    last2: Iterator2,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  last2: Iterator2,
 ): Iterator1;
 
 /**
@@ -353,58 +352,58 @@ export function find_end<
  * @return Iterator to the first element of the last sub range.
  */
 export function find_end<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    last2: Iterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<Iterator1>,
-        IPointer.ValueType<Iterator2>
-    >,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  last2: Iterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<Iterator1>,
+    IPointer.ValueType<Iterator2>
+  >,
 ): Iterator1;
 
 export function find_end<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    last2: Iterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<Iterator1>,
-        IPointer.ValueType<Iterator2>
-    > = <any>equal_to,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  last2: Iterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<Iterator1>,
+    IPointer.ValueType<Iterator2>
+  > = <any>equal_to,
 ): Iterator1 {
-    if (first2.equals(last2)) return last1;
+  if (first2.equals(last2)) return last1;
 
-    let ret: Iterator1 = last1;
-    for (; !first1.equals(last1); first1 = first1.next()) {
-        let it1: Iterator1 = first1;
-        let it2: Iterator2 = first2;
+  let ret: Iterator1 = last1;
+  for (; !first1.equals(last1); first1 = first1.next()) {
+    let it1: Iterator1 = first1;
+    let it2: Iterator2 = first2;
 
-        while (pred(it1.value, it2.value)) {
-            it1 = it1.next();
-            it2 = it2.next();
+    while (pred(it1.value, it2.value)) {
+      it1 = it1.next();
+      it2 = it2.next();
 
-            if (it2.equals(last2)) {
-                ret = first1;
-                break;
-            } else if (it1.equals(last1)) return ret;
-        }
+      if (it2.equals(last2)) {
+        ret = first1;
+        break;
+      } else if (it1.equals(last1)) return ret;
     }
-    return ret;
+  }
+  return ret;
 }
 
 /**
@@ -418,17 +417,17 @@ export function find_end<
  * @return Iterator to the first element of the first sub range.
  */
 export function find_first_of<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    last2: Iterator2,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  last2: Iterator2,
 ): Iterator1;
 
 /**
@@ -443,45 +442,45 @@ export function find_first_of<
  * @return Iterator to the first element of the first sub range.
  */
 export function find_first_of<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    last2: Iterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<Iterator1>,
-        IPointer.ValueType<Iterator2>
-    >,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  last2: Iterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<Iterator1>,
+    IPointer.ValueType<Iterator2>
+  >,
 ): Iterator1;
 
 export function find_first_of<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    last2: Iterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<Iterator1>,
-        IPointer.ValueType<Iterator2>
-    > = <any>equal_to,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  last2: Iterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<Iterator1>,
+    IPointer.ValueType<Iterator2>
+  > = <any>equal_to,
 ): Iterator1 {
-    for (; !first1.equals(last1); first1 = first1.next())
-        for (let it = first2; !it.equals(last2); it = it.next())
-            if (pred(first1.value, it.value)) return first1;
+  for (; !first1.equals(last1); first1 = first1.next())
+    for (let it = first2; !it.equals(last2); it = it.next())
+      if (pred(first1.value, it.value)) return first1;
 
-    return last1;
+  return last1;
 }
 
 /**
@@ -494,25 +493,25 @@ export function find_first_of<
  * @return Iterator to the first element of adjacent find.
  */
 export function adjacent_find<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    pred: BinaryPredicator<IPointer.ValueType<InputIterator>> = equal_to,
+  first: InputIterator,
+  last: InputIterator,
+  pred: BinaryPredicator<IPointer.ValueType<InputIterator>> = equal_to,
 ): InputIterator {
-    if (!first.equals(last)) {
-        let next: InputIterator = first.next();
+  if (!first.equals(last)) {
+    let next: InputIterator = first.next();
 
-        while (!next.equals(last)) {
-            if (pred(first.value, next.value)) return first;
+    while (!next.equals(last)) {
+      if (pred(first.value, next.value)) return first;
 
-            first = first.next();
-            next = next.next();
-        }
+      first = first.next();
+      next = next.next();
     }
-    return last;
+  }
+  return last;
 }
 
 /**
@@ -526,17 +525,17 @@ export function adjacent_find<
  * @return Iterator to the first element of the sub range.
  */
 export function search<
-    ForwardIterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>
-    >,
-    ForwardIterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator2>
-    >,
+  ForwardIterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>
+  >,
+  ForwardIterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator2>
+  >,
 >(
-    first1: ForwardIterator1,
-    last1: ForwardIterator1,
-    first2: ForwardIterator2,
-    last2: ForwardIterator2,
+  first1: ForwardIterator1,
+  last1: ForwardIterator1,
+  first2: ForwardIterator2,
+  last2: ForwardIterator2,
 ): ForwardIterator1;
 
 /**
@@ -551,55 +550,55 @@ export function search<
  * @return Iterator to the first element of the sub range.
  */
 export function search<
-    ForwardIterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>
-    >,
-    ForwardIterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator2>, ForwardIterator2>
-    >,
+  ForwardIterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>
+  >,
+  ForwardIterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator2>, ForwardIterator2>
+  >,
 >(
-    first1: ForwardIterator1,
-    last1: ForwardIterator1,
-    first2: ForwardIterator2,
-    last2: ForwardIterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<ForwardIterator1>,
-        IPointer.ValueType<ForwardIterator2>
-    >,
+  first1: ForwardIterator1,
+  last1: ForwardIterator1,
+  first2: ForwardIterator2,
+  last2: ForwardIterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<ForwardIterator1>,
+    IPointer.ValueType<ForwardIterator2>
+  >,
 ): ForwardIterator1;
 
 export function search<
-    ForwardIterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>
-    >,
-    ForwardIterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator2>, ForwardIterator2>
-    >,
+  ForwardIterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator1>, ForwardIterator1>
+  >,
+  ForwardIterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator2>, ForwardIterator2>
+  >,
 >(
-    first1: ForwardIterator1,
-    last1: ForwardIterator1,
-    first2: ForwardIterator2,
-    last2: ForwardIterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<ForwardIterator1>,
-        IPointer.ValueType<ForwardIterator2>
-    > = <any>equal_to,
+  first1: ForwardIterator1,
+  last1: ForwardIterator1,
+  first2: ForwardIterator2,
+  last2: ForwardIterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<ForwardIterator1>,
+    IPointer.ValueType<ForwardIterator2>
+  > = <any>equal_to,
 ): ForwardIterator1 {
-    if (first2.equals(last2)) return first1;
+  if (first2.equals(last2)) return first1;
 
-    for (; !first1.equals(last1); first1 = first1.next()) {
-        let it1: ForwardIterator1 = first1;
-        let it2: ForwardIterator2 = first2;
+  for (; !first1.equals(last1); first1 = first1.next()) {
+    let it1: ForwardIterator1 = first1;
+    let it2: ForwardIterator2 = first2;
 
-        while (pred(it1.value, it2.value)) {
-            if (it2.equals(last2)) return first1;
-            else if (it1.equals(last1)) return last1;
+    while (pred(it1.value, it2.value)) {
+      if (it2.equals(last2)) return first1;
+      else if (it1.equals(last1)) return last1;
 
-            it1 = it1.next();
-            it2 = it2.next();
-        }
+      it1 = it1.next();
+      it2 = it2.next();
     }
-    return last1;
+  }
+  return last1;
 }
 
 /**
@@ -614,32 +613,29 @@ export function search<
  * @return Iterator to the first element of the repetition.
  */
 export function search_n<
-    ForwardIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
-    >,
+  ForwardIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
+  >,
 >(
-    first: ForwardIterator,
-    last: ForwardIterator,
-    count: number,
-    val: IPointer.ValueType<ForwardIterator>,
-    pred: BinaryPredicator<IPointer.ValueType<ForwardIterator>> = equal_to,
+  first: ForwardIterator,
+  last: ForwardIterator,
+  count: number,
+  val: IPointer.ValueType<ForwardIterator>,
+  pred: BinaryPredicator<IPointer.ValueType<ForwardIterator>> = equal_to,
 ): ForwardIterator {
-    const limit: ForwardIterator = advance(
-        first,
-        distance(first, last) - count,
-    );
+  const limit: ForwardIterator = advance(first, distance(first, last) - count);
 
-    for (; !first.equals(limit); first = first.next()) {
-        let it: ForwardIterator = first;
-        let i: number = 0;
+  for (; !first.equals(limit); first = first.next()) {
+    let it: ForwardIterator = first;
+    let i: number = 0;
 
-        while (pred(it.value, val)) {
-            it = it.next();
+    while (pred(it.value, val)) {
+      it = it.next();
 
-            if (++i === count) return first;
-        }
+      if (++i === count) return first;
     }
-    return last;
+  }
+  return last;
 }
 
 /**
@@ -652,16 +648,16 @@ export function search_n<
  * @return A {@link Pair} of mismatched positions.
  */
 export function mismatch<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
 ): Pair<Iterator1, Iterator2>;
 
 /**
@@ -675,43 +671,43 @@ export function mismatch<
  * @return A {@link Pair} of mismatched positions.
  */
 export function mismatch<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<Iterator1>,
-        IPointer.ValueType<Iterator2>
-    >,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<Iterator1>,
+    IPointer.ValueType<Iterator2>
+  >,
 ): Pair<Iterator1, Iterator2>;
 
 export function mismatch<
-    Iterator1 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
-    >,
-    Iterator2 extends Readonly<
-        IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
-    >,
+  Iterator1 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator1>, Iterator1>
+  >,
+  Iterator2 extends Readonly<
+    IForwardIterator<IPointer.ValueType<Iterator2>, Iterator2>
+  >,
 >(
-    first1: Iterator1,
-    last1: Iterator1,
-    first2: Iterator2,
-    pred: BinaryPredicator<
-        IPointer.ValueType<Iterator1>,
-        IPointer.ValueType<Iterator2>
-    > = <any>equal_to,
+  first1: Iterator1,
+  last1: Iterator1,
+  first2: Iterator2,
+  pred: BinaryPredicator<
+    IPointer.ValueType<Iterator1>,
+    IPointer.ValueType<Iterator2>
+  > = <any>equal_to,
 ): Pair<Iterator1, Iterator2> {
-    while (!first1.equals(last1) && pred(first1.value, first2.value)) {
-        first1 = first1.next();
-        first2 = first2.next();
-    }
-    return new Pair(first1, first2);
+  while (!first1.equals(last1) && pred(first1.value, first2.value)) {
+    first1 = first1.next();
+    first2 = first2.next();
+  }
+  return new Pair(first1, first2);
 }
 
 /* ---------------------------------------------------------
@@ -727,15 +723,15 @@ export function mismatch<
  * @return The matched count.
  */
 export function count<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    val: IPointer.ValueType<InputIterator>,
+  first: InputIterator,
+  last: InputIterator,
+  val: IPointer.ValueType<InputIterator>,
 ): number {
-    return count_if(first, last, (elem) => equal_to(elem, val));
+  return count_if(first, last, (elem) => equal_to(elem, val));
 }
 
 /**
@@ -748,18 +744,18 @@ export function count<
  * @return The matched count.
  */
 export function count_if<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
+  first: InputIterator,
+  last: InputIterator,
+  pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
 ): number {
-    let ret: number = 0;
+  let ret: number = 0;
 
-    for (let it = first; !it.equals(last); it = it.next())
-        if (pred(it.value)) ++ret;
+  for (let it = first; !it.equals(last); it = it.next())
+    if (pred(it.value)) ++ret;
 
-    return ret;
+  return ret;
 }

@@ -1,11 +1,11 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
-
 import { IReverseIterator } from "./IReverseIterator";
 
 /**
@@ -14,14 +14,14 @@ import { IReverseIterator } from "./IReverseIterator";
  * @author Jeongho Nam - https://github.com/samchon
  */
 export interface IReversableIterator<
-    T,
-    IteratorT extends IReversableIterator<T, IteratorT, ReverseT>,
-    ReverseT extends IReverseIterator<T, IteratorT, ReverseT>,
+  T,
+  IteratorT extends IReversableIterator<T, IteratorT, ReverseT>,
+  ReverseT extends IReverseIterator<T, IteratorT, ReverseT>,
 > extends IBidirectionalIterator<T, IteratorT> {
-    /**
-     * Construct reverse iterator.
-     *
-     * @return The reverse iterator.
-     */
-    reverse(): ReverseT;
+  /**
+   * Construct reverse iterator.
+   *
+   * @return The reverse iterator.
+   */
+  reverse(): ReverseT;
 }
