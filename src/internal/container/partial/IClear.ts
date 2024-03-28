@@ -5,8 +5,8 @@
  */
 //================================================================
 export interface IClear {
-    /**
-     * Clear elements.
-     */
-    clear(): void;
+  /**
+   * Clear elements.
+   */
+  clear(): void;
 }

@@ -1,17 +1,16 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std.ranges
  */
 //================================================================
 import * as base from "../../algorithm/sorting";
-
-import { IForwardContainer } from "../container/IForwardContainer";
-import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
-
+import { less } from "../../functional/comparators";
 import { Comparator } from "../../internal/functional/Comparator";
 import { begin, end } from "../../iterator/factory";
-import { less } from "../../functional/comparators";
+import { IForwardContainer } from "../container/IForwardContainer";
+import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
 
 /* ---------------------------------------------------------
     SORT
@@ -23,10 +22,10 @@ import { less } from "../../functional/comparators";
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function sort<Range extends Array<any> | IRandomAccessContainer<any>>(
-    range: Range,
-    comp: Comparator<IForwardContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IForwardContainer.ValueType<Range>> = less,
 ): void {
-    return base.sort(begin(range), end(range), comp);
+  return base.sort(begin(range), end(range), comp);
 }
 
 /**
@@ -36,12 +35,12 @@ export function sort<Range extends Array<any> | IRandomAccessContainer<any>>(
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function stable_sort<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    comp: Comparator<IForwardContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IForwardContainer.ValueType<Range>> = less,
 ): void {
-    return base.stable_sort(begin(range), end(range), comp);
+  return base.stable_sort(begin(range), end(range), comp);
 }
 
 /**
@@ -52,13 +51,13 @@ export function stable_sort<
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function partial_sort<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    middle: IRandomAccessContainer.IteratorType<Range>,
-    comp: Comparator<IForwardContainer.ValueType<Range>> = less,
+  range: Range,
+  middle: IRandomAccessContainer.IteratorType<Range>,
+  comp: Comparator<IForwardContainer.ValueType<Range>> = less,
 ): void {
-    return base.partial_sort(begin(range), <any>middle, end(range), comp);
+  return base.partial_sort(begin(range), <any>middle, end(range), comp);
 }
 
 /**
@@ -70,20 +69,20 @@ export function partial_sort<
  * @return Output Iterator of the last position by advancing.
  */
 export function partial_sort_copy<
-    Range extends Array<any> | IForwardContainer<any>,
-    Output extends Array<any> | IForwardContainer<any>,
+  Range extends Array<any> | IForwardContainer<any>,
+  Output extends Array<any> | IForwardContainer<any>,
 >(
-    range: Range,
-    output: Output,
-    comp: Comparator<IForwardContainer.ValueType<Range>> = less,
+  range: Range,
+  output: Output,
+  comp: Comparator<IForwardContainer.ValueType<Range>> = less,
 ): IForwardContainer.IteratorType<Output> {
-    return base.partial_sort_copy(
-        begin(range),
-        end(range),
-        begin(output),
-        end(output),
-        comp,
-    );
+  return base.partial_sort_copy(
+    begin(range),
+    end(range),
+    begin(output),
+    end(output),
+    comp,
+  );
 }
 
 /**
@@ -95,13 +94,13 @@ export function partial_sort_copy<
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function nth_element<
-    Range extends Array<any> | IRandomAccessContainer<any>,
+  Range extends Array<any> | IRandomAccessContainer<any>,
 >(
-    range: Range,
-    nth: IRandomAccessContainer.IteratorType<Range>,
-    comp: Comparator<IForwardContainer.ValueType<Range>> = less,
+  range: Range,
+  nth: IRandomAccessContainer.IteratorType<Range>,
+  comp: Comparator<IForwardContainer.ValueType<Range>> = less,
 ): void {
-    return base.nth_element(begin(range), <any>nth, end(range), comp);
+  return base.nth_element(begin(range), <any>nth, end(range), comp);
 }
 
 /* ---------------------------------------------------------
@@ -116,10 +115,10 @@ export function nth_element<
  * @return Whether sorted or not.
  */
 export function is_sorted<Range extends Array<any> | IForwardContainer<any>>(
-    range: Range,
-    comp: Comparator<IForwardContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IForwardContainer.ValueType<Range>> = less,
 ): boolean {
-    return base.is_sorted(begin(range), end(range), comp);
+  return base.is_sorted(begin(range), end(range), comp);
 }
 
 /**
@@ -131,10 +130,10 @@ export function is_sorted<Range extends Array<any> | IForwardContainer<any>>(
  * @return Iterator to the first element who violates the order.
  */
 export function is_sorted_until<
-    Range extends Array<any> | IForwardContainer<any>,
+  Range extends Array<any> | IForwardContainer<any>,
 >(
-    range: Range,
-    comp: Comparator<IForwardContainer.ValueType<Range>> = less,
+  range: Range,
+  comp: Comparator<IForwardContainer.ValueType<Range>> = less,
 ): IForwardContainer.IteratorType<Range> {
-    return base.is_sorted_until(begin(range), end(range), comp);
+  return base.is_sorted_until(begin(range), end(range), comp);
 }

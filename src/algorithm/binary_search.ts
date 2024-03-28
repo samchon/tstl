@@ -1,16 +1,16 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
-import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IPointer } from "../functional/IPointer";
-import { Pair } from "../utility/Pair";
-
-import { Comparator } from "../internal/functional/Comparator";
-import { distance, advance } from "../iterator/global";
 import { less } from "../functional/comparators";
+import { Comparator } from "../internal/functional/Comparator";
+import { IForwardIterator } from "../iterator/IForwardIterator";
+import { advance, distance } from "../iterator/global";
+import { Pair } from "../utility/Pair";
 
 /* =========================================================
     BINARY SEARCH
@@ -26,27 +26,27 @@ import { less } from "../functional/comparators";
  * @return Iterator to the first element equal or after the val.
  */
 export function lower_bound<
-    ForwardIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
-    >,
+  ForwardIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
+  >,
 >(
-    first: ForwardIterator,
-    last: ForwardIterator,
-    val: IPointer.ValueType<ForwardIterator>,
-    comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
+  first: ForwardIterator,
+  last: ForwardIterator,
+  val: IPointer.ValueType<ForwardIterator>,
+  comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
 ): ForwardIterator {
-    let count: number = distance(first, last);
+  let count: number = distance(first, last);
 
-    while (count > 0) {
-        const step: number = Math.floor(count / 2);
-        const it: ForwardIterator = advance(first, step);
+  while (count > 0) {
+    const step: number = Math.floor(count / 2);
+    const it: ForwardIterator = advance(first, step);
 
-        if (comp(it.value, val)) {
-            first = it.next();
-            count -= step + 1;
-        } else count = step;
-    }
-    return first;
+    if (comp(it.value, val)) {
+      first = it.next();
+      count -= step + 1;
+    } else count = step;
+  }
+  return first;
 }
 
 /**
@@ -60,27 +60,27 @@ export function lower_bound<
  * @return Iterator to the first element after the key.
  */
 export function upper_bound<
-    ForwardIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
-    >,
+  ForwardIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
+  >,
 >(
-    first: ForwardIterator,
-    last: ForwardIterator,
-    val: IPointer.ValueType<ForwardIterator>,
-    comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
+  first: ForwardIterator,
+  last: ForwardIterator,
+  val: IPointer.ValueType<ForwardIterator>,
+  comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
 ): ForwardIterator {
-    let count: number = distance(first, last);
+  let count: number = distance(first, last);
 
-    while (count > 0) {
-        const step: number = Math.floor(count / 2);
-        const it: ForwardIterator = advance(first, step);
+  while (count > 0) {
+    const step: number = Math.floor(count / 2);
+    const it: ForwardIterator = advance(first, step);
 
-        if (!comp(val, it.value)) {
-            first = it.next();
-            count -= step + 1;
-        } else count = step;
-    }
-    return first;
+    if (!comp(val, it.value)) {
+      first = it.next();
+      count -= step + 1;
+    } else count = step;
+  }
+  return first;
 }
 
 /**
@@ -94,19 +94,19 @@ export function upper_bound<
  * @return Pair of {@link lower_bound} and {@link upper_bound}.
  */
 export function equal_range<
-    ForwardIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
-    >,
+  ForwardIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
+  >,
 >(
-    first: ForwardIterator,
-    last: ForwardIterator,
-    val: IPointer.ValueType<ForwardIterator>,
-    comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
+  first: ForwardIterator,
+  last: ForwardIterator,
+  val: IPointer.ValueType<ForwardIterator>,
+  comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
 ): Pair<ForwardIterator, ForwardIterator> {
-    first = lower_bound(first, last, val, comp);
-    const second: ForwardIterator = upper_bound(first, last, val, comp);
+  first = lower_bound(first, last, val, comp);
+  const second: ForwardIterator = upper_bound(first, last, val, comp);
 
-    return new Pair(first, second);
+  return new Pair(first, second);
 }
 
 /**
@@ -120,16 +120,16 @@ export function equal_range<
  * @return Whether the value exists or not.
  */
 export function binary_search<
-    ForwardIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
-    >,
+  ForwardIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
+  >,
 >(
-    first: ForwardIterator,
-    last: ForwardIterator,
-    val: IPointer.ValueType<ForwardIterator>,
-    comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
+  first: ForwardIterator,
+  last: ForwardIterator,
+  val: IPointer.ValueType<ForwardIterator>,
+  comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
 ): boolean {
-    first = lower_bound(first, last, val, comp);
+  first = lower_bound(first, last, val, comp);
 
-    return !first.equals(last) && !comp(val, first.value);
+  return !first.equals(last) && !comp(val, first.value);
 }

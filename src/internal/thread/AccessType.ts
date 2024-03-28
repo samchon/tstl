@@ -5,6 +5,6 @@
  */
 //================================================================
 export const enum AccessType {
-    WRITE,
-    READ,
+  WRITE,
+  READ,
 }

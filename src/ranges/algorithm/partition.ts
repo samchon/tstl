@@ -1,19 +1,18 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std.ranges
  */
 //================================================================
 import * as base from "../../algorithm/partition";
-
-import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
-import { IForwardContainer } from "../container/IForwardContainer";
-import { IForwardIterator } from "../../iterator/IForwardIterator";
-import { Pair } from "../../utility/Pair";
-
 import { UnaryPredicator } from "../../internal/functional/UnaryPredicator";
 import { Writeonly } from "../../internal/functional/Writeonly";
+import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { begin, end } from "../../iterator/factory";
+import { Pair } from "../../utility/Pair";
+import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
+import { IForwardContainer } from "../container/IForwardContainer";
 
 /**
  * Test whether a range is partitioned.
@@ -24,12 +23,12 @@ import { begin, end } from "../../iterator/factory";
  * @return Whether the range is partition or not.
  */
 export function is_partitioned<
-    Range extends Array<any> | IForwardContainer<any>,
+  Range extends Array<any> | IForwardContainer<any>,
 >(
-    range: Range,
-    pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
+  range: Range,
+  pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
 ): boolean {
-    return base.is_partitioned(begin(range), end(range), pred);
+  return base.is_partitioned(begin(range), end(range), pred);
 }
 
 /**
@@ -41,12 +40,12 @@ export function is_partitioned<
  * @return Iterator to the first element of the second section.
  */
 export function partition_point<
-    Range extends Array<any> | IForwardContainer<any>,
+  Range extends Array<any> | IForwardContainer<any>,
 >(
-    range: Range,
-    pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
+  range: Range,
+  pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
 ): IForwardContainer.IteratorType<Range> {
-    return base.partition_point(begin(range), end(range), pred);
+  return base.partition_point(begin(range), end(range), pred);
 }
 
 /**
@@ -58,12 +57,12 @@ export function partition_point<
  * @return Iterator to the first element of the second section.
  */
 export function partition<
-    Range extends Array<any> | IBidirectionalContainer<any, any>,
+  Range extends Array<any> | IBidirectionalContainer<any, any>,
 >(
-    range: Range,
-    pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
+  range: Range,
+  pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
 ): IBidirectionalContainer.IteratorType<Range> {
-    return <any>base.partition(begin(range), end(range), pred);
+  return <any>base.partition(begin(range), end(range), pred);
 }
 
 /**
@@ -75,12 +74,12 @@ export function partition<
  * @return Iterator to the first element of the second section.
  */
 export function stable_partition<
-    Range extends Array<any> | IBidirectionalContainer<any, any>,
+  Range extends Array<any> | IBidirectionalContainer<any, any>,
 >(
-    range: Range,
-    pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
+  range: Range,
+  pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
 ): IBidirectionalContainer.IteratorType<Range> {
-    return <any>base.stable_partition(begin(range), end(range), pred);
+  return <any>base.stable_partition(begin(range), end(range), pred);
 }
 
 /**
@@ -94,24 +93,24 @@ export function stable_partition<
  * @return Iterator to the first element of the second section.
  */
 export function partition_copy<
-    Range extends Array<any> | IForwardContainer<any>,
-    OutputIterator1 extends Writeonly<
-        IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator1>
-    >,
-    OutputIterator2 extends Writeonly<
-        IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator2>
-    >,
+  Range extends Array<any> | IForwardContainer<any>,
+  OutputIterator1 extends Writeonly<
+    IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator1>
+  >,
+  OutputIterator2 extends Writeonly<
+    IForwardIterator<IForwardContainer.ValueType<Range>, OutputIterator2>
+  >,
 >(
-    range: Range,
-    output_true: OutputIterator1,
-    output_false: OutputIterator2,
-    pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
+  range: Range,
+  output_true: OutputIterator1,
+  output_false: OutputIterator2,
+  pred: UnaryPredicator<IForwardContainer.ValueType<Range>>,
 ): Pair<OutputIterator1, OutputIterator2> {
-    return base.partition_copy(
-        begin(range),
-        end(range),
-        output_true,
-        output_false,
-        pred,
-    );
+  return base.partition_copy(
+    begin(range),
+    end(range),
+    output_true,
+    output_false,
+    pred,
+  );
 }

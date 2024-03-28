@@ -1,19 +1,19 @@
 //================================================================
+
 /**
  * @packageDocumentation
  * @module std
  */
 //================================================================
-import { IForwardIterator } from "../iterator/IForwardIterator";
-import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IPointer } from "../functional/IPointer";
-
 import { General } from "../internal/functional/General";
-import { Pair } from "../utility/Pair";
 import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 import { Writeonly } from "../internal/functional/Writeonly";
+import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
+import { IForwardIterator } from "../iterator/IForwardIterator";
+import { advance, distance } from "../iterator/global";
+import { Pair } from "../utility/Pair";
 import { iter_swap } from "./modifiers";
-import { distance, advance } from "../iterator/global";
 
 /* =========================================================
     PARTITION
@@ -28,20 +28,20 @@ import { distance, advance } from "../iterator/global";
  * @return Whether the range is partition or not.
  */
 export function is_partitioned<
-    ForwardIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
-    >,
+  ForwardIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
+  >,
 >(
-    first: ForwardIterator,
-    last: ForwardIterator,
-    pred: UnaryPredicator<IPointer.ValueType<ForwardIterator>>,
+  first: ForwardIterator,
+  last: ForwardIterator,
+  pred: UnaryPredicator<IPointer.ValueType<ForwardIterator>>,
 ): boolean {
-    while (!first.equals(last) && pred(first.value)) first = first.next();
+  while (!first.equals(last) && pred(first.value)) first = first.next();
 
-    for (; !first.equals(last); first = first.next())
-        if (pred(first.value)) return false;
+  for (; !first.equals(last); first = first.next())
+    if (pred(first.value)) return false;
 
-    return true;
+  return true;
 }
 
 /**
@@ -54,26 +54,26 @@ export function is_partitioned<
  * @return Iterator to the first element of the second section.
  */
 export function partition_point<
-    ForwardIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
-    >,
+  ForwardIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
+  >,
 >(
-    first: ForwardIterator,
-    last: ForwardIterator,
-    pred: UnaryPredicator<IPointer.ValueType<ForwardIterator>>,
+  first: ForwardIterator,
+  last: ForwardIterator,
+  pred: UnaryPredicator<IPointer.ValueType<ForwardIterator>>,
 ): ForwardIterator {
-    let n: number = distance(first, last);
+  let n: number = distance(first, last);
 
-    while (n > 0) {
-        const step: number = Math.floor(n / 2);
-        const it: ForwardIterator = advance(first, step);
+  while (n > 0) {
+    const step: number = Math.floor(n / 2);
+    const it: ForwardIterator = advance(first, step);
 
-        if (pred(it.value)) {
-            first = it.next();
-            n -= step + 1;
-        } else n = step;
-    }
-    return first;
+    if (pred(it.value)) {
+      first = it.next();
+      n -= step + 1;
+    } else n = step;
+  }
+  return first;
 }
 
 /**
@@ -86,18 +86,18 @@ export function partition_point<
  * @return Iterator to the first element of the second section.
  */
 export function partition<
-    BidirectionalIterator extends General<
-        IBidirectionalIterator<
-            IPointer.ValueType<BidirectionalIterator>,
-            BidirectionalIterator
-        >
-    >,
+  BidirectionalIterator extends General<
+    IBidirectionalIterator<
+      IPointer.ValueType<BidirectionalIterator>,
+      BidirectionalIterator
+    >
+  >,
 >(
-    first: BidirectionalIterator,
-    last: BidirectionalIterator,
-    pred: UnaryPredicator<IPointer.ValueType<BidirectionalIterator>>,
+  first: BidirectionalIterator,
+  last: BidirectionalIterator,
+  pred: UnaryPredicator<IPointer.ValueType<BidirectionalIterator>>,
 ): BidirectionalIterator {
-    return stable_partition(first, last, pred);
+  return stable_partition(first, last, pred);
 }
 
 /**
@@ -110,32 +110,32 @@ export function partition<
  * @return Iterator to the first element of the second section.
  */
 export function stable_partition<
-    BidirectionalIterator extends General<
-        IBidirectionalIterator<
-            IPointer.ValueType<BidirectionalIterator>,
-            BidirectionalIterator
-        >
-    >,
+  BidirectionalIterator extends General<
+    IBidirectionalIterator<
+      IPointer.ValueType<BidirectionalIterator>,
+      BidirectionalIterator
+    >
+  >,
 >(
-    first: BidirectionalIterator,
-    last: BidirectionalIterator,
-    pred: UnaryPredicator<IPointer.ValueType<BidirectionalIterator>>,
+  first: BidirectionalIterator,
+  last: BidirectionalIterator,
+  pred: UnaryPredicator<IPointer.ValueType<BidirectionalIterator>>,
 ): BidirectionalIterator {
-    while (!first.equals(last) && pred(first.value)) {
-        while (pred(first.value)) {
-            first = first.next();
-            if (first.equals(last)) return first;
-        }
-
-        do {
-            last = last.prev();
-            if (first.equals(last)) return first;
-        } while (!pred(last.value));
-
-        iter_swap(first, last);
-        first = first.next();
+  while (!first.equals(last) && pred(first.value)) {
+    while (pred(first.value)) {
+      first = first.next();
+      if (first.equals(last)) return first;
     }
-    return last;
+
+    do {
+      last = last.prev();
+      if (first.equals(last)) return first;
+    } while (!pred(last.value));
+
+    iter_swap(first, last);
+    first = first.next();
+  }
+  return last;
 }
 
 /**
@@ -150,29 +150,29 @@ export function stable_partition<
  * @return Iterator to the first element of the second section.
  */
 export function partition_copy<
-    InputIterator extends Readonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-    >,
-    OutputIterator1 extends Writeonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator1>
-    >,
-    OutputIterator2 extends Writeonly<
-        IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator2>
-    >,
+  InputIterator extends Readonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
+  >,
+  OutputIterator1 extends Writeonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator1>
+  >,
+  OutputIterator2 extends Writeonly<
+    IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator2>
+  >,
 >(
-    first: InputIterator,
-    last: InputIterator,
-    output_true: OutputIterator1,
-    output_false: OutputIterator2,
-    pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
+  first: InputIterator,
+  last: InputIterator,
+  output_true: OutputIterator1,
+  output_false: OutputIterator2,
+  pred: UnaryPredicator<IPointer.ValueType<InputIterator>>,
 ): Pair<OutputIterator1, OutputIterator2> {
-    for (; !first.equals(last); first = first.next())
-        if (pred(first.value)) {
-            output_true.value = first.value;
-            output_true = output_true.next();
-        } else {
-            output_false.value = first.value;
-            output_false = output_false.next();
-        }
-    return new Pair(output_true, output_false);
+  for (; !first.equals(last); first = first.next())
+    if (pred(first.value)) {
+      output_true.value = first.value;
+      output_true = output_true.next();
+    } else {
+      output_false.value = first.value;
+      output_false = output_false.next();
+    }
+  return new Pair(output_true, output_false);
 }
