@@ -184,7 +184,7 @@ export function clamp<T>(v: T, lo: T, hi: T, comp: Comparator<T> = less): T {
 /**
  * Test whether two ranges are in permutation relationship.
  *
- * @param first1 Forward iteartor of the first position of the 1st range.
+ * @param first1 Forward iterator of the first position of the 1st range.
  * @param last1 Forward iterator of the last position of the 1st range.
  * @param first2 Forward iterator of the first position of the 2nd range.
  * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.

@@ -55,7 +55,7 @@ type BinaryOperatorInferrer<
 /**
  * Copy elements in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the first position.
  *
@@ -83,7 +83,7 @@ export function copy<
 /**
  * Copy *n* elements.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param n Number of elements to copy.
  * @param output Output iterator of the first position.
  *
@@ -109,7 +109,7 @@ export function copy_n<
 /**
  * Copy specific elements by a condition.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the first position.
  * @param pred A function predicates the specific condition.
@@ -141,7 +141,7 @@ export function copy_if<
 /**
  * Copy elements reversely.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the first position.
  *
@@ -173,7 +173,7 @@ export function copy_backward<
 /**
  * Fill range elements
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param val The value to fill.
  *
@@ -194,7 +194,7 @@ export function fill<
 /**
  * Fill *n* elements.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param n Number of elements to fill.
  * @param val The value to fill.
  *
@@ -219,7 +219,7 @@ export function fill_n<
 /**
  * Transform elements.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the first position.
  * @param op Unary function determines the transform.
@@ -243,7 +243,7 @@ export function transform<
 /**
  * Transform elements.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param output Output iterator of the first position.
@@ -329,7 +329,7 @@ function _Binary_transform<
 /**
  * Generate range elements.
  *
- * @param first Forward iteartor of the first position.
+ * @param first Forward iterator of the first position.
  * @param last Forward iterator of the last position.
  * @param gen The generator function.
  */
@@ -348,7 +348,7 @@ export function generate<
 /**
  * Generate *n* elements.
  *
- * @param first Forward iteartor of the first position.
+ * @param first Forward iterator of the first position.
  * @param n Number of elements to generate.
  * @param gen The generator function.
  *
@@ -376,7 +376,7 @@ export function generate_n<
 /**
  * Test whether elements are unique in sorted range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  *
@@ -404,7 +404,7 @@ export function is_unique<
 /**
  * Remove duplicated elements in sorted range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  *
@@ -433,7 +433,7 @@ export function unique<
 /**
  * Copy elements in range without duplicates.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the last position.
  * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
@@ -469,7 +469,7 @@ export function unique_copy<
 /**
  * Remove specific value in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param val The specific value to remove.
  *
@@ -490,7 +490,7 @@ export function remove<
 /**
  * Remove elements in range by a condition.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred An unary function predicates remove.
  *
@@ -520,7 +520,7 @@ export function remove_if<
 /**
  * Copy range removing specific value.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the last position.
  * @param val The condition predicates remove.
@@ -546,7 +546,7 @@ export function remove_copy<
 /**
  * Copy range removing elements by a condition.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the last position.
  * @param pred An unary function predicates remove.
@@ -582,7 +582,7 @@ export function remove_copy_if<
 /**
  * Replace specific value in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param old_val Specific value to change
  * @param new_val Specific value to be changed.
@@ -603,7 +603,7 @@ export function replace<
 /**
  * Replace specific condition in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred An unary function predicates the change.
  * @param new_val Specific value to be changed.
@@ -625,7 +625,7 @@ export function replace_if<
 /**
  * Copy range replacing specific value.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the first position.
  * @param old_val Specific value to change
@@ -659,7 +659,7 @@ export function replace_copy<
 /**
  * Copy range replacing specfic condition.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the first position.
  * @param pred An unary function predicates the change.
@@ -711,7 +711,7 @@ export function iter_swap<
 /**
  * Swap values of two ranges.
  *
- * @param first1 Forward iteartor of the first position of the 1st range.
+ * @param first1 Forward iterator of the first position of the 1st range.
  * @param last1 Forward iterator of the last position of the 1st range.
  * @param first2 Forward iterator of the first position of the 2nd range.
  *
@@ -817,9 +817,9 @@ export function shift_right<
 /**
  * Rotate elements in range.
  *
- * @param first Input iteartor of the first position.
- * @param middle Input iteartor of the initial position of the right side.
- * @param last Input iteartor of the last position.
+ * @param first Input iterator of the first position.
+ * @param middle Input iterator of the initial position of the right side.
+ * @param last Input iterator of the last position.
  *
  * @return Input iterator of the final position in the left side; *middle*.
  */
@@ -844,9 +844,9 @@ export function rotate<
 /**
  * Copy rotated elements in range.
  *
- * @param first Input iteartor of the first position.
- * @param middle Input iteartor of the initial position of the right side.
- * @param last Input iteartor of the last position.
+ * @param first Input iterator of the first position.
+ * @param middle Input iterator of the initial position of the right side.
+ * @param last Input iterator of the last position.
  * @param output Output iterator of the last position.
  *
  * @return Output Iterator of the last position by advancing.
@@ -871,8 +871,8 @@ export function rotate_copy<
 /**
  * Shuffle elements in range.
  *
- * @param first Random access iteartor of the first position.
- * @param last Random access iteartor of the last position.
+ * @param first Random access iterator of the first position.
+ * @param last Random access iterator of the last position.
  */
 export function shuffle<
   RandomAccessIterator extends General<

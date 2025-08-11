@@ -27,7 +27,7 @@ import { copy } from "./modifiers";
 /**
  * Merge two sorted ranges.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -103,7 +103,7 @@ export function inplace_merge<
 /**
  * Test whether two sorted ranges are in inclusion relationship.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -138,7 +138,7 @@ export function includes<
 /**
  * Combine two sorted ranges to union relationship.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -190,7 +190,7 @@ export function set_union<
 /**
  * Combine two sorted ranges to intersection relationship.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -233,7 +233,7 @@ export function set_intersection<
 /**
  * Combine two sorted ranges to difference relationship.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -277,7 +277,7 @@ export function set_difference<
 /**
  * Combine two sorted ranges to symmetric difference relationship.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.

@@ -23,7 +23,7 @@ export class ForOfAdaptor<
   /**
    * Initializer Constructor.
    *
-   * @param first Input iteartor of the first position.
+   * @param first Input iterator of the first position.
    * @param last Input iterator of the last position.
    */
   public constructor(first: InputIterator, last: InputIterator) {

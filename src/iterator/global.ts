@@ -46,7 +46,7 @@ export function size(source: Array<any> | ISize): number {
 /**
  * Get distance between two iterators.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  *
  * @return The distance.

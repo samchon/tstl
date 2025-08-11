@@ -23,7 +23,7 @@ import { advance, distance } from "../iterator/global";
 /**
  * Make a heap.
  *
- * @param first Random access iteartor of the first position.
+ * @param first Random access iterator of the first position.
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
@@ -54,7 +54,7 @@ export function make_heap<
 /**
  * Push an element into heap.
  *
- * @param first Random access iteartor of the first position.
+ * @param first Random access iterator of the first position.
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
@@ -77,7 +77,7 @@ export function push_heap<
 /**
  * Pop an element from heap.
  *
- * @param first Random access iteartor of the first position.
+ * @param first Random access iterator of the first position.
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
@@ -106,7 +106,7 @@ export function pop_heap<
 /**
  * Test whether a range is heap.
  *
- * @param first Bi-directional iteartor of the first position.
+ * @param first Bi-directional iterator of the first position.
  * @param last Bi-directional iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  *
@@ -131,7 +131,7 @@ export function is_heap<
 /**
  * Find the first element not in heap order.
  *
- * @param first Bi-directional iteartor of the first position.
+ * @param first Bi-directional iterator of the first position.
  * @param last Bi-directional iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  *
@@ -164,7 +164,7 @@ export function is_heap_until<
 /**
  * Sort elements of a heap.
  *
- * @param first Random access iteartor of the first position.
+ * @param first Random access iterator of the first position.
  * @param last Random access iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */

@@ -71,7 +71,7 @@ export class Vector<T>
    * Range Constructor.
    *
    * @param first Input iterator of the first position.
-   * @param last Input iteartor of the last position.
+   * @param last Input iterator of the last position.
    */
   public constructor(
     first: Readonly<IForwardIterator<T>>,

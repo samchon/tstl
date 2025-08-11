@@ -25,7 +25,7 @@ import { Pair } from "../utility/Pair";
 /**
  * Apply a function to elements in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param fn The function to apply.
  *
@@ -45,7 +45,7 @@ export function for_each<
 /**
  * Apply a function to elements in steps.
  *
- * @param first Input iteartor of the starting position.
+ * @param first Input iterator of the starting position.
  * @param n Steps to maximum advance.
  * @param fn The function to apply.
  *
@@ -70,7 +70,7 @@ export function for_each_n<
 /**
  * Test whether all elements meet a specific condition.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A function predicates the specific condition.
  *
@@ -94,7 +94,7 @@ export function all_of<
 /**
  * Test whether any element meets a specific condition.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A function predicates the specific condition.
  *
@@ -118,7 +118,7 @@ export function any_of<
 /**
  * Test whether any element doesn't meet a specific condition.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A function predicates the specific condition.
  *
@@ -139,7 +139,7 @@ export function none_of<
 /**
  * Test whether two ranges are equal.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param pred A binary function predicates two arguments are equal.
@@ -162,7 +162,7 @@ export function equal<
 /**
  * Test whether two ranges are equal.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param pred A binary function predicates two arguments are equal.
@@ -214,7 +214,7 @@ export function equal<
 /**
  * Compare lexicographically.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -253,7 +253,7 @@ export function lexicographical_compare<
 /**
  * Find a value in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param val The value to find.
  *
@@ -274,7 +274,7 @@ export function find<
 /**
  * Find a matched condition in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A function predicates the specific condition.
  *
@@ -298,7 +298,7 @@ export function find_if<
 /**
  * Find a mismatched condition in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A function predicates the specific condition.
  *
@@ -319,7 +319,7 @@ export function find_if_not<
 /**
  * Find the last sub range.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -343,7 +343,7 @@ export function find_end<
 /**
  * Find the last sub range.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -409,7 +409,7 @@ export function find_end<
 /**
  * Find the first sub range.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -433,7 +433,7 @@ export function find_first_of<
 /**
  * Find the first sub range.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param last2 Input iterator of the last position of the 2nd range.
@@ -486,7 +486,7 @@ export function find_first_of<
 /**
  * Find the first adjacent element.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  *
@@ -517,7 +517,7 @@ export function adjacent_find<
 /**
  * Search sub range.
  *
- * @param first1 Forward iteartor of the first position of the 1st range.
+ * @param first1 Forward iterator of the first position of the 1st range.
  * @param last1 Forward iterator of the last position of the 1st range.
  * @param first2 Forward iterator of the first position of the 2nd range.
  * @param last2 Forward iterator of the last position of the 2nd range.
@@ -541,7 +541,7 @@ export function search<
 /**
  * Search sub range.
  *
- * @param first1 Forward iteartor of the first position of the 1st range.
+ * @param first1 Forward iterator of the first position of the 1st range.
  * @param last1 Forward iterator of the last position of the 1st range.
  * @param first2 Forward iterator of the first position of the 2nd range.
  * @param last2 Forward iterator of the last position of the 2nd range.
@@ -604,7 +604,7 @@ export function search<
 /**
  * Search specific and repeated elements.
  *
- * @param first Forward iteartor of the first position.
+ * @param first Forward iterator of the first position.
  * @param last Forward iterator of the last position.
  * @param count Count to be repeated.
  * @param val Value to search.
@@ -641,7 +641,7 @@ export function search_n<
 /**
  * Find the first mistmached position between two ranges.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  *
@@ -663,7 +663,7 @@ export function mismatch<
 /**
  * Find the first mistmached position between two ranges.
  *
- * @param first1 Input iteartor of the first position of the 1st range.
+ * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
  * @param pred A binary function predicates two arguments are equal.
@@ -716,7 +716,7 @@ export function mismatch<
 /**
  * Count matched value in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param val The value to count.
  *
@@ -737,7 +737,7 @@ export function count<
 /**
  * Count matched condition in range.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param pred A function predicates the specific condition.
  *
