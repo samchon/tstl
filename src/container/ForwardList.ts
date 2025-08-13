@@ -123,7 +123,7 @@ export class ForwardList<T>
   /**
    * Range Assigner.
    *
-   * @param first Input iteartor of the first position.
+   * @param first Input iterator of the first position.
    * @param last Input iterator of the last position.
    */
   public assign<
@@ -253,7 +253,7 @@ export class ForwardList<T>
    *
    * @param pos Position to insert after.
    * @param first Input iterator of the first position.
-   * @param last Input iteartor of the last position.
+   * @param last Input iterator of the last position.
    * @return An iterator to the last of the newly inserted elements.
    */
   public insert_after<

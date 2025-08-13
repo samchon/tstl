@@ -50,7 +50,7 @@ export interface IContainer<
   /**
    * Range Assigner.
    *
-   * @param first Input iteartor of the first position.
+   * @param first Input iterator of the first position.
    * @param last Input iterator of the last position.
    */
   assign<

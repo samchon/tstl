@@ -511,7 +511,7 @@ export function shift_right<
  * Rotate elements in range.
  *
  * @param range An iterable ranged container.
- * @param middle Input iteartor of the initial position of the right side.
+ * @param middle Input iterator of the initial position of the right side.
  *
  * @return Input iterator of the final position in the left side; *middle*.
  */
@@ -526,7 +526,7 @@ export function rotate<Range extends Array<any> | IForwardContainer<any>>(
  * Copy rotated elements in range.
  *
  * @param range An iterable ranged container.
- * @param middle Input iteartor of the initial position of the right side.
+ * @param middle Input iterator of the initial position of the right side.
  * @param output Output iterator of the last position.
  *
  * @return Output Iterator of the last position by advancing.

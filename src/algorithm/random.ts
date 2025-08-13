@@ -28,7 +28,7 @@ export function randint(x: number, y: number): number {
 /**
  * Pick sample elements up.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output Output iterator of the first position.
  * @param n Number of elements to pick up.

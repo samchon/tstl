@@ -127,7 +127,7 @@ export function partial_sort<
 /**
  * Copy elements in range with partial sort.
  *
- * @param first Input iteartor of the first position.
+ * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
  * @param output_first Output iterator of the first position.
  * @param output_last Output iterator of the last position.
