@@ -142,6 +142,6 @@ export namespace IAssociativeContainer {
       tail = args;
     }
 
-    return { ramda: ramda, tail: tail };
+    return { ramda, tail };
   }
 }

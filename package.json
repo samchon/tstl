@@ -21,6 +21,7 @@
     "benchmark": "node benchmark",
     "build": "rimraf lib && ttsc && rollup -c",
     "dev": "rimraf lib && ttsc --watch",
+    "lint": "ttsc lint",
     "prepare": "ttsc prepare",
     "prettier": "prettier --write ./src/**/*.ts",
     "test": "node lib/test"
@@ -30,6 +31,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.1.6",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@ttsc/lint": "file:/tmp/ttsc-tgz/ttsc-lint-0.12.4.tgz",
     "@types/cli": "^0.11.19",
     "@types/node": "^22.19.19",
     "@typescript/native-preview": "7.0.0-dev.20260517.1",

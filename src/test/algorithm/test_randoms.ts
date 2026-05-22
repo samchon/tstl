@@ -7,7 +7,9 @@ export function test_randoms(): void {
 
 function _Test_rand_ints(): void {
   for (let i: number = 0; i < 100; ++i) {
+    // lint-disable-next-line prefer-const -- reassigned below via array destructuring
     let x: number = Math.floor(Math.random() * 100);
+    // lint-disable-next-line prefer-const -- reassigned below via array destructuring
     let y: number = Math.floor(Math.random() * 100);
 
     if (x > y) [x, y] = [y, x];

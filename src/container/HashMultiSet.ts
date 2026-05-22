@@ -153,7 +153,7 @@ export class HashMultiSet<Key>
 
     // ITERATE THE BUCKET
     let cnt: number = 0;
-    for (let it of bucket) if (this.buckets_.key_eq()(it.value, key)) ++cnt;
+    for (const it of bucket) if (this.buckets_.key_eq()(it.value, key)) ++cnt;
 
     return cnt;
   }

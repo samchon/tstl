@@ -20,10 +20,10 @@ async function load(path: string): Promise<TreeSet<Pair<string, string>>> {
 
 export async function main(): Promise<string> {
   const std: TreeSet<Pair<string, string>> = await load(
-    __dirname + "/../algorithm",
+    `${__dirname}/../algorithm`,
   );
   const ranges: TreeSet<Pair<string, string>> = await load(
-    __dirname + "/../ranges/algorithm",
+    `${__dirname}/../ranges/algorithm`,
   );
 
   const both: TreeSet<Pair<string, string>> = new TreeSet();

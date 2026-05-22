@@ -1,7 +1,7 @@
 import * as std from "../../index";
 
 export function rand_bool(): boolean {
-  return Math.random() < 0.5 ? false : true;
+  return !(Math.random() < 0.5);
 }
 
 export function test_vector_bools() {

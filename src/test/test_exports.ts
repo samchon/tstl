@@ -5,8 +5,8 @@ import * as index from "../index";
 import { sort } from "../ranges/algorithm/sorting";
 import { ArrayUtil } from "./internal/ArrayUtil";
 
-const MAIN = __dirname + "/..";
-const HELPERS = [MAIN + "/benchmark", MAIN + "/test"];
+const MAIN = `${__dirname}/..`;
+const HELPERS = [`${MAIN}/benchmark`, `${MAIN}/test`];
 const EXCLUDES = ["internal"];
 
 async function from_dynamic(
@@ -76,9 +76,7 @@ export async function test_exports(): Promise<void> {
   if (ommissions.length !== 0) {
     sort(ommissions);
     throw new Error(
-      "Error on module indexing: ommited " +
-        ommissions.join(", ") +
-        " components.",
+      `Error on module indexing: ommited ${ommissions.join(", ")} components.`,
     );
   }
 }
