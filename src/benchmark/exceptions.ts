@@ -151,7 +151,7 @@ export async function main(): Promise<string> {
     await except(() => sph.release(5)),
     await except(() => sph.release(2)),
   ];
-  ret += exceptions.join("\n") + "\n";
+  ret += `${exceptions.join("\n")  }\n`;
 
   return ret;
 }

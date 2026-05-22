@@ -29,7 +29,7 @@ export async function main(): Promise<string> {
     let line: string = StringUtil.numberFormat(n);
     for (const time of watch(n)) line += ` | ${StringUtil.numberFormat(time)}`;
 
-    ret += line + "\n";
+    ret += `${line  }\n`;
   }
   return ret;
 }

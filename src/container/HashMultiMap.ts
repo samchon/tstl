@@ -161,7 +161,7 @@ export class HashMultiMap<Key, T>
 
     // ITERATE THE BUCKET
     let cnt: number = 0;
-    for (let it of bucket) if (this.buckets_.key_eq()(it.first, key)) ++cnt;
+    for (const it of bucket) if (this.buckets_.key_eq()(it.first, key)) ++cnt;
 
     return cnt;
   }

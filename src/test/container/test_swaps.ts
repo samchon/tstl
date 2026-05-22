@@ -151,7 +151,7 @@ function _Validate_iterators_source<
 function _Test_vector_bool_swap(): void {
   const refer: std.VectorBoolean = new std.VectorBoolean();
   for (let i: number = 0; i < 100; ++i)
-    refer.push_back(Math.random() < 0.5 ? false : true);
+    refer.push_back(!(Math.random() < 0.5));
 
   const x: std.VectorBoolean = new std.VectorBoolean(refer);
   const y: std.VectorBoolean = new std.VectorBoolean(refer);

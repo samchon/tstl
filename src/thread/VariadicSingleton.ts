@@ -30,7 +30,7 @@ export class VariadicSingleton<T, Args extends any[]> {
 
   public get(...args: Args): T {
     let it: HashMap.Iterator<Args, Singleton<T, Args>> = this.dict_.find(args);
-    if (it.equals(this.dict_.end()) == true)
+    if (it.equals(this.dict_.end()) === true)
       it = this.dict_.emplace(args, new Singleton(this.closure_)).first;
     return it.second.get(...args);
   }

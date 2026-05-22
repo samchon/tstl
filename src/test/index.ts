@@ -49,7 +49,7 @@ async function iterate(command: ICommand, path: string): Promise<void> {
       if (command.target && command.target !== key.substr(5)) continue;
 
       // PRINT TITLE & ELAPSED TIME
-      process.stdout.write("  - " + key);
+      process.stdout.write(`  - ${  key}`);
 
       const time: number = await measure(() => external[key]());
       console.log(`: ${time} ms`);

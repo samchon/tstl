@@ -22,10 +22,10 @@ export function test_priority_queue(): void {
   while (adaptor.empty() === false) {
     if (previous < adaptor.top())
       throw new Error(
-        "Bug on PriorityQueue: elements are not reversly sorted - " +
-          previous.toString() +
-          " < " +
-          adaptor.top().toString(),
+        `Bug on PriorityQueue: elements are not reversly sorted - ${ 
+          previous.toString() 
+          } < ${ 
+          adaptor.top().toString()}`,
       );
 
     previous = adaptor.top();

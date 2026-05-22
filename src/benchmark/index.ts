@@ -6,7 +6,7 @@ if (EXTENSION === "js") require("source-map-support").install();
 interface IModule {
   main(): Promise<string>;
 }
-const EXPORT_PATH: string = __dirname + "/../assets/benchmarks";
+const EXPORT_PATH: string = `${__dirname  }/../assets/benchmarks`;
 
 async function benchmark(feature: string): Promise<void> {
   //----
@@ -31,7 +31,7 @@ async function benchmark(feature: string): Promise<void> {
     const amount: number = memory[key as keyof NodeJS.MemoryUsage] / 10 ** 6;
     performance += `>  - ${key}: ${amount} MB\n`;
   }
-  content = performance + "\n\n" + content;
+  content = `${performance  }\n\n${  content}`;
 
   //----
   // DO ARCHIVE

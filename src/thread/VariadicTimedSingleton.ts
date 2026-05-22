@@ -48,7 +48,7 @@ export class VariadicTimedSingleton<T, Args extends any[]> {
     let it: HashMap.Iterator<Args, TimedSingleton<T, Args>> = this.dict_.find(
       args,
     );
-    if (it.equals(this.dict_.end()) == true) {
+    if (it.equals(this.dict_.end()) === true) {
       const singleton: TimedSingleton<T, Args> = new TimedSingleton(
         this.interval_,
         this.closure_,

@@ -151,7 +151,7 @@ export class StringUtil
             let maxIndex: number = index;
             for (let i: number = 0; i < args.length; i++)
             {
-                let myIndex: number = 
+                const myIndex: number = 
                     str.indexOf(args[i], maxIndex) // START FROM PREVIOUS MAX_INDEX
                         + args[i].length; // ADD ITS LENGTH
                 
@@ -189,7 +189,7 @@ export class StringUtil
             let minIndex: number = index;
             for (let i: number = 0; i < args.length; i++)
             {
-                let myIndex: number = str.lastIndexOf(args[i], minIndex - 1);
+                const myIndex: number = str.lastIndexOf(args[i], minIndex - 1);
                 if (myIndex === -1)
                     continue;
 
@@ -235,7 +235,7 @@ export class StringUtil
             if (min_index === Number.MAX_VALUE)
                 break;
 
-            format = StringUtil.replaceAll(format, "{" + min_index + "}", String(args[0]));
+            format = StringUtil.replaceAll(format, `{${  min_index  }}`, String(args[0]));
             args.shift();
         }
         return format;
@@ -265,7 +265,7 @@ export class StringUtil
             if (min_index === Number.MAX_VALUE)
                 break;
 
-            const symbol: string = "{" + min_index + "}";
+            const symbol: string = `{${  min_index  }}`;
             if (element === null)
                 format = StringUtil.replaceAll(format, symbol, "NULL");
             else if (typeof element === "boolean" || typeof element === "number")
@@ -285,7 +285,7 @@ export class StringUtil
         str = StringUtil.replaceAll(str, "\\", "\\\\");
         str = StringUtil.replaceAll(str, "'", "\\'");
 
-        return "'" + str + "'";
+        return `'${  str  }'`;
     }
 
     private static _Fetch_substitute_index(format: string): number
@@ -490,7 +490,7 @@ export class StringUtil
 
                 // IS MULTIPLIER OF 3
                 if (i > 0 && i % 3 === 0)
-                    str = "," + str;
+                    str = `,${  str}`;
 
                 // PUSH FRONT TO THE STRING
                 str = cipher + str;
@@ -499,7 +499,7 @@ export class StringUtil
 
         // NEGATIVE SIGN
         if (is_negative === true)
-            str = "-" + str;
+            str = `-${  str}`;
 
         // ADD FRACTION
         if (precision > 0 && fraction !== 0)
@@ -507,7 +507,7 @@ export class StringUtil
             fraction = Math.round(fraction * Math.pow(10, precision));
             const zeros: number = precision - Math.floor(Math.log(fraction) / Math.log(10)) - 1;
 
-            str += "." + StringUtil.repeat("0", zeros) + fraction;
+            str += `.${  StringUtil.repeat("0", zeros)  }${fraction}`;
         }
         return str;
     }

@@ -257,7 +257,7 @@ export function prev_permutation<
   if (first.equals(previous) === true) return false;
 
   while (true) {
-    let x: BidirectionalIterator = previous;
+    const x: BidirectionalIterator = previous;
     previous = previous.prev();
 
     if (comp(x.value, previous.value) === true) {

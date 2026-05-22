@@ -14,7 +14,7 @@ export function similar(x: number, y: number, precision = 0.05): boolean {
 }
 
 export function test_special_maths(): void {
-  const content: string = fs.readFileSync(PATH + "/data.json").toString("utf8");
+  const content: string = fs.readFileSync(`${PATH  }/data.json`).toString("utf8");
   const solutions: ISolution[] = JSON.parse(content);
 
   // TRACING ERRORS
@@ -43,7 +43,7 @@ export function test_special_maths(): void {
   }
 
   if (aggregates.empty() === false)
-    fs.writeFileSync(PATH + "errors.log", output, "utf8");
+    fs.writeFileSync(`${PATH  }errors.log`, output, "utf8");
 
   let validate: boolean = true;
   for (const entry of aggregates) if (entry.second > 5) validate = false;
