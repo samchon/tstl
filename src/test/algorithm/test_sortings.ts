@@ -76,6 +76,44 @@ export function test_nth_element(): void {
   );
 }
 
+export function test_nth_element_less_equal(): void {
+  const inputs = [
+    Array<number>(64).fill(8),
+    Array.from({ length: 64 }, (_, index) => index % 4),
+  ];
+  for (const values of inputs) {
+    const nth = std.begin(values).advance(values.length / 2);
+    const expected = values.slice().sort((x, y) => x - y);
+    let comparisons = 0;
+    std.ranges.nth_element(values, nth, (x, y) => {
+      assert.ok(++comparisons <= 16 * values.length);
+      return std.less_equal(x, y);
+    });
+    assert.equal(nth.value, expected[nth.index()]);
+    assert.ok(values.slice(0, nth.index()).every((x) => x <= nth.value));
+    assert.ok(values.slice(nth.index() + 1).every((x) => x >= nth.value));
+    assert.deepEqual(
+      values.sort((x, y) => x - y),
+      expected,
+    );
+  }
+}
+
+export function test_nth_element_unbalanced_pivots(): void {
+  const length = 2048;
+  const values = Array.from({ length }, (_, i) => Math.min(i, length - i));
+  const nth = std.begin(values).advance(length / 2);
+  let comparisons = 0;
+  std.ranges.nth_element(values, nth, (x, y) => {
+    assert.ok(++comparisons <= 64 * length);
+    return x < y;
+  });
+
+  assert.equal(nth.value, length / 4);
+  assert.ok(values.slice(0, nth.index()).every((x) => x <= nth.value));
+  assert.ok(values.slice(nth.index() + 1).every((x) => x >= nth.value));
+}
+
 export function test_sortings(): void {
   _Test_atomic_sorting();
   _Test_object_sorting();

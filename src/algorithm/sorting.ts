@@ -207,8 +207,17 @@ export function nth_element<
   const target = distance(first, nth);
   let left = 0;
   let right = distance(first, last);
+  let remaining_work = 4 * right;
   while (right - left > 1) {
-    const pivot = first.advance(left + Math.floor((right - left) / 2)).value;
+    const length = right - left;
+    remaining_work -= length;
+    if (remaining_work < 0) {
+      // Bound partitioning work when consecutive pivots shrink the range slowly.
+      stable_sort(first.advance(left), first.advance(right), comp);
+      return;
+    }
+
+    const pivot = first.advance(left + Math.floor(length / 2)).value;
 
     // Group elements before, equivalent to, and after the pivot.
     let lower = left;
@@ -217,14 +226,18 @@ export function nth_element<
     while (index < upper) {
       const current = first.advance(index);
       const value = current.value;
-      if (comp(value, pivot)) {
+      const before = comp(value, pivot);
+      const after = comp(pivot, value);
+      // A comparator such as less_equal can report ties in both directions.
+      if (before === after) ++index;
+      else if (before) {
         if (index !== lower) iter_swap(current, first.advance(lower));
         ++lower;
         ++index;
-      } else if (comp(pivot, value)) {
+      } else {
         --upper;
         if (index !== upper) iter_swap(current, first.advance(upper));
-      } else ++index;
+      }
     }
 
     if (target < lower) right = lower;
