@@ -309,7 +309,7 @@ export class Deque<T>
 
   private _Compute_col_size(capacity = this.capacity_): number {
     // Get column size; {@link capacity_ capacity} / {@link ROW_SIZE row}.
-    return Math.floor(capacity / Deque.ROW_SIZE);
+    return Math.max(1, Math.floor(capacity / Deque.ROW_SIZE));
   }
 
   /* =========================================================
@@ -507,7 +507,7 @@ export class Deque<T>
       this.matrix_[0].length >= col_size &&
       this.matrix_.length < Deque.ROW_SIZE
     ) {
-      this.matrix_ = ([[]] as T[][]).concat(...this.matrix_);
+      this.matrix_.unshift([]);
       return true;
     } else return false;
   }
@@ -652,23 +652,15 @@ export namespace Deque {
     }
 
     public next(): IteratorResult<T> {
-      if (this.row_ === this.matrix_.length)
-        return {
-          done: true,
-          value: undefined!,
-        };
-      else {
-        const val: T = this.matrix_[this.row_][this.col_];
-        if (++this.col_ === this.matrix_[this.row_].length) {
-          ++this.row_;
-          this.col_ = 0;
-        }
+      while (this.row_ < this.matrix_.length) {
+        const row = this.matrix_[this.row_];
+        if (this.col_ < row.length)
+          return { done: false, value: row[this.col_++] };
 
-        return {
-          done: false,
-          value: val,
-        };
+        ++this.row_;
+        this.col_ = 0;
       }
+      return { done: true, value: undefined };
     }
 
     public [Symbol.iterator](): IterableIterator<T> {

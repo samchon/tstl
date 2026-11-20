@@ -84,13 +84,25 @@ export function stable_sort<
   last: RandomAccessIterator,
   comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less,
 ): void {
-  const ramda = function (
-    x: IPointer.ValueType<RandomAccessIterator>,
-    y: IPointer.ValueType<RandomAccessIterator>,
-  ): boolean {
-    return comp(x, y) && !comp(y, x);
-  };
-  sort(first, last, ramda);
+  const entries: {
+    value: IPointer.ValueType<RandomAccessIterator>;
+    index: number;
+  }[] = [];
+  for (let it = first; !it.equals(last); it = it.next())
+    entries.push({ value: it.value, index: entries.length });
+
+  // Break ties by input position even on engines with an unstable Array.sort.
+  entries.sort((x, y) => {
+    const x_before_y = comp(x.value, y.value);
+    const y_before_x = comp(y.value, x.value);
+    if (x_before_y !== y_before_x) return x_before_y ? -1 : 1;
+    return x.index - y.index;
+  });
+
+  for (const entry of entries) {
+    first.value = entry.value;
+    first = first.next();
+  }
 }
 
 /**
@@ -190,17 +202,34 @@ export function nth_element<
   last: RandomAccessIterator,
   comp: Comparator<IPointer.ValueType<RandomAccessIterator>> = less,
 ): void {
-  const n: number = distance(first, nth);
-  for (let i = first; !i.equals(last); i = i.next()) {
-    let count: number = 0;
-    for (let j = first; !j.equals(last); j = j.next())
-      if (i.equals(j)) continue;
-      else if (comp(i.value, j.value) && ++count > n) break;
+  if (nth.equals(last)) return;
 
-    if (count === n) {
-      iter_swap(nth, i);
-      return;
+  const target = distance(first, nth);
+  let left = 0;
+  let right = distance(first, last);
+  while (right - left > 1) {
+    const pivot = first.advance(left + Math.floor((right - left) / 2)).value;
+
+    // Group elements before, equivalent to, and after the pivot.
+    let lower = left;
+    let upper = right;
+    let index = left;
+    while (index < upper) {
+      const current = first.advance(index);
+      const value = current.value;
+      if (comp(value, pivot)) {
+        if (index !== lower) iter_swap(current, first.advance(lower));
+        ++lower;
+        ++index;
+      } else if (comp(pivot, value)) {
+        --upper;
+        if (index !== upper) iter_swap(current, first.advance(upper));
+      } else ++index;
     }
+
+    if (target < lower) right = lower;
+    else if (target >= upper) left = upper;
+    else return;
   }
 }
 

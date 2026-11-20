@@ -1,4 +1,29 @@
+import { strict as assert } from "assert";
+
 import * as std from "../../index";
+
+export function test_search_n(): void {
+  assert.equal(std.ranges.search_n([3, 3], 2, 3).index(), 0);
+  assert.equal(std.ranges.search_n([1, 3], 1, 3).index(), 1);
+  assert.equal(std.ranges.search_n([5, 3, 3], 2, 3).index(), 1);
+  assert.equal(std.ranges.search_n([3, 3, 3, 3], 2, 3).index(), 0);
+  assert.equal(std.ranges.search_n([3, 1, 3], 2, 3).index(), 3);
+
+  const unreachable = (): never => assert.fail("Unexpected comparison");
+  assert.equal(std.ranges.search_n([3], 2, 3, unreachable).index(), 1);
+  assert.equal(std.ranges.search_n([3], 0, 3, unreachable).index(), 0);
+  assert.equal(std.ranges.search_n([3], -1, 3, unreachable).index(), 0);
+  assert.equal(std.ranges.search_n<number[]>([], 1, 3, unreachable).index(), 0);
+
+  const list = new std.ForwardList([6, 8, 6, 6, 6]);
+  const first = list.begin();
+  const match = std.advance(first, 2);
+  const last = std.advance(first, 4);
+  const pred = (value: number, target: number) => value === target * 2;
+
+  assert.ok(std.search_n(first, last, 2, 3, pred).equals(match));
+  assert.ok(std.search_n(first, last, 3, 3, pred).equals(last));
+}
 
 const SIZE = 1000;
 const MID = 561;

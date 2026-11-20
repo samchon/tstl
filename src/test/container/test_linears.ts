@@ -1,5 +1,48 @@
+import { strict as assert } from "assert";
+
 import * as std from "../../index";
 import { Temporary } from "../../internal/functional/Temporary";
+
+export function test_deque_push_front(): void {
+  const deque = new std.Deque<number>();
+  const expected: number[] = [];
+  for (let i = 1; i <= 40; ++i) {
+    deque.push_front(i);
+    expected.unshift(i);
+    if (i > 5 && i % 5 === 0) {
+      deque.push_back(-i);
+      expected.push(-i);
+    }
+
+    assert.equal(deque.size(), expected.length);
+    assert.equal(deque.front(), i);
+    assert.equal(deque.back(), expected[expected.length - 1]);
+    const iterator = deque[Symbol.iterator]();
+    expected.forEach((value, index) => {
+      assert.equal(deque.at(index), value);
+      assert.deepEqual(iterator.next(), { done: false, value });
+    });
+    assert.equal(iterator.next().done, true);
+  }
+}
+
+export function test_deque_empty_iteration(): void {
+  const deque = new std.Deque<number | undefined>();
+  assert.equal(deque[Symbol.iterator]().next().done, true);
+
+  deque.shrink_to_fit();
+  deque.push_front(undefined);
+  deque.push_back(1);
+  const iterator = deque[Symbol.iterator]();
+  assert.deepEqual(iterator.next(), { done: false, value: undefined });
+  assert.deepEqual(iterator.next(), { done: false, value: 1 });
+  assert.equal(iterator.next().done, true);
+
+  deque.pop_front();
+  assert.equal(deque.front(), 1);
+  deque.pop_back();
+  assert.equal(deque[Symbol.iterator]().next().done, true);
+}
 
 export function test_linear_containers(): void {
   _Test_linear(new std.Vector<number>());

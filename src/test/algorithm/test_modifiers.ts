@@ -1,4 +1,33 @@
+import { strict as assert } from "assert";
+
 import * as std from "../../index";
+
+export function test_rotate(): void {
+  for (let length = 0; length <= 10; ++length) {
+    const values = Array.from({ length }, (_, index) => index);
+    for (let split = 0; split <= length; ++split) {
+      const vector = new std.Vector([-1, ...values, -2]);
+      const result = std.rotate(
+        vector.nth(1),
+        vector.nth(split + 1),
+        vector.nth(length + 1),
+      );
+
+      assert.deepEqual(vector.data(), [
+        -1,
+        ...values.slice(split),
+        ...values.slice(0, split),
+        -2,
+      ]);
+      assert.equal(result.index(), 1 + length - split);
+    }
+  }
+
+  const list = new std.ForwardList([1, 2, 3, 4, 5]);
+  const result = std.ranges.rotate(list, std.advance(list.begin(), 2));
+  assert.deepEqual(Array.from(list), [3, 4, 5, 1, 2]);
+  assert.ok(result.equals(std.advance(list.begin(), 3)));
+}
 
 export function test_modifiers(): void {
   _Test_removes();

@@ -10,7 +10,7 @@ import { equal_to, less } from "../functional/comparators";
 import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
 import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { advance, distance } from "../iterator/global";
+import { distance } from "../iterator/global";
 import { Pair } from "../utility/Pair";
 
 /* =========================================================
@@ -610,7 +610,7 @@ export function search<
  * @param val Value to search.
  * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  *
- * @return Iterator to the first element of the repetition.
+ * @return The first matching position, first when count is nonpositive, or last if no match is found.
  */
 export function search_n<
   ForwardIterator extends Readonly<
@@ -623,17 +623,18 @@ export function search_n<
   val: IPointer.ValueType<ForwardIterator>,
   pred: BinaryPredicator<IPointer.ValueType<ForwardIterator>> = equal_to,
 ): ForwardIterator {
-  const limit: ForwardIterator = advance(first, distance(first, last) - count);
+  if (count <= 0) return first;
+  if (count > distance(first, last)) return last;
 
-  for (; !first.equals(limit); first = first.next()) {
-    let it: ForwardIterator = first;
-    let i: number = 0;
-
-    while (pred(it.value, val)) {
-      it = it.next();
-
-      if (++i === count) return first;
+  let start = first;
+  let matched = 0;
+  for (let it = first; !it.equals(last); it = it.next()) {
+    if (!pred(it.value, val)) {
+      matched = 0;
+      continue;
     }
+    if (matched === 0) start = it;
+    if (++matched === count) return start;
   }
   return last;
 }

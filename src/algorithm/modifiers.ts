@@ -821,7 +821,7 @@ export function shift_right<
  * @param middle Input iterator of the initial position of the right side.
  * @param last Input iterator of the last position.
  *
- * @return Input iterator of the final position in the left side; *middle*.
+ * @return Iterator to the new position of the original first element, or last if first equals middle.
  */
 export function rotate<
   InputIterator extends General<
@@ -832,13 +832,29 @@ export function rotate<
   middle: InputIterator,
   last: InputIterator,
 ): InputIterator {
-  while (!first.equals(middle) && !middle.equals(last)) {
-    iter_swap(first, middle);
+  if (first.equals(middle)) return last;
+  if (middle.equals(last)) return first;
 
+  // Swap until the original right block has moved to the front.
+  let right = middle;
+  do {
+    iter_swap(first, right);
     first = first.next();
-    middle = middle.next();
+    right = right.next();
+    if (first.equals(middle)) middle = right;
+  } while (!right.equals(last));
+
+  const result = first;
+  // Continue rotating the remaining suffix around its updated middle.
+  right = middle;
+  while (!right.equals(last)) {
+    iter_swap(first, right);
+    first = first.next();
+    right = right.next();
+    if (first.equals(middle)) middle = right;
+    else if (right.equals(last)) right = middle;
   }
-  return first;
+  return result;
 }
 
 /**
