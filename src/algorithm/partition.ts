@@ -97,7 +97,18 @@ export function partition<
   last: BidirectionalIterator,
   pred: UnaryPredicator<IPointer.ValueType<BidirectionalIterator>>,
 ): BidirectionalIterator {
-  return stable_partition(first, last, pred);
+  for (;;) {
+    while (!first.equals(last) && pred(first.value)) first = first.next();
+    if (first.equals(last)) return first;
+
+    do {
+      last = last.prev();
+      if (first.equals(last)) return first;
+    } while (!pred(last.value));
+
+    iter_swap(first, last);
+    first = first.next();
+  }
 }
 
 /**
@@ -121,21 +132,25 @@ export function stable_partition<
   last: BidirectionalIterator,
   pred: UnaryPredicator<IPointer.ValueType<BidirectionalIterator>>,
 ): BidirectionalIterator {
-  while (!first.equals(last) && pred(first.value)) {
-    while (pred(first.value)) {
+  while (!first.equals(last) && pred(first.value)) first = first.next();
+  if (first.equals(last)) return first;
+
+  // Compact matching elements in place and save the rejected elements in order.
+  const rejected = [first.value];
+  for (let it = first.next(); !it.equals(last); it = it.next()) {
+    const value = it.value;
+    if (pred(value)) {
+      first.value = value;
       first = first.next();
-      if (first.equals(last)) return first;
-    }
-
-    do {
-      last = last.prev();
-      if (first.equals(last)) return first;
-    } while (!pred(last.value));
-
-    iter_swap(first, last);
-    first = first.next();
+    } else rejected.push(value);
   }
-  return last;
+
+  let output = first;
+  for (const value of rejected) {
+    output.value = value;
+    output = output.next();
+  }
+  return first;
 }
 
 /**

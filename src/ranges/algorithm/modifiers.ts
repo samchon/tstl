@@ -513,7 +513,7 @@ export function shift_right<
  * @param range An iterable ranged container.
  * @param middle Input iterator of the initial position of the right side.
  *
- * @return Input iterator of the final position in the left side; *middle*.
+ * @return Iterator to the new position of the original first element, or the end if middle is the beginning.
  */
 export function rotate<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,

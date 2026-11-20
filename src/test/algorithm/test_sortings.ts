@@ -1,5 +1,80 @@
+import { strict as assert } from "assert";
+
 import * as std from "../../index";
 import { Cube } from "../internal/Cube";
+
+export function test_stable_sort(): void {
+  const values: [number, string][] = [
+    [2, "a"],
+    [1, "b"],
+    [2, "c"],
+    [1, "d"],
+    [0, "e"],
+    [1, "f"],
+  ];
+  const comp = (x: [number, string], y: [number, string]) => x[0] < y[0];
+  const deque = new std.Deque<[number, string]>([
+    [9, "<"],
+    ...values,
+    [-1, ">"],
+  ]);
+  std.stable_sort(deque.begin().next(), deque.end().prev(), comp);
+  assert.equal(Array.from(deque, (pair) => pair[1]).join(""), "<ebdfac>");
+
+  std.ranges.stable_sort(values, (x, y) => comp(y, x));
+  assert.equal(values.map((pair) => pair[1]).join(""), "acbdfe");
+}
+
+export function test_nth_element(): void {
+  const pair = [6, 1];
+  std.ranges.nth_element(pair, std.begin(pair));
+  assert.deepEqual(pair, [1, 6]);
+
+  const values = [5, 2, 5, 1, 5, 3];
+  for (const order of [1, -1]) {
+    const compare = (x: number, y: number) => order * (x - y);
+    const sorted = values.slice().sort(compare);
+    for (let index = 0; index < values.length; ++index) {
+      const vector = new std.Vector([99, ...values, -99]);
+      const nth = vector.nth(index + 1);
+      std.nth_element(vector.nth(1), nth, vector.end().prev(), (x, y) => {
+        return compare(x, y) < 0;
+      });
+
+      const actual = vector.data().slice(1, -1);
+      assert.equal(nth.value, sorted[index]);
+      assert.ok(
+        actual.slice(0, index).every((x) => compare(x, nth.value) <= 0),
+      );
+      assert.ok(
+        actual.slice(index + 1).every((x) => compare(x, nth.value) >= 0),
+      );
+      assert.deepEqual(actual.sort(compare), sorted);
+      assert.equal(vector.front(), 99);
+      assert.equal(vector.back(), -99);
+    }
+  }
+
+  const vector = new std.Vector(values);
+  std.nth_element(vector.begin(), vector.end(), vector.end());
+  assert.deepEqual(vector.data(), values);
+
+  const reverse_nth = vector.rbegin().advance(2);
+  std.nth_element(vector.rbegin(), reverse_nth, vector.rend());
+  assert.equal(reverse_nth.value, 3);
+  assert.ok(
+    vector
+      .data()
+      .slice(0, 3)
+      .every((value) => value >= 3),
+  );
+  assert.ok(
+    vector
+      .data()
+      .slice(4)
+      .every((value) => value <= 3),
+  );
+}
 
 export function test_sortings(): void {
   _Test_atomic_sorting();

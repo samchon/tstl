@@ -393,7 +393,7 @@ export function search<
  * @param val Value to search.
  * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
  *
- * @return Iterator to the first element of the repetition.
+ * @return The first matching position, the beginning when count is nonpositive, or the end if no match is found.
  */
 export function search_n<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
