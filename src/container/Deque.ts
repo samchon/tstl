@@ -507,7 +507,8 @@ export class Deque<T>
       this.matrix_[0].length >= col_size &&
       this.matrix_.length < Deque.ROW_SIZE
     ) {
-      this.matrix_.unshift([]);
+      // Keep the row table referenced by active iterators intact.
+      this.matrix_ = [[], ...this.matrix_];
       return true;
     } else return false;
   }
@@ -654,11 +655,13 @@ export namespace Deque {
     public next(): IteratorResult<T> {
       while (this.row_ < this.matrix_.length) {
         const row = this.matrix_[this.row_];
-        if (this.col_ < row.length)
-          return { done: false, value: row[this.col_++] };
+        const col = this.col_++;
+        if (this.col_ >= row.length) {
+          ++this.row_;
+          this.col_ = 0;
+        }
 
-        ++this.row_;
-        this.col_ = 0;
+        if (col < row.length) return { done: false, value: row[col] };
       }
       return { done: true, value: undefined };
     }

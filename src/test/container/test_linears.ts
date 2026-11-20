@@ -44,6 +44,22 @@ export function test_deque_empty_iteration(): void {
   assert.equal(deque[Symbol.iterator]().next().done, true);
 }
 
+export function test_deque_iteration_during_insertion(): void {
+  const deque = new std.Deque([1, 2, 3, 4]);
+  const front_iterator = deque[Symbol.iterator]();
+  assert.deepEqual(front_iterator.next(), { done: false, value: 1 });
+  deque.push_front(0);
+  for (const value of [2, 3, 4])
+    assert.deepEqual(front_iterator.next(), { done: false, value });
+  assert.equal(front_iterator.next().done, true);
+
+  const single = new std.Deque([1]);
+  const back_iterator = single[Symbol.iterator]();
+  assert.deepEqual(back_iterator.next(), { done: false, value: 1 });
+  single.push_back(2);
+  assert.equal(back_iterator.next().done, true);
+}
+
 export function test_linear_containers(): void {
   _Test_linear(new std.Vector<number>());
   _Test_linear(new std.Deque<number>());
