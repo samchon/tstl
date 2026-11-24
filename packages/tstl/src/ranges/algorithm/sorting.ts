@@ -16,12 +16,12 @@ import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
     SORT
 --------------------------------------------------------- */
 /**
- * Sort the range in place under `comp` . Equivalent elements can change
+ * Sort the range in place under `comp`. Equivalent elements can change
  * relative order.
  *
  * @param range Range modified in place.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function sort<Range extends Array<any> | IRandomAccessContainer<any>>(
   range: Range,
@@ -31,12 +31,12 @@ export function sort<Range extends Array<any> | IRandomAccessContainer<any>>(
 }
 
 /**
- * Sort the range in place under `comp` , preserving the relative order of
+ * Sort the range in place under `comp`, preserving the relative order of
  * equivalent elements.
  *
  * @param range Range modified in place.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function stable_sort<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -48,13 +48,13 @@ export function stable_sort<
 }
 
 /**
- * Place the smallest elements in sorted order before `middle` . The remaining
+ * Place the smallest elements in sorted order before `middle`. The remaining
  * elements have unspecified order.
  *
  * @param range Range modified in place.
  * @param middle Exclusive end of the prefix to sort.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function partial_sort<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -101,7 +101,7 @@ export function partial_sort_copy<
  * @param nth Position to select. Use the end iterator to leave the range
  * unchanged.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function nth_element<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -117,11 +117,11 @@ export function nth_element<
     INSPECTOR
 --------------------------------------------------------- */
 /**
- * Test whether the range is in nondecreasing order under `comp` .
+ * Test whether the range is in nondecreasing order under `comp`.
  *
  * @param range Input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether the entire range is sorted.
  */
@@ -133,11 +133,11 @@ export function is_sorted<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the end of the longest sorted prefix under `comp` .
+ * Find the end of the longest sorted prefix under `comp`.
  *
  * @param range Input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The first iterator out of order, or the end of the range if it is
  * sorted.

@@ -72,7 +72,7 @@ export interface IHashSet<
 
 export namespace IHashSet {
   /**
-   * Iterator over the elements of `IHashSet` .
+   * Iterator over the elements of `IHashSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -83,7 +83,7 @@ export namespace IHashSet {
   > = SetElementList.Iterator<Key, Unique, Source>;
 
   /**
-   * Iterator for reverse traversal of `IHashSet` .
+   * Iterator for reverse traversal of `IHashSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

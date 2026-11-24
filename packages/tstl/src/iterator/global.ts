@@ -22,12 +22,12 @@ import { IRandomAccessIterator } from "./IRandomAccessIterator";
     ACCESSORS
 --------------------------------------------------------- */
 /**
- * Report a container's emptiness. The current native-array branch returns
- * `true` for nonempty arrays.
+ * Query empty state for a TSTL container. The current array branch instead
+ * checks for a nonzero length.
  *
  * @param source Array or container to inspect.
- * @return For TSTL containers, the result of `source.empty()` . For native
- * arrays, whether `source.length` is nonzero.
+ * @return `source.empty()` for a TSTL container. For a native array, `true`
+ * when the array contains an element.
  */
 export function empty(source: Array<any> | IEmpty): boolean {
   if (source instanceof Array) return source.length !== 0;
@@ -98,7 +98,7 @@ function _Distance_via_index<
  * @param it Starting iterator.
  * @param n Signed number of steps in traversal order.
  *
- * @return The iterator reached after moving by `n` .
+ * @return The iterator reached after moving by `n`.
  */
 export function advance<
   InputIterator extends IForwardIterator<
@@ -132,10 +132,10 @@ export function advance<
 }
 
 /**
- * Return an iterator `n` positions before `it` .
+ * Return an iterator `n` positions before `it`.
  *
  * @param it Starting iterator.
- * @param n Number of steps backward. Defaults to `1` .
+ * @param n Number of steps backward. Defaults to `1`.
  * @return The resulting iterator.
  */
 export function prev<
@@ -149,10 +149,10 @@ export function prev<
 }
 
 /**
- * Return an iterator `n` positions after `it` .
+ * Return an iterator `n` positions after `it`.
  *
  * @param it Starting iterator.
- * @param n Number of steps forward. Defaults to `1` .
+ * @param n Number of steps forward. Defaults to `1`.
  * @return The resulting iterator.
  */
 export function next<

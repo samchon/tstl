@@ -12,7 +12,7 @@
 export interface ILockable {
   /**
    * Acquire the exclusive lock, waiting until it is available. The caller must
-   * release it with `unlock()` .
+   * release it with `unlock()`.
    */
   lock(): Promise<void>;
 
@@ -20,7 +20,7 @@ export interface ILockable {
    * Attempt to acquire the exclusive lock immediately.
    *
    * @return `true` when acquired. The caller must then release it with
-   * `unlock()` .
+   * `unlock()`.
    */
   try_lock(): Promise<boolean>;
 

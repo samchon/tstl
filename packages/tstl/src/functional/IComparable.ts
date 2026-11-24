@@ -14,7 +14,7 @@ export interface IComparable<T> {
    * Test equivalence with another value.
    *
    * @param obj Other value to compare.
-   * @return Whether this value is equivalent to `obj` .
+   * @return Whether this value is equivalent to `obj`.
    */
   equals(obj: T): boolean;
 
@@ -22,7 +22,7 @@ export interface IComparable<T> {
    * Test whether this value precedes another value.
    *
    * @param obj Other value to compare.
-   * @return Whether this value precedes `obj` .
+   * @return Whether this value precedes `obj`.
    */
   less(obj: T): boolean;
 

@@ -25,11 +25,11 @@ import { iter_swap, reverse } from "./modifiers";
     MIN & MAX
 --------------------------------------------------------- */
 /**
- * Find the first minimum in a nonempty array under `comp` .
+ * Find the first minimum in a nonempty array under `comp`.
  *
  * @param items Items to search through.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The minimum value.
  */
@@ -43,11 +43,11 @@ export function min<T>(items: T[], comp: Comparator<T> = less): T {
 }
 
 /**
- * Find the first maximum in a nonempty array under `comp` .
+ * Find the first maximum in a nonempty array under `comp`.
  *
  * @param items Items to search through.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The maximum value.
  */
@@ -61,11 +61,11 @@ export function max<T>(items: T[], comp: Comparator<T> = less): T {
 }
 
 /**
- * Find the first minimum and first maximum in a nonempty array under `comp` .
+ * Find the first minimum and first maximum in a nonempty array under `comp`.
  *
  * @param items Items to search through.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return A {@link Pair} of minimum & maximum values.
  */
@@ -81,12 +81,12 @@ export function minmax<T>(items: T[], comp: Comparator<T> = less): Pair<T, T> {
 }
 
 /**
- * Find the first minimum element according to `comp` .
+ * Find the first minimum element according to `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The first minimum, or the end of the range if it is empty.
  */
@@ -111,12 +111,12 @@ export function min_element<
 }
 
 /**
- * Find the first maximum element according to `comp` .
+ * Find the first maximum element according to `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The first maximum, or the end of the range if it is empty.
  */
@@ -141,12 +141,12 @@ export function max_element<
 }
 
 /**
- * Find the first minimum and the last maximum according to `comp` .
+ * Find the first minimum and the last maximum according to `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return A pair of iterators. Both equal the end of the range when it is
  * empty.
@@ -187,14 +187,14 @@ export function minmax_element<
 }
 
 /**
- * Bound `v` to the inclusive interval from `lo` to `hi` under `comp` . The
+ * Bound `v` to the inclusive interval from `lo` to `hi` under `comp`. The
  * upper bound must not precede the lower bound.
  *
  * @param v The value to clamp.
  * @param lo Lower value than *hi*.
  * @param hi Higher value than *lo*.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return `lo` when `v` precedes it, `hi` when `v` follows it, or `v`
  * otherwise.
@@ -214,7 +214,7 @@ export function clamp<T>(v: T, lo: T, hi: T, comp: Comparator<T> = less): T {
  * @param last1 Exclusive end of the first range.
  * @param first2 Start of the second range, which must contain at least as many
  * elements as the first.
- * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
  * @return Whether the ranges are permutations of each other.
  */
@@ -264,7 +264,7 @@ export function is_permutation<
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether a previous permutation existed.
  */
@@ -312,7 +312,7 @@ export function prev_permutation<
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether a next permutation existed.
  */

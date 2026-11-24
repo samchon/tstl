@@ -34,7 +34,7 @@ export class FlatMultiSet<Key> extends MultiTreeSet<
    * Create an empty FlatMultiSet.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
@@ -43,7 +43,7 @@ export class FlatMultiSet<Key> extends MultiTreeSet<
    *
    * @param items Initial elements in traversal order.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: Key[], comp?: Comparator<Key>);
 
@@ -55,12 +55,12 @@ export class FlatMultiSet<Key> extends MultiTreeSet<
   public constructor(obj: FlatMultiSet<Key>);
 
   /**
-   * Create a FlatMultiSet from the elements in `[first, last)` .
+   * Create a FlatMultiSet from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,

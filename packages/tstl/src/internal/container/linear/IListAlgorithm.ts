@@ -16,13 +16,12 @@ export interface IListAlgorithm<T, Source> {
   /**
    * Remove all but the first element of each run of equivalent elements.
    *
-   * @param binary_pred Predicate for equivalence. Defaults to {@link equal_to}
-   * .
+   * @param binary_pred Predicate for equivalence. Defaults to {@link equal_to}.
    */
   unique(binary_pred?: BinaryPredicator<T>): void;
 
   /**
-   * Erase all elements equivalent to `val` , preserving the order of the
+   * Erase all elements equivalent to `val`, preserving the order of the
    * remaining nodes.
    *
    * @param val Value to erase.
@@ -30,7 +29,7 @@ export interface IListAlgorithm<T, Source> {
   remove(val: T): void;
 
   /**
-   * Erase the elements that satisfy `pred` , preserving the order of the
+   * Erase the elements that satisfy `pred`, preserving the order of the
    * remaining nodes.
    *
    * @param pred Predicate selecting nodes to erase.
@@ -46,7 +45,7 @@ export interface IListAlgorithm<T, Source> {
    *
    * @param from Source container to transfer.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   merge(from: Source, comp?: Comparator<T>): void;
 
@@ -54,7 +53,7 @@ export interface IListAlgorithm<T, Source> {
    * Stably sort the elements while preserving their iterators.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   sort(comp?: Comparator<T>): void;
 

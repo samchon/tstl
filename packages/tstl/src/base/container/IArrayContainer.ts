@@ -50,7 +50,7 @@ export interface IArrayContainer<
   /**
    * Read the element at a valid zero-based index.
    *
-   * @param index Index in the range from `0` to `size() - 1` .
+   * @param index Index in the range from `0` to `size() - 1`.
    * @return The element at that index.
    */
   at(index: number): T;
@@ -58,7 +58,7 @@ export interface IArrayContainer<
   /**
    * Replace the element at a valid zero-based index.
    *
-   * @param index Index in the range from `0` to `size() - 1` .
+   * @param index Index in the range from `0` to `size() - 1`.
    * @param val New value for the element.
    */
   set(index: number, val: T): void;
@@ -66,7 +66,7 @@ export interface IArrayContainer<
 
 export namespace IArrayContainer {
   /**
-   * Iterator over the elements of `IArrayContainer` .
+   * Iterator over the elements of `IArrayContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -92,7 +92,7 @@ export namespace IArrayContainer {
     IRandomAccessIterator<T, IteratorT>;
 
   /**
-   * Iterator for reverse traversal of `IArrayContainer` .
+   * Iterator for reverse traversal of `IArrayContainer`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

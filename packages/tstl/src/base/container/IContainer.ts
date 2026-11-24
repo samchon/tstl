@@ -117,7 +117,7 @@ export interface IContainer<
   push(...items: PElem[]): number;
 
   /**
-   * Erase the element at `pos` .
+   * Erase the element at `pos`.
    *
    * @param pos Iterator to the element to erase.
    * @return An iterator to the following position, or the end of the
@@ -126,7 +126,7 @@ export interface IContainer<
   erase(pos: IteratorT): IteratorT;
 
   /**
-   * Erase the elements in the half-open range `[first, last)` .
+   * Erase the elements in the half-open range `[first, last)`.
    *
    * @param first Start of the range to erase.
    * @param last Exclusive end of the range to erase.
@@ -154,7 +154,7 @@ export interface IContainer<
 
 export namespace IContainer {
   /**
-   * Iterator over the elements of `IContainer` .
+   * Iterator over the elements of `IContainer`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -185,7 +185,7 @@ export namespace IContainer {
   }
 
   /**
-   * Iterator for reverse traversal of `IContainer` .
+   * Iterator for reverse traversal of `IContainer`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

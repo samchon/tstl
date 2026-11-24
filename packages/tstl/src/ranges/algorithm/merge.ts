@@ -28,7 +28,7 @@ import { IForwardContainer } from "../container/IForwardContainer";
  * @param range2 Second sorted input range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -61,7 +61,7 @@ export function merge<
  * @param range Sorted input range.
  * @param middle Start of the second sorted range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function inplace_merge<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -83,7 +83,7 @@ export function inplace_merge<
  * @param range1 First sorted input range.
  * @param range2 Second sorted input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether the first range contains each value at least as many times
  * as the second.
@@ -115,7 +115,7 @@ export function includes<
  * @param range2 Second sorted input range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -149,7 +149,7 @@ export function set_union<
  * @param range2 Second sorted input range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -183,7 +183,7 @@ export function set_intersection<
  * @param range2 Second sorted input range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -217,7 +217,7 @@ export function set_difference<
  * @param range2 Second sorted input range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */

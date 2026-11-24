@@ -61,7 +61,7 @@ export class Vector<T>
   public constructor(obj: Vector<T>);
 
   /**
-   * Create a Vector with `n` copies of `val` .
+   * Create a Vector with `n` copies of `val`.
    *
    * @param n Number of initial elements.
    * @param val Value assigned to each element.
@@ -69,7 +69,7 @@ export class Vector<T>
   public constructor(n: number, val: T);
 
   /**
-   * Create a Vector from the elements in `[first, last)` .
+   * Create a Vector from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
@@ -109,7 +109,7 @@ export class Vector<T>
    * through either reference affect the same array.
    *
    * @param data Array to use directly as storage.
-   * @return A vector backed by `data` .
+   * @return A vector backed by `data`.
    */
   public static wrap<T>(data: Array<T>): Vector<T> {
     return new Vector(data, true);
@@ -133,12 +133,12 @@ export class Vector<T>
 export namespace Vector {
   // HEAD
   /**
-   * Iterator over the elements of `Vector` .
+   * Iterator over the elements of `Vector`.
    */
   export type Iterator<T> = ArrayIterator<T, Vector<T>>;
 
   /**
-   * Iterator for reverse traversal of `Vector` .
+   * Iterator for reverse traversal of `Vector`.
    */
   export type ReverseIterator<T> = ArrayReverseIterator<T, Vector<T>>;
 

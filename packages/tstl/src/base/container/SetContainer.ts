@@ -268,7 +268,7 @@ export namespace SetContainer {
   > = Unique extends true ? Pair<IteratorT, boolean> : IteratorT;
 
   /**
-   * Iterator over the elements of `SetContainer` .
+   * Iterator over the elements of `SetContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -281,7 +281,7 @@ export namespace SetContainer {
   > = Readonly<IContainer.Iterator<Key, SourceT, IteratorT, ReverseT, Key>>;
 
   /**
-   * Iterator for reverse traversal of `SetContainer` .
+   * Iterator for reverse traversal of `SetContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

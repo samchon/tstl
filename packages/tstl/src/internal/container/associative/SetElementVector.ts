@@ -85,7 +85,7 @@ export class SetElementVector<
  */
 export namespace SetElementVector {
   /**
-   * Iterator over the elements of `SetElementVector` .
+   * Iterator over the elements of `SetElementVector`.
    *
    * @template Key Key type
    * @template Unique Whether duplicated key is blocked or not
@@ -137,7 +137,7 @@ export namespace SetElementVector {
   }
 
   /**
-   * Iterator for reverse traversal of `SetElementVector` .
+   * Iterator for reverse traversal of `SetElementVector`.
    *
    * @template Key Key type
    * @template Unique Whether duplicated key is blocked or not

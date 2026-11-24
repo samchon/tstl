@@ -38,7 +38,7 @@ export class ConditionVariable {
 
   /**
    * Evaluate `predicator` immediately and after each notification. Keep
-   * waiting until it returns `true` .
+   * waiting until it returns `true`.
    *
    * @param predicator Predicate checked before waiting and after a
    * notification.

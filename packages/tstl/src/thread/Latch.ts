@@ -82,7 +82,7 @@ export class Latch {
   /**
    * Register `n` arrivals. A count of zero or below releases the waiters.
    *
-   * @param n Number of arrivals to register. Defaults to `1` .
+   * @param n Number of arrivals to register. Defaults to `1`.
    */
   public async count_down(n: number = 1): Promise<void> {
     this.count_ -= n;
@@ -92,7 +92,7 @@ export class Latch {
   /**
    * Register `n` arrivals and wait for the counter to reach zero.
    *
-   * @param n Number of arrivals to register. Defaults to `1` .
+   * @param n Number of arrivals to register. Defaults to `1`.
    */
   public async arrive_and_wait(n: number = 1): Promise<void> {
     await this.count_down(n);

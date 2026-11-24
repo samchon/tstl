@@ -21,12 +21,12 @@ import { advance, distance } from "../iterator/global";
     PUSH & POP
 --------------------------------------------------------- */
 /**
- * Rearrange the range into a heap under `comp` .
+ * Rearrange the range into a heap under `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function make_heap<
   RandomAccessIterator extends General<
@@ -59,7 +59,7 @@ export function make_heap<
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function push_heap<
   RandomAccessIterator extends General<
@@ -84,7 +84,7 @@ export function push_heap<
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function pop_heap<
   RandomAccessIterator extends General<
@@ -109,12 +109,12 @@ export function pop_heap<
     SORT
 --------------------------------------------------------- */
 /**
- * Test whether the entire range satisfies heap order under `comp` .
+ * Test whether the entire range satisfies heap order under `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether the entire range is a heap.
  */
@@ -135,12 +135,12 @@ export function is_heap<
 }
 
 /**
- * Find the end of the longest prefix that is a heap under `comp` .
+ * Find the end of the longest prefix that is a heap under `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The end of the heap prefix, or the end of the range when it is a
  * heap.
@@ -175,7 +175,7 @@ export function is_heap_until<
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function sort_heap<
   RandomAccessIterator extends General<

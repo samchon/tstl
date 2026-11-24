@@ -69,7 +69,7 @@ export class Barrier {
    * Register `n` arrivals without waiting for any outstanding arrivals. The
    * final arrival releases current waiters and starts the next phase.
    *
-   * @param n Number of arrivals to register. Defaults to `1` .
+   * @param n Number of arrivals to register. Defaults to `1`.
    */
   public async arrive(n: number = 1): Promise<void> {
     this.count_ -= n;

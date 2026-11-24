@@ -213,7 +213,7 @@ export abstract class UniqueMap<
   public extract(key: Key): Entry<Key, T>;
 
   /**
-   * Remove the entry at `pos` .
+   * Remove the entry at `pos`.
    *
    * @param pos Iterator to the entry to remove.
    * @return The removed iterator, or the end iterator when `pos` is the end.
@@ -272,7 +272,7 @@ export abstract class UniqueMap<
  */
 export namespace UniqueMap {
   /**
-   * Iterator over the elements of `UniqueMap` .
+   * Iterator over the elements of `UniqueMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -285,7 +285,7 @@ export namespace UniqueMap {
   > = MapContainer.Iterator<Key, T, true, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Iterator for reverse traversal of `UniqueMap` .
+   * Iterator for reverse traversal of `UniqueMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

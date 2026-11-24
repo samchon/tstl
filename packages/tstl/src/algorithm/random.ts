@@ -11,7 +11,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { distance } from "../iterator/global";
 
 /**
- * Draw a random integer between integer bounds `x` and `y` , inclusive.
+ * Draw a random integer between integer bounds `x` and `y`, inclusive.
  *
  * @param x Minimum value.
  * @param y Maximum value.

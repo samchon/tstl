@@ -5,7 +5,7 @@
  */
 //================================================================
 /**
- * Evaluate the gamma function for the real argument `x` .
+ * Evaluate the gamma function for the real argument `x`.
  *
  * @reference https://en.wikipedia.org/wiki/Gamma_function, https://rosettacode.org/wiki/Gamma_function#JavaScript
  */
@@ -24,8 +24,8 @@ export function tgamma(x: number): number {
 }
 
 /**
- * Compute the natural logarithm of `tgamma(x)` . A negative gamma value
- * produces `NaN` .
+ * Compute the natural logarithm of `tgamma(x)`. A negative gamma value
+ * produces `NaN`.
  */
 export function lgamma(x: number): number {
   return Math.log(tgamma(x));

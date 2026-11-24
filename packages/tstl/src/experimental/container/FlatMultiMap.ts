@@ -37,7 +37,7 @@ export class FlatMultiMap<Key, T> extends MultiTreeMap<
    * Create an empty FlatMultiMap.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
@@ -46,7 +46,7 @@ export class FlatMultiMap<Key, T> extends MultiTreeMap<
    *
    * @param items Initial elements in traversal order.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
@@ -58,12 +58,12 @@ export class FlatMultiMap<Key, T> extends MultiTreeMap<
   public constructor(obj: FlatMultiMap<Key, T>);
 
   /**
-   * Create a FlatMultiMap from the elements in `[first, last)` .
+   * Create a FlatMultiMap from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<IPair<Key, T>>>,

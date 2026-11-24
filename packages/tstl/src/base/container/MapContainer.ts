@@ -298,7 +298,7 @@ export namespace MapContainer {
   > = Unique extends true ? Pair<IteratorT, boolean> : IteratorT;
 
   /**
-   * Iterator over the elements of `MapContainer` .
+   * Iterator over the elements of `MapContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -328,7 +328,7 @@ export namespace MapContainer {
     >;
 
   /**
-   * Iterator for reverse traversal of `MapContainer` .
+   * Iterator for reverse traversal of `MapContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

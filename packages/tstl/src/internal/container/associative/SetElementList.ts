@@ -87,7 +87,7 @@ export class SetElementList<
  */
 export namespace SetElementList {
   /**
-   * Iterator over the elements of `SetElementList` .
+   * Iterator over the elements of `SetElementList`.
    *
    * @template Key Key type
    * @template Unique Whether duplicated key is blocked or not

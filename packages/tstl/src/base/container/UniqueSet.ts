@@ -151,7 +151,7 @@ export abstract class UniqueSet<
  */
 export namespace UniqueSet {
   /**
-   * Iterator over the elements of `UniqueSet` .
+   * Iterator over the elements of `UniqueSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -163,7 +163,7 @@ export namespace UniqueSet {
   > = SetContainer.Iterator<Key, true, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Iterator for reverse traversal of `UniqueSet` .
+   * Iterator for reverse traversal of `UniqueSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

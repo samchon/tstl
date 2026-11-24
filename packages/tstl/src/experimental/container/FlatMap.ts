@@ -36,7 +36,7 @@ export class FlatMap<Key, T> extends UniqueTreeMap<
    * Create an empty FlatMap.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
@@ -45,7 +45,7 @@ export class FlatMap<Key, T> extends UniqueTreeMap<
    *
    * @param items Initial elements in traversal order.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
@@ -57,12 +57,12 @@ export class FlatMap<Key, T> extends UniqueTreeMap<
   public constructor(obj: FlatMap<Key, T>);
 
   /**
-   * Create a FlatMap from the elements in `[first, last)` .
+   * Create a FlatMap from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<IPair<Key, T>>>,

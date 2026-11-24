@@ -36,7 +36,7 @@ export interface ITreeSet<
 
 export namespace ITreeSet {
   /**
-   * Iterator over the elements of `ITreeSet` .
+   * Iterator over the elements of `ITreeSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -49,7 +49,7 @@ export namespace ITreeSet {
   > = SetContainer.Iterator<Key, Unique, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Iterator for reverse traversal of `ITreeSet` .
+   * Iterator for reverse traversal of `ITreeSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

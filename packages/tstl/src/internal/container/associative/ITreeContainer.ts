@@ -65,7 +65,7 @@ export interface ITreeContainer<
   value_comp(): Comparator<Elem>;
 
   /**
-   * Find the first element whose key does not precede `key` .
+   * Find the first element whose key does not precede `key`.
    *
    * @param key Key to search for.
    * @return The lower bound, or the end iterator.
@@ -73,7 +73,7 @@ export interface ITreeContainer<
   lower_bound(key: Key): IteratorT;
 
   /**
-   * Find the first element whose key follows `key` .
+   * Find the first element whose key follows `key`.
    *
    * @param key Key to search for.
    * @return The upper bound, or the end iterator.
@@ -81,7 +81,7 @@ export interface ITreeContainer<
   upper_bound(key: Key): IteratorT;
 
   /**
-   * Find the half-open range of elements whose keys are equivalent to `key` .
+   * Find the half-open range of elements whose keys are equivalent to `key`.
    *
    * @param key Key to search for.
    * @return The lower and upper bounds. They coincide if the key is absent.

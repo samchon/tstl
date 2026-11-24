@@ -33,7 +33,7 @@ export class TreeSet<Key> extends UniqueTreeSet<
    * Create an empty TreeSet.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
@@ -42,7 +42,7 @@ export class TreeSet<Key> extends UniqueTreeSet<
    *
    * @param items Initial elements in traversal order.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: Key[], comp?: Comparator<Key>);
 
@@ -54,12 +54,12 @@ export class TreeSet<Key> extends UniqueTreeSet<
   public constructor(container: TreeSet<Key>);
 
   /**
-   * Create a TreeSet from the elements in `[first, last)` .
+   * Create a TreeSet from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -160,12 +160,12 @@ export class TreeSet<Key> extends UniqueTreeSet<
 export namespace TreeSet {
   // HEAD
   /**
-   * Iterator over the elements of `TreeSet` .
+   * Iterator over the elements of `TreeSet`.
    */
   export type Iterator<Key> = SetElementList.Iterator<Key, true, TreeSet<Key>>;
 
   /**
-   * Iterator for reverse traversal of `TreeSet` .
+   * Iterator for reverse traversal of `TreeSet`.
    */
   export type ReverseIterator<Key> = SetElementList.ReverseIterator<
     Key,

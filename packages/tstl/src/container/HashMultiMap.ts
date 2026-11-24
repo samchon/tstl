@@ -47,7 +47,7 @@ export class HashMultiMap<Key, T>
    *
    * @param hash Hash function for keys. Defaults to the library’s hash
    * function.
-   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
@@ -58,7 +58,7 @@ export class HashMultiMap<Key, T>
    * @param items Initial elements in traversal order.
    * @param hash Hash function for keys. Defaults to the library’s hash
    * function.
-   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     items: IPair<Key, T>[],
@@ -74,13 +74,13 @@ export class HashMultiMap<Key, T>
   public constructor(obj: HashMultiMap<Key, T>);
 
   /**
-   * Create a HashMultiMap from the elements in `[first, last)` .
+   * Create a HashMultiMap from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param hash Hash function for keys. Defaults to the library’s hash
    * function.
-   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     first: Readonly<IForwardIterator<IPair<Key, T>>>,
@@ -405,7 +405,7 @@ export namespace HashMultiMap {
   //----
   // HEAD
   /**
-   * Iterator over the elements of `HashMultiMap` .
+   * Iterator over the elements of `HashMultiMap`.
    */
   export type Iterator<Key, T> = MapElementList.Iterator<
     Key,
@@ -415,7 +415,7 @@ export namespace HashMultiMap {
   >;
 
   /**
-   * Iterator for reverse traversal of `HashMultiMap` .
+   * Iterator for reverse traversal of `HashMultiMap`.
    */
   export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<
     Key,

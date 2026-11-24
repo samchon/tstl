@@ -94,7 +94,7 @@ export class MapElementList<
  */
 export namespace MapElementList {
   /**
-   * Iterator over the elements of `MapElementList` .
+   * Iterator over the elements of `MapElementList`.
    *
    * @template Key Key type
    * @template T Mapped type
@@ -212,7 +212,7 @@ export namespace MapElementList {
   }
 
   /**
-   * Iterator for reverse traversal of `MapElementList` .
+   * Iterator for reverse traversal of `MapElementList`.
    *
    * @template Key Key type
    * @template T Mapped type

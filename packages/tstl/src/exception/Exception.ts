@@ -50,7 +50,7 @@ export class Exception extends Error {
    * Return the error's name, message, and stack for JSON serialization.
    * Subclasses can override this method to include their own fields.
    *
-   * @return A plain object with `name` , `message` , and `stack` .
+   * @return A plain object with `name`, `message`, and `stack`.
    */
   public toJSON(): object {
     return {

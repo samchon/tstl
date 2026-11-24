@@ -43,13 +43,13 @@ export function not_equal_to<T>(x: T, y: T): boolean {
 }
 
 /**
- * Test whether `x` precedes `y` . Use `x.less(y)` when available. Other
+ * Test whether `x` precedes `y`. Use `x.less(y)` when available. Other
  * objects are ordered by their internal identifiers, and primitive values use
  * JavaScript's `<` operator.
  *
  * @param x Left-hand operand.
  * @param y Right-hand operand.
- * @return Whether `x` precedes `y` .
+ * @return Whether `x` precedes `y`.
  */
 export function less<T>(x: T, y: T): boolean {
   // CONVERT TO PRIMITIVE TYPE
@@ -66,11 +66,11 @@ export function less<T>(x: T, y: T): boolean {
 }
 
 /**
- * Test whether `x` precedes or equals `y` .
+ * Test whether `x` precedes or equals `y`.
  *
  * @param x Left-hand operand.
  * @param y Right-hand operand.
- * @return Whether `x` precedes or equals `y` .
+ * @return Whether `x` precedes or equals `y`.
  */
 export function less_equal<T>(x: T, y: T): boolean {
   return less(x, y) || equal_to(x, y);
@@ -82,7 +82,7 @@ export function less_equal<T>(x: T, y: T): boolean {
  *
  * @param x Left-hand operand.
  * @param y Right-hand operand.
- * @return Whether both the less-than and equality tests return `false` .
+ * @return Whether both the less-than and equality tests return `false`.
  */
 export function greater<T>(x: T, y: T): boolean {
   return !less_equal(x, y);
@@ -94,7 +94,7 @@ export function greater<T>(x: T, y: T): boolean {
  *
  * @param x Left-hand operand.
  * @param y Right-hand operand.
- * @return Whether the less-than test returns `false` .
+ * @return Whether the less-than test returns `false`.
  */
 export function greater_equal<T>(x: T, y: T): boolean {
   return !less(x, y);

@@ -8,7 +8,7 @@
 import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
- * Evaluate the Laguerre polynomial of degree `n` at `x` .
+ * Evaluate the Laguerre polynomial of degree `n` at `x`.
  *
  * @reference https://en.wikipedia.org/wiki/Laguerre_polynomials
  */
@@ -18,7 +18,7 @@ export function laguerre(n: number, x: number): number {
 
 /**
  * Evaluate the associated Laguerre polynomial of degree `n` and order `m` at
- * `x` .
+ * `x`.
  *
  * @reference https://en.wikipedia.org/wiki/Laguerre_polynomials#Generalized_Laguerre_polynomials
  */

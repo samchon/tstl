@@ -17,13 +17,13 @@ import { Pair } from "../utility/Pair";
 ========================================================= */
 /**
  * Find the first position where the sorted range's elements do not precede
- * `val` .
+ * `val`.
  *
  * @param first Start of the sorted range.
  * @param last Exclusive end of the sorted range.
  * @param val Value to look for.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The lower bound, or the end of the range.
  */
@@ -58,7 +58,7 @@ export function lower_bound<
  * @param last Exclusive end of the sorted range.
  * @param val Value to look for.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The upper bound, or the end of the range.
  */
@@ -88,13 +88,13 @@ export function upper_bound<
 
 /**
  * Find the half-open subrange of a sorted range whose elements are equivalent
- * to `val` .
+ * to `val`.
  *
  * @param first Start of the sorted range.
  * @param last Exclusive end of the sorted range.
  * @param val Value to look for.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The lower and upper bounds. They coincide when there is no
  * equivalent element.
@@ -116,13 +116,13 @@ export function equal_range<
 }
 
 /**
- * Test whether a sorted range contains an element equivalent to `val` .
+ * Test whether a sorted range contains an element equivalent to `val`.
  *
  * @param first Start of the sorted range.
  * @param last Exclusive end of the sorted range.
  * @param val Value to look for.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether an equivalent element exists.
  */

@@ -31,7 +31,7 @@ export class PriorityQueue<T> extends AdaptorContainer<
    * Create an empty PriorityQueue.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<T>);
 
@@ -43,12 +43,12 @@ export class PriorityQueue<T> extends AdaptorContainer<
   public constructor(obj: PriorityQueue<T>);
 
   /**
-   * Create a PriorityQueue from the elements in `[first, last)` .
+   * Create a PriorityQueue from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<T>>,

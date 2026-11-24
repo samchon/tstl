@@ -36,7 +36,7 @@ export class TreeMap<Key, T> extends UniqueTreeMap<
    * Create an empty TreeMap.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
@@ -45,7 +45,7 @@ export class TreeMap<Key, T> extends UniqueTreeMap<
    *
    * @param items Initial elements in traversal order.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
@@ -57,12 +57,12 @@ export class TreeMap<Key, T> extends UniqueTreeMap<
   public constructor(obj: TreeMap<Key, T>);
 
   /**
-   * Create a TreeMap from the elements in `[first, last)` .
+   * Create a TreeMap from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<IPair<Key, T>>>,
@@ -165,7 +165,7 @@ export class TreeMap<Key, T> extends UniqueTreeMap<
 export namespace TreeMap {
   // HEAD
   /**
-   * Iterator over the elements of `TreeMap` .
+   * Iterator over the elements of `TreeMap`.
    */
   export type Iterator<Key, T> = MapElementList.Iterator<
     Key,
@@ -175,7 +175,7 @@ export namespace TreeMap {
   >;
 
   /**
-   * Iterator for reverse traversal of `TreeMap` .
+   * Iterator for reverse traversal of `TreeMap`.
    */
   export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<
     Key,

@@ -232,7 +232,7 @@ export function transform_inclusive_scan<
 
 /**
  * Write the reduction of `unary(init)` and the transformed input preceding
- * each position. The first output is `unary(init)` . The output can begin at
+ * each position. The first output is `unary(init)`. The output can begin at
  * the input's first position.
  */
 export function transform_exclusive_scan<

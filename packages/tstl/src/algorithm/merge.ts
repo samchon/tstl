@@ -35,7 +35,7 @@ import { copy } from "./modifiers";
  * @param last2 Exclusive end of the second sorted range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -80,7 +80,7 @@ export function merge<
  * @param middle Start of the second sorted range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function inplace_merge<
   BidirectionalIterator extends General<
@@ -114,7 +114,7 @@ export function inplace_merge<
  * @param first2 Start of the second sorted range.
  * @param last2 Exclusive end of the second sorted range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether the first range contains each value at least as many times
  * as the second.
@@ -153,7 +153,7 @@ export function includes<
  * @param last2 Exclusive end of the second sorted range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -207,7 +207,7 @@ export function set_union<
  * @param last2 Exclusive end of the second sorted range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -252,7 +252,7 @@ export function set_intersection<
  * @param last2 Exclusive end of the second sorted range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -298,7 +298,7 @@ export function set_difference<
  * @param last2 Exclusive end of the second sorted range.
  * @param output Iterator to the start of the destination.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */

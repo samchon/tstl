@@ -34,7 +34,7 @@ export class TreeMultiSet<Key> extends MultiTreeSet<
    * Create an empty TreeMultiSet.
    *
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
@@ -43,7 +43,7 @@ export class TreeMultiSet<Key> extends MultiTreeSet<
    *
    * @param items Initial elements in traversal order.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: Key[], comp?: Comparator<Key>);
 
@@ -55,12 +55,12 @@ export class TreeMultiSet<Key> extends MultiTreeSet<
   public constructor(obj: TreeMultiSet<Key>);
 
   /**
-   * Create a TreeMultiSet from the elements in `[first, last)` .
+   * Create a TreeMultiSet from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param comp Strict ordering predicate. Return `true` when the first
-   * argument precedes the second. Defaults to {@link less} .
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -161,7 +161,7 @@ export class TreeMultiSet<Key> extends MultiTreeSet<
 export namespace TreeMultiSet {
   // HEAD
   /**
-   * Iterator over the elements of `TreeMultiSet` .
+   * Iterator over the elements of `TreeMultiSet`.
    */
   export type Iterator<Key> = SetElementList.Iterator<
     Key,
@@ -170,7 +170,7 @@ export namespace TreeMultiSet {
   >;
 
   /**
-   * Iterator for reverse traversal of `TreeMultiSet` .
+   * Iterator for reverse traversal of `TreeMultiSet`.
    */
   export type ReverseIterator<Key> = SetElementList.ReverseIterator<
     Key,

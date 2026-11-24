@@ -74,7 +74,7 @@ export class VectorBoolean
   public constructor(obj: VectorBoolean);
 
   /**
-   * Create a VectorBoolean with `n` copies of `val` .
+   * Create a VectorBoolean with `n` copies of `val`.
    *
    * @param n Number of initial elements.
    * @param val Value assigned to each element.
@@ -82,7 +82,7 @@ export class VectorBoolean
   public constructor(n: number, val: boolean);
 
   /**
-   * Create a VectorBoolean from the elements in `[first, last)` .
+   * Create a VectorBoolean from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
@@ -431,12 +431,12 @@ export class VectorBoolean
 export namespace VectorBoolean {
   // HEAD
   /**
-   * Iterator over the elements of `VectorBoolean` .
+   * Iterator over the elements of `VectorBoolean`.
    */
   export type Iterator = ArrayIterator<boolean, VectorBoolean>;
 
   /**
-   * Iterator for reverse traversal of `VectorBoolean` .
+   * Iterator for reverse traversal of `VectorBoolean`.
    */
   export type ReverseIterator = ArrayReverseIterator<boolean, VectorBoolean>;
 

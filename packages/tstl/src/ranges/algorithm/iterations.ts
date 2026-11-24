@@ -43,11 +43,11 @@ export function for_each<
 }
 
 /**
- * Invoke `fn` for the first `n` elements starting at `first` , in traversal
- * order.
+ * Invoke `fn` on the first `n` elements of `range` in traversal order. The
+ * range must contain at least `n` elements.
  *
  * @param range Input range.
- * @param n Steps to maximum advance.
+ * @param n Number of elements to visit.
  * @param fn Function invoked for each element.
  *
  * @return The iterator immediately after the visited elements.
@@ -63,7 +63,7 @@ export function for_each_n<
     AGGREGATE CONDITIONS
 --------------------------------------------------------- */
 /**
- * Test whether every element satisfies `pred` . An empty range satisfies this
+ * Test whether every element satisfies `pred`. An empty range satisfies this
  * condition.
  *
  * @param range Input range.
@@ -79,7 +79,7 @@ export function all_of<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Test whether at least one element satisfies `pred` .
+ * Test whether at least one element satisfies `pred`.
  *
  * @param range Input range.
  * @param pred Predicate to test each element.
@@ -94,7 +94,7 @@ export function any_of<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Test whether no element satisfies `pred` . An empty range satisfies this
+ * Test whether no element satisfies `pred`. An empty range satisfies this
  * condition.
  *
  * @param range Input range.
@@ -163,7 +163,7 @@ export function equal<
  * @param range1 First input range.
  * @param range2 Second input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether the first range precedes the second.
  */
@@ -188,7 +188,7 @@ export function lexicographical_compare<
     FINDERS
 --------------------------------------------------------- */
 /**
- * Find the first occurrence of `val` .
+ * Find the first occurrence of `val`.
  *
  * @param range Range to search.
  * @param val Value to look for.
@@ -203,7 +203,7 @@ export function find<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the first element that satisfies `pred` .
+ * Find the first element that satisfies `pred`.
  *
  * @param range Range to search.
  * @param pred Predicate to test each element.
@@ -218,7 +218,7 @@ export function find_if<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the first element that fails `pred` .
+ * Find the first element that fails `pred`.
  *
  * @param range Range to search.
  * @param pred Predicate to test each element.
@@ -333,10 +333,10 @@ export function find_first_of<
 }
 
 /**
- * Find the first adjacent pair that satisfies `pred` .
+ * Find the first adjacent pair that satisfies `pred`.
  *
  * @param range Range to search.
- * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
  * @return The first iterator in the matching pair, or the end of the range.
  */
@@ -400,12 +400,12 @@ export function search<
 }
 
 /**
- * Find the first run of `count` consecutive elements that match `val` .
+ * Find the first run of `count` consecutive elements that match `val`.
  *
  * @param range Range to search.
  * @param count Length of the requested run.
  * @param val Value to look for.
- * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
  * @return The first iterator for a nonpositive count, the start of the run
  * when found, or the end of the range.
@@ -492,7 +492,7 @@ export function mismatch<
     COUNTERS
 --------------------------------------------------------- */
 /**
- * Count the elements equal to `val` .
+ * Count the elements equal to `val`.
  *
  * @param range Input range.
  * @param val The value to count.
@@ -507,7 +507,7 @@ export function count<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Count the elements that satisfy `pred` .
+ * Count the elements that satisfy `pred`.
  *
  * @param range Input range.
  * @param pred Predicate to test each element.

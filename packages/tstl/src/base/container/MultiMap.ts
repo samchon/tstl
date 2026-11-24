@@ -119,7 +119,7 @@ export abstract class MultiMap<
  */
 export namespace MultiMap {
   /**
-   * Iterator over the elements of `MultiMap` .
+   * Iterator over the elements of `MultiMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -132,7 +132,7 @@ export namespace MultiMap {
   > = MapContainer.Iterator<Key, T, false, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Iterator for reverse traversal of `MultiMap` .
+   * Iterator for reverse traversal of `MultiMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

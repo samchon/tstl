@@ -75,7 +75,7 @@ export class ForwardList<T>
   public constructor(obj: ForwardList<T>);
 
   /**
-   * Create a ForwardList with `n` copies of `val` .
+   * Create a ForwardList with `n` copies of `val`.
    *
    * @param n Number of initial elements.
    * @param val Value assigned to each element.
@@ -83,7 +83,7 @@ export class ForwardList<T>
   public constructor(n: number, val: T);
 
   /**
-   * Create a ForwardList from the elements in `[first, last)` .
+   * Create a ForwardList from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
@@ -181,7 +181,7 @@ export class ForwardList<T>
 
   /**
    * Get the sentinel immediately before the first element. It can be used with
-   * operations such as `insert_after` .
+   * operations such as `insert_after`.
    *
    * @return The before-begin sentinel. Its value cannot be read.
    */
@@ -225,7 +225,7 @@ export class ForwardList<T>
   }
 
   /**
-   * Insert a value after `pos` .
+   * Insert a value after `pos`.
    *
    * @param pos Position after which to insert.
    * @param val Value to insert.
@@ -237,7 +237,7 @@ export class ForwardList<T>
   ): ForwardList.Iterator<T>;
 
   /**
-   * Insert `n` copies of a value after `pos` .
+   * Insert `n` copies of a value after `pos`.
    *
    * @param pos Position after which to insert.
    * @param n Number of elements to insert.
@@ -251,7 +251,7 @@ export class ForwardList<T>
   ): ForwardList.Iterator<T>;
 
   /**
-   * Insert the elements in `[first, last)` after `pos` .
+   * Insert the elements in `[first, last)` after `pos`.
    *
    * @param pos Position after which to insert.
    * @param first Start of the input range.
@@ -332,7 +332,7 @@ export class ForwardList<T>
   }
 
   /**
-   * Erase the element immediately after `it` . The following element must be
+   * Erase the element immediately after `it`. The following element must be
    * dereferenceable.
    *
    * @param it Position before the element to erase.
@@ -341,7 +341,7 @@ export class ForwardList<T>
   public erase_after(it: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
   /**
-   * Erase the elements strictly after `first` and before `last` .
+   * Erase the elements strictly after `first` and before `last`.
    *
    * @param first Position preceding the erased range.
    * @param last Exclusive end of the erased range.
@@ -428,21 +428,23 @@ export class ForwardList<T>
   }
 
   /**
-   * Move all nodes from `from` after `pos` , leaving the source empty.
-   * Existing iterators to the moved nodes follow them to this list.
+   * Move all nodes from a separate list after `pos`, emptying the source.
+   * Moving from this same list has no effect. Iterators to moved nodes
+   * follow their elements to this list. Work is linear in the moved count.
    *
-   * @param pos Destination position after which to insert.
+   * @param pos A dereferenceable iterator into this list or `before_begin()`.
    * @param from Source list whose elements are moved.
    */
   public splice_after(pos: ForwardList.Iterator<T>, from: ForwardList<T>): void;
 
   /**
-   * Move the node after `before` to the position after `pos` , preserving its
-   * iterator.
+   * Move the node immediately after `before` to the position after `pos`,
+   * preserving its iterator. When moving within this list, using `before`
+   * or the moved node as `pos` leaves the order unchanged.
    *
-   * @param pos Destination position after which to insert.
-   * @param from Source list whose elements are moved.
-   * @param before Position before the node to move.
+   * @param pos A dereferenceable iterator into this list or `before_begin()`.
+   * @param from Source list whose element is moved.
+   * @param before An iterator in `from` whose next position is dereferenceable.
    */
   public splice_after(
     pos: ForwardList.Iterator<T>,
@@ -451,13 +453,14 @@ export class ForwardList<T>
   ): void;
 
   /**
-   * Move the nodes strictly after `first_before` and before `last` to the
-   * position after `pos` , preserving their iterators.
+   * Move `[first_before.next(), last)` to the position after `pos`, preserving
+   * iterators to moved nodes. A destination inside the moved range or equal
+   * to `first_before` leaves the order unchanged when moving within this list.
    *
-   * @param pos Destination position after which to insert.
+   * @param pos A dereferenceable iterator into this list or `before_begin()`.
    * @param from Source list whose elements are moved.
-   * @param first_before Position before the first element to transfer.
-   * @param last Position following the transferred range.
+   * @param first_before Iterator in `from` preceding the first node to move.
+   * @param last Exclusive end of the range in `from`.
    */
   public splice_after(
     pos: ForwardList.Iterator<T>,
@@ -581,7 +584,7 @@ export class ForwardList<T>
  */
 export namespace ForwardList {
   /**
-   * Iterator over the elements of `ForwardList` .
+   * Iterator over the elements of `ForwardList`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

@@ -139,7 +139,7 @@ export interface ILinearContainer<
 
 export namespace ILinearContainer {
   /**
-   * Iterator over the elements of `ILinearContainer` .
+   * Iterator over the elements of `ILinearContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -164,7 +164,7 @@ export namespace ILinearContainer {
   > = IContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
 
   /**
-   * Iterator for reverse traversal of `ILinearContainer` .
+   * Iterator for reverse traversal of `ILinearContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

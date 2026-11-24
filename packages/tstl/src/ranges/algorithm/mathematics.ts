@@ -19,11 +19,11 @@ import { IForwardContainer } from "../container/IForwardContainer";
     MIN & MAX
 --------------------------------------------------------- */
 /**
- * Find the first minimum element according to `comp` .
+ * Find the first minimum element according to `comp`.
  *
  * @param range Input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The first minimum, or the end of the range if it is empty.
  */
@@ -35,11 +35,11 @@ export function min_element<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the first maximum element according to `comp` .
+ * Find the first maximum element according to `comp`.
  *
  * @param range Input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The first maximum, or the end of the range if it is empty.
  */
@@ -51,11 +51,11 @@ export function max_element<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the first minimum and the last maximum according to `comp` .
+ * Find the first minimum and the last maximum according to `comp`.
  *
  * @param range Input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return A pair of iterators. Both equal the end of the range when it is
  * empty.
@@ -81,7 +81,7 @@ export function minmax_element<
  *
  * @param range1 First input range.
  * @param range2 Second input range.
- * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
  * @return Whether the ranges are permutations of each other.
  */
@@ -109,7 +109,7 @@ export function is_permutation<
  *
  * @param range Input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether a previous permutation existed.
  */
@@ -128,7 +128,7 @@ export function prev_permutation<
  *
  * @param range Input range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether a next permutation existed.
  */

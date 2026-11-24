@@ -43,7 +43,7 @@ export class HashMultiSet<Key>
    *
    * @param hash Hash function for keys. Defaults to the library’s hash
    * function.
-   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
@@ -54,7 +54,7 @@ export class HashMultiSet<Key>
    * @param items Initial elements in traversal order.
    * @param hash Hash function for keys. Defaults to the library’s hash
    * function.
-   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     items: Key[],
@@ -70,13 +70,13 @@ export class HashMultiSet<Key>
   public constructor(obj: HashMultiSet<Key>);
 
   /**
-   * Create a HashMultiSet from the elements in `[first, last)` .
+   * Create a HashMultiSet from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
    * @param hash Hash function for keys. Defaults to the library’s hash
    * function.
-   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -368,7 +368,7 @@ export class HashMultiSet<Key>
 export namespace HashMultiSet {
   // HEAD
   /**
-   * Iterator over the elements of `HashMultiSet` .
+   * Iterator over the elements of `HashMultiSet`.
    */
   export type Iterator<Key> = SetElementList.Iterator<
     Key,
@@ -377,7 +377,7 @@ export namespace HashMultiSet {
   >;
 
   /**
-   * Iterator for reverse traversal of `HashMultiSet` .
+   * Iterator for reverse traversal of `HashMultiSet`.
    */
   export type ReverseIterator<Key> = SetElementList.ReverseIterator<
     Key,

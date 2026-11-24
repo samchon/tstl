@@ -57,7 +57,7 @@ export class List<T>
   public constructor(obj: List<T>);
 
   /**
-   * Create a List with `size` copies of `val` .
+   * Create a List with `size` copies of `val`.
    *
    * @param size Number of initial elements.
    * @param val Value assigned to each element.
@@ -65,7 +65,7 @@ export class List<T>
   public constructor(size: number, val: T);
 
   /**
-   * Create a List from the elements in `[first, last)` .
+   * Create a List from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
@@ -211,17 +211,18 @@ export class List<T>
   }
 
   /**
-   * Move all nodes from `from` before `pos` , leaving the source empty. Moved
-   * iterators retain their element and follow it to this list. Updating their
-   * ownership takes linear time in the number of nodes moved.
+   * Move all nodes from a separate list before `pos`, emptying the source.
+   * Moving from this same list has no effect. Iterators to moved nodes
+   * retain their elements. Updating their ownership takes linear time in
+   * the number of nodes moved.
    *
-   * @param pos Destination position before which to insert.
+   * @param pos Iterator into this list, including `end()`.
    * @param from Source list whose elements are moved.
    */
   public splice(pos: List.Iterator<T>, from: List<T>): void;
 
   /**
-   * Move the element at `it` before `pos` , preserving its iterator. Within
+   * Move the element at `it` before `pos`, preserving its iterator. Within
    * the same list, inserting before the element or its successor leaves the
    * list unchanged.
    *
@@ -236,13 +237,14 @@ export class List<T>
   ): void;
 
   /**
-   * Move the nodes in `[first, last)` before `pos` , preserving their
-   * iterators.
+   * Move the nodes in `[first, last)` before `pos`, preserving their iterators.
+   * Within the same list, a destination in that range or at `last` leaves the
+   * order unchanged. This implementation scans the range before relinking it.
    *
-   * @param pos Destination position before which to insert.
+   * @param pos Iterator into this list, including `end()`.
    * @param from Source list whose elements are moved.
-   * @param first Position of the first element to transfer.
-   * @param last Position following the transferred range.
+   * @param first Start of a valid range in `from`.
+   * @param last Exclusive end of that range.
    */
   public splice(
     pos: List.Iterator<T>,
@@ -363,7 +365,7 @@ export class List<T>
  */
 export namespace List {
   /**
-   * Iterator over the elements of `List` .
+   * Iterator over the elements of `List`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -453,7 +455,7 @@ export namespace List {
   }
 
   /**
-   * Iterator for reverse traversal of `List` .
+   * Iterator for reverse traversal of `List`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

@@ -26,13 +26,13 @@ import { copy, iter_swap } from "./modifiers";
     SORT
 --------------------------------------------------------- */
 /**
- * Sort the range in place under `comp` . Equivalent elements can change
+ * Sort the range in place under `comp`. Equivalent elements can change
  * relative order. Uses `O(N log N)` comparisons for a range of `N` elements.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function sort<
   RandomAccessIterator extends General<
@@ -59,13 +59,13 @@ export function sort<
 }
 
 /**
- * Sort the range in place under `comp` , preserving the relative order of
+ * Sort the range in place under `comp`, preserving the relative order of
  * equivalent elements.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function stable_sort<
   RandomAccessIterator extends General<
@@ -101,14 +101,14 @@ export function stable_sort<
 }
 
 /**
- * Place the smallest elements in sorted order before `middle` . The remaining
+ * Place the smallest elements in sorted order before `middle`. The remaining
  * elements have unspecified order.
  *
  * @param first Start of the range.
  * @param middle Exclusive end of the prefix to sort.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function partial_sort<
   RandomAccessIterator extends General<
@@ -142,7 +142,7 @@ export function partial_sort<
  * @param output_first Start of the destination range.
  * @param output_last Exclusive end of the destination range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The iterator immediately after the last value written.
  */
@@ -190,7 +190,7 @@ export function partial_sort_copy<
  * unchanged.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  */
 export function nth_element<
   RandomAccessIterator extends General<
@@ -288,12 +288,12 @@ function _Partition<
     INSPECTOR
 --------------------------------------------------------- */
 /**
- * Test whether the range is in nondecreasing order under `comp` .
+ * Test whether the range is in nondecreasing order under `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether the entire range is sorted.
  */
@@ -310,12 +310,12 @@ export function is_sorted<
 }
 
 /**
- * Find the end of the longest sorted prefix under `comp` .
+ * Find the end of the longest sorted prefix under `comp`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return The first iterator out of order, or the end of the range if it is
  * sorted.

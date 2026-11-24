@@ -77,7 +77,7 @@ export interface IHashMap<
 
 export namespace IHashMap {
   /**
-   * Iterator over the elements of `IHashMap` .
+   * Iterator over the elements of `IHashMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -89,7 +89,7 @@ export namespace IHashMap {
   > = MapElementList.Iterator<Key, T, Unique, Source>;
 
   /**
-   * Iterator for reverse traversal of `IHashMap` .
+   * Iterator for reverse traversal of `IHashMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

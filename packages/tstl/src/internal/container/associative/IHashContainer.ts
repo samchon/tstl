@@ -72,7 +72,7 @@ export interface IHashContainer<
         GETTERS
     --------------------------------------------------------- */
   /**
-   * Determine the bucket selected by the hash of `key` .
+   * Determine the bucket selected by the hash of `key`.
    *
    * @param key Target key.
    * @return The bucket index for the given key.

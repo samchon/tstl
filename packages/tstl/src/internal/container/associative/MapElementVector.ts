@@ -92,7 +92,7 @@ export class MapElementVector<
  */
 export namespace MapElementVector {
   /**
-   * Iterator over the elements of `MapElementVector` .
+   * Iterator over the elements of `MapElementVector`.
    *
    * @template Key Key type
    * @template T Mapped type
@@ -175,7 +175,7 @@ export namespace MapElementVector {
   }
 
   /**
-   * Iterator for reverse traversal of `MapElementVector` .
+   * Iterator for reverse traversal of `MapElementVector`.
    *
    * @template Key Key type
    * @template T Mapped type

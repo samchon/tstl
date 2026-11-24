@@ -8,7 +8,7 @@
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 /**
- * Exposes an iterator range to JavaScript `for...of` .
+ * Exposes an iterator range to JavaScript `for...of`.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

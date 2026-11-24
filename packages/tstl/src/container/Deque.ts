@@ -73,7 +73,7 @@ export class Deque<T>
   public constructor(obj: Deque<T>);
 
   /**
-   * Create a Deque with `size` copies of `val` .
+   * Create a Deque with `size` copies of `val`.
    *
    * @param size Number of initial elements.
    * @param val Value assigned to each element.
@@ -81,7 +81,7 @@ export class Deque<T>
   public constructor(size: number, val: T);
 
   /**
-   * Create a Deque from the elements in `[first, last)` .
+   * Create a Deque from the elements in `[first, last)`.
    *
    * @param first Start of the input range.
    * @param last Exclusive end of the input range.
@@ -585,12 +585,12 @@ export namespace Deque {
   //----
   // HEAD
   /**
-   * Iterator over the elements of `Deque` .
+   * Iterator over the elements of `Deque`.
    */
   export type Iterator<T> = ArrayIterator<T, Deque<T>>;
 
   /**
-   * Iterator for reverse traversal of `Deque` .
+   * Iterator for reverse traversal of `Deque`.
    */
   export type ReverseIterator<T> = ArrayReverseIterator<T, Deque<T>>;
 

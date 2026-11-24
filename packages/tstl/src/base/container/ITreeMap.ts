@@ -55,7 +55,7 @@ export interface ITreeMap<
 
 export namespace ITreeMap {
   /**
-   * Iterator over the elements of `ITreeMap` .
+   * Iterator over the elements of `ITreeMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -76,7 +76,7 @@ export namespace ITreeMap {
   > = MapContainer.Iterator<Key, T, Unique, Source, IteratorT, ReverseT>;
 
   /**
-   * Iterator for reverse traversal of `ITreeMap` .
+   * Iterator for reverse traversal of `ITreeMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

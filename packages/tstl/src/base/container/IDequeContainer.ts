@@ -37,7 +37,7 @@ export interface IDequeContainer<
 
 export namespace IDequeContainer {
   /**
-   * Iterator over the elements of `IDequeContainer` .
+   * Iterator over the elements of `IDequeContainer`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -62,7 +62,7 @@ export namespace IDequeContainer {
   > = ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
 
   /**
-   * Iterator for reverse traversal of `IDequeContainer` .
+   * Iterator for reverse traversal of `IDequeContainer`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

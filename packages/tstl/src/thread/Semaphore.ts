@@ -51,7 +51,7 @@ export class Semaphore<Max extends number = number> {
     --------------------------------------------------------- */
   /**
    * Acquire one permit, waiting if all permits are in use. Pair each
-   * acquisition with a call to `release()` .
+   * acquisition with a call to `release()`.
    */
   public acquire(): Promise<void> {
     return new Promise<void>((resolve) => {
@@ -130,8 +130,8 @@ export class Semaphore<Max extends number = number> {
   /**
    * Release `n` acquisitions and pass available permits to queued callers.
    *
-   * @param n Number of permits to release. Defaults to `1` .
-   * @throws {@link InvalidArgument} if `n` is less than `1` .
+   * @param n Number of permits to release. Defaults to `1`.
+   * @throws {@link InvalidArgument} if `n` is less than `1`.
    * @throws {@link OutOfRange} if `n` exceeds the capacity or current
    * acquisition count.
    */

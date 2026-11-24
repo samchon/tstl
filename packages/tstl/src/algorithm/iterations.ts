@@ -43,11 +43,11 @@ export function for_each<
 }
 
 /**
- * Invoke `fn` for the first `n` elements starting at `first` , in traversal
- * order.
+ * Invoke `fn` on `n` consecutive elements starting at `first`, in traversal
+ * order. There must be at least `n` elements from that position.
  *
  * @param first Start of the range.
- * @param n Steps to maximum advance.
+ * @param n Number of elements to visit.
  * @param fn Function invoked for each element.
  *
  * @return The iterator immediately after the visited elements.
@@ -69,7 +69,7 @@ export function for_each_n<
     AGGREGATE CONDITIONS
 --------------------------------------------------------- */
 /**
- * Test whether every element satisfies `pred` . An empty range satisfies this
+ * Test whether every element satisfies `pred`. An empty range satisfies this
  * condition.
  *
  * @param first Start of the range.
@@ -94,7 +94,7 @@ export function all_of<
 }
 
 /**
- * Test whether at least one element satisfies `pred` .
+ * Test whether at least one element satisfies `pred`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
@@ -118,7 +118,7 @@ export function any_of<
 }
 
 /**
- * Test whether no element satisfies `pred` . An empty range satisfies this
+ * Test whether no element satisfies `pred`. An empty range satisfies this
  * condition.
  *
  * @param first Start of the range.
@@ -226,7 +226,7 @@ export function equal<
  * @param first2 Start of the second range.
  * @param last2 Exclusive end of the second range.
  * @param comp Strict ordering predicate. Return `true` when the first argument
- * precedes the second. Defaults to {@link less} .
+ * precedes the second. Defaults to {@link less}.
  *
  * @return Whether the first range precedes the second.
  */
@@ -259,7 +259,7 @@ export function lexicographical_compare<
     FINDERS
 --------------------------------------------------------- */
 /**
- * Find the first occurrence of `val` .
+ * Find the first occurrence of `val`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
@@ -280,7 +280,7 @@ export function find<
 }
 
 /**
- * Find the first element that satisfies `pred` .
+ * Find the first element that satisfies `pred`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
@@ -304,7 +304,7 @@ export function find_if<
 }
 
 /**
- * Find the first element that fails `pred` .
+ * Find the first element that fails `pred`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
@@ -496,11 +496,11 @@ export function find_first_of<
 }
 
 /**
- * Find the first adjacent pair that satisfies `pred` .
+ * Find the first adjacent pair that satisfies `pred`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
- * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
  * @return The first iterator in the matching pair, or the end of the range.
  */
@@ -616,13 +616,13 @@ export function search<
 }
 
 /**
- * Find the first run of `count` consecutive elements that match `val` .
+ * Find the first run of `count` consecutive elements that match `val`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
  * @param count Length of the requested run.
  * @param val Value to look for.
- * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
  * @return The first iterator for a nonpositive count, the start of the run
  * when found, or the end of the range.
@@ -734,7 +734,7 @@ export function mismatch<
     COUNTERS
 --------------------------------------------------------- */
 /**
- * Count the elements equal to `val` .
+ * Count the elements equal to `val`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.
@@ -755,7 +755,7 @@ export function count<
 }
 
 /**
- * Count the elements that satisfy `pred` .
+ * Count the elements that satisfy `pred`.
  *
  * @param first Start of the range.
  * @param last Exclusive end of the range.

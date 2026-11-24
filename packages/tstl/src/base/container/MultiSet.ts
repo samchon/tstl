@@ -96,7 +96,7 @@ export abstract class MultiSet<
  */
 export namespace MultiSet {
   /**
-   * Iterator over the elements of `MultiSet` .
+   * Iterator over the elements of `MultiSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -108,7 +108,7 @@ export namespace MultiSet {
   > = SetContainer.Iterator<Key, false, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Iterator for reverse traversal of `MultiSet` .
+   * Iterator for reverse traversal of `MultiSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
