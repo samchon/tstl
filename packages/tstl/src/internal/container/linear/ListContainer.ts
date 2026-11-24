@@ -18,7 +18,7 @@ import { Repeater } from "../../iterator/disposable/Repeater";
 import { ILinearContainerBase } from "./ILinearContainerBase";
 
 /**
- * Basic List Container.
+ * Base storage for doubly linked sequences and their node iterators.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -46,7 +46,7 @@ export abstract class ListContainer<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty ListContainer.
    */
   protected constructor() {
     super();

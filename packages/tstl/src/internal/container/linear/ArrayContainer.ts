@@ -16,7 +16,7 @@ import { Repeater } from "../../iterator/disposable/Repeater";
 import { ILinearContainerBase } from "./ILinearContainerBase";
 
 /**
- * Base array container.
+ * Base class for sequences addressed by index and random-access iterator.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -89,9 +89,9 @@ export abstract class ArrayContainer<
         INDEXES
     --------------------------------------------------------- */
   /**
-   * Get element at specific position.
+   * Read the element at the given zero-based index.
    *
-   * @param index Specific position.
+   * @param index Zero-based position.
    * @return The element at the *index*.
    */
   public at(index: number): T {
@@ -100,10 +100,10 @@ export abstract class ArrayContainer<
   protected abstract _At(index: number): T;
 
   /**
-   * Change element at specific position.
+   * Replace the element at the given zero-based index.
    *
-   * @param index Specific position.
-   * @param val The new value to change.
+   * @param index Zero-based position.
+   * @param val Replacement value.
    */
   public set(index: number, val: T): void {
     if (index < 0)

@@ -43,12 +43,13 @@ type BinaryOperatorInferrer<
     FILL
 --------------------------------------------------------- */
 /**
- * Copy elements in range.
+ * Copy elements in traversal order. The destination must have room for the
+ * entire range, or accept inserted elements.
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function copy<
   Range extends Array<any> | IForwardContainer<any>,
@@ -60,13 +61,14 @@ export function copy<
 }
 
 /**
- * Copy *n* elements.
+ * Copy `n` consecutive elements from the start position. The input must
+ * contain at least `n` elements.
  *
- * @param range An iterable ranged container.
+ * @param range Input range.
  * @param n Number of elements to copy.
- * @param output Output iterator of the first position.
+ * @param output Iterator to the start of the destination.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function copy_n<
   Range extends Array<any> | IForwardContainer<any>,
@@ -78,13 +80,13 @@ export function copy_n<
 }
 
 /**
- * Copy specific elements by a condition.
+ * Copy elements that satisfy `pred` , preserving their relative order.
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
- * @param pred A function predicates the specific condition.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
+ * @param pred Predicate to test each element.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function copy_if<
   Range extends Array<any> | IForwardContainer<any>,
@@ -100,12 +102,13 @@ export function copy_if<
 }
 
 /**
- * Copy elements into the output range, starting from its end.
+ * Copy the range into the destination by writing from the end toward the
+ * beginning. The copied elements retain their order.
  *
- * @param range An iterable ranged container.
- * @param output Past-the-end iterator of the output range.
+ * @param range Input range.
+ * @param output Exclusive end of the destination range.
  *
- * @return Iterator to the beginning of the copied range.
+ * @return The beginning of the destination range.
  */
 export function copy_backward<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -120,9 +123,9 @@ export function copy_backward<
 }
 
 /**
- * Fill the range with a value.
+ * Assign the same value to every element in the range.
  *
- * @param range An iterable ranged container.
+ * @param range Range modified in place.
  * @param value Value to assign to each element.
  */
 export function fill<Range extends Array<any> | IForwardContainer<any>>(
@@ -133,13 +136,13 @@ export function fill<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Fill *n* elements.
+ * Assign the same value to the first `n` positions.
  *
- * @param range An iterable ranged container.
+ * @param range Range modified in place.
  * @param n Number of elements to fill.
  * @param value Value to assign to each element.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last position filled.
  */
 export function fill_n<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -150,13 +153,14 @@ export function fill_n<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Transform elements.
+ * Apply a unary transformation to each input element and write the results in
+ * traversal order.
  *
- * @param range An iterable ranged container.
- * @param result Beginning of the output range.
+ * @param range Input range.
+ * @param result Iterator to the start of the destination.
  * @param op Unary transformation.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function transform<
   Range extends Array<any> | IForwardContainer<any>,
@@ -170,14 +174,15 @@ export function transform<
 ): OutputIterator;
 
 /**
- * Transform elements.
+ * Apply a binary transformation to corresponding input pairs and write the
+ * results in traversal order.
  *
- * @param range First input range.
+ * @param range Input range.
  * @param first Second input range, with at least as many elements as `range`.
- * @param result Beginning of the output range.
+ * @param result Iterator to the start of the destination.
  * @param op Binary transformation.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function transform<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -206,10 +211,10 @@ export function transform<Range1 extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Generate range elements.
+ * Assign successive results of `gen()` to the range in traversal order.
  *
- * @param range An iterable ranged container.
- * @param gen The generator function.
+ * @param range Range modified in place.
+ * @param gen Function invoked once for each assigned element.
  */
 export function generate<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -219,13 +224,13 @@ export function generate<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Generate *n* elements.
+ * Assign `n` successive results of `gen()` in traversal order.
  *
- * @param range An iterable ranged container.
+ * @param range Range modified in place.
  * @param n Number of elements to generate.
- * @param gen The generator function.
+ * @param gen Function invoked once for each assigned element.
  *
- * @return Forward Iterator to the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function generate_n<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -239,12 +244,12 @@ export function generate_n<Range extends Array<any> | IForwardContainer<any>>(
     REMOVE
 --------------------------------------------------------- */
 /**
- * Test whether elements are unique in sorted range.
+ * Test whether the range has no adjacent equivalent elements.
  *
- * @param range An iterable ranged container.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param range Input range.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
  *
- * @returns Whether unique or not.
+ * @returns Whether there is no adjacent equivalent pair.
  */
 export function is_unique<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -254,12 +259,14 @@ export function is_unique<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Remove duplicated elements in sorted range.
+ * Compact consecutive equivalent elements in place, keeping the first element
+ * of each run. Erase the trailing range separately if the container should
+ * shrink.
  *
- * @param range An iterable ranged container.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param range Range modified in place.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
  *
- * @return Input iterator to the last element not removed.
+ * @return The new logical end of the compacted range.
  */
 export function unique<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -269,13 +276,13 @@ export function unique<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Copy elements in range without duplicates.
+ * Copy only the first element of each consecutive run of equivalent elements.
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the last position.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function unique_copy<
   Range extends Array<any> | IForwardContainer<any>,
@@ -291,12 +298,13 @@ export function unique_copy<
 }
 
 /**
- * Remove specific value in range.
+ * Compact elements that are unequal to `val` in place, preserving their order.
+ * Erase the trailing range separately if the container should shrink.
  *
- * @param range An iterable ranged container.
- * @param val The specific value to remove.
+ * @param range Range modified in place.
+ * @param val Value to exclude.
  *
- * @return Iterator tho the last element not removed.
+ * @return The new logical end of the retained elements.
  */
 export function remove<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -306,12 +314,13 @@ export function remove<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Remove elements in range by a condition.
+ * Compact elements that fail `pred` in place, preserving their order. Erase
+ * the trailing range separately if the container should shrink.
  *
- * @param range An iterable ranged container.
- * @param pred An unary function predicates remove.
+ * @param range Range modified in place.
+ * @param pred Predicate selecting elements to exclude.
  *
- * @return Iterator tho the last element not removed.
+ * @return The new logical end of the retained elements.
  */
 export function remove_if<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -321,13 +330,13 @@ export function remove_if<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Copy range removing specific value.
+ * Copy elements that are unequal to `val` , preserving their order.
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the last position.
- * @param val The condition predicates remove.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
+ * @param val Value to exclude.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function remove_copy<
   Range extends Array<any> | IForwardContainer<any>,
@@ -343,13 +352,13 @@ export function remove_copy<
 }
 
 /**
- * Copy range removing elements by a condition.
+ * Copy elements that fail `pred` , preserving their order.
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the last position.
- * @param pred An unary function predicates remove.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
+ * @param pred Predicate selecting elements to exclude.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function remove_copy_if<
   Range extends Array<any> | IForwardContainer<any>,
@@ -368,11 +377,11 @@ export function remove_copy_if<
     REPLACE & SWAP
 --------------------------------------------------------- */
 /**
- * Replace specific value in range.
+ * Replace every element equal to `old_val` with `new_val` in place.
  *
- * @param range An iterable ranged container.
- * @param old_val Specific value to change
- * @param new_val Specific value to be changed.
+ * @param range Range modified in place.
+ * @param old_val Value to replace.
+ * @param new_val Replacement value.
  */
 export function replace<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -383,11 +392,11 @@ export function replace<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Replace specific condition in range.
+ * Assign `new_val` to every element that satisfies `pred` .
  *
- * @param range An iterable ranged container.
- * @param pred An unary function predicates the change.
- * @param new_val Specific value to be changed.
+ * @param range Range modified in place.
+ * @param pred Predicate selecting elements to replace.
+ * @param new_val Replacement value.
  */
 export function replace_if<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -398,14 +407,14 @@ export function replace_if<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Copy range replacing specific value.
+ * Copy the range, substituting `new_val` for each element equal to `old_val` .
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
- * @param old_val Specific value to change
- * @param new_val Specific value to be changed.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
+ * @param old_val Value to replace.
+ * @param new_val Replacement value.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function replace_copy<
   Range extends Array<any> | IForwardContainer<any>,
@@ -422,14 +431,15 @@ export function replace_copy<
 }
 
 /**
- * Copy range replacing specfic condition.
+ * Copy the range, substituting `new_val` for every element that satisfies
+ * `pred` .
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
- * @param pred An unary function predicates the change.
- * @param new_val Specific value to be changed.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
+ * @param pred Predicate selecting elements to replace.
+ * @param new_val Replacement value.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function replace_copy_if<
   Range extends Array<any> | IForwardContainer<any>,
@@ -446,12 +456,15 @@ export function replace_copy_if<
 }
 
 /**
- * Swap values of two ranges.
+ * Exchange corresponding elements. The second range must contain at least as
+ * many elements as the first.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
+ * @param range1 First input range.
+ * @param range2 Second range, which must contain at least as many elements as
+ * the first.
  *
- * @return Forward Iterator of the last position of the 2nd range by advancing.
+ * @return The iterator immediately after the last element swapped in the
+ * second range.
  */
 export function swap_ranges<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -464,9 +477,9 @@ export function swap_ranges<
     RE-ARRANGEMENT
 --------------------------------------------------------- */
 /**
- * Reverse elements in range.
+ * Reverse the order of the elements in place.
  *
- * @param range An iterable ranged container.
+ * @param range Range modified in place.
  */
 export function reverse<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -475,12 +488,12 @@ export function reverse<
 }
 
 /**
- * Copy reversed elements in range.
+ * Copy the range in reverse order.
  *
- * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
+ * @param range Input range.
+ * @param output Iterator to the start of the destination.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function reverse_copy<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -505,12 +518,14 @@ export function shift_right<
 }
 
 /**
- * Rotate elements in range.
+ * Rotate the range in place so that `middle` becomes its first position in the
+ * resulting order.
  *
- * @param range An iterable ranged container.
- * @param middle Input iterator of the initial position of the right side.
+ * @param range Range modified in place.
+ * @param middle Original position of the element that will come first.
  *
- * @return Iterator to the new position of the original first element, or the end if middle is the beginning.
+ * @return The new position of the original first element. If the split is at
+ * the start or end, the result is the opposite boundary.
  */
 export function rotate<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -520,13 +535,14 @@ export function rotate<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Copy rotated elements in range.
+ * Copy the elements from `middle` to the end, then copy the elements before
+ * `middle` .
  *
- * @param range An iterable ranged container.
- * @param middle Input iterator of the initial position of the right side.
- * @param output Output iterator of the last position.
+ * @param range Input range to copy in rotated order.
+ * @param middle Original position of the element that will come first.
+ * @param output Iterator to the start of the destination.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function rotate_copy<
   Range extends Array<any> | IForwardContainer<any>,
@@ -542,9 +558,9 @@ export function rotate_copy<
 }
 
 /**
- * Shuffle elements in range.
+ * Randomly permute the range in place using `Math.random` .
  *
- * @param range An iterable ranged container.
+ * @param range Range modified in place.
  */
 export function shuffle<Range extends Array<any> | IRandomAccessContainer<any>>(
   range: Range,

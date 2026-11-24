@@ -12,7 +12,7 @@ import { ArrayIteratorBase } from "./ArrayIteratorBase";
 import { ReverseIterator } from "./ReverseIterator";
 
 /**
- * Reverse iterator of Array Containers.
+ * Base reverse iterator for array-backed containers.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

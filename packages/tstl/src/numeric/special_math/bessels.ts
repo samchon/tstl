@@ -19,7 +19,7 @@ const INFINITY = 100; // (1 / 30!) is nearby 0.
     FIRST KIND
 --------------------------------------------------------------- */
 /**
- * Bessel function of the 1st kind.
+ * Evaluate the cylindrical Bessel function of the first kind, `Jν(x)` .
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_first_kind:_J.CE.B1
  */
@@ -40,7 +40,8 @@ export function cyl_bessel_j(n: number, x: number): number {
 }
 
 /**
- * Bessel function of the 2nd kind.
+ * Evaluate the cylindrical Neumann function, also called the Bessel function
+ * of the second kind, `Yν(x)` .
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_second_kind:_Y.CE.B1
  */
@@ -81,7 +82,7 @@ function _J_positive(v: number, x: number): number {
     SPHERICAL
 --------------------------------------------------------------- */
 /**
- * Spherical Bessel function of the 1st kind.
+ * Evaluate the spherical Bessel function of the first kind for degree `n` .
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
  */
@@ -90,7 +91,7 @@ export function sph_bessel(n: number, x: number): number {
 }
 
 /**
- * Spherical Bessel function of the 2nd kind.
+ * Evaluate the spherical Neumann function for degree `n` .
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
  */
@@ -109,7 +110,8 @@ export function sph_neumann(n: number, x: number): number {
     FIRST KIND
 --------------------------------------------------------------- */
 /**
- * Modified cylindrical Bessel function of the 1st kind.
+ * Evaluate the modified cylindrical Bessel function of the first kind, `Iν(x)`
+ * .
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
  */
@@ -146,7 +148,8 @@ function _Bessel_i(v: number, x: number): number {
     SECOND KIND
 --------------------------------------------------------------- */
 /**
- * Modified cylindrical Bessel function of the 2nd kind.
+ * Evaluate the modified cylindrical Bessel function of the second kind,
+ * `Kν(x)` .
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
  */

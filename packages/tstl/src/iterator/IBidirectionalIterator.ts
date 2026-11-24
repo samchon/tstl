@@ -8,7 +8,7 @@
 import { IForwardIterator } from "./IForwardIterator";
 
 /**
- * Bidirectional iterator.
+ * Iterator that can advance or retreat by one position.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -20,9 +20,9 @@ export interface IBidirectionalIterator<
   >,
 > extends IForwardIterator<T, Iterator> {
   /**
-   * Get previous iterator.
+   * Return an iterator one position back without changing this iterator.
    *
-   * @return The previous iterator.
+   * @return The preceding iterator.
    */
   prev(): Iterator;
 }

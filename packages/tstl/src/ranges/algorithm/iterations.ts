@@ -28,12 +28,12 @@ type BinaryPredicatorInferrer<
     FOR_EACH
 --------------------------------------------------------- */
 /**
- * Apply a function to elements in range.
+ * Invoke `fn` for each element in traversal order.
  *
- * @param range An iterable ranged container.
- * @param fn The function to apply.
+ * @param range Input range.
+ * @param fn Function invoked for each element.
  *
- * @return The function *fn* itself.
+ * @return The function that was applied.
  */
 export function for_each<
   Range extends Array<any> | IForwardContainer<any>,
@@ -43,13 +43,14 @@ export function for_each<
 }
 
 /**
- * Apply a function to elements in steps.
+ * Invoke `fn` for the first `n` elements starting at `first` , in traversal
+ * order.
  *
- * @param range An iterable ranged container.
+ * @param range Input range.
  * @param n Steps to maximum advance.
- * @param fn The function to apply.
+ * @param fn Function invoked for each element.
  *
- * @return Iterator advanced from *first* for *n* steps.
+ * @return The iterator immediately after the visited elements.
  */
 export function for_each_n<
   Range extends Array<any> | IForwardContainer<any>,
@@ -62,12 +63,13 @@ export function for_each_n<
     AGGREGATE CONDITIONS
 --------------------------------------------------------- */
 /**
- * Test whether all elements meet a specific condition.
+ * Test whether every element satisfies `pred` . An empty range satisfies this
+ * condition.
  *
- * @param range An iterable ranged container.
- * @param pred A function predicates the specific condition.
+ * @param range Input range.
+ * @param pred Predicate to test each element.
  *
- * @return Whether the *pred* returns always `true` for all elements.
+ * @return Whether every element satisfies the predicate.
  */
 export function all_of<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -77,12 +79,12 @@ export function all_of<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Test whether any element meets a specific condition.
+ * Test whether at least one element satisfies `pred` .
  *
- * @param range An iterable ranged container.
- * @param pred A function predicates the specific condition.
+ * @param range Input range.
+ * @param pred Predicate to test each element.
  *
- * @return Whether the *pred* returns at least a `true` for all elements.
+ * @return Whether any element satisfies the predicate.
  */
 export function any_of<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -92,12 +94,13 @@ export function any_of<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Test whether any element doesn't meet a specific condition.
+ * Test whether no element satisfies `pred` . An empty range satisfies this
+ * condition.
  *
- * @param range An iterable ranged container.
- * @param pred A function predicates the specific condition.
+ * @param range Input range.
+ * @param pred Predicate to test each element.
  *
- * @return Whether the *pred* doesn't return `true` for all elements.
+ * @return Whether no element satisfies the predicate.
  */
 export function none_of<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -107,12 +110,14 @@ export function none_of<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Test whether two ranges are equal.
+ * Compare corresponding elements in traversal order. Both ranges must have the
+ * same size to compare equal.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
+ * @param range1 First input range.
+ * @param range2 Second input range.
  *
- * @return Whether two ranges are equal.
+ * @return Whether both ranges have the same size and all corresponding
+ * elements match.
  */
 export function equal<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -120,13 +125,15 @@ export function equal<
 >(range1: Range1, range2: Range2): boolean;
 
 /**
- * Test whether two ranges are equal.
+ * Compare corresponding elements in traversal order. Both ranges must have the
+ * same size to compare equal.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param pred A binary function predicates two arguments are equal.
+ * @param range1 First input range.
+ * @param range2 Second input range.
+ * @param pred Predicate for equivalence.
  *
- * @return Whether two ranges are equal.
+ * @return Whether both ranges have the same size and all corresponding
+ * elements match.
  */
 export function equal<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -150,13 +157,15 @@ export function equal<
 }
 
 /**
- * Compare lexicographically.
+ * Compare two ranges lexicographically. A proper prefix precedes the longer
+ * range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range1 First input range.
+ * @param range2 Second input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Whether the 1st range precedes the 2nd.
+ * @return Whether the first range precedes the second.
  */
 export function lexicographical_compare<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -179,12 +188,12 @@ export function lexicographical_compare<
     FINDERS
 --------------------------------------------------------- */
 /**
- * Find a value in range.
+ * Find the first occurrence of `val` .
  *
- * @param range An iterable ranged container.
- * @param val The value to find.
+ * @param range Range to search.
+ * @param val Value to look for.
  *
- * @return Iterator to the first element {@link equal to equal_to} the value.
+ * @return The first matching iterator, or the end of the range.
  */
 export function find<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -194,12 +203,12 @@ export function find<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find a matched condition in range.
+ * Find the first element that satisfies `pred` .
  *
- * @param range An iterable ranged container.
- * @param pred A function predicates the specific condition.
+ * @param range Range to search.
+ * @param pred Predicate to test each element.
  *
- * @return Iterator to the first element *pred* returns `true`.
+ * @return The first matching iterator, or the end of the range.
  */
 export function find_if<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -209,12 +218,12 @@ export function find_if<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find a mismatched condition in range.
+ * Find the first element that fails `pred` .
  *
- * @param range An iterable ranged container.
- * @param pred A function predicates the specific condition.
+ * @param range Range to search.
+ * @param pred Predicate to test each element.
  *
- * @return Iterator to the first element *pred* returns `false`.
+ * @return The first matching iterator, or the end of the range.
  */
 export function find_if_not<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -224,12 +233,13 @@ export function find_if_not<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the last sub range.
+ * Find the last contiguous occurrence of the second range in the first range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
+ * @param range1 First input range.
+ * @param range2 Second input range.
  *
- * @return Iterator to the first element of the last sub range.
+ * @return The start of the last match, or the end of the first range if no
+ * match exists.
  */
 export function find_end<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -237,13 +247,14 @@ export function find_end<
 >(range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 /**
- * Find the last sub range.
+ * Find the last contiguous occurrence of the second range in the first range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param pred A binary function predicates two arguments are equal.
+ * @param range1 First input range.
+ * @param range2 Second input range.
+ * @param pred Predicate for equivalence.
  *
- * @return Iterator to the first element of the last sub range.
+ * @return The start of the last match, or the end of the first range if no
+ * match exists.
  */
 export function find_end<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -272,12 +283,13 @@ export function find_end<
 }
 
 /**
- * Find the first sub range.
+ * Find the first element of the first range that matches any element of the
+ * second range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
+ * @param range1 First input range.
+ * @param range2 Second input range.
  *
- * @return Iterator to the first element of the first sub range.
+ * @return The first matching iterator, or the end of the first range.
  */
 export function find_first_of<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -285,13 +297,14 @@ export function find_first_of<
 >(range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 /**
- * Find the first sub range.
+ * Find the first element of the first range that matches any element of the
+ * second range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param pred A binary function predicates two arguments are equal.
+ * @param range1 First input range.
+ * @param range2 Second input range.
+ * @param pred Predicate for equivalence.
  *
- * @return Iterator to the first element of the first sub range.
+ * @return The first matching iterator, or the end of the first range.
  */
 export function find_first_of<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -320,12 +333,12 @@ export function find_first_of<
 }
 
 /**
- * Find the first adjacent element.
+ * Find the first adjacent pair that satisfies `pred` .
  *
- * @param range An iterable ranged container.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param range Range to search.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
  *
- * @return Iterator to the first element of adjacent find.
+ * @return The first iterator in the matching pair, or the end of the range.
  */
 export function adjacent_find<
   Range extends Array<any> | IForwardContainer<any>,
@@ -337,12 +350,13 @@ export function adjacent_find<
 }
 
 /**
- * Search sub range.
+ * Find the first contiguous occurrence of the second range in the first range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
+ * @param range1 First input range.
+ * @param range2 Second input range.
  *
- * @return Iterator to the first element of the sub range.
+ * @return The start of the match, or the end of the first range if no match
+ * exists.
  */
 export function search<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -350,13 +364,14 @@ export function search<
 >(range1: Range1, range2: Range2): IForwardContainer.IteratorType<Range1>;
 
 /**
- * Search sub range.
+ * Find the first contiguous occurrence of the second range in the first range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param pred A binary function predicates two arguments are equal.
+ * @param range1 First input range.
+ * @param range2 Second input range.
+ * @param pred Predicate for equivalence.
  *
- * @return Iterator to the first element of the sub range.
+ * @return The start of the match, or the end of the first range if no match
+ * exists.
  */
 export function search<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -385,14 +400,15 @@ export function search<
 }
 
 /**
- * Search specific and repeated elements.
+ * Find the first run of `count` consecutive elements that match `val` .
  *
- * @param range An iterable ranged container.
- * @param count Count to be repeated.
- * @param val Value to search.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param range Range to search.
+ * @param count Length of the requested run.
+ * @param val Value to look for.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
  *
- * @return The first matching position, the beginning when count is nonpositive, or the end if no match is found.
+ * @return The first iterator for a nonpositive count, the start of the run
+ * when found, or the end of the range.
  */
 export function search_n<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -404,12 +420,13 @@ export function search_n<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the first mistmached position between two ranges.
+ * Find the first pair of corresponding elements that fails the equality test.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
+ * @param range1 First input range.
+ * @param range2 Second input range.
  *
- * @return A {@link Pair} of mismatched positions.
+ * @return A pair at the first mismatch, or both current positions when either
+ * range ends.
  */
 export function mismatch<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -423,13 +440,14 @@ export function mismatch<
 >;
 
 /**
- * Find the first mistmached position between two ranges.
+ * Find the first pair of corresponding elements that fails the equality test.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param pred A binary function predicates two arguments are equal.
+ * @param range1 First input range.
+ * @param range2 Second input range.
+ * @param pred Predicate for equivalence.
  *
- * @return A {@link Pair} of mismatched positions.
+ * @return A pair at the first mismatch, or both current positions when either
+ * range ends.
  */
 export function mismatch<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -474,12 +492,12 @@ export function mismatch<
     COUNTERS
 --------------------------------------------------------- */
 /**
- * Count matched value in range.
+ * Count the elements equal to `val` .
  *
- * @param range An iterable ranged container.
+ * @param range Input range.
  * @param val The value to count.
  *
- * @return The matched count.
+ * @return The number of matching elements.
  */
 export function count<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -489,12 +507,12 @@ export function count<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Count matched condition in range.
+ * Count the elements that satisfy `pred` .
  *
- * @param range An iterable ranged container.
- * @param pred A function predicates the specific condition.
+ * @param range Input range.
+ * @param pred Predicate to test each element.
  *
- * @return The matched count.
+ * @return The number of matching elements.
  */
 export function count_if<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,

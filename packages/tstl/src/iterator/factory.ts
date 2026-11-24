@@ -25,10 +25,11 @@ import { InsertIterator } from "./InsertIterator";
 // BEGIN & END
 //----
 /**
- * Iterator to the first element.
+ * Get the start of an array or container range.
  *
- * @param container Target container.
- * @return Iterator to the first element.
+ * @param container Array or container to traverse.
+ * @return The first iterator, equal to the end iterator when the range is
+ * empty.
  */
 export function begin<Container extends Array<any> | IForwardContainer<any>>(
   container: Container,
@@ -40,10 +41,10 @@ export function begin<T>(container: Array<T> | Vector<T>): Vector.Iterator<T> {
 }
 
 /**
- * Iterator to the end.
+ * Get the past-the-end iterator for an array or container.
  *
- * @param container Target container.
- * @return Iterator to the end.
+ * @param container Array or container to traverse.
+ * @return The exclusive end of the range.
  */
 export function end<Container extends Array<any> | IForwardContainer<any>>(
   container: Container,
@@ -55,10 +56,11 @@ export function end<T>(container: Array<T> | Vector<T>): Vector.Iterator<T> {
 }
 
 /**
- * Get reverse iterator to the first element in reverse.
+ * Get the start of reverse traversal.
  *
- * @param container Target container.
- * @return The reverse iterator to the first.
+ * @param container Array or reversible container to traverse.
+ * @return The reverse iterator to the last element, or the reverse end for an
+ * empty range.
  */
 export function rbegin<
   Container extends Array<any> | IBidirectionalContainer<any, any>,
@@ -72,10 +74,10 @@ export function rbegin<T>(
 }
 
 /**
- * Get reverse iterator to the reverse end.
+ * Get the past-the-end iterator for reverse traversal.
  *
- * @param container Target container.
- * @return The reverse iterator to the end.
+ * @param container Array or reversible container to traverse.
+ * @return The exclusive end of the reverse range.
  */
 export function rend<
   Container extends Array<any> | IBidirectionalContainer<any, any>,
@@ -89,10 +91,10 @@ export function rend<T>(
 }
 
 /**
- * Construct reverse iterator.
+ * Construct a reverse iterator from its underlying forward position.
  *
- * @param it Target iterator that reversable.
- * @return The reverse iterator object.
+ * @param it Forward iterator that supplies a reverse iterator.
+ * @return A reverse iterator with `it` as its base.
  */
 export function make_reverse_iterator<
   IteratorT extends IReversableIterator<
@@ -113,11 +115,12 @@ export function make_reverse_iterator<
     INSERTERS
 --------------------------------------------------------- */
 /**
- * Construct insert iterator.
+ * Create an output iterator that inserts assigned values at the given
+ * position.
  *
- * @param container Target container.
- * @param it Iterator to the first insertion position.
- * @return The {@link InsertIterator insert iterator} object.
+ * @param container Container receiving the inserted values.
+ * @param it Position before which to insert the first value.
+ * @return An insertion iterator for the container.
  */
 export function inserter<
   Container extends IInsert<Iterator>,
@@ -127,10 +130,10 @@ export function inserter<
 }
 
 /**
- * Construct front insert iterator.
+ * Create an output iterator that prepends each assigned value.
  *
- * @param source Target container.
- * @return The {@link FrontInsertIterator front insert iterator} object.
+ * @param source Container receiving the prepended values.
+ * @return A front insertion iterator for the destination.
  */
 export function front_inserter<
   Source extends IPushFront<FrontInsertIterator.ValueType<Source>>,
@@ -139,10 +142,10 @@ export function front_inserter<
 }
 
 /**
- * Construct back insert iterator.
+ * Create an output iterator that appends each assigned value.
  *
- * @param source Target container.
- * @return A {@link BackInsertIterator} that appends assigned values.
+ * @param source Array or container receiving the appended values.
+ * @return A back insertion iterator for the destination.
  */
 export function back_inserter<Source extends Array<any> | IPushBack<any>>(
   source: Source,

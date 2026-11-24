@@ -5,7 +5,7 @@
  */
 //================================================================
 /**
- * Base Exception.
+ * Base class for the library's errors, with a message and stack trace.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -14,9 +14,9 @@ export class Exception extends Error {
         CONSTRUCTOR
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create the exception with the supplied error details.
    *
-   * @param message The error messgae.
+   * @param message The error message.
    */
   public constructor(message: string) {
     super(message);
@@ -31,27 +31,26 @@ export class Exception extends Error {
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * The error name.
+   * Get the concrete exception class name.
    */
   public get name(): string {
     return this.constructor.name;
   }
 
   /**
-   * Get error message.
+   * Get the stored error message.
    *
-   * @return The error message.
+   * @return The error's message text.
    */
   public what(): string {
     return this.message;
   }
 
   /**
-   * Native function for `JSON.stringify()`.
+   * Return the error's name, message, and stack for JSON serialization.
+   * Subclasses can override this method to include their own fields.
    *
-   * The {@link Exception.toJSON} function returns only three properties; ({@link name}, {@link message} and {@link stack}). If you want to define a new sub-class extending the {@link Exception} and const the class to export additional props (or remove some props), override this {@link Exception.toJSON} method.
-   *
-   * @return An object for `JSON.stringify()`.
+   * @return A plain object with `name` , `message` , and `stack` .
    */
   public toJSON(): object {
     return {

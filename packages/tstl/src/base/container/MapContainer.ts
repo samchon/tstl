@@ -17,7 +17,7 @@ import { Container } from "./Container";
 import { IContainer } from "./IContainer";
 
 /**
- * Basic map container.
+ * Base class for containers that associate keys with mapped values.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -72,7 +72,7 @@ export abstract class MapContainer<
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty MapContainer.
    */
   protected constructor(
     factory: (
@@ -260,9 +260,9 @@ export abstract class MapContainer<
   public abstract swap(obj: Source): void;
 
   /**
-   * Merge two containers.
+   * Add entries from the source using this map's key handling rules.
    *
-   * @param source Source container to transfer.
+   * @param source Map to merge into this container.
    */
   public abstract merge(source: Source): void;
 
@@ -275,11 +275,11 @@ export abstract class MapContainer<
 }
 
 /**
- *
+ * Type utilities for MapContainer.
  */
 export namespace MapContainer {
   /**
-   * Return type of {@link MapContainer.insert}
+   * Result type of `MapContainer.insert` for the concrete map.
    */
   export type InsertRet<
     Key,
@@ -298,7 +298,7 @@ export namespace MapContainer {
   > = Unique extends true ? Pair<IteratorT, boolean> : IteratorT;
 
   /**
-   * Iterator of {@link MapContainer}
+   * Iterator over the elements of `MapContainer` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -328,7 +328,7 @@ export namespace MapContainer {
     >;
 
   /**
-   * Reverse iterator of {@link MapContainer}
+   * Iterator for reverse traversal of `MapContainer` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -359,12 +359,12 @@ export namespace MapContainer {
 
   interface IteratorBase<Key, T> {
     /**
-     * The first, key element.
+     * The key associated with the entry.
      */
     readonly first: Key;
 
     /**
-     * The second, stored element.
+     * The value stored for this entry's key.
      */
     second: T;
   }

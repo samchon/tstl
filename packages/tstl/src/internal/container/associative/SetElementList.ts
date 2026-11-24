@@ -11,7 +11,7 @@ import { ReverseIterator as _ReverseIterator } from "../../iterator/ReverseItera
 import { ListContainer } from "../linear/ListContainer";
 
 /**
- * Doubly Linked List storing set elements.
+ * Doubly linked storage for set elements.
  *
  * @template Key Key type
  * @template Unique Whether duplicated key is blocked or not
@@ -83,11 +83,11 @@ export class SetElementList<
 }
 
 /**
- *
+ * Iterator types for the element storage.
  */
 export namespace SetElementList {
   /**
-   * Iterator of set container storing elements in a list.
+   * Iterator over the elements of `SetElementList` .
    *
    * @template Key Key type
    * @template Unique Whether duplicated key is blocked or not
@@ -178,7 +178,7 @@ export namespace SetElementList {
   }
 
   /**
-   * Reverser iterator of set container storing elements in a list.
+   * Iterator over the container's elements in reverse traversal order.
    *
    * @template Key Key type
    * @template Unique Whether duplicated key is blocked or not

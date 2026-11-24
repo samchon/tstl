@@ -6,10 +6,10 @@
 //================================================================
 export interface IPush<T> {
   /**
-   * Insert items at the end.
+   * Append the supplied elements in argument order.
    *
-   * @param items Items to insert.
-   * @return Number of elements in the container after insertion.
+   * @param items Elements to append.
+   * @return The size after appending.
    */
   push(...items: T[]): number;
 }

@@ -12,7 +12,7 @@ import { MathUtil } from "../../internal/numeric/MathUtil";
     FIRST
 --------------------------------------------------------------- */
 /**
- * Incomplete elliptic integral of the 1st kind.
+ * Evaluate the incomplete elliptic integral of the first kind.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_first_kind
  */
@@ -25,7 +25,7 @@ export function ellint_1(k: number, phi: number): number {
 }
 
 /**
- * Complete elliptic integral of the 1st kind.
+ * Evaluate the complete elliptic integral of the first kind.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Elliptic_integral_of_the_first_kind
  */
@@ -37,7 +37,7 @@ export function comp_ellint_1(k: number): number {
     SECOND
 --------------------------------------------------------------- */
 /**
- * Incomplete elliptic integral of the 2nd kind.
+ * Evaluate the incomplete elliptic integral of the second kind.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_second_kind
  */
@@ -49,7 +49,7 @@ export function ellint_2(k: number, phi: number): number {
 }
 
 /**
- * Complete elliptic integral of the 2nd kind.
+ * Evaluate the complete elliptic integral of the second kind.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_second_kind
  */
@@ -61,7 +61,7 @@ export function comp_ellint_2(k: number): number {
     THIRD
 --------------------------------------------------------------- */
 /**
- * Incomplete elliptic integral of the 3rd kind.
+ * Evaluate the incomplete elliptic integral of the third kind.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_third_kind
  */
@@ -77,7 +77,7 @@ export function ellint_3(k: number, v: number, phi: number): number {
 }
 
 /**
- * Complete elliptic integral of the 3rd kind.
+ * Evaluate the complete elliptic integral of the third kind.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_third_kind
  */

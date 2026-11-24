@@ -11,7 +11,7 @@ import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBas
 import { VectorContainer } from "../linear/VectorContainer";
 
 /**
- * Vector storing set elements.
+ * Array-backed storage for set elements.
  *
  * @template Key Key type
  * @template Unique Whether duplicated key is blocked or not
@@ -81,11 +81,11 @@ export class SetElementVector<
 }
 
 /**
- *
+ * Iterator types for the element storage.
  */
 export namespace SetElementVector {
   /**
-   * Iterator of set container storing elements in a vector.
+   * Iterator over the elements of `SetElementVector` .
    *
    * @template Key Key type
    * @template Unique Whether duplicated key is blocked or not
@@ -137,7 +137,7 @@ export namespace SetElementVector {
   }
 
   /**
-   * Reverse iterator of set container storing elements in a vector.
+   * Iterator for reverse traversal of `SetElementVector` .
    *
    * @template Key Key type
    * @template Unique Whether duplicated key is blocked or not

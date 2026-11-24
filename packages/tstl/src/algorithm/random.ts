@@ -11,12 +11,12 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { distance } from "../iterator/global";
 
 /**
- * Generate random integer.
+ * Draw a random integer between integer bounds `x` and `y` , inclusive.
  *
  * @param x Minimum value.
  * @param y Maximum value.
  *
- * @return A random integer between [x, y].
+ * @return An integer in the inclusive interval.
  */
 export function randint(x: number, y: number): number {
   const rand: number = Math.random() * (y - x + 1);
@@ -24,14 +24,16 @@ export function randint(x: number, y: number): number {
 }
 
 /**
- * Sample without replacement in the input's order.
+ * Select up to `n` elements without replacement and write them in input order.
+ * The destination must be outside the input range. Runs in linear time with
+ * constant extra storage.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param output Output iterator of the first position.
- * @param n Number of elements to pick up.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param output Iterator to the start of the destination.
+ * @param n Maximum number of elements to select.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function sample<
   InputIterator extends Readonly<

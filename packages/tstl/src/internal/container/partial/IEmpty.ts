@@ -6,7 +6,7 @@
 //================================================================
 export interface IEmpty {
   /**
-   * Test whether container is empty.
+   * Test whether the container has zero elements.
    */
   empty(): boolean;
 }

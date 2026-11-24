@@ -22,10 +22,12 @@ import { IRandomAccessIterator } from "./IRandomAccessIterator";
     ACCESSORS
 --------------------------------------------------------- */
 /**
- * Test whether a container is empty.
+ * Report a container's emptiness. The current native-array branch returns
+ * `true` for nonempty arrays.
  *
- * @param source Target container.
- * @return Whether empty or not.
+ * @param source Array or container to inspect.
+ * @return For TSTL containers, the result of `source.empty()` . For native
+ * arrays, whether `source.length` is nonzero.
  */
 export function empty(source: Array<any> | IEmpty): boolean {
   if (source instanceof Array) return source.length !== 0;
@@ -33,10 +35,10 @@ export function empty(source: Array<any> | IEmpty): boolean {
 }
 
 /**
- * Get number of elements of a container.
+ * Get the number of elements in an array or container.
  *
- * @param source Target container.
- * @return The number of elements in the container.
+ * @param source Array or container to inspect.
+ * @return The number of elements.
  */
 export function size(source: Array<any> | ISize): number {
   if (source instanceof Array) return source.length;
@@ -44,12 +46,15 @@ export function size(source: Array<any> | ISize): number {
 }
 
 /**
- * Get distance between two iterators.
+ * Measure the distance from `first` to `last` in traversal order. The iterator
+ * must be able to reach `last` unless both positions support index-based
+ * distance.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
+ * @param first Starting position.
+ * @param last Destination position.
  *
- * @return The distance.
+ * @return The number of steps, or a signed difference when using indexed
+ * iterators.
  */
 export function distance<
   InputIterator extends Readonly<
@@ -87,12 +92,13 @@ function _Distance_via_index<
     ACCESSORS
 --------------------------------------------------------- */
 /**
- * Advance iterator.
+ * Return an iterator offset by `n` positions. A negative offset requires
+ * backward traversal support.
  *
- * @param it Target iterator to advance.
- * @param n Step to advance.
+ * @param it Starting iterator.
+ * @param n Signed number of steps in traversal order.
  *
- * @return The advanced iterator.
+ * @return The iterator reached after moving by `n` .
  */
 export function advance<
   InputIterator extends IForwardIterator<
@@ -126,11 +132,11 @@ export function advance<
 }
 
 /**
- * Get previous iterator.
+ * Return an iterator `n` positions before `it` .
  *
- * @param it Iterator to move.
- * @param n Step to move prev.
- * @return An iterator moved to prev *n* steps.
+ * @param it Starting iterator.
+ * @param n Number of steps backward. Defaults to `1` .
+ * @return The resulting iterator.
  */
 export function prev<
   BidirectionalIterator extends IBidirectionalIterator<
@@ -143,11 +149,11 @@ export function prev<
 }
 
 /**
- * Get next iterator.
+ * Return an iterator `n` positions after `it` .
  *
- * @param it Iterator to move.
- * @param n Step to move next.
- * @return Iterator moved to next *n* steps.
+ * @param it Starting iterator.
+ * @param n Number of steps forward. Defaults to `1` .
+ * @return The resulting iterator.
  */
 export function next<
   ForwardIterator extends IForwardIterator<

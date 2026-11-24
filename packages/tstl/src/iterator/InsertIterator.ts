@@ -12,7 +12,8 @@ import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 import { IForwardIterator } from "./IForwardIterator";
 
 /**
- * Insert iterator.
+ * Output iterator that inserts each assigned value at its current insertion
+ * position.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -30,7 +31,7 @@ export class InsertIterator<
         METHODS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create an iterator that inserts assigned values at a position.
    *
    * @param container Target container to insert.
    * @param it Iterator to the position to insert.

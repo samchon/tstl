@@ -8,11 +8,8 @@
 import { ConditionVariable } from "./ConditionVariable";
 
 /**
- * Barrier for critical sections.
- *
- * The Barrier class blocks critical sections until the downward counter to be zero. Unlike the
- * {@link Latch} class whose downward counter is disposable, `Barrier` can re-use the downward
- * counter repeatedly, resetting counter to be initial value whenever reach to the zero.
+ * Reusable barrier for synchronizing asynchronous callers in phases. Each
+ * phase completes when its expected arrivals have been registered.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -23,9 +20,9 @@ export class Barrier {
   private count_: number;
 
   /**
-   * Initializer Constructor
+   * Create a barrier whose first phase expects `size` arrivals.
    *
-   * @param size Size of the downward counter.
+   * @param size Initial number of arrivals expected per phase.
    */
   public constructor(size: number) {
     this.cv_ = new ConditionVariable();
@@ -38,39 +35,28 @@ export class Barrier {
         WAIT FUNCTIONS
     --------------------------------------------------------- */
   /**
-   * Waits until the counter to be zero.
-   *
-   * Blocks the function calling until internal counter to be reached to the zero.
+   * Wait for the current phase to complete. Calling this method leaves the
+   * arrival count unchanged.
    */
   public wait(): Promise<void> {
     return this.cv_.wait();
   }
 
   /**
-   * Tries to wait until the counter to be zero in timeout.
+   * Wait for the current phase to complete before the timeout elapses.
    *
-   * Attempts to block the function calling until internal counter to be reached to the zero
-   * in timeout. If succeeded to waiting the counter to be reached to the zero, it returns
-   * `true`. Otherwise, the {@link Barrier} fails to reach to the zero in the given time, the
-   * function gives up the waiting and returns `false`.
-   *
-   * @param ms The maximum miliseconds for waiting.
-   * @return Whether succeeded to waiting in the given time.
+   * @param ms Maximum time to wait, in milliseconds.
+   * @return `true` when the phase completes before the timeout.
    */
   public wait_for(ms: number): Promise<boolean> {
     return this.cv_.wait_for(ms);
   }
 
   /**
-   * Tries to wait until the counter to be zero in time expiration.
+   * Wait for the current phase to complete by the given deadline.
    *
-   * Attempts to block the function calling until internal counter to be reached to the zero
-   * in time expiration. If succeeded to waiting the counter to be reached to the zero, it
-   * returns `true`. Otherwise, the {@link Barrier} fails to reach to the zero in the given
-   * time, the function gives up the waiting and returns `false`.
-   *
-   * @param at The maximum time point to wait.
-   * @return Whether succeeded to waiting in the given time.
+   * @param at Wall-clock deadline.
+   * @return `true` when the phase completes before the deadline.
    */
   public wait_until(at: Date): Promise<boolean> {
     return this.cv_.wait_until(at);
@@ -80,11 +66,10 @@ export class Barrier {
         ARRIVAL FUNCTIONS
     --------------------------------------------------------- */
   /**
-   * Register `n` arrivals in the current phase.
+   * Register `n` arrivals without waiting for any outstanding arrivals. The
+   * final arrival releases current waiters and starts the next phase.
    *
-   * The final arrival releases current waiters and resets the counter for the next phase.
-   *
-   * @param n Value of the decrement. Default is 1.
+   * @param n Number of arrivals to register. Defaults to `1` .
    */
   public async arrive(n: number = 1): Promise<void> {
     this.count_ -= n;
@@ -104,7 +89,8 @@ export class Barrier {
   }
 
   /**
-   * Register one arrival and reduce the expected count for future phases by one.
+   * Register one arrival in the current phase and reduce the expected arrivals
+   * in later phases by one.
    */
   public async arrive_and_drop(): Promise<void> {
     --this.size_;

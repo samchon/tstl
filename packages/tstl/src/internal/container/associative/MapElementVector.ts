@@ -13,7 +13,7 @@ import { ArrayReverseIteratorBase } from "../../iterator/ArrayReverseIteratorBas
 import { VectorContainer } from "../linear/VectorContainer";
 
 /**
- * Vector storing map elements.
+ * Array-backed storage for map entries.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -88,11 +88,11 @@ export class MapElementVector<
 }
 
 /**
- *
+ * Iterator types for the element storage.
  */
 export namespace MapElementVector {
   /**
-   * Iterator of map container storing elements in a vector.
+   * Iterator over the elements of `MapElementVector` .
    *
    * @template Key Key type
    * @template T Mapped type
@@ -175,7 +175,7 @@ export namespace MapElementVector {
   }
 
   /**
-   * Reverse iterator of map container storing elements in a vector.
+   * Iterator for reverse traversal of `MapElementVector` .
    *
    * @template Key Key type
    * @template T Mapped type

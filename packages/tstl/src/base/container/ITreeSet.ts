@@ -9,7 +9,7 @@ import { ITreeContainer } from "../../internal/container/associative/ITreeContai
 import { SetContainer } from "./SetContainer";
 
 /**
- * Common interface for tree sets.
+ * Set interface whose keys are traversed in comparator order.
  *
  * @template Key Key type
  * @template Unique Whether duplicated key is blocked or not
@@ -36,7 +36,7 @@ export interface ITreeSet<
 
 export namespace ITreeSet {
   /**
-   * Iterator of {@link ITreeSet}
+   * Iterator over the elements of `ITreeSet` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -49,7 +49,7 @@ export namespace ITreeSet {
   > = SetContainer.Iterator<Key, Unique, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Reverse iterator of {@link ITreeSet}
+   * Iterator for reverse traversal of `ITreeSet` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */

@@ -14,7 +14,8 @@ import { IReverseIterator } from "../../iterator/IReverseIterator";
 import { IBidirectionalContainer } from "../../ranges/container/IBidirectionalContainer";
 
 /**
- * Common interface for containers.
+ * Common interface for containers that support iteration, assignment, and
+ * erasure.
  *
  * @template T Stored elements' type
  * @template SourceT Derived type extending this {@link IContainer}
@@ -48,10 +49,10 @@ export interface IContainer<
         ASSIGN & CLEAR
     --------------------------------------------------------- */
   /**
-   * Range Assigner.
+   * Replace the contents with the elements in the half-open input range.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   assign<
     InputIterator extends Readonly<IForwardIterator<PElem, InputIterator>>,
@@ -116,19 +117,20 @@ export interface IContainer<
   push(...items: PElem[]): number;
 
   /**
-   * Erase an element.
+   * Erase the element at `pos` .
    *
-   * @param pos Position to erase.
-   * @return Iterator following the *pos*, strained by the erasing.
+   * @param pos Iterator to the element to erase.
+   * @return An iterator to the following position, or the end of the
+   * container.
    */
   erase(pos: IteratorT): IteratorT;
 
   /**
-   * Erase elements in range.
+   * Erase the elements in the half-open range `[first, last)` .
    *
-   * @param first Range of the first position to erase.
-   * @param last Rangee of the last position to erase.
-   * @return Iterator following the last removed element, strained by the erasing.
+   * @param first Start of the range to erase.
+   * @param last Exclusive end of the range to erase.
+   * @return An iterator to the position following the erased range.
    */
   erase(first: IteratorT, last: IteratorT): IteratorT;
 
@@ -136,23 +138,23 @@ export interface IContainer<
         UTILITIES
     --------------------------------------------------------------- */
   /**
-   * Swap elements.
+   * Exchange the contents of the two containers.
    *
-   * @param obj Target container to swap.
+   * @param obj Other container whose contents are exchanged with this one.
    */
   swap(obj: SourceT): void;
 
   /**
-   * Native function for `JSON.stringify()`.
+   * Return the elements in traversal order for JSON serialization.
    *
-   * @return An array containing children elements.
+   * @return An array of the elements in traversal order.
    */
   toJSON(): Array<T>;
 }
 
 export namespace IContainer {
   /**
-   * Iterator of {@link IContainer}.
+   * Iterator over the elements of `IContainer` .
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -170,7 +172,7 @@ export namespace IContainer {
     Elem = T,
   > extends Readonly<IReversableIterator<T, IteratorT, ReverseIteratorT>> {
     /**
-     * Get source container.
+     * Get the container associated with this iterator.
      *
      * @return The source container.
      */
@@ -183,7 +185,7 @@ export namespace IContainer {
   }
 
   /**
-   * Reverse iterator of {@link IContainer}
+   * Iterator for reverse traversal of `IContainer` .
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -195,7 +197,7 @@ export namespace IContainer {
     Elem = T,
   > extends Readonly<IReverseIterator<T, IteratorT, ReverseT>> {
     /**
-     * Get source container.
+     * Get the container associated with this iterator.
      *
      * @return The source container.
      */

@@ -12,7 +12,7 @@ import { ArrayContainer } from "../container/linear/ArrayContainer";
 import { ArrayReverseIteratorBase } from "./ArrayReverseIteratorBase";
 
 /**
- * Iterator of Array Containers.
+ * Base iterator for array-backed containers.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -48,10 +48,10 @@ export abstract class ArrayIteratorBase<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create an iterator at an index in the underlying array.
    *
-   * @param source Source container.
-   * @param index Index number.
+   * @param array Array traversed by the iterator.
+   * @param index Zero-based index.
    */
   public constructor(array: ArrayT, index: number) {
     this.array_ = array;

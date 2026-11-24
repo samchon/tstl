@@ -11,7 +11,7 @@ import { IPair } from "../../utility/IPair";
 import { MapContainer } from "./MapContainer";
 
 /**
- * Common interface for tree maps.
+ * Map interface whose keys are traversed in comparator order.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -55,7 +55,7 @@ export interface ITreeMap<
 
 export namespace ITreeMap {
   /**
-   * Iterator of {@link ITreeMap}
+   * Iterator over the elements of `ITreeMap` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -76,7 +76,7 @@ export namespace ITreeMap {
   > = MapContainer.Iterator<Key, T, Unique, Source, IteratorT, ReverseT>;
 
   /**
-   * Reverse iterator of {@link ITreeMap}
+   * Iterator for reverse traversal of `ITreeMap` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */

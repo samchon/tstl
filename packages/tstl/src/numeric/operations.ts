@@ -12,7 +12,8 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { minus, multiplies, plus } from "./operators";
 
 /**
- * Return the nonnegative greatest common divisor of two integers.
+ * Return the nonnegative greatest common divisor of two integers. The result
+ * is zero when both operands are zero.
  */
 export function gcd(x: number, y: number): number {
   y = y.valueOf(); // `Number` to `number`
@@ -22,8 +23,8 @@ export function gcd(x: number, y: number): number {
 }
 
 /**
- * Return the nonnegative least common multiple of two integers.
- * The result is zero if either integer is zero.
+ * Return the nonnegative least common multiple of two integers. The result is
+ * zero when either operand is zero.
  */
 export function lcm(x: number, y: number): number {
   if (x === 0 || y === 0) return 0;
@@ -193,8 +194,9 @@ export function exclusive_scan<
 }
 
 /**
- * Write each prefix reduction of the transformed input.
- * When supplied, `unary(init)` precedes the first transformed value.
+ * Write each prefix reduction of the transformed input. When an initial value
+ * is supplied, apply `unary` to it and combine it before the first transformed
+ * element. The output can begin at the input's first position.
  */
 export function transform_inclusive_scan<
   InputIterator extends Readonly<
@@ -230,7 +232,8 @@ export function transform_inclusive_scan<
 
 /**
  * Write the reduction of `unary(init)` and the transformed input preceding
- * each position. The first output is `unary(init)`.
+ * each position. The first output is `unary(init)` . The output can begin at
+ * the input's first position.
  */
 export function transform_exclusive_scan<
   InputIterator extends Readonly<

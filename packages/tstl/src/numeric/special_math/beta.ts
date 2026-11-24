@@ -8,7 +8,7 @@
 import { tgamma } from "./gamma";
 
 /**
- * Beta function.
+ * Evaluate the beta function for `x` and `y` .
  *
  * @reference https://en.wikipedia.org/wiki/Beta_function
  */

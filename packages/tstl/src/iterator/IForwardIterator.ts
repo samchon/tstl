@@ -9,7 +9,7 @@ import { IComparable } from "../functional/IComparable";
 import { IPointer } from "../functional/IPointer";
 
 /**
- * Forward iterator.
+ * Iterator that advances through a range one position at a time.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -19,17 +19,17 @@ export interface IForwardIterator<
 > extends IPointer<T>,
     Pick<IComparable<Iterator>, "equals"> {
   /**
-   * Get next iterator.
+   * Return an iterator one position forward without changing this iterator.
    *
-   * @return The next iterator.
+   * @return The following iterator.
    */
   next(): Iterator;
 
   /**
-   * Test whether equal to other iterator.
+   * Test whether two iterators designate the same position.
    *
-   * @param obj The iterator to compare.
-   * @return Whether equal or not.
+   * @param obj Iterator to compare with this position.
+   * @return Whether the iterators designate the same position.
    */
   equals(obj: Iterator): boolean;
 }

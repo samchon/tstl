@@ -10,7 +10,7 @@ import { ErrorCode } from "./ErrorCode";
 import { ErrorCondition } from "./ErrorCondition";
 
 /**
- * Error category.
+ * Defines the messages and condition mappings for related error codes.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -19,7 +19,7 @@ export abstract class ErrorCategory {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Initialize the base error category.
    */
   public constructor() {}
 
@@ -27,15 +27,15 @@ export abstract class ErrorCategory {
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Get category name.
+   * Get the category's identifying name.
    */
   public abstract name(): string;
 
   /**
-   * Get error message.
+   * Get the message for the given numeric error code.
    *
-   * @param val Identifier of an error condition.
-   * @return The error message.
+   * @param val Numeric error code in this category.
+   * @return The message defined by this category.
    */
   public abstract message(val: number): string;
 
@@ -43,30 +43,30 @@ export abstract class ErrorCategory {
         OPERATORS
     --------------------------------------------------------- */
   /**
-   * Get default error condition.
+   * Map an error code in this category to its default error condition.
    *
-   * @param val Identifier of an error condition.
-   * @return The error condition.
+   * @param val Numeric error code in this category.
+   * @return The condition associated with the given code.
    */
   public default_error_condition(val: number): ErrorCondition {
     return new ErrorCondition(val, this);
   }
 
   /**
-   * Test equivalence.
+   * Test whether an error code and condition represent the same error.
    *
    * @param val_code Identifier of an error code.
    * @param cond An error condition.
-   * @return Whether equivalent or not.
+   * @return Whether this category considers the code and condition equivalent.
    */
   public equivalent(val_code: number, cond: ErrorCondition): boolean;
 
   /**
-   * Test equivalence.
+   * Test whether an error code and condition represent the same error.
    *
    * @param code An error code.
-   * @param val_cond Identifier of an error condition.
-   * @return Whether equivalent or not.
+   * @param val_cond Numeric error condition.
+   * @return Whether this category considers the code and condition equivalent.
    */
   public equivalent(code: ErrorCode, val_cond: number): boolean;
 

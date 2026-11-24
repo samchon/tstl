@@ -16,10 +16,12 @@ import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
     SORT
 --------------------------------------------------------- */
 /**
- * Sort elements in range.
+ * Sort the range in place under `comp` . Equivalent elements can change
+ * relative order.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Range modified in place.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  */
 export function sort<Range extends Array<any> | IRandomAccessContainer<any>>(
   range: Range,
@@ -29,10 +31,12 @@ export function sort<Range extends Array<any> | IRandomAccessContainer<any>>(
 }
 
 /**
- * Sort elements in range stably.
+ * Sort the range in place under `comp` , preserving the relative order of
+ * equivalent elements.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Range modified in place.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  */
 export function stable_sort<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -44,11 +48,13 @@ export function stable_sort<
 }
 
 /**
- * Sort elements in range partially.
+ * Place the smallest elements in sorted order before `middle` . The remaining
+ * elements have unspecified order.
  *
- * @param range An iterable ranged container.
- * @param middle Random access iterator of the middle position between [first, last). Elements only in [first, middle) are fully sorted.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Range modified in place.
+ * @param middle Exclusive end of the prefix to sort.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  */
 export function partial_sort<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -61,12 +67,13 @@ export function partial_sort<
 }
 
 /**
- * Copy elements in range with partial sort.
+ * Write the smallest elements in sorted order until the output range is full
+ * or the input is exhausted.
  *
- * @param range An iterable ranged container of input.
- * @param output An iterable ranged container of output.
+ * @param range Input range.
+ * @param output Destination range that limits the number of copied elements.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function partial_sort_copy<
   Range extends Array<any> | IForwardContainer<any>,
@@ -86,11 +93,15 @@ export function partial_sort_copy<
 }
 
 /**
- * Partition the range around the element that would occupy `nth` in sorted order.
+ * Partition the range so that `nth` holds the element it would have after
+ * sorting. No element after `nth` precedes an element before it. Passing the
+ * end as `nth` leaves the range unchanged.
  *
- * @param range An iterable ranged container.
- * @param nth Position to select, or the end iterator to leave the range unchanged.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Range modified in place.
+ * @param nth Position to select. Use the end iterator to leave the range
+ * unchanged.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  */
 export function nth_element<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -106,12 +117,13 @@ export function nth_element<
     INSPECTOR
 --------------------------------------------------------- */
 /**
- * Test whether a range is sorted.
+ * Test whether the range is in nondecreasing order under `comp` .
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Whether sorted or not.
+ * @return Whether the entire range is sorted.
  */
 export function is_sorted<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -121,12 +133,14 @@ export function is_sorted<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Find the first unsorted element in range.
+ * Find the end of the longest sorted prefix under `comp` .
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Iterator to the first element who violates the order.
+ * @return The first iterator out of order, or the end of the range if it is
+ * sorted.
  */
 export function is_sorted_until<
   Range extends Array<any> | IForwardContainer<any>,

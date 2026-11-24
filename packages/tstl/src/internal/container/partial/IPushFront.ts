@@ -6,9 +6,9 @@
 //================================================================
 export interface IPushFront<T> {
   /**
-   * Insert an element at the first.
+   * Prepend one element to the front of the sequence.
    *
-   * @param val Value to insert.
+   * @param val Element to prepend.
    */
   push_front(val: T): void;
 }

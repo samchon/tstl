@@ -21,7 +21,8 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { Vector } from "./Vector";
 
 /**
- * Doubly Linked List.
+ * Doubly linked sequence. In-place list operations can relink its nodes
+ * without replacing their iterators.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -37,37 +38,37 @@ export class List<T>
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty List.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Initialize a List from the supplied arguments.
    *
-   * @param items Items to assign.
+   * @param items Initial elements in traversal order.
    */
   public constructor(items: Array<T>);
 
   /**
-   * Copy Constructor
+   * Create a List from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: List<T>);
 
   /**
-   * Fill Constructor.
+   * Create a List with `size` copies of `val` .
    *
-   * @param size Initial size.
-   * @param val Value to fill.
+   * @param size Number of initial elements.
+   * @param val Value assigned to each element.
    */
   public constructor(size: number, val: T);
 
   /**
-   * Range Constructor.
+   * Create a List from the elements in `[first, last)` .
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public constructor(
     first: Readonly<IForwardIterator<T>>,
@@ -210,19 +211,23 @@ export class List<T>
   }
 
   /**
-   * Transfer elements.
+   * Move all nodes from `from` before `pos` , leaving the source empty. Moved
+   * iterators retain their element and follow it to this list. Updating their
+   * ownership takes linear time in the number of nodes moved.
    *
-   * @param pos Position to insert.
-   * @param from Target container to transfer.
+   * @param pos Destination position before which to insert.
+   * @param from Source list whose elements are moved.
    */
   public splice(pos: List.Iterator<T>, from: List<T>): void;
 
   /**
-   * Transfer a single element.
+   * Move the element at `it` before `pos` , preserving its iterator. Within
+   * the same list, inserting before the element or its successor leaves the
+   * list unchanged.
    *
-   * @param pos Position to insert.
-   * @param from Target container to transfer.
-   * @param it Position of the single element to transfer.
+   * @param pos Destination position before which to insert.
+   * @param from Source list whose elements are moved.
+   * @param it Iterator to the node to move.
    */
   public splice(
     pos: List.Iterator<T>,
@@ -231,10 +236,11 @@ export class List<T>
   ): void;
 
   /**
-   * Transfer range elements.
+   * Move the nodes in `[first, last)` before `pos` , preserving their
+   * iterators.
    *
-   * @param pos Position to insert.
-   * @param from Target container to transfer.
+   * @param pos Destination position before which to insert.
+   * @param from Source list whose elements are moved.
    * @param first Position of the first element to transfer.
    * @param last Position following the transferred range.
    */
@@ -353,11 +359,11 @@ export class List<T>
 }
 
 /**
- *
+ * Iterator types for List.
  */
 export namespace List {
   /**
-   * Iterator of {@link List}
+   * Iterator over the elements of `List` .
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -447,7 +453,7 @@ export namespace List {
   }
 
   /**
-   * Reverse iterator of {@link List}
+   * Iterator for reverse traversal of `List` .
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

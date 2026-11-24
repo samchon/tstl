@@ -10,7 +10,7 @@ import { ErrorCode } from "./ErrorCode";
 import { RuntimeError } from "./RuntimeError";
 
 /**
- * System Error.
+ * Runtime error that carries an `ErrorCode` with its message.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -21,7 +21,7 @@ export class SystemError extends RuntimeError {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create the exception with the supplied error details.
    *
    * @param code An error code.
    * @param message A detailed error message.
@@ -31,7 +31,7 @@ export class SystemError extends RuntimeError {
   /**
    * Construct from references.
    *
-   * @param val Identnfier of an error code in *category*.
+   * @param val Identifier of an error code in *category*.
    * @param category An error category.
    * @param message A detailed error message.
    */
@@ -56,9 +56,9 @@ export class SystemError extends RuntimeError {
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Get error code.
+   * Get the stored error code.
    *
-   * @return The error code.
+   * @return The error code carried by the exception.
    */
   public code(): ErrorCode {
     return this.code_;

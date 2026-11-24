@@ -14,9 +14,9 @@ export abstract class InsertIteratorBase<
 > implements Writeonly<IForwardIterator<T, This>>
 {
   /**
-   * Set value.
+   * Insert the assigned value at this output position.
    *
-   * @param val The value to set.
+   * @param val Value to insert.
    */
   public abstract set value(val: T);
 

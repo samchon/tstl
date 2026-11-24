@@ -38,7 +38,7 @@ export abstract class VectorContainer<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty VectorContainer.
    */
   protected constructor() {
     super();
@@ -93,9 +93,10 @@ export abstract class VectorContainer<
   }
 
   /**
-   * Access data.
+   * Get the backing array. Mutations to the returned array are visible to the
+   * container.
    *
-   * @return An array capsuled by this {@link Vector}.
+   * @return The live backing array.
    */
   public data(): Array<T> {
     return this.data_;

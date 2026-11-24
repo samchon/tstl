@@ -19,12 +19,13 @@ import { IForwardContainer } from "../container/IForwardContainer";
     MIN & MAX
 --------------------------------------------------------- */
 /**
- * Get the minimum element in range.
+ * Find the first minimum element according to `comp` .
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Iterator to the minimum element.
+ * @return The first minimum, or the end of the range if it is empty.
  */
 export function min_element<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -34,12 +35,13 @@ export function min_element<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Get the maximum element in range.
+ * Find the first maximum element according to `comp` .
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Iterator to the maximum element.
+ * @return The first maximum, or the end of the range if it is empty.
  */
 export function max_element<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -49,12 +51,14 @@ export function max_element<Range extends Array<any> | IForwardContainer<any>>(
 }
 
 /**
- * Get the minimum & maximum elements in range.
+ * Find the first minimum and the last maximum according to `comp` .
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return A {@link Pair} of iterators to the minimum & maximum elements.
+ * @return A pair of iterators. Both equal the end of the range when it is
+ * empty.
  */
 export function minmax_element<
   Range extends Array<any> | IForwardContainer<any>,
@@ -72,13 +76,14 @@ export function minmax_element<
     PERMUATATIONS
 --------------------------------------------------------- */
 /**
- * Test whether two ranges are in permutation relationship.
+ * Test whether the compared elements can be reordered to match, including
+ * duplicates.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param range1 First input range.
+ * @param range2 Second input range.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
  *
- * @return Whether permutation or not.
+ * @return Whether the ranges are permutations of each other.
  */
 export function is_permutation<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -99,12 +104,14 @@ export function is_permutation<
 }
 
 /**
- * Transform to the previous permutation.
+ * Rearrange the range into the previous lexicographic permutation. Wrap around
+ * to the largest permutation when there is no previous one.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Whether the transformation was meaningful.
+ * @return Whether a previous permutation existed.
  */
 export function prev_permutation<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -116,12 +123,14 @@ export function prev_permutation<
 }
 
 /**
- * Transform to the next permutation.
+ * Rearrange the range into the next lexicographic permutation. Wrap around to
+ * the smallest permutation when there is no next one.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Whether the transformation was meaningful.
+ * @return Whether a next permutation existed.
  */
 export function next_permutation<
   Range extends Array<any> | IBidirectionalContainer<any, any>,

@@ -8,7 +8,7 @@
 import { IContainer } from "../../base/container/IContainer";
 
 /**
- * Basic reverse iterator.
+ * Iterator over the container's elements in reverse traversal order.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -26,7 +26,7 @@ export abstract class ReverseIterator<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Initialize a ReverseIterator from the supplied arguments.
    *
    * @param base The base iterator.
    */
@@ -41,7 +41,7 @@ export abstract class ReverseIterator<
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Get source container.
+   * Get the container associated with this iterator.
    *
    * @return The source container.
    */

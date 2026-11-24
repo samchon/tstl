@@ -6,7 +6,7 @@
 //================================================================
 export interface ISize {
   /**
-   * Number of elements in the container.
+   * Get the number of elements currently stored in the container.
    */
   size(): number;
 }

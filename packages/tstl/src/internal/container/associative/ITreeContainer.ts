@@ -12,7 +12,7 @@ import { Comparator } from "../../functional/Comparator";
 import { IAssociativeContainer } from "./IAssociativeContainer";
 
 /**
- * Common interface for tree containers.
+ * Shared operations for ordered lookup and comparator access.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -51,40 +51,40 @@ export interface ITreeContainer<
     Elem
   > {
   /**
-   * Get key comparison function.
+   * Get the ordering predicate used for keys.
    *
-   * @return The key comparison function.
+   * @return The key comparator.
    */
   key_comp(): Comparator<Key>;
 
   /**
-   * Get value comparison function.
+   * Get the ordering predicate used for stored values.
    *
-   * @return The value comparison function.
+   * @return The value comparator.
    */
   value_comp(): Comparator<Elem>;
 
   /**
-   * Get iterator to lower bound.
+   * Find the first element whose key does not precede `key` .
    *
    * @param key Key to search for.
-   * @return Iterator to the first element equal or after to the key.
+   * @return The lower bound, or the end iterator.
    */
   lower_bound(key: Key): IteratorT;
 
   /**
-   * Get iterator to upper bound.
+   * Find the first element whose key follows `key` .
    *
    * @param key Key to search for.
-   * @return Iterator to the first element after the key.
+   * @return The upper bound, or the end iterator.
    */
   upper_bound(key: Key): IteratorT;
 
   /**
-   * Get range of equal elements.
+   * Find the half-open range of elements whose keys are equivalent to `key` .
    *
    * @param key Key to search for.
-   * @return Pair of {@link lower_bound} and {@link upper_bound}.
+   * @return The lower and upper bounds. They coincide if the key is absent.
    */
   equal_range(key: Key): Pair<IteratorT, IteratorT>;
 }

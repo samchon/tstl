@@ -10,9 +10,8 @@ import { LockType } from "../internal/thread/LockType";
 import { sleep_until } from "./global";
 
 /**
- * Condition variable.
- *
- * The `ConditionVariable` class blocks critical sections until be notified.
+ * Asynchronous notification point for callers waiting for an event or a
+ * predicate.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -23,7 +22,7 @@ export class ConditionVariable {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create a condition variable with no waiters.
    */
   public constructor() {
     this.resolvers_ = new List();
@@ -33,22 +32,17 @@ export class ConditionVariable {
         WAIT FUNCTIONS
     --------------------------------------------------------- */
   /**
-   * Wait until notified.
+   * Wait for a notification.
    */
   public wait(): Promise<void>;
 
   /**
-     * Wait until predicator returns true.
-     * 
-     * This method is equivalent to:
-     * 
-    ```typescript
-    while (!await predicator())
-        await this.wait();
-    ```
-     * 
-     * @param predicator A predicator function determines completion.
-     */
+   * Evaluate `predicator` immediately and after each notification. Keep
+   * waiting until it returns `true` .
+   *
+   * @param predicator Predicate checked before waiting and after a
+   * notification.
+   */
   public wait(predicator: ConditionVariable.Predicator): Promise<void>;
 
   public async wait(predicator?: ConditionVariable.Predicator): Promise<void> {
@@ -58,31 +52,22 @@ export class ConditionVariable {
   }
 
   /**
-   * Wait for timeout or until notified.
+   * Wait for a notification before the timeout elapses.
    *
-   * @param ms The maximum miliseconds for waiting.
-   * @return Whether awaken by notification or timeout.
+   * @param ms Maximum time to wait, in milliseconds.
+   * @return `true` if notified before the timeout.
    */
   public wait_for(ms: number): Promise<boolean>;
 
   /**
-     * Wait until timeout or predicator returns true.
-     * 
-     * This method is equivalent to:
-    ```typescript
-    const at: Date = new Date(Date.now() + ms);
-    while (!await predicator())
-    {
-        if (!await this.wait_until(at))
-            return await predicator();
-    }
-    return true;
-    ```
-     * 
-     * @param ms The maximum miliseconds for waiting.
-     * @param predicator A predicator function determines the completion.
-     * @return Returned value of the *predicator*.
-     */
+   * Evaluate `predicator` before waiting, after each notification, and once
+   * after a timeout.
+   *
+   * @param ms Maximum time to wait, in milliseconds.
+   * @param predicator Predicate checked before waiting and after a
+   * notification.
+   * @return The predicate result that ended the wait.
+   */
   public wait_for(
     ms: number,
     predicator: ConditionVariable.Predicator,
@@ -97,30 +82,22 @@ export class ConditionVariable {
   }
 
   /**
-   * Wait until notified or time expiration.
+   * Wait for a notification by a wall-clock deadline.
    *
-   * @param at The maximum time point to wait.
-   * @return Whether awaken by notification or time expiration.
+   * @param at Wall-clock deadline.
+   * @return `true` if notified before the deadline.
    */
   public wait_until(at: Date): Promise<boolean>;
 
   /**
-     * Wait until time expiration or predicator returns true.
-     * 
-     * This method is equivalent to:
-    ```typescript
-    while (!await predicator())
-    {
-        if (!await this.wait_until(at))
-            return await predicator();
-    }
-    return true;
-    ```
-     * 
-     * @param at The maximum time point to wait.
-     * @param predicator A predicator function determines the completion.
-     * @return Returned value of the *predicator*.
-     */
+   * Evaluate `predicator` before waiting, after each notification, and once
+   * after a timeout.
+   *
+   * @param at Wall-clock deadline.
+   * @param predicator Predicate checked before waiting and after a
+   * notification.
+   * @return The predicate result that ended the wait.
+   */
   public wait_until(
     at: Date,
     predicator: ConditionVariable.Predicator,
@@ -172,7 +149,7 @@ export class ConditionVariable {
         NOTIFIERS
     --------------------------------------------------------- */
   /**
-   * Notify, wake only one up.
+   * Release the first queued waiter, if any.
    */
   public async notify_one(): Promise<void> {
     // NOTHING TO NOTIFY
@@ -188,7 +165,7 @@ export class ConditionVariable {
   }
 
   /**
-   * Notify, wake all up.
+   * Release all callers currently waiting on this condition variable.
    */
   public async notify_all(): Promise<void> {
     // NOTHING TO NOTIFY
@@ -207,11 +184,13 @@ export class ConditionVariable {
 }
 
 /**
- *
+ * Asynchronous notification point for callers waiting for an event or a
+ * predicate.
  */
 export namespace ConditionVariable {
   /**
-   * Type of predicator function who determines the completion.
+   * Synchronous or asynchronous predicate indicating that the caller may stop
+   * waiting.
    */
   export type Predicator = () => boolean | Promise<boolean>;
 }

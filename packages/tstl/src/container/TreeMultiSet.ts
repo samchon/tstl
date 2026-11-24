@@ -14,7 +14,8 @@ import { MultiSetTree } from "../internal/tree/MultiSetTree";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 /**
- * Multiple-key Set based on Tree.
+ * Ordered set that permits equivalent keys. Iterators visit keys in comparator
+ * order.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -30,33 +31,36 @@ export class TreeMultiSet<Key> extends MultiTreeSet<
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty TreeMultiSet.
    *
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less} .
    */
   public constructor(comp?: Comparator<Key>);
 
   /**
-   * Initializer Constructor.
+   * Create a TreeMultiSet from the supplied elements using the given ordering.
    *
-   * @param items Items to assign.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param items Initial elements in traversal order.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less} .
    */
   public constructor(items: Key[], comp?: Comparator<Key>);
 
   /**
-   * Copy Constructor.
+   * Create a TreeMultiSet from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: TreeMultiSet<Key>);
 
   /**
-   * Range Constructor.
+   * Create a TreeMultiSet from the elements in `[first, last)` .
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less} .
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -152,12 +156,12 @@ export class TreeMultiSet<Key> extends MultiTreeSet<
 }
 
 /**
- *
+ * Iterator types for TreeMultiSet.
  */
 export namespace TreeMultiSet {
   // HEAD
   /**
-   * Iterator of {@link TreeMultiSet}
+   * Iterator over the elements of `TreeMultiSet` .
    */
   export type Iterator<Key> = SetElementList.Iterator<
     Key,
@@ -166,7 +170,7 @@ export namespace TreeMultiSet {
   >;
 
   /**
-   * Reverse iterator of {@link TreeMultiSet}
+   * Iterator for reverse traversal of `TreeMultiSet` .
    */
   export type ReverseIterator<Key> = SetElementList.ReverseIterator<
     Key,

@@ -11,7 +11,7 @@ import { Pair } from "../../utility/Pair";
 import { SetContainer } from "./SetContainer";
 
 /**
- * Basic set container blocking duplicated key.
+ * Base class for sets that keep at most one element per equivalent key.
  *
  * @template Key Key type
  * @template Source Derived type extending this {@link UniqueSet}
@@ -40,7 +40,7 @@ export abstract class UniqueSet<
         INSERT
     --------------------------------------------------------- */
   /**
-   * Insert an element.
+   * Insert the supplied element.
    *
    * @param key Key to insert.
    * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to ordinary element and `false`.
@@ -48,19 +48,20 @@ export abstract class UniqueSet<
   public insert(key: Key): Pair<IteratorT, boolean>;
 
   /**
-   * Insert an element with hint.
+   * Insert an element using the supplied position as a hint.
    *
-   * @param hint Hint for the position where the element can be inserted.
+   * @param hint Suggested position for the insertion.
    * @param key Element to insert.
-   * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
+   * @return An iterator to the inserted element or to the existing element
+   * with an equivalent key.
    */
   public insert(hint: IteratorT, key: Key): IteratorT;
 
   /**
-   * Insert range elements.
+   * Insert the elements in the half-open input range.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public insert<
     InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>,
@@ -81,18 +82,20 @@ export abstract class UniqueSet<
         ERASE
     --------------------------------------------------------- */
   /**
-   * Extract an element by key.
+   * Remove the element equivalent to the supplied key. A matching element must
+   * exist.
    *
    * @param key Key to search for.
-   * @return The extracted element.
+   * @return The supplied key.
    */
   public extract(key: Key): Key;
 
   /**
-   * Extract an element by iterator.
+   * Remove the matching element at the iterator position.
    *
-   * @param it Iterator to the element to extract.
-   * @return Iterator following the extracted element.
+   * @param it Iterator to the element to remove.
+   * @return The removed iterator, or the end iterator when there is no
+   * matching element.
    */
   public extract(it: IteratorT): IteratorT;
 
@@ -144,11 +147,11 @@ export abstract class UniqueSet<
 }
 
 /**
- *
+ * Type utilities for UniqueSet.
  */
 export namespace UniqueSet {
   /**
-   * Iterator of {@link UniqueSet}
+   * Iterator over the elements of `UniqueSet` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -160,7 +163,7 @@ export namespace UniqueSet {
   > = SetContainer.Iterator<Key, true, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Reverse iterator of {@link UniqueSet}
+   * Iterator for reverse traversal of `UniqueSet` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */

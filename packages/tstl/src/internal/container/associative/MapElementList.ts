@@ -13,7 +13,7 @@ import { ReverseIterator as _ReverseIterator } from "../../iterator/ReverseItera
 import { ListContainer } from "../linear/ListContainer";
 
 /**
- * Doubly Linked List storing map elements.
+ * Doubly linked storage for map entries.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -90,11 +90,11 @@ export class MapElementList<
 }
 
 /**
- *
+ * Iterator types for the element storage.
  */
 export namespace MapElementList {
   /**
-   * Iterator of map container storing elements in a list.
+   * Iterator over the elements of `MapElementList` .
    *
    * @template Key Key type
    * @template T Mapped type
@@ -212,7 +212,7 @@ export namespace MapElementList {
   }
 
   /**
-   * Reverse iterator of map container storing elements a list.
+   * Iterator for reverse traversal of `MapElementList` .
    *
    * @template Key Key type
    * @template T Mapped type
@@ -264,27 +264,27 @@ export namespace MapElementList {
             ACCESSORS
         --------------------------------------------------------- */
     /**
-     * Get the first, key element.
+     * Read the key of the entry at this reverse position.
      *
-     * @return The first element.
+     * @return The entry's key.
      */
     public get first(): Key {
       return this.base_.first;
     }
 
     /**
-     * Get the second, stored element.
+     * Read the mapped value of the entry at this reverse position.
      *
-     * @return The second element.
+     * @return The entry's mapped value.
      */
     public get second(): T {
       return this.base_.second;
     }
 
     /**
-     * Set the second, stored element.
+     * Replace the mapped value of the entry at this reverse position.
      *
-     * @param val The value to set.
+     * @param val New mapped value.
      */
     public set second(val: T) {
       this.base_.second = val;

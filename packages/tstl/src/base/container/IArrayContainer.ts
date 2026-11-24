@@ -9,7 +9,7 @@ import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
 import { ILinearContainer } from "./ILinearContainer";
 
 /**
- * Common interface for array containers.
+ * Indexed sequence with random-access iterators.
  *
  * @template T Stored elements' type
  * @template SourceT Derived type extending this {@link IArrayContainer}
@@ -39,33 +39,34 @@ export interface IArrayContainer<
   PElem = T,
 > extends ILinearContainer<T, SourceT, IteratorT, ReverseT, PElem> {
   /**
-   * Get iterator at specific position.
+   * Get the iterator for a zero-based position. An index equal to `size()`
+   * designates the end iterator.
    *
-   * @param index Specific position.
-   * @return The iterator at the *index*.
+   * @param index Zero-based iterator position.
+   * @return The iterator for the requested position.
    */
   nth(index: number): IteratorT;
 
   /**
-   * Get element at specific position.
+   * Read the element at a valid zero-based index.
    *
-   * @param index Specific position.
-   * @return The element at the *index*.
+   * @param index Index in the range from `0` to `size() - 1` .
+   * @return The element at that index.
    */
   at(index: number): T;
 
   /**
-   * Change element at specific position.
+   * Replace the element at a valid zero-based index.
    *
-   * @param index Specific position.
-   * @param val The new value to change.
+   * @param index Index in the range from `0` to `size() - 1` .
+   * @param val New value for the element.
    */
   set(index: number, val: T): void;
 }
 
 export namespace IArrayContainer {
   /**
-   * Iterator of {@link IArrayContainer}
+   * Iterator over the elements of `IArrayContainer` .
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -91,7 +92,7 @@ export namespace IArrayContainer {
     IRandomAccessIterator<T, IteratorT>;
 
   /**
-   * Reverse iterator of {@link IArrayContainer}
+   * Iterator for reverse traversal of `IArrayContainer` .
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

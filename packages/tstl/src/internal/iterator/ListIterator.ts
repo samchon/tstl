@@ -10,7 +10,7 @@ import { ErrorGenerator } from "../exception/ErrorGenerator";
 import { ReverseIterator } from "./ReverseIterator";
 
 /**
- * Basic List Iterator.
+ * Base iterator for linked-list nodes.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

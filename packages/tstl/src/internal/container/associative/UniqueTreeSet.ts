@@ -12,7 +12,7 @@ import { Temporary } from "../../functional/Temporary";
 import { ITreeContainer } from "./ITreeContainer";
 
 /**
- * Basic tree set blocking duplicated key.
+ * Base tree set that stores at most one value per equivalent key.
  *
  * @template Key Key type
  * @template Source Derived type extending this {@link UniqueTreeSet}

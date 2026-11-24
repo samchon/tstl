@@ -8,7 +8,7 @@
 import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
- * Hermite polynomial
+ * Evaluate the physicists’ Hermite polynomial of degree `n` at `x` .
  *
  * @reference https://en.wikipedia.org/wiki/Hermite_polynomials
  */

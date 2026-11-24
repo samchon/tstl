@@ -9,7 +9,7 @@ import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IReverseIterator } from "./IReverseIterator";
 
 /**
- * Reversable iterator
+ * Iterator that can construct a reverse iterator.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -19,9 +19,9 @@ export interface IReversableIterator<
   ReverseT extends IReverseIterator<T, IteratorT, ReverseT>,
 > extends IBidirectionalIterator<T, IteratorT> {
   /**
-   * Construct reverse iterator.
+   * Construct a reverse iterator whose base is this iterator.
    *
-   * @return The reverse iterator.
+   * @return A reverse iterator based on this position.
    */
   reverse(): ReverseT;
 }

@@ -11,7 +11,7 @@ import { ISize } from "../../internal/container/partial/ISize";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 /**
- * Forward iterable container.
+ * Range interface with iterators that move forward.
  *
  * @template Iterator Iterator type
  * @author Jeongho Nam - https://github.com/samchon
@@ -20,23 +20,24 @@ export interface IForwardContainer<
   Iterator extends IForwardIterator<IPointer.ValueType<Iterator>, Iterator>,
 > extends ISize {
   /**
-   * Iterator to the first element.
+   * Get the start of forward traversal.
    *
-   * @return Iterator to the first element.
+   * @return An iterator to the first element, or `end()` when the container is
+   * empty.
    */
   begin(): Iterator;
 
   /**
-   * Iterator to the end.
+   * Get the exclusive end of forward traversal.
    *
-   * @return Iterator to the end.
+   * @return The past-the-end iterator.
    */
   end(): Iterator;
 }
 
 export namespace IForwardContainer {
   /**
-   * Deduct iterator type.
+   * Extract the iterator type from the supplied container type.
    */
   export type IteratorType<
     Container extends Array<any> | IForwardContainer<any>,
@@ -47,13 +48,14 @@ export namespace IForwardContainer {
     : unknown;
 
   /**
-   * Deduct value type.
+   * Extract the element type from the supplied type.
    */
   export type ValueType<Container extends Array<any> | IForwardContainer<any>> =
     IPointer.ValueType<IteratorType<Container>>;
 
   /**
-   * Deduct similar type.
+   * Choose an array or forward container whose element type matches the
+   * supplied range type.
    */
   export type SimilarType<
     Container extends Array<any> | IForwardContainer<any>,

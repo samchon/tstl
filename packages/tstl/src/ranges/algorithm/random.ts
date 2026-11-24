@@ -13,13 +13,15 @@ import { begin, end } from "../../iterator/factory";
 import { IForwardContainer } from "../container/IForwardContainer";
 
 /**
- * Pick sample elements up.
+ * Select up to `n` elements without replacement and write them in input order.
+ * The destination must be outside the input range. Runs in linear time with
+ * constant extra storage.
  *
- * @param range An iterable ranged container.
- * @param first Beginning of the output range.
- * @param n Number of elements to pick up.
+ * @param range Input range.
+ * @param first Iterator to the start of the destination.
+ * @param n Maximum number of elements to select.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function sample<
   Range extends Array<any> | IForwardContainer<any>,

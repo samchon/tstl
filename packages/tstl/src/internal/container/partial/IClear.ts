@@ -6,7 +6,7 @@
 //================================================================
 export interface IClear {
   /**
-   * Clear elements.
+   * Remove every element from the container.
    */
   clear(): void;
 }

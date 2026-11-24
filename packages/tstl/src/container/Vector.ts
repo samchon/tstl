@@ -12,7 +12,8 @@ import { ArrayReverseIterator } from "../internal/iterator/ArrayReverseIterator"
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 /**
- * Vector, an array with variable capacity.
+ * Growable sequence backed by a JavaScript array, with random-access
+ * iterators.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -36,14 +37,14 @@ export class Vector<T>
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty Vector.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Initialize a Vector from the supplied arguments.
    *
-   * @param items Items to assign.
+   * @param items Initial elements in traversal order.
    */
   public constructor(items: Array<T>);
 
@@ -53,25 +54,25 @@ export class Vector<T>
   public constructor(items: Array<T>, move: true);
 
   /**
-   * Copy Constructor
+   * Create a Vector from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: Vector<T>);
 
   /**
-   * Fill Constructor.
+   * Create a Vector with `n` copies of `val` .
    *
-   * @param n Initial size.
-   * @param val Value to fill.
+   * @param n Number of initial elements.
+   * @param val Value assigned to each element.
    */
   public constructor(n: number, val: T);
 
   /**
-   * Range Constructor.
+   * Create a Vector from the elements in `[first, last)` .
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public constructor(
     first: Readonly<IForwardIterator<T>>,
@@ -104,10 +105,11 @@ export class Vector<T>
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Wrap an array into a vector.
+   * Use an existing JavaScript array as the vector's backing storage. Writes
+   * through either reference affect the same array.
    *
-   * @param data Target array to be wrapped
-   * @return A vector wrapping the parametric array.
+   * @param data Array to use directly as storage.
+   * @return A vector backed by `data` .
    */
   public static wrap<T>(data: Array<T>): Vector<T> {
     return new Vector(data, true);
@@ -126,17 +128,17 @@ export class Vector<T>
 }
 
 /**
- *
+ * Iterator types for Vector.
  */
 export namespace Vector {
   // HEAD
   /**
-   * Iterator of {@link Vector}
+   * Iterator over the elements of `Vector` .
    */
   export type Iterator<T> = ArrayIterator<T, Vector<T>>;
 
   /**
-   * Reverse iterator of {@link Vector}
+   * Iterator for reverse traversal of `Vector` .
    */
   export type ReverseIterator<T> = ArrayReverseIterator<T, Vector<T>>;
 

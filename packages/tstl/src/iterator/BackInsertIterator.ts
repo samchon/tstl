@@ -11,7 +11,7 @@ import { IPushBack } from "../internal/container/partial/IPushBack";
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 
 /**
- * Back insert iterator.
+ * Output iterator that appends each assigned value to its destination.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -27,7 +27,7 @@ export class BackInsertIterator<
         METHODS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create an iterator that appends assigned values.
    *
    * @param source The source container.
    */
@@ -56,13 +56,13 @@ export class BackInsertIterator<
  */
 export namespace BackInsertIterator {
   /**
-   * Deduct value type.
+   * Extract the element type from the supplied type.
    */
   export type ValueType<Source extends IPushBack<any>> =
     Source extends IPushBack<infer T> ? T : unknown;
 
   /**
-   * Deduct source type.
+   * Extract the container type from the supplied iterator type.
    */
   export type SourceType<Source extends Array<any> | IPushBack<any>> =
     Source extends Array<infer T> ? Vector<T> : Source;

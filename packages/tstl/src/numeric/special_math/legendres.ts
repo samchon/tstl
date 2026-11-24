@@ -8,7 +8,7 @@
 import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
- * Legendre polynomials.
+ * Evaluate the Legendre polynomial of degree `n` at `x` .
  *
  * @reference http://en.cppreference.com/w/cpp/numeric/special_math/legendre
  */
@@ -17,7 +17,8 @@ export function legendre(n: number, x: number): number {
 }
 
 /**
- * Associated Legendre polynomials.
+ * Evaluate the associated Legendre function of degree `n` and order `m` at `x`
+ * .
  *
  * @reference https://en.wikipedia.org/wiki/Associated_Legendre_polynomials
  */

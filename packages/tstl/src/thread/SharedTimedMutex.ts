@@ -14,7 +14,8 @@ import { LockType } from "../internal/thread/LockType";
 import { sleep_for } from "./global";
 
 /**
- * Shared timed mutex.
+ * Asynchronous mutex that supports timeouts in both exclusive and shared
+ * modes.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -29,7 +30,7 @@ export class SharedTimedMutex implements ISharedTimedLockable {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an unlocked mutex.
    */
   public constructor();
 

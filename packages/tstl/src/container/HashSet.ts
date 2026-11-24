@@ -17,7 +17,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { Pair } from "../utility/Pair";
 
 /**
- * Unique-key Set based on Hash buckets.
+ * Hash-based set with one element per equivalent key.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -40,19 +40,22 @@ export class HashSet<Key>
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty HashSet.
    *
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
    */
   public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
   /**
-   * Initializer Constructor.
+   * Create a HashSet from the supplied entries using the given hash and
+   * equality functions.
    *
-   * @param items Items to assign.
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param items Initial elements in traversal order.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
    */
   public constructor(
     items: Key[],
@@ -61,19 +64,20 @@ export class HashSet<Key>
   );
 
   /**
-   * Copy Constructor.
+   * Create a HashSet from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: HashSet<Key>);
 
   /**
-   * Range Constructor.
+   * Create a HashSet from the elements in `[first, last)` .
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to} .
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -334,17 +338,17 @@ export class HashSet<Key>
 }
 
 /**
- *
+ * Iterator types for HashSet.
  */
 export namespace HashSet {
   // HEAD
   /**
-   * Iterator of {@link HashSet}
+   * Iterator over the elements of `HashSet` .
    */
   export type Iterator<Key> = SetElementList.Iterator<Key, true, HashSet<Key>>;
 
   /**
-   * Reverse iterator of {@link HashSet}
+   * Iterator for reverse traversal of `HashSet` .
    */
   export type ReverseIterator<Key> = SetElementList.ReverseIterator<
     Key,

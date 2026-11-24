@@ -8,7 +8,7 @@
 import { ErrorCategory } from "../../exception/ErrorCategory";
 
 /**
- * Base class for error instances.
+ * Shared storage and conversion behavior for error codes and conditions.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -20,15 +20,15 @@ export abstract class ErrorInstance {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty ErrorInstance.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Initialize a ErrorInstance from the supplied arguments.
    *
-   * @param val Identifier of an error instance.
-   * @param category An error category instance.
+   * @param val Numeric error code.
+   * @param category Category that defines the numeric value.
    */
   public constructor(val: number, category: ErrorCategory);
 
@@ -37,10 +37,10 @@ export abstract class ErrorInstance {
   }
 
   /**
-   * Assign content.
+   * Replace the numeric value and its category.
    *
-   * @param val Identifier of an error condition.
-   * @param category An error category instance.
+   * @param val Numeric error condition.
+   * @param category Category that defines the numeric value.
    */
   public assign(val: number, category: ErrorCategory): void {
     this.category_ = category;
@@ -48,7 +48,7 @@ export abstract class ErrorInstance {
   }
 
   /**
-   * Clear content.
+   * Reset the stored error value and category.
    */
   public clear(): void {
     this.value_ = 0;
@@ -58,27 +58,27 @@ export abstract class ErrorInstance {
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Get category.
+   * Get the stored category.
    *
-   * @return The category object.
+   * @return The category associated with the stored value.
    */
   public category(): ErrorCategory {
     return this.category_!;
   }
 
   /**
-   * Get value, the identifier.
+   * Get the stored numeric identifier.
    *
-   * @return The value, identifier of this object.
+   * @return The stored error code or condition value.
    */
   public value(): number {
     return this.value_;
   }
 
   /**
-   * Get message.
+   * Get the message for the stored value.
    *
-   * @return The message.
+   * @return The message supplied by the current category, if one is set.
    */
   public message(): string {
     return this.category_!.message(this.value_);
@@ -88,9 +88,9 @@ export abstract class ErrorInstance {
         OPERATORS
     --------------------------------------------------------- */
   /**
-   * Covert bo bool.
+   * Test whether the stored numeric identifier is nonzero.
    *
-   * @return Whether the {@link value} is not zero.
+   * @return Whether the stored value is nonzero.
    */
   public to_bool(): boolean {
     return this.value_ !== 0;

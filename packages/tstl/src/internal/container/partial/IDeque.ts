@@ -9,7 +9,7 @@ import { IPushFront } from "./IPushFront";
 
 export interface IDeque<T> extends IPushFront<T> {
   /**
-   * Erase the first element.
+   * Remove the element at the front of the sequence.
    */
   pop_front(): void;
 }

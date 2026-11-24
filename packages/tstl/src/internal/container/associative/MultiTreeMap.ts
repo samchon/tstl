@@ -15,7 +15,7 @@ import { Temporary } from "../../functional/Temporary";
 import { ITreeContainer } from "./ITreeContainer";
 
 /**
- * Basic tree map allowing duplicated keys.
+ * Base tree map that permits multiple entries with equivalent keys.
  *
  * @template Key Key type
  * @template T Mapped type

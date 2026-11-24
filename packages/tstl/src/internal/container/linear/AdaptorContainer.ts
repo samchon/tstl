@@ -10,7 +10,7 @@ import { IPush } from "../partial/IPush";
 import { ISize } from "../partial/ISize";
 
 /**
- * Base class for Adaptor Containers.
+ * Base class for adaptors that delegate storage to another container.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -54,14 +54,14 @@ export abstract class AdaptorContainer<
   }
 
   /**
-   * Remove element.
+   * Remove the next element according to the adaptor's access order.
    */
   public abstract pop(): void;
 
   /**
-   * Swap elements.
+   * Exchange the contents of the two containers.
    *
-   * @param obj Target container to swap.
+   * @param obj Other container whose contents are exchanged with this one.
    */
   public swap(obj: This): void {
     [this.source_, obj.source_] = [obj.source_, this.source_];

@@ -10,21 +10,21 @@ import { ErrorCategory } from "./ErrorCategory";
 import { ErrorCondition } from "./ErrorCondition";
 
 /**
- * Error code.
+ * Combines a numeric error code with its category.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class ErrorCode extends ErrorInstance {
   /**
-   * Default Constructor.
+   * Create an instance with the default numeric value and category.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Create an instance from a numeric value and its category.
    *
-   * @param val Identifier of an error instance.
-   * @param category An error category instance.
+   * @param val Numeric error code.
+   * @param category Category that defines the numeric value.
    */
   public constructor(val: number, category: ErrorCategory);
 
@@ -33,9 +33,9 @@ export class ErrorCode extends ErrorInstance {
   }
 
   /**
-   * Get default error condition.
+   * Get the default condition defined by the code's category.
    *
-   * @return The default error condition object.
+   * @return The condition mapped from this error code.
    */
   public default_error_condition(): ErrorCondition {
     return this.category_.default_error_condition(this.value_);

@@ -1,5 +1,5 @@
 /**
- * Singleton generator.
+ * Lazily constructs one value and reuses it for subsequent calls.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

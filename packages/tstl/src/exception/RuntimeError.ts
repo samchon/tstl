@@ -8,15 +8,15 @@
 import { Exception } from "./Exception";
 
 /**
- * Runtime Error.
+ * Base error for failures detected during execution.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class RuntimeError extends Exception {
   /**
-   * Initializer Constructor.
+   * Create the exception with the supplied error details.
    *
-   * @param message The error messgae.
+   * @param message The error message.
    */
   public constructor(message: string) {
     super(message);

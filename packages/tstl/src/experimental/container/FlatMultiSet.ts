@@ -14,7 +14,8 @@ import { Temporary } from "../../internal/functional/Temporary";
 import { IForwardIterator } from "../../iterator/IForwardIterator";
 
 /**
- * Multiple-key Set based on sorted array.
+ * Ordered set stored in a sorted array, with multiple equivalent keys
+ * permitted.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -30,33 +31,36 @@ export class FlatMultiSet<Key> extends MultiTreeSet<
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty FlatMultiSet.
    *
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less} .
    */
   public constructor(comp?: Comparator<Key>);
 
   /**
-   * Initializer Constructor.
+   * Create a FlatMultiSet from the supplied elements using the given ordering.
    *
-   * @param items Items to assign.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param items Initial elements in traversal order.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less} .
    */
   public constructor(items: Key[], comp?: Comparator<Key>);
 
   /**
-   * Copy Constructor.
+   * Create a FlatMultiSet from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: FlatMultiSet<Key>);
 
   /**
-   * Range Constructor.
+   * Create a FlatMultiSet from the elements in `[first, last)` .
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less} .
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -143,7 +147,7 @@ export class FlatMultiSet<Key> extends MultiTreeSet<
 }
 
 /**
- *
+ * Iterator types for FlatMultiSet.
  */
 export namespace FlatMultiSet {
   // HEAD

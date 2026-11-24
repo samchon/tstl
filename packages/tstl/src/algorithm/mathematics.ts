@@ -25,10 +25,11 @@ import { iter_swap, reverse } from "./modifiers";
     MIN & MAX
 --------------------------------------------------------- */
 /**
- * Get the minium value.
+ * Find the first minimum in a nonempty array under `comp` .
  *
  * @param items Items to search through.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
  * @return The minimum value.
  */
@@ -42,10 +43,11 @@ export function min<T>(items: T[], comp: Comparator<T> = less): T {
 }
 
 /**
- * Get the maximum value.
+ * Find the first maximum in a nonempty array under `comp` .
  *
  * @param items Items to search through.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
  * @return The maximum value.
  */
@@ -59,10 +61,11 @@ export function max<T>(items: T[], comp: Comparator<T> = less): T {
 }
 
 /**
- * Get the minimum & maximum values.
+ * Find the first minimum and first maximum in a nonempty array under `comp` .
  *
  * @param items Items to search through.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
  * @return A {@link Pair} of minimum & maximum values.
  */
@@ -78,13 +81,14 @@ export function minmax<T>(items: T[], comp: Comparator<T> = less): Pair<T, T> {
 }
 
 /**
- * Get the minimum element in range.
+ * Find the first minimum element according to `comp` .
  *
- * @param first Forward iterator of the first position.
- * @param last Forward iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Iterator to the minimum element.
+ * @return The first minimum, or the end of the range if it is empty.
  */
 export function min_element<
   ForwardIterator extends Readonly<
@@ -107,13 +111,14 @@ export function min_element<
 }
 
 /**
- * Get the maximum element in range.
+ * Find the first maximum element according to `comp` .
  *
- * @param first Forward iterator of the first position.
- * @param last Forward iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Iterator to the maximum element.
+ * @return The first maximum, or the end of the range if it is empty.
  */
 export function max_element<
   ForwardIterator extends Readonly<
@@ -136,14 +141,15 @@ export function max_element<
 }
 
 /**
- * Get the minimum & maximum elements in range.
+ * Find the first minimum and the last maximum according to `comp` .
  *
- * @param first Forward iterator of the first position.
- * @param last Forward iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return A {@link Pair} of iterators to the first minimum and the last maximum.
- * Both iterators equal `last` for an empty range.
+ * @return A pair of iterators. Both equal the end of the range when it is
+ * empty.
  */
 export function minmax_element<
   ForwardIterator extends Readonly<
@@ -181,14 +187,17 @@ export function minmax_element<
 }
 
 /**
- * Get the clamp value.
+ * Bound `v` to the inclusive interval from `lo` to `hi` under `comp` . The
+ * upper bound must not precede the lower bound.
  *
  * @param v The value to clamp.
  * @param lo Lower value than *hi*.
  * @param hi Higher value than *lo*.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return The clamp value.
+ * @return `lo` when `v` precedes it, `hi` when `v` follows it, or `v`
+ * otherwise.
  */
 export function clamp<T>(v: T, lo: T, hi: T, comp: Comparator<T> = less): T {
   return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
@@ -198,14 +207,16 @@ export function clamp<T>(v: T, lo: T, hi: T, comp: Comparator<T> = less): T {
     PERMUATATIONS
 --------------------------------------------------------- */
 /**
- * Test whether two ranges are in permutation relationship.
+ * Test whether the compared elements can be reordered to match, including
+ * duplicates.
  *
- * @param first1 Forward iterator of the first position of the 1st range.
- * @param last1 Forward iterator of the last position of the 1st range.
- * @param first2 Forward iterator of the first position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range, which must contain at least as many
+ * elements as the first.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to} .
  *
- * @return Whether permutation or not.
+ * @return Whether the ranges are permutations of each other.
  */
 export function is_permutation<
   ForwardIterator1 extends Readonly<
@@ -247,13 +258,15 @@ export function is_permutation<
 }
 
 /**
- * Transform to the previous permutation.
+ * Rearrange the range into the previous lexicographic permutation. Wrap around
+ * to the largest permutation when there is no previous one.
  *
- * @param first Bidirectional iterator of the first position.
- * @param last Bidirectional iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Whether the transformation was meaningful.
+ * @return Whether a previous permutation existed.
  */
 export function prev_permutation<
   BidirectionalIterator extends General<
@@ -293,13 +306,15 @@ export function prev_permutation<
 }
 
 /**
- * Transform to the next permutation.
+ * Rearrange the range into the next lexicographic permutation. Wrap around to
+ * the smallest permutation when there is no next one.
  *
- * @param first Bidirectional iterator of the first position.
- * @param last Bidirectional iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less} .
  *
- * @return Whether the transformation was meaningful.
+ * @return Whether a next permutation existed.
  */
 export function next_permutation<
   BidirectionalIterator extends General<
