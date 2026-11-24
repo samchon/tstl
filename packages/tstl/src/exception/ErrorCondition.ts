@@ -15,7 +15,7 @@ import { ErrorCategory } from "./ErrorCategory";
  */
 export class ErrorCondition extends ErrorInstance {
   /**
-   * Create an instance with the default numeric value and category.
+   * Create an error condition with value `0` and no assigned category.
    */
   public constructor();
 

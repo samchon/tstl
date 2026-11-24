@@ -25,7 +25,7 @@ export abstract class ErrorInstance {
   public constructor();
 
   /**
-   * Initialize a ErrorInstance from the supplied arguments.
+   * Create an error instance with a numeric value and a category.
    *
    * @param val Numeric error code.
    * @param category Category that defines the numeric value.
@@ -48,7 +48,7 @@ export abstract class ErrorInstance {
   }
 
   /**
-   * Reset the stored error value and category.
+   * Reset the numeric value to zero while retaining the assigned category.
    */
   public clear(): void {
     this.value_ = 0;
@@ -60,7 +60,7 @@ export abstract class ErrorInstance {
   /**
    * Get the stored category.
    *
-   * @return The category associated with the stored value.
+   * @return The assigned category, or `null` at runtime before assignment.
    */
   public category(): ErrorCategory {
     return this.category_!;
@@ -76,9 +76,10 @@ export abstract class ErrorInstance {
   }
 
   /**
-   * Get the message for the stored value.
+   * Get the message for the stored value. Assign a category before calling.
    *
-   * @return The message supplied by the current category, if one is set.
+   * @return The message supplied by the assigned category.
+   * @throws `TypeError` when no category has been assigned.
    */
   public message(): string {
     return this.category_!.message(this.value_);

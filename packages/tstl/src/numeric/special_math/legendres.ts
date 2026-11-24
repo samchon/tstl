@@ -10,6 +10,10 @@ import { InvalidArgument } from "../../exception/InvalidArgument";
 /**
  * Evaluate the Legendre polynomial of degree `n` at `x`.
  *
+ * @param n Nonnegative degree. Fractional values are rounded down.
+ * @param x Evaluation point in `[-1, 1]`.
+ * @throws {@link InvalidArgument} when `n < 0` or `|x| > 1`.
+ *
  * @reference http://en.cppreference.com/w/cpp/numeric/special_math/legendre
  */
 export function legendre(n: number, x: number): number {
@@ -18,6 +22,11 @@ export function legendre(n: number, x: number): number {
 
 /**
  * Evaluate the associated Legendre function of degree `n` and order `m` at `x`.
+ *
+ * @param n Nonnegative degree. Fractional values are rounded down.
+ * @param m Nonnegative order. Fractional values are rounded down.
+ * @param x Evaluation point in `[-1, 1]`.
+ * @throws {@link InvalidArgument} when `n < 0`, `m < 0`, or `|x| > 1`.
  *
  * @reference https://en.wikipedia.org/wiki/Associated_Legendre_polynomials
  */

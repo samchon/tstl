@@ -21,6 +21,10 @@ import { IPair } from "../utility/IPair";
 /**
  * Hash-based map that permits multiple entries with equivalent keys.
  *
+ * Custom equality must be an equivalence relation. Equivalent keys must have
+ * the same nonnegative integer hash, and each hash must remain stable while
+ * its key is stored.
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashMultiMap<Key, T>

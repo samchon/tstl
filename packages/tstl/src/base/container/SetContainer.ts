@@ -240,7 +240,12 @@ export abstract class SetContainer<
   public abstract swap(obj: SourceT): void;
 
   /**
-   * @inheritDoc
+   * Insert elements from a separate set and remove the transferred elements
+   * from the source. For unique-key sets, equivalent elements already in the
+   * destination leave the corresponding source elements in place. Multisets
+   * transfer every element. Obtain new destination iterators after transfer.
+   *
+   * @param source Set whose elements are transferred.
    */
   public abstract merge(source: SourceT): void;
 

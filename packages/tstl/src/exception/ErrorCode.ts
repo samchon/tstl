@@ -16,7 +16,7 @@ import { ErrorCondition } from "./ErrorCondition";
  */
 export class ErrorCode extends ErrorInstance {
   /**
-   * Create an instance with the default numeric value and category.
+   * Create an error code with value `0` and no assigned category.
    */
   public constructor();
 
@@ -33,9 +33,10 @@ export class ErrorCode extends ErrorInstance {
   }
 
   /**
-   * Get the default condition defined by the code's category.
+   * Get the default condition defined by the code's assigned category.
    *
    * @return The condition mapped from this error code.
+   * @throws `TypeError` when no category has been assigned.
    */
   public default_error_condition(): ErrorCondition {
     return this.category_.default_error_condition(this.value_);

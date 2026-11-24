@@ -11,6 +11,9 @@ import { tgamma } from "./gamma";
 /**
  * Evaluate the Riemann zeta function for the real argument `arg`.
  *
+ * @param arg Real argument.
+ * @return The zeta function value, with `Infinity` at `1`.
+ *
  * @reference http://en.cppreference.com/w/cpp/numeric/special_math/riemann_zeta
  */
 export function riemann_zeta(arg: number): number {

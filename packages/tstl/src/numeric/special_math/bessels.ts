@@ -21,6 +21,11 @@ const INFINITY = 100; // (1 / 30!) is nearby 0.
 /**
  * Evaluate the cylindrical Bessel function of the first kind, `Jν(x)`.
  *
+ * @param n Order of the Bessel function.
+ * @param x Real argument.
+ * @throws {@link InvalidArgument} when `x` is negative and `n` is fractional,
+ * or `x` is zero and `n` is nonzero.
+ *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_first_kind:_J.CE.B1
  */
 export function cyl_bessel_j(n: number, x: number): number {
@@ -42,6 +47,10 @@ export function cyl_bessel_j(n: number, x: number): number {
 /**
  * Evaluate the cylindrical Neumann function, also called the Bessel function
  * of the second kind, `Yν(x)`.
+ *
+ * @param v Order of the Bessel function.
+ * @param x Positive real argument.
+ * @throws {@link InvalidArgument} when `x <= 0`.
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Bessel_functions_of_the_second_kind:_Y.CE.B1
  */
@@ -84,6 +93,10 @@ function _J_positive(v: number, x: number): number {
 /**
  * Evaluate the spherical Bessel function of the first kind for degree `n`.
  *
+ * @param n Nonnegative integer degree.
+ * @param x Positive real argument.
+ * @throws {@link InvalidArgument} when `x <= 0`.
+ *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
  */
 export function sph_bessel(n: number, x: number): number {
@@ -92,6 +105,10 @@ export function sph_bessel(n: number, x: number): number {
 
 /**
  * Evaluate the spherical Neumann function for degree `n`.
+ *
+ * @param n Nonnegative integer degree.
+ * @param x Positive real argument.
+ * @throws {@link InvalidArgument} when `x <= 0`.
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Spherical_Bessel_functions:_jn.2C_yn
  */
@@ -111,6 +128,11 @@ export function sph_neumann(n: number, x: number): number {
 --------------------------------------------------------------- */
 /**
  * Evaluate the modified cylindrical Bessel function of the first kind, `Iν(x)`.
+ *
+ * @param n Order of the modified Bessel function.
+ * @param x Real argument.
+ * @throws {@link InvalidArgument} when `x` is negative and `n` is fractional,
+ * or `x` is zero and `n` is nonzero.
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
  */
@@ -149,6 +171,10 @@ function _Bessel_i(v: number, x: number): number {
 /**
  * Evaluate the modified cylindrical Bessel function of the second kind,
  * `Kν(x)`.
+ *
+ * @param n Order of the modified Bessel function.
+ * @param x Positive real argument.
+ * @throws {@link InvalidArgument} when `x <= 0`.
  *
  * @reference https://en.wikipedia.org/wiki/Bessel_function#Modified_Bessel_functions:_I.CE.B1_.2C_K.CE.B1
  */

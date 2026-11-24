@@ -260,9 +260,12 @@ export abstract class MapContainer<
   public abstract swap(obj: Source): void;
 
   /**
-   * Add entries from the source using this map's key handling rules.
+   * Insert entries from a separate map and remove the transferred entries
+   * from the source. For unique-key maps, entries whose keys are already
+   * present remain in the source. Multimaps transfer every entry.
+   * Obtain new iterators from the destination for transferred entries.
    *
-   * @param source Map to merge into this container.
+   * @param source Map whose entries are transferred.
    */
   public abstract merge(source: Source): void;
 

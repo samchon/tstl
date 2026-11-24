@@ -18,6 +18,10 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 /**
  * Hash-based set that permits multiple equivalent keys.
  *
+ * Custom equality must be an equivalence relation. Equivalent keys must have
+ * the same nonnegative integer hash, and each hash must remain stable while
+ * its key is stored.
+ *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class HashMultiSet<Key>
