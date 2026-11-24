@@ -1,0 +1,104 @@
+{
+  "name": "tstl",
+  "description": "TypeScript-STL (Standard Template Library, migrated from C++)",
+  "author": {
+    "name": "Jeongho Nam",
+    "email": "samchon.github@gmail.com",
+    "url": "https://github.com/samchon"
+  },
+  "version": "3.0.0",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "require": "./lib/index.js",
+      "import": "./lib/index.mjs"
+    }
+  },
+  "scripts": {
+    "copy-readme": "node -e \"require('node:fs').copyFileSync('../../README.md', 'README.md')\"",
+    "build": "rimraf lib && tsc && rollup -c && pnpm run copy-readme",
+    "dev": "tsc --watch",
+    "api": "typedoc --excludeNotDocumented --out ../../lib/api src/index.ts",
+    "prepack": "pnpm run copy-readme"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "@types/node": "^14.6.3",
+    "rimraf": "^3.0.2",
+    "rollup": "^4.13.1",
+    "tslib": "^2.6.2",
+    "typedoc": "^0.25.12",
+    "typescript": "5.4.5"
+  },
+  "homepage": "https://github.com/samchon/tstl",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/samchon/tstl",
+    "directory": "packages/tstl"
+  },
+  "bugs": {
+    "url": "https://github.com/samchon/tstl/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "tstl",
+    "typecript",
+    "c++",
+    "cpp",
+    "stl",
+    "standard template library",
+    "algorithm",
+    "container",
+    "exception",
+    "functional",
+    "iterator",
+    "numeric",
+    "ranges",
+    "thread",
+    "utility",
+    "base",
+    "experimental",
+    "internal",
+    "Vector",
+    "Deque",
+    "List",
+    "VectorBoolean",
+    "ForwardList",
+    "Stack",
+    "Queue",
+    "PriorityQueue",
+    "FlatMap",
+    "FlatMultiMap",
+    "FlatMultiSet",
+    "FlatSet",
+    "HashMap",
+    "HashMultiMap",
+    "HashMultiSet",
+    "HashSet",
+    "TreeMap",
+    "TreeMultiMap",
+    "TreeMultiSet",
+    "TreeSet",
+    "ConditionVariable",
+    "Semaphore",
+    "Latch",
+    "Barrier",
+    "FlexBarrier",
+    "Mutex",
+    "TimedMutex",
+    "SharedMutex",
+    "SharedTimedMutex",
+    "SharedLock",
+    "UniqueLock",
+    "Singleton"
+  ],
+  "files": [
+    "LICENSE",
+    "README.md",
+    "lib/",
+    "src/"
+  ]
+}

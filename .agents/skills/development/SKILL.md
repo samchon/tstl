@@ -9,6 +9,6 @@ Establish the supported behavior from the public declaration, existing callers, 
 
 Gather reproducible failures, test results, and measurements together. Repair shared causes in one batch. Keep the existing public declarations and entry points compatible through changes to implementation and packaging.
 
-Run `npm run build` and then `npm test` to check the complete suite. To run a single named test after a build, use `node lib/test <name>` from the repository root.
+Use `pnpm install --frozen-lockfile` to reproduce the workspace. Run `pnpm test` to check the complete suite against the built package. To run an individual assertion after a build, use `node test/lib/test <name>` from the root.
 
-When changing packaging, use `npm pack` and exercise `require("tstl")` and `import "tstl"` in a consumer of the archive. For a release change, verify tag logic and packaging with a dry run.
+When changing packaging, run `pnpm --filter tstl pack` and exercise `require("tstl")` and `import "tstl"` in a consumer of the archive. For a release change, verify the tag logic and packaging without publishing.
