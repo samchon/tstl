@@ -11,7 +11,7 @@ import { Hasher } from "../functional/Hasher";
 import { HashBuckets } from "./HashBuckets";
 
 /**
- * Hash buckets for set containers
+ * Associates set element iterators with buckets by hashing their values.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -27,7 +27,7 @@ export class SetHashBuckets<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor
+   * Initialize a SetHashBuckets from the supplied arguments.
    *
    * @param source Source set container
    * @param hasher Hash function

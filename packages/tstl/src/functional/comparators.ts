@@ -9,11 +9,12 @@ import { IComparable } from "./IComparable";
 import { get_uid } from "./uid";
 
 /**
- * Test whether two arguments are equal.
+ * Test whether `x` equals `y` using `x.equals(y)` when available, or strict
+ * equality otherwise.
  *
- * @param x The first argument to compare.
- * @param y The second argument to compare.
- * @return Whether two arguments are equal or not.
+ * @param x Left-hand operand.
+ * @param y Right-hand operand.
+ * @return Whether the two values are equivalent.
  */
 export function equal_to<T>(x: T, y: T): boolean {
   // CONVERT TO PRIMITIVE TYPE
@@ -30,22 +31,25 @@ export function equal_to<T>(x: T, y: T): boolean {
 }
 
 /**
- * Test whether two arguments are not equal.
+ * Test whether the library's default equality comparison considers the values
+ * unequal.
  *
- * @param x The first argument to compare.
- * @param y The second argument to compare.
- * @return Returns `true`, if two arguments are not equal, otherwise `false`.
+ * @param x Left-hand operand.
+ * @param y Right-hand operand.
+ * @return Whether the two values are unequal.
  */
 export function not_equal_to<T>(x: T, y: T): boolean {
   return !equal_to(x, y);
 }
 
 /**
- * Test whether *x* is less than *y*.
+ * Test whether `x` precedes `y`. Use `x.less(y)` when available. Other
+ * objects are ordered by their internal identifiers, and primitive values use
+ * JavaScript's `<` operator.
  *
- * @param x The first argument to compare.
- * @param y The second argument to compare.
- * @return Whether *x* is less than *y*.
+ * @param x Left-hand operand.
+ * @param y Right-hand operand.
+ * @return Whether `x` precedes `y`.
  */
 export function less<T>(x: T, y: T): boolean {
   // CONVERT TO PRIMITIVE TYPE
@@ -62,33 +66,35 @@ export function less<T>(x: T, y: T): boolean {
 }
 
 /**
- * Test whether *x* is less than or equal to *y*.
+ * Test whether `x` precedes or equals `y`.
  *
- * @param x The first argument to compare.
- * @param y The second argument to compare.
- * @return Whether *x* is less than or equal to *y*.
+ * @param x Left-hand operand.
+ * @param y Right-hand operand.
+ * @return Whether `x` precedes or equals `y`.
  */
 export function less_equal<T>(x: T, y: T): boolean {
   return less(x, y) || equal_to(x, y);
 }
 
 /**
- * Test whether *x* is greater than *y*.
+ * Test whether `x` is neither less than nor equal to `y` according to the
+ * library's default comparisons.
  *
- * @param x The first argument to compare.
- * @param y The second argument to compare.
- * @return Whether *x* is greater than *y*.
+ * @param x Left-hand operand.
+ * @param y Right-hand operand.
+ * @return Whether both the less-than and equality tests return `false`.
  */
 export function greater<T>(x: T, y: T): boolean {
   return !less_equal(x, y);
 }
 
 /**
- * Test whether *x* is greater than or equal to *y*.
+ * Test whether `x` does not precede `y` according to the library's default
+ * comparison.
  *
- * @param x The first argument to compare.
- * @param y The second argument to compare.
- * @return Whether *x* is greater than or equal to *y*.
+ * @param x Left-hand operand.
+ * @param y Right-hand operand.
+ * @return Whether the less-than test returns `false`.
  */
 export function greater_equal<T>(x: T, y: T): boolean {
   return !less(x, y);

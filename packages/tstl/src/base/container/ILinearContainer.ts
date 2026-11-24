@@ -12,7 +12,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IContainer } from "./IContainer";
 
 /**
- * Common interface for linear containers.
+ * Sequence that supports positional insertion and resizing.
  *
  * @template T Stored elements' type
  * @template SourceT Derived type extending this {@link ILinearContainer}
@@ -47,18 +47,18 @@ export interface ILinearContainer<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Fill Assigner.
+   * Replace the contents with `n` copies of the supplied value.
    *
-   * @param n Initial size.
-   * @param val Value to fill.
+   * @param n Number of initial elements.
+   * @param val Value assigned to each element.
    */
   assign(n: number, val: T): void;
 
   /**
-   * Range Assigner.
+   * Replace the contents with the elements in the half-open input range.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>(
     first: InputIterator,
@@ -66,9 +66,10 @@ export interface ILinearContainer<
   ): void;
 
   /**
-   * Resize the container. When shrinking, remove elements from the back.
+   * Resize to `n` elements, removing from the back or appending default
+   * values. The default value is determined by the concrete container.
    *
-   * @param n New container size.
+   * @param n New number of elements.
    */
   resize(n: number): void;
 
@@ -76,16 +77,16 @@ export interface ILinearContainer<
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Get the last element.
+   * Read the last element of the nonempty container.
    *
    * @return The last element.
    */
   back(): T;
 
   /**
-   * Change the last element.
+   * Replace the last element of the nonempty container.
    *
-   * @param val The value to change.
+   * @param val New value for the last element.
    */
   back(val: T): void;
 
@@ -98,36 +99,36 @@ export interface ILinearContainer<
   push_back(val: T): void;
 
   /**
-   * Erase the last element.
+   * Remove the last element of the sequence.
    */
   pop_back(): void;
 
   /**
-   * Insert a single element.
+   * Insert one element at the given position.
    *
-   * @param pos Position to insert.
+   * @param pos Position before which to insert.
    * @param val Value to insert.
-   * @return An iterator to the newly inserted element.
+   * @return An iterator to the inserted element.
    */
   insert(pos: IteratorT, val: T): IteratorT;
 
   /**
-   * Insert repeated elements.
+   * Insert `n` copies of the supplied value.
    *
-   * @param pos Position to insert.
+   * @param pos Position before which to insert.
    * @param n Number of elements to insert.
    * @param val Value to insert repeatedly.
-   * @return An iterator to the first of the newly inserted elements.
+   * @return An iterator to the first inserted element.
    */
   insert(pos: IteratorT, n: number, val: T): IteratorT;
 
   /**
-   * Insert range elements.
+   * Insert the elements in the half-open input range.
    *
-   * @param pos Position to insert.
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @return An iterator to the first of the newly inserted elements.
+   * @param pos Position before which to insert.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @return An iterator to the first inserted element.
    */
   insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>(
     pos: IteratorT,
@@ -138,7 +139,7 @@ export interface ILinearContainer<
 
 export namespace ILinearContainer {
   /**
-   * Iterator of {@link ILinearContainer}
+   * Iterator over the elements of `ILinearContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -163,7 +164,7 @@ export namespace ILinearContainer {
   > = IContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
 
   /**
-   * Reverse iterator of {@link ILinearContainer}
+   * Iterator for reverse traversal of `ILinearContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

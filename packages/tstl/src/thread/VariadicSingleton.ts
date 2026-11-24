@@ -11,7 +11,8 @@ import { equal } from "../ranges/algorithm/iterations";
 import { Singleton } from "./Singleton";
 
 /**
- * Variadic singleton generator.
+ * Stores a separately initialized value for each equivalent tuple of
+ * arguments.
  *
  * @author Jeongho Nam - https://github.comm/samchon
  */

@@ -5,9 +5,9 @@
  */
 //================================================================
 /**
- * Test whether the code is running on NodeJS.
+ * Detect whether the current runtime is Node.js.
  *
- * @return Whether NodeJS or not.
+ * @return Whether the current runtime is Node.js.
  */
 export function is_node(): boolean {
   if (is_node_ === null)

@@ -9,7 +9,7 @@ import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer"
 import { Vector } from "./Vector";
 
 /**
- * Stack; LIFO (Last In First Out).
+ * Last-in, first-out adaptor. Push and pop operate at the top.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -18,14 +18,14 @@ export class Stack<T> extends AdaptorContainer<T, Vector<T>, Stack<T>> {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty Stack.
    */
   public constructor();
 
   /**
-   * Copy Constructor.
+   * Create a Stack from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: Stack<T>);
 
@@ -40,9 +40,9 @@ export class Stack<T> extends AdaptorContainer<T, Vector<T>, Stack<T>> {
         ACCESSOR
     --------------------------------------------------------- */
   /**
-   * Get the last element.
+   * Read the top of the nonempty stack.
    *
-   * @return The last element.
+   * @return The most recently pushed element still in the stack.
    */
   public top(): T {
     return this.source_.back();

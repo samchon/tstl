@@ -9,7 +9,7 @@ import { ITimedLockable } from "../base/thread/ITimedLockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
- * Timed mutex.
+ * Exclusive asynchronous mutex that supports acquisition timeouts.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -20,7 +20,7 @@ export class TimedMutex implements ITimedLockable {
         CONSTRUCTOR
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an unlocked mutex.
    */
   public constructor() {
     this.mutex_ = new SharedTimedMutex(this);

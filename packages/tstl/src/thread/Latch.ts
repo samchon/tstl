@@ -8,11 +8,8 @@
 import { ConditionVariable } from "./ConditionVariable";
 
 /**
- * Latch for critical sections.
- *
- * The `Latch` class blocks critical sections until the downward counter to be zero. Howver,
- * unlike {@link Barrier} who can reusable that downward counter be reset whenever reach to the
- * zero, downward of the `Latch` is not reusable but diposable.
+ * One-shot counter for releasing asynchronous waiters when all arrivals have
+ * been registered.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -24,9 +21,9 @@ export class Latch {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create a latch with the specified initial count.
    *
-   * @param size Size of the downward counter.
+   * @param size Initial number of arrivals needed to release the latch.
    */
   public constructor(size: number) {
     this.cv_ = new ConditionVariable();
@@ -37,41 +34,27 @@ export class Latch {
         WAIT FUNCTIONS
     --------------------------------------------------------- */
   /**
-   * Waits until the counter to be zero.
-   *
-   * Blocks the function calling until internal counter to be reached to the zero.
-   *
-   * If the {@link Latch} already has been reached to the zero, it would be returned
-   * immediately.
+   * Wait until the latch counter reaches zero or below. A completed latch
+   * resolves immediately.
    */
   public async wait(): Promise<void> {
     if (this._Try_wait() === false) await this.cv_.wait();
   }
 
   /**
-   * Test whether the counter has been reached to the zero.
+   * Check the latch without waiting.
    *
-   * The {@link try_wait} function tests whether the internal counter has been reached to the
-   * zero.
-   *
-   * @return Whether reached to zero or not.
+   * @return Whether the counter is zero or below.
    */
   public async try_wait(): Promise<boolean> {
     return this._Try_wait();
   }
 
   /**
-   * Tries to wait until the counter to be zero in timeout.
+   * Wait for the latch counter to reach zero before the timeout elapses.
    *
-   * Attempts to block the function calling until internal counter to be reached to the zero
-   * in timeout. If succeeded to waiting the counter to be reached to the zero, it returns
-   * `true`. Otherwise, the {@link Latch} fails to reach to the zero in the given time, the
-   * function gives up the waiting and returns `false`.
-   *
-   * If the {@link Latch} already has been reached to the zero, it would return `true` directly.
-   *
-   * @param ms The maximum miliseconds for waiting.
-   * @return Whether succeeded to waiting in the given time.
+   * @param ms Maximum time to wait, in milliseconds.
+   * @return `true` if the latch is complete or completes before the timeout.
    */
   public async wait_for(ms: number): Promise<boolean> {
     if (this._Try_wait() === true) return true;
@@ -79,17 +62,10 @@ export class Latch {
   }
 
   /**
-   * Tries to wait until the counter to be zero in time expiration.
+   * Wait for the latch counter to reach zero by the given deadline.
    *
-   * Attempts to block the function calling until internal counter to be reached to the zero
-   * in time expiration. If succeeded to waiting the counter to be reached to the zero, it
-   * returns `true`. Otherwise, the {@link Latch} fails to reach to the zero in the given time,
-   * the function gives up the waiting and returns `false`.
-   *
-   * If the {@link Latch} already has been reached to the zero, it would return `true` directly.
-   *
-   * @param at The maximum time point to wait.
-   * @return Whether succeeded to waiting in the given time.
+   * @param at Wall-clock deadline.
+   * @return `true` if the latch is complete or completes before the deadline.
    */
   public async wait_until(at: Date): Promise<boolean> {
     if (this._Try_wait() === true) return true;
@@ -104,15 +80,9 @@ export class Latch {
         ARRIVAL FUNCTIONS
     ----------------------------------------------------------- */
   /**
-   * Derecements the counter.
+   * Register `n` arrivals. A count of zero or below releases the waiters.
    *
-   * Decrements the counter by *n* without blocking.
-   *
-   * If the parametric value *n* is equal to or greater than internal counter, so that the
-   * internal counter be equal to or less than zero, everyone who are {@link wait waiting} for
-   * the {@link Latch} would continue their execution.
-   *
-   * @param n Value of the decrement. Default is 1.
+   * @param n Number of arrivals to register. Defaults to `1`.
    */
   public async count_down(n: number = 1): Promise<void> {
     this.count_ -= n;
@@ -120,15 +90,9 @@ export class Latch {
   }
 
   /**
-   * Decrements the counter and waits until the counter to be zero.
+   * Register `n` arrivals and wait for the counter to reach zero.
    *
-   * Decrements the counter by *n* and blocks the section until internal counter to be zero.
-   *
-   * If the parametric value *n* is equal to or greater than internal counter, so that the
-   * internal counter be equal to or less than zero, everyone who are {@link wait waiting} for
-   * the {@link Latch} would continue their execution including this one.
-   *
-   * @param n Value of the decrement. Default is 1.
+   * @param n Number of arrivals to register. Defaults to `1`.
    */
   public async arrive_and_wait(n: number = 1): Promise<void> {
     await this.count_down(n);

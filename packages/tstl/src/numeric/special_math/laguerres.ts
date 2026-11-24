@@ -8,7 +8,11 @@
 import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
- * Laguerre polynomials.
+ * Evaluate the Laguerre polynomial of degree `n` at `x`.
+ *
+ * @param n Nonnegative degree. Fractional values are rounded down.
+ * @param x Real argument at which to evaluate the polynomial.
+ * @throws {@link InvalidArgument} when `n < 0`.
  *
  * @reference https://en.wikipedia.org/wiki/Laguerre_polynomials
  */
@@ -17,7 +21,13 @@ export function laguerre(n: number, x: number): number {
 }
 
 /**
- * Associated laguerre polynomials.
+ * Evaluate the associated Laguerre polynomial of degree `n` and order `m` at
+ * `x`.
+ *
+ * @param n Nonnegative degree. Fractional values are rounded down.
+ * @param m Nonnegative order. Fractional values are rounded down.
+ * @param x Real argument at which to evaluate the polynomial.
+ * @throws {@link InvalidArgument} when `n < 0` or `m < 0`.
  *
  * @reference https://en.wikipedia.org/wiki/Laguerre_polynomials#Generalized_Laguerre_polynomials
  */

@@ -13,7 +13,7 @@ import { Temporary } from "../../functional/Temporary";
 import { ITreeContainer } from "./ITreeContainer";
 
 /**
- * Basic tree set allowing duplicated keys.
+ * Base tree set that permits multiple equivalent keys.
  *
  * @template Key Key type
  * @template T Mapped type

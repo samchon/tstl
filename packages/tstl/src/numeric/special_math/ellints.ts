@@ -12,7 +12,11 @@ import { MathUtil } from "../../internal/numeric/MathUtil";
     FIRST
 --------------------------------------------------------------- */
 /**
- * Incomplete elliptic integral of the 1st kind.
+ * Evaluate the incomplete elliptic integral of the first kind.
+ *
+ * @param k Elliptic modulus in `[-1, 1]`.
+ * @param phi Amplitude in radians.
+ * @throws {@link InvalidArgument} when `|k| > 1`.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_first_kind
  */
@@ -25,7 +29,10 @@ export function ellint_1(k: number, phi: number): number {
 }
 
 /**
- * Complete elliptic integral of the 1st kind.
+ * Evaluate the complete elliptic integral of the first kind.
+ *
+ * @param k Elliptic modulus in `[-1, 1]`.
+ * @throws {@link InvalidArgument} when `|k| > 1`.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Elliptic_integral_of_the_first_kind
  */
@@ -37,7 +44,11 @@ export function comp_ellint_1(k: number): number {
     SECOND
 --------------------------------------------------------------- */
 /**
- * Incomplete elliptic integral of the 2nd kind.
+ * Evaluate the incomplete elliptic integral of the second kind.
+ *
+ * @param k Elliptic modulus in `[-1, 1]`.
+ * @param phi Amplitude in radians.
+ * @throws {@link InvalidArgument} when `|k| > 1`.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_second_kind
  */
@@ -49,7 +60,10 @@ export function ellint_2(k: number, phi: number): number {
 }
 
 /**
- * Complete elliptic integral of the 2nd kind.
+ * Evaluate the complete elliptic integral of the second kind.
+ *
+ * @param k Elliptic modulus in `[-1, 1]`.
+ * @throws {@link InvalidArgument} when `|k| > 1`.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_second_kind
  */
@@ -61,7 +75,12 @@ export function comp_ellint_2(k: number): number {
     THIRD
 --------------------------------------------------------------- */
 /**
- * Incomplete elliptic integral of the 3rd kind.
+ * Evaluate the incomplete elliptic integral of the third kind.
+ *
+ * @param k Elliptic modulus in `[-1, 1]`.
+ * @param v Characteristic of the integral.
+ * @param phi Amplitude in radians.
+ * @throws {@link InvalidArgument} when `|k| > 1` or `v > 1 / sin²(phi)`.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Complete_elliptic_integral_of_the_third_kind
  */
@@ -77,7 +96,11 @@ export function ellint_3(k: number, v: number, phi: number): number {
 }
 
 /**
- * Complete elliptic integral of the 3rd kind.
+ * Evaluate the complete elliptic integral of the third kind.
+ *
+ * @param k Elliptic modulus in `[-1, 1]`.
+ * @param n Characteristic of the complete integral.
+ * @throws {@link InvalidArgument} when `|k| > 1` or `n > 1`.
  *
  * @reference https://en.wikipedia.org/wiki/Elliptic_integral#Incomplete_elliptic_integral_of_the_third_kind
  */

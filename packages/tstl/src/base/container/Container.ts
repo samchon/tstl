@@ -10,7 +10,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { IContainer } from "./IContainer";
 
 /**
- * Basic container.
+ * Base class for containers that supply forward and reverse iterators.
  *
  * @template T Stored elements' type
  * @template SourceT Derived type extending this {@link Container}

@@ -19,13 +19,14 @@ import { iter_swap } from "./modifiers";
     PARTITION
 ========================================================= */
 /**
- * Test whether a range is partitioned.
+ * Test whether all elements satisfying `pred` precede all elements that fail
+ * it.
  *
- * @param first Forward iterator of the first position.
- * @param last Forward iterator of the last position.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Whether the range is partition or not.
+ * @return Whether the range is partitioned by the predicate.
  */
 export function is_partitioned<
   ForwardIterator extends Readonly<
@@ -45,13 +46,14 @@ export function is_partitioned<
 }
 
 /**
- * Get partition point.
+ * Find where a range already partitioned by `pred` changes from matching to
+ * nonmatching elements.
  *
- * @param first Forward iterator of the first position.
- * @param last Forward iterator of the last position.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return The first nonmatching iterator, or the end of the range.
  */
 export function partition_point<
   ForwardIterator extends Readonly<
@@ -77,13 +79,14 @@ export function partition_point<
 }
 
 /**
- * Partition a range into two sections.
+ * Reorder the range so that elements satisfying `pred` precede the others.
  *
- * @param first Bidirectional iterator of the first position.
- * @param last Bidirectional iterator of the last position.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return The beginning of the nonmatching group, or the end if all elements
+ * match.
  */
 export function partition<
   BidirectionalIterator extends General<
@@ -112,13 +115,15 @@ export function partition<
 }
 
 /**
- * Partition a range into two sections with stable ordering.
+ * Group matching elements before nonmatching elements, preserving the order
+ * within each group.
  *
- * @param first Bidirectional iterator of the first position.
- * @param last Bidirectional iterator of the last position.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return The beginning of the nonmatching group, or the end if all elements
+ * match.
  */
 export function stable_partition<
   BidirectionalIterator extends General<
@@ -154,15 +159,17 @@ export function stable_partition<
 }
 
 /**
- * Partition a range into two outputs.
+ * Copy matching and nonmatching elements to separate destinations, preserving
+ * their order within each destination.
  *
- * @param first Bidirectional iterator of the first position.
- * @param last Bidirectional iterator of the last position.
- * @param output_true Output iterator to the first position for the first section.
- * @param output_false Output iterator to the first position for the second section.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param output_true Start of the output for matching elements.
+ * @param output_false Start of the output for nonmatching elements.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return A pair containing the end of the matching output and the end of the
+ * nonmatching output.
  */
 export function partition_copy<
   InputIterator extends Readonly<

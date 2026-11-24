@@ -8,7 +8,8 @@
 import { Hasher } from "../functional/Hasher";
 
 /**
- * Hash buckets
+ * Indexes elements by their hashed keys and redistributes them when the table
+ * grows.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

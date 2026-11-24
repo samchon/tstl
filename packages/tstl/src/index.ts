@@ -1,8 +1,7 @@
 //================================================================
 
 /**
- * TSTL - TypeScript Standard Template Library
- *
+ * TypeScript implementations of STL containers, iterators, and algorithms.
  * @packageDocumentation
  * @module std
  * @preferred

@@ -11,7 +11,8 @@ import { equal } from "../ranges/algorithm/iterations";
 import { MutableSingleton } from "./MutableSingleton";
 
 /**
- * Variadic mutable singleton generator.
+ * Stores a separately managed, mutable value for each equivalent tuple of
+ * arguments.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

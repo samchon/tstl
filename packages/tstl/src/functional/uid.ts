@@ -8,10 +8,10 @@
 import { _Get_root } from "../internal/Global";
 
 /**
- * Get unique identifier.
+ * Return the stable numeric identifier associated with this object.
  *
- * @param obj Target object.
- * @return The identifier number.
+ * @param obj Object whose identifier is needed.
+ * @return The object's identifier.
  */
 export function get_uid(obj: object | null | undefined): number {
   // NO UID EXISTS, THEN ISSUE ONE.

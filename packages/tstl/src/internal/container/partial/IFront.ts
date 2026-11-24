@@ -6,16 +6,16 @@
 //================================================================
 export interface IFront<T> {
   /**
-   * Get the first element.
+   * Read the element at the front of the sequence.
    *
    * @return The first element.
    */
   front(): T;
 
   /**
-   * Change the first element.
+   * Replace the first element of the sequence.
    *
-   * @param val The value to change.
+   * @param val New value for the first element.
    */
   front(val: T): void;
 }

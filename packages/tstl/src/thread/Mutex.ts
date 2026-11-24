@@ -9,7 +9,7 @@ import { ILockable } from "../base/thread/ILockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
- * Mutex.
+ * Asynchronous mutex with one exclusive owner at a time.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -20,7 +20,7 @@ export class Mutex implements ILockable {
         CONSTRUCTOR
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an unlocked mutex.
    */
   public constructor() {
     this.mutex_ = new SharedTimedMutex(this);

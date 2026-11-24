@@ -9,7 +9,7 @@ import { IForwardIterator } from "../../iterator/IForwardIterator";
 import { SetContainer } from "./SetContainer";
 
 /**
- * Basic set container allowing multiple keys.
+ * Base class for sets that allow multiple equivalent keys.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -29,24 +29,24 @@ export abstract class MultiSet<
         INSERT
     --------------------------------------------------------- */
   /**
-   * Insert an element.
+   * Insert the supplied element.
    *
    * @param key Element to insert.
-   * @return An iterator to the newly inserted element.
+   * @return An iterator to the inserted element.
    */
   public insert(key: Key): IteratorT;
 
   /**
-   * Insert an element with hint.
+   * Insert an element using the supplied position as a hint.
    *
-   * @param hint Hint for the position where the element can be inserted.
+   * @param hint Suggested position for the insertion.
    * @param key Element to insert.
-   * @return An iterator to the newly inserted element.
+   * @return An iterator to the inserted element.
    */
   public insert(hint: IteratorT, key: Key): IteratorT;
 
   /**
-   * Insert range elements.
+   * Insert the elements in the half-open input range.
    *
    * @param begin Iterator to the first element.
    * @param end Past-the-end iterator of the input range.
@@ -92,11 +92,11 @@ export abstract class MultiSet<
 }
 
 /**
- *
+ * Type utilities for MultiSet.
  */
 export namespace MultiSet {
   /**
-   * Iterator of {@link MultiSet}
+   * Iterator over the elements of `MultiSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -108,7 +108,7 @@ export namespace MultiSet {
   > = SetContainer.Iterator<Key, false, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Reverse iterator of {@link MultiSet}
+   * Iterator for reverse traversal of `MultiSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

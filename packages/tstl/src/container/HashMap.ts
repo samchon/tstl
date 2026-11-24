@@ -19,7 +19,11 @@ import { IPair } from "../utility/IPair";
 import { Pair } from "../utility/Pair";
 
 /**
- * Unique-key Map based on Hash buckets.
+ * Hash-based map with one entry per equivalent key.
+ *
+ * Custom equality must be an equivalence relation. Equivalent keys must have
+ * the same nonnegative integer hash, and each hash must remain stable while
+ * its key is stored.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -43,19 +47,22 @@ export class HashMap<Key, T>
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty HashMap.
    *
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
   /**
-   * Initializer Constructor.
+   * Create a HashMap from the supplied entries using the given hash and
+   * equality functions.
    *
-   * @param items Items to assign.
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param items Initial elements in traversal order.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     items: IPair<Key, T>[],
@@ -64,19 +71,20 @@ export class HashMap<Key, T>
   );
 
   /**
-   * Copy Constructor.
+   * Create a HashMap from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: HashMap<Key, T>);
 
   /**
-   * Range Constructor.
+   * Create a HashMap from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     first: Readonly<IForwardIterator<IPair<Key, T>>>,
@@ -343,12 +351,12 @@ export class HashMap<Key, T>
 }
 
 /**
- *
+ * Iterator types for HashMap.
  */
 export namespace HashMap {
   // HEAD
   /**
-   * Iterator of {@link HashMap}
+   * Iterator over the elements of `HashMap`.
    */
   export type Iterator<Key, T> = MapElementList.Iterator<
     Key,
@@ -358,7 +366,7 @@ export namespace HashMap {
   >;
 
   /**
-   * Reverse iterator of {@link HashMap}
+   * Iterator for reverse traversal of `HashMap`.
    */
   export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<
     Key,

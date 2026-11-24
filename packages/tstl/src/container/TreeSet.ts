@@ -14,7 +14,7 @@ import { UniqueSetTree } from "../internal/tree/UniqueSetTree";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 /**
- * Unique-key Set based on Tree.
+ * Ordered set with unique keys. Iterators visit keys in comparator order.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -30,33 +30,36 @@ export class TreeSet<Key> extends UniqueTreeSet<
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty TreeSet.
    *
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
   /**
-   * Initializer Constructor.
+   * Create a TreeSet from the supplied elements using the given ordering.
    *
-   * @param items Items to assign.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param items Initial elements in traversal order.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: Key[], comp?: Comparator<Key>);
 
   /**
-   * Copy Constructor.
+   * Create a TreeSet from an existing instance.
    *
    * @param container Container to copy.
    */
   public constructor(container: TreeSet<Key>);
 
   /**
-   * Range Constructor.
+   * Create a TreeSet from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -152,17 +155,17 @@ export class TreeSet<Key> extends UniqueTreeSet<
 }
 
 /**
- *
+ * Iterator types for TreeSet.
  */
 export namespace TreeSet {
   // HEAD
   /**
-   * Iterator of {@link TreeSet}
+   * Iterator over the elements of `TreeSet`.
    */
   export type Iterator<Key> = SetElementList.Iterator<Key, true, TreeSet<Key>>;
 
   /**
-   * Reverse iterator of {@link TreeSet}
+   * Iterator for reverse traversal of `TreeSet`.
    */
   export type ReverseIterator<Key> = SetElementList.ReverseIterator<
     Key,

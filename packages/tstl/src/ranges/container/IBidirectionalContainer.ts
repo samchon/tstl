@@ -12,7 +12,7 @@ import { IReverseIterator } from "../../iterator/IReverseIterator";
 import { IForwardContainer } from "./IForwardContainer";
 
 /**
- * Bidirection iterable container.
+ * Range interface with iterators that move in either direction.
  *
  * @template Iterator Iterator type
  * @author Jeongho Nam - https://github.com/samchon
@@ -30,23 +30,24 @@ export interface IBidirectionalContainer<
   >,
 > extends IForwardContainer<IteratorT> {
   /**
-   * Reverse iterator to the first element in reverse.
+   * Get the start of reverse traversal.
    *
-   * @return Reverse iterator to the first.
+   * @return An iterator to the last element, or `rend()` when the container is
+   * empty.
    */
   rbegin(): ReverseIteratorT;
 
   /**
-   * Reverse iterator to the reverse end.
+   * Get the exclusive end of reverse traversal.
    *
-   * @return Reverse iterator to the end.
+   * @return The reverse past-the-end iterator.
    */
   rend(): ReverseIteratorT;
 }
 
 export namespace IBidirectionalContainer {
   /**
-   * Deduct iterator type.
+   * Extract the iterator type from the supplied container type.
    */
   export type IteratorType<
     Container extends Array<any> | IBidirectionalContainer<any, any>,
@@ -57,7 +58,7 @@ export namespace IBidirectionalContainer {
     : unknown;
 
   /**
-   * Deduct reverse iterator type.
+   * Extract the reverse-iterator type from the supplied container type.
    */
   export type ReverseIteratorType<
     Container extends Array<any> | IBidirectionalContainer<any, any>,
@@ -68,7 +69,7 @@ export namespace IBidirectionalContainer {
     : unknown;
 
   /**
-   * Deduct value type.
+   * Extract the element type from the supplied type.
    */
   export type ValueType<
     Container extends Array<any> | IBidirectionalContainer<any, any>,

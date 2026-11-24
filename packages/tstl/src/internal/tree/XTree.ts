@@ -10,7 +10,7 @@ import { Color } from "./Color";
 import { XTreeNode } from "./XTreeNode";
 
 /**
- * Red-Black Tree
+ * Red-black tree used by the ordered containers.
  *
  * @reference https://en.wikipedia.org/w/index.php?title=Red%E2%80%93black_tree
  * @inventor Rudolf Bayer

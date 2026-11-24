@@ -10,7 +10,7 @@ import { IPair } from "../../utility/IPair";
 import { MapContainer } from "./MapContainer";
 
 /**
- * Basic map container allowing duplicated keys.
+ * Base class for maps that allow multiple entries with equivalent keys.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -35,42 +35,42 @@ export abstract class MultiMap<
    *
    * @param key Key to be mapped.
    * @param value Value to emplace.
-   * @return An iterator to the newly inserted element.
+   * @return An iterator to the inserted element.
    */
   public abstract emplace(key: Key, value: T): Iterator;
 
   /**
-   * Construct and insert element with hint.
+   * Construct an element using the supplied insertion hint.
    *
-   * @param hint Hint for the position where the element can be inserted.
+   * @param hint Suggested position for the insertion.
    * @param key Key of the new element.
    * @param val Value of the new element.
-   * @return An iterator to the newly inserted element.
+   * @return An iterator to the inserted element.
    */
   public abstract emplace_hint(hint: Iterator, key: Key, val: T): Iterator;
 
   /**
-   * Insert an element.
+   * Insert the supplied element.
    *
-   * @param pair A tuple to be referenced for the insert.
-   * @return An iterator to the newly inserted element.
+   * @param pair Key and mapped value to insert.
+   * @return An iterator to the inserted element.
    */
   public insert(pair: IPair<Key, T>): Iterator;
 
   /**
-   * Insert an element with hint.
+   * Insert an element using the supplied position as a hint.
    *
-   * @param hint Hint for the position where the element can be inserted.
-   * @param pair A tuple to be referenced for the insert.
-   * @return An iterator to the newly inserted element.
+   * @param hint Suggested position for the insertion.
+   * @param pair Key and mapped value to insert.
+   * @return An iterator to the inserted element.
    */
   public insert(hint: Iterator, pair: IPair<Key, T>): Iterator;
 
   /**
-   * Insert range elements.
+   * Insert the elements in the half-open input range.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public insert<
     InputIterator extends Readonly<
@@ -115,11 +115,11 @@ export abstract class MultiMap<
 }
 
 /**
- *
+ * Type utilities for MultiMap.
  */
 export namespace MultiMap {
   /**
-   * Iterator of {@link MultiMap}
+   * Iterator over the elements of `MultiMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -132,7 +132,7 @@ export namespace MultiMap {
   > = MapContainer.Iterator<Key, T, false, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Reverse iterator of {@link MultiMap}
+   * Iterator for reverse traversal of `MultiMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

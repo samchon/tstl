@@ -10,7 +10,7 @@ import { IPushFront } from "../internal/container/partial/IPushFront";
 import { InsertIteratorBase } from "../internal/iterator/InsertIteratorBase";
 
 /**
- * Front insert iterator.
+ * Output iterator that prepends each assigned value to its destination.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -26,7 +26,7 @@ export class FrontInsertIterator<
         METHODS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create an iterator that prepends assigned values.
    *
    * @param source The source container.
    */
@@ -51,7 +51,7 @@ export class FrontInsertIterator<
 }
 export namespace FrontInsertIterator {
   /**
-   * Deduct value type.
+   * Extract the element type from the supplied type.
    */
   export type ValueType<Source extends IPushFront<any>> =
     Source extends IPushFront<infer T> ? T : unknown;

@@ -9,7 +9,7 @@ import { IBidirectionalIterator } from "./IBidirectionalIterator";
 import { IReversableIterator } from "./IReversableIterator";
 
 /**
- * Reverse iterator
+ * Iterator that traverses an underlying range in reverse order.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -19,9 +19,10 @@ export interface IReverseIterator<
   This extends IReverseIterator<T, Base, This>,
 > extends IBidirectionalIterator<T, This> {
   /**
-   * Get base iterator.
+   * Get the underlying forward iterator. It is one forward step past the
+   * element that the reverse iterator designates.
    *
-   * @return The base iterator.
+   * @return The base iterator of this reverse position.
    */
   base(): Base;
 }

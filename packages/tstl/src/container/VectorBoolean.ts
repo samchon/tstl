@@ -16,7 +16,7 @@ import { Pair } from "../utility/Pair";
 import { TreeMap } from "./TreeMap";
 
 /**
- * Vector only for `boolean`.
+ * Sequence of booleans stored as runs of equal values.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -38,15 +38,12 @@ export class VectorBoolean
     >
 {
   /**
-   * Store not full elements, but their sequence.
-   *
-   *   - first: index
-   *   - second: value
+   * Stores the starting indexes and values of runs of equal bits.
    */
   private data_!: TreeMap<number, boolean>;
 
   /**
-   * Number of elements
+   * Number of boolean elements represented by the stored runs.
    */
   private size_!: number;
 
@@ -58,37 +55,37 @@ export class VectorBoolean
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty VectorBoolean.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Create a VectorBoolean containing the supplied elements.
    *
    * @param array Initial elements.
    */
   public constructor(array: boolean[]);
 
   /**
-   * Copy Constructor
+   * Create a VectorBoolean from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: VectorBoolean);
 
   /**
-   * Fill Constructor.
+   * Create a VectorBoolean with `n` copies of `val`.
    *
-   * @param n Initial size.
-   * @param val Value to fill.
+   * @param n Number of initial elements.
+   * @param val Value assigned to each element.
    */
   public constructor(n: number, val: boolean);
 
   /**
-   * Range Constructor.
+   * Create a VectorBoolean from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public constructor(
     first: Readonly<IForwardIterator<boolean>>,
@@ -152,7 +149,7 @@ export class VectorBoolean
   }
 
   /**
-   * Flip all values.
+   * Invert every boolean value in place.
    */
   public flip(): void {
     for (const entry of this.data_) entry.second = !entry.second;
@@ -429,17 +426,17 @@ export class VectorBoolean
 }
 
 /**
- *
+ * Iterator types for VectorBoolean.
  */
 export namespace VectorBoolean {
   // HEAD
   /**
-   * Iterator of {@link VectorBoolean}
+   * Iterator over the elements of `VectorBoolean`.
    */
   export type Iterator = ArrayIterator<boolean, VectorBoolean>;
 
   /**
-   * Reverse iterator of {@link VectorBoolean}
+   * Iterator for reverse traversal of `VectorBoolean`.
    */
   export type ReverseIterator = ArrayReverseIterator<boolean, VectorBoolean>;
 

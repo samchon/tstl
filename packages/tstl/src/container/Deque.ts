@@ -18,7 +18,8 @@ import { distance } from "../iterator/global";
 import { Pair } from "../utility/Pair";
 
 /**
- * Double ended queue.
+ * Segmented sequence with random access and insertion and removal at either
+ * end.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -53,37 +54,37 @@ export class Deque<T>
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty Deque.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Create a Deque containing the supplied elements.
    *
-   * @param items Items to assign.
+   * @param items Initial elements in traversal order.
    */
   public constructor(items: T[]);
 
   /**
-   * Copy Constructor
+   * Create a Deque from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: Deque<T>);
 
   /**
-   * Fill Constructor.
+   * Create a Deque with `size` copies of `val`.
    *
-   * @param size Initial size.
-   * @param val Value to fill.
+   * @param size Number of initial elements.
+   * @param val Value assigned to each element.
    */
   public constructor(size: number, val: T);
 
   /**
-   * Range Constructor.
+   * Create a Deque from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public constructor(
     first: Readonly<IForwardIterator<T>>,
@@ -161,9 +162,9 @@ export class Deque<T>
   }
 
   /**
-   * Reserve {@link capacity} enable to store *n* elements.
+   * Reserve storage for at least `n` elements.
    *
-   * @param n The capacity to reserve.
+   * @param n Requested capacity.
    */
   public reserve(n: number): void {
     this._Reserve(Deque._Emend(n, "reserve"));
@@ -196,7 +197,7 @@ export class Deque<T>
   }
 
   /**
-   * Shrink {@link capacity} to actual {@link size}.
+   * Reduce the reported capacity to the number of elements.
    */
   public shrink_to_fit(): void {
     this._Reserve(this.size());
@@ -241,9 +242,9 @@ export class Deque<T>
   }
 
   /**
-   * The capacity to store elements.
+   * Get the current storage capacity.
    *
-   * @return The capacity.
+   * @return The number of elements the current storage can accommodate.
    */
   public capacity(): number {
     return this.capacity_;
@@ -576,7 +577,7 @@ export class Deque<T>
 }
 
 /**
- *
+ * Iterator types and storage constants for Deque.
  */
 export namespace Deque {
   //----
@@ -584,12 +585,12 @@ export namespace Deque {
   //----
   // HEAD
   /**
-   * Iterator of {@link Deque}
+   * Iterator over the elements of `Deque`.
    */
   export type Iterator<T> = ArrayIterator<T, Deque<T>>;
 
   /**
-   * Reverse iterator of {@link Deque}
+   * Iterator for reverse traversal of `Deque`.
    */
   export type ReverseIterator<T> = ArrayReverseIterator<T, Deque<T>>;
 
@@ -601,12 +602,12 @@ export namespace Deque {
   // CONSTANTS
   //----
   /**
-   * Maximum number of storage rows. Indexed access scans at most this many rows.
+   * Maximum number of storage segments examined by indexed access.
    */
   export const ROW_SIZE = 8;
 
   /**
-   * Capacity assigned when a deque is initialized or cleared.
+   * Initial capacity restored when the deque is cleared.
    */
   export const MIN_CAPACITY = 36;
 

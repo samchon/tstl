@@ -8,7 +8,7 @@
 import { IForwardIterator } from "../../../iterator/IForwardIterator";
 
 /**
- * Adaptor for `for ... of` iteration.
+ * Exposes an iterator range to JavaScript `for...of`.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -21,10 +21,10 @@ export class ForOfAdaptor<
   private last_: InputIterator;
 
   /**
-   * Initializer Constructor.
+   * Initialize a ForOfAdaptor from the supplied arguments.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public constructor(first: InputIterator, last: InputIterator) {
     this.it_ = first;

@@ -15,7 +15,7 @@ import { Container } from "./Container";
 import { IContainer } from "./IContainer";
 
 /**
- * Basic set container.
+ * Base class for containers that store keys as their elements.
  *
  * @template Key Key type
  * @template Unique Whether duplicated key is blocked or not
@@ -53,7 +53,7 @@ export abstract class SetContainer<
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty SetContainer.
    */
   protected constructor(
     factory: (
@@ -240,7 +240,12 @@ export abstract class SetContainer<
   public abstract swap(obj: SourceT): void;
 
   /**
-   * @inheritDoc
+   * Insert elements from a separate set and remove the transferred elements
+   * from the source. For unique-key sets, equivalent elements already in the
+   * destination leave the corresponding source elements in place. Multisets
+   * transfer every element. Obtain new destination iterators after transfer.
+   *
+   * @param source Set whose elements are transferred.
    */
   public abstract merge(source: SourceT): void;
 
@@ -253,11 +258,11 @@ export abstract class SetContainer<
 }
 
 /**
- *
+ * Type utilities for SetContainer.
  */
 export namespace SetContainer {
   /**
-   * Return type of {@link SetContainer.insert}
+   * Result type of `SetContainer.insert` for the concrete set.
    */
   export type InsertRet<
     Key,
@@ -268,7 +273,7 @@ export namespace SetContainer {
   > = Unique extends true ? Pair<IteratorT, boolean> : IteratorT;
 
   /**
-   * Iterator of {@link SetContainer}
+   * Iterator over the elements of `SetContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -281,7 +286,7 @@ export namespace SetContainer {
   > = Readonly<IContainer.Iterator<Key, SourceT, IteratorT, ReverseT, Key>>;
 
   /**
-   * Reverse iterator of {@link SetContainer}
+   * Iterator for reverse traversal of `SetContainer`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

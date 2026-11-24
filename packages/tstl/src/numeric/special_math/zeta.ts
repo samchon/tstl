@@ -9,7 +9,10 @@ import { MathUtil } from "../../internal/numeric/MathUtil";
 import { tgamma } from "./gamma";
 
 /**
- * Riemann zeta function.
+ * Evaluate the Riemann zeta function for the real argument `arg`.
+ *
+ * @param arg Real argument.
+ * @return The zeta function value, with `Infinity` at `1`.
  *
  * @reference http://en.cppreference.com/w/cpp/numeric/special_math/riemann_zeta
  */

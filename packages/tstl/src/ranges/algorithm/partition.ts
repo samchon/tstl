@@ -15,12 +15,13 @@ import { IBidirectionalContainer } from "../container/IBidirectionalContainer";
 import { IForwardContainer } from "../container/IForwardContainer";
 
 /**
- * Test whether a range is partitioned.
+ * Test whether all elements satisfying `pred` precede all elements that fail
+ * it.
  *
- * @param range An iterable ranged container.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param range Input range.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Whether the range is partition or not.
+ * @return Whether the range is partitioned by the predicate.
  */
 export function is_partitioned<
   Range extends Array<any> | IForwardContainer<any>,
@@ -32,12 +33,13 @@ export function is_partitioned<
 }
 
 /**
- * Get partition point.
+ * Find where a range already partitioned by `pred` changes from matching to
+ * nonmatching elements.
  *
- * @param range An iterable ranged container.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param range Input range.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return The first nonmatching iterator, or the end of the range.
  */
 export function partition_point<
   Range extends Array<any> | IForwardContainer<any>,
@@ -49,12 +51,13 @@ export function partition_point<
 }
 
 /**
- * Partition a range into two sections.
+ * Reorder the range so that elements satisfying `pred` precede the others.
  *
- * @param range An iterable ranged container.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param range Range modified in place.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return The beginning of the nonmatching group, or the end if all elements
+ * match.
  */
 export function partition<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -66,12 +69,14 @@ export function partition<
 }
 
 /**
- * Partition a range into two sections with stable ordering.
+ * Group matching elements before nonmatching elements, preserving the order
+ * within each group.
  *
- * @param range An iterable ranged container.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param range Range modified in place.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return The beginning of the nonmatching group, or the end if all elements
+ * match.
  */
 export function stable_partition<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -83,14 +88,16 @@ export function stable_partition<
 }
 
 /**
- * Partition a range into two outputs.
+ * Copy matching and nonmatching elements to separate destinations, preserving
+ * their order within each destination.
  *
- * @param range An iterable ranged container.
- * @param output_true Output iterator to the first position for the first section.
- * @param output_false Output iterator to the first position for the second section.
- * @param pred An unary function predicates partition. Returns `true`, if an element belongs to the first section, otherwise `false` which means the element belongs to the second section.
+ * @param range Input range.
+ * @param output_true Start of the output for matching elements.
+ * @param output_false Start of the output for nonmatching elements.
+ * @param pred Predicate selecting the elements in the first partition.
  *
- * @return Iterator to the first element of the second section.
+ * @return A pair containing the end of the matching output and the end of the
+ * nonmatching output.
  */
 export function partition_copy<
   Range extends Array<any> | IForwardContainer<any>,

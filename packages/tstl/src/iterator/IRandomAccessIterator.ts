@@ -8,7 +8,7 @@
 import { IBidirectionalIterator } from "./IBidirectionalIterator";
 
 /**
- * Random access iterator.
+ * Iterator that can move by an offset as well as step in either direction.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -20,17 +20,17 @@ export interface IRandomAccessIterator<
   >,
 > extends IBidirectionalIterator<T, Iterator> {
   /**
-   * Get index.
+   * Get the index used by this iterator, relative to its storage.
    *
-   * @return The index.
+   * @return The index of the represented position.
    */
   index(): number;
 
   /**
-   * Advance iterator.
+   * Return an iterator at a signed offset from this position.
    *
-   * @param n Step to advance.
-   * @return The advanced iterator.
+   * @param n Offset in traversal order. Negative values move backward.
+   * @return The iterator at the requested offset.
    */
   advance(n: number): Iterator;
 }

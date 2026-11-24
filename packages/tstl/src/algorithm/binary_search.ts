@@ -16,14 +16,16 @@ import { Pair } from "../utility/Pair";
     BINARY SEARCH
 ========================================================= */
 /**
- * Get iterator to lower bound.
+ * Find the first position where the sorted range's elements do not precede
+ * `val`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param val Value to search for.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the sorted range.
+ * @param last Exclusive end of the sorted range.
+ * @param val Value to look for.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Iterator to the first element equal or after the val.
+ * @return The lower bound, or the end of the range.
  */
 export function lower_bound<
   ForwardIterator extends Readonly<
@@ -50,14 +52,15 @@ export function lower_bound<
 }
 
 /**
- * Get iterator to upper bound.
+ * Find the first position where `val` precedes an element of the sorted range.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param val Value to search for.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the sorted range.
+ * @param last Exclusive end of the sorted range.
+ * @param val Value to look for.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Iterator to the first element after the key.
+ * @return The upper bound, or the end of the range.
  */
 export function upper_bound<
   ForwardIterator extends Readonly<
@@ -84,14 +87,17 @@ export function upper_bound<
 }
 
 /**
- * Get range of equal elements.
+ * Find the half-open subrange of a sorted range whose elements are equivalent
+ * to `val`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param val Value to search for.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the sorted range.
+ * @param last Exclusive end of the sorted range.
+ * @param val Value to look for.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Pair of {@link lower_bound} and {@link upper_bound}.
+ * @return The lower and upper bounds. They coincide when there is no
+ * equivalent element.
  */
 export function equal_range<
   ForwardIterator extends Readonly<
@@ -110,14 +116,15 @@ export function equal_range<
 }
 
 /**
- * Test whether a value exists in sorted range.
+ * Test whether a sorted range contains an element equivalent to `val`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param val Value to search for.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the sorted range.
+ * @param last Exclusive end of the sorted range.
+ * @param val Value to look for.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Whether the value exists or not.
+ * @return Whether an equivalent element exists.
  */
 export function binary_search<
   ForwardIterator extends Readonly<

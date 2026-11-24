@@ -27,18 +27,18 @@ export interface ILinearContainerBase<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Fill Assigner.
+   * Replace the contents with `n` copies of the supplied value.
    *
-   * @param n Initial size.
-   * @param val Value to fill.
+   * @param n Number of initial elements.
+   * @param val Value assigned to each element.
    */
   assign(n: number, val: T): void;
 
   /**
-   * Range Assigner.
+   * Replace the contents with the elements in the half-open input range.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   assign<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>(
     first: InputIterator,
@@ -46,9 +46,10 @@ export interface ILinearContainerBase<
   ): void;
 
   /**
-   * Resize this {@link Vector} forcibly.
+   * Resize the sequence to `n` elements. Shrinking erases elements from the
+   * back.
    *
-   * @param n New container size.
+   * @param n New number of elements.
    */
   resize(n: number): void;
 
@@ -61,36 +62,36 @@ export interface ILinearContainerBase<
   push_back(val: T): void;
 
   /**
-   * Erase the last element.
+   * Remove the last element of the sequence.
    */
   pop_back(): void;
 
   /**
-   * Insert a single element.
+   * Insert one element at the given position.
    *
-   * @param pos Position to insert.
+   * @param pos Position before which to insert.
    * @param val Value to insert.
-   * @return An iterator to the newly inserted element.
+   * @return An iterator to the inserted element.
    */
   insert(pos: IteratorT, val: T): IteratorT;
 
   /**
-   * Insert repeated elements.
+   * Insert `n` copies of the supplied value.
    *
-   * @param pos Position to insert.
+   * @param pos Position before which to insert.
    * @param n Number of elements to insert.
    * @param val Value to insert repeatedly.
-   * @return An iterator to the first of the newly inserted elements.
+   * @return An iterator to the first inserted element.
    */
   insert(pos: IteratorT, n: number, val: T): IteratorT;
 
   /**
-   * Insert range elements.
+   * Insert the elements in the half-open input range.
    *
-   * @param pos Position to insert.
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @return An iterator to the first of the newly inserted elements.
+   * @param pos Position before which to insert.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @return An iterator to the first inserted element.
    */
   insert<InputIterator extends Readonly<IForwardIterator<T, InputIterator>>>(
     pos: IteratorT,

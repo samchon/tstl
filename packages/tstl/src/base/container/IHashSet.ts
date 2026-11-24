@@ -10,7 +10,8 @@ import { SetElementList } from "../../internal/container/associative/SetElementL
 import { SetContainer } from "./SetContainer";
 
 /**
- * Common interface for hash sets.
+ * Set interface with hash buckets and a configurable hash and equality
+ * predicate.
  *
  * @template Key Key type
  * @template Unique Whether duplicated key is blocked or not
@@ -46,10 +47,10 @@ export interface IHashSet<
   begin(): IHashSet.Iterator<Key, Unique, Source>;
 
   /**
-   * Iterator to the first element in a specific bucket.
+   * Get the first element encountered in a valid, nonempty bucket.
    *
-   * @param index Index number of the specific bucket.
-   * @return Iterator from the specific bucket.
+   * @param index Index of a nonempty bucket.
+   * @return The iterator at the first stored element in that bucket.
    */
   begin(index: number): IHashSet.Iterator<Key, Unique, Source>;
 
@@ -59,17 +60,19 @@ export interface IHashSet<
   end(): IHashSet.Iterator<Key, Unique, Source>;
 
   /**
-   * Iterator to the end in a specific bucket.
+   * Get the traversal position immediately after the last element in a valid,
+   * nonempty bucket. The intervening traversal can visit elements from other
+   * buckets.
    *
-   * @param index Index number of the specific bucket.
-   * @return Iterator from the specific bucket.
+   * @param index Index of a nonempty bucket.
+   * @return The successor of the bucket's last stored element.
    */
   end(index: number): IHashSet.Iterator<Key, Unique, Source>;
 }
 
 export namespace IHashSet {
   /**
-   * Iterator of {@link IHashSet}
+   * Iterator over the elements of `IHashSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -80,7 +83,7 @@ export namespace IHashSet {
   > = SetElementList.Iterator<Key, Unique, Source>;
 
   /**
-   * Reverse iterator of {@link IHashSet}
+   * Iterator for reverse traversal of `IHashSet`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

@@ -10,7 +10,7 @@ import { IContainer } from "./IContainer";
 import { ILinearContainer } from "./ILinearContainer";
 
 /**
- * Common interface for deque containers.
+ * Sequence with insertion and removal at both ends.
  *
  * @template T Stored elements' type
  * @template SourceT Derived type extending this {@link IDequeContainer}
@@ -37,7 +37,7 @@ export interface IDequeContainer<
 
 export namespace IDequeContainer {
   /**
-   * Iterator of {@link IDequeContainer}.
+   * Iterator over the elements of `IDequeContainer`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -62,7 +62,7 @@ export namespace IDequeContainer {
   > = ILinearContainer.Iterator<T, SourceT, IteratorT, ReverseT, ElemT>;
 
   /**
-   * Reverse iterator of {@link IDequeContainer}.
+   * Iterator for reverse traversal of `IDequeContainer`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */

@@ -16,7 +16,7 @@ import { Entry } from "../utility/Entry";
 import { IPair } from "../utility/IPair";
 
 /**
- * Unique-key Map based on Tree.
+ * Ordered map with unique keys. Iterators visit keys in comparator order.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -33,33 +33,36 @@ export class TreeMap<Key, T> extends UniqueTreeMap<
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty TreeMap.
    *
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<Key>);
 
   /**
-   * Initializer Constructor.
+   * Create a TreeMap from the supplied elements using the given ordering.
    *
-   * @param items Items to assign.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param items Initial elements in traversal order.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(items: IPair<Key, T>[], comp?: Comparator<Key>);
 
   /**
-   * Copy Constructor.
+   * Create a TreeMap from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: TreeMap<Key, T>);
 
   /**
-   * Range Constructor.
+   * Create a TreeMap from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<IPair<Key, T>>>,
@@ -157,12 +160,12 @@ export class TreeMap<Key, T> extends UniqueTreeMap<
 }
 
 /**
- *
+ * Iterator types for TreeMap.
  */
 export namespace TreeMap {
   // HEAD
   /**
-   * Iterator of {@link TreeMap}
+   * Iterator over the elements of `TreeMap`.
    */
   export type Iterator<Key, T> = MapElementList.Iterator<
     Key,
@@ -172,7 +175,7 @@ export namespace TreeMap {
   >;
 
   /**
-   * Reverse iterator of {@link TreeMap}
+   * Iterator for reverse traversal of `TreeMap`.
    */
   export type ReverseIterator<Key, T> = MapElementList.ReverseIterator<
     Key,

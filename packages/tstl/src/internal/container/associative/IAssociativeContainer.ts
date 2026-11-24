@@ -8,7 +8,7 @@
 import { IContainer } from "../../../base/container/IContainer";
 
 /**
- * Common interface for associative containers
+ * Shared interface for containers addressed by keys.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -40,34 +40,35 @@ export interface IAssociativeContainer<
   Elem,
 > extends IContainer<T, SourceT, IteratorT, ReverseIteratorT, Elem> {
   /**
-   * Get iterator to element.
+   * Find an element with an equivalent key.
    *
    * @param key Key to search for.
-   * @return An iterator to the element, if the specified key is found, otherwise `this.end()`.
+   * @return An iterator to a matching element, or the end iterator when the
+   * key is absent.
    */
   find(key: Key): IteratorT;
 
   /**
-   * Test whether a key exists.
+   * Test whether the container has an equivalent key.
    *
    * @param key Key to search for.
-   * @return Whether the specified key exists.
+   * @return Whether a matching key exists.
    */
   has(key: Key): boolean;
 
   /**
-   * Count elements with a specified key.
+   * Count the elements with an equivalent key.
    *
    * @param key Key to search for.
-   * @return Number of elements with the specified key.
+   * @return The number of elements with an equivalent key.
    */
   count(key: Key): number;
 
   /**
-   * Erase elements with a specified key.
+   * Erase the elements with an equivalent key.
    *
    * @param key Key to search for.
-   * @return Number of erased elements.
+   * @return The number of erased elements.
    */
   erase(key: Key): number;
 

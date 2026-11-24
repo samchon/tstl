@@ -26,11 +26,13 @@ import { copy, iter_swap } from "./modifiers";
     SORT
 --------------------------------------------------------- */
 /**
- * Sort elements in range.
+ * Sort the range in place under `comp`. Equivalent elements can change
+ * relative order. Uses `O(N log N)` comparisons for a range of `N` elements.
  *
- * @param first Random access iterator of the first position.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function sort<
   RandomAccessIterator extends General<
@@ -57,11 +59,13 @@ export function sort<
 }
 
 /**
- * Sort elements in range stably.
+ * Sort the range in place under `comp`, preserving the relative order of
+ * equivalent elements.
  *
- * @param first Random access iterator of the first position.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function stable_sort<
   RandomAccessIterator extends General<
@@ -97,12 +101,14 @@ export function stable_sort<
 }
 
 /**
- * Sort elements in range partially.
+ * Place the smallest elements in sorted order before `middle`. The remaining
+ * elements have unspecified order.
  *
- * @param first Random access iterator of the first position.
- * @param middle Random access iterator of the middle position between [first, last). Elements only in [first, middle) are fully sorted.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param middle Exclusive end of the prefix to sort.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function partial_sort<
   RandomAccessIterator extends General<
@@ -128,15 +134,17 @@ export function partial_sort<
 }
 
 /**
- * Copy elements in range with partial sort.
+ * Write the smallest elements in sorted order until the output range is full
+ * or the input is exhausted.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param output_first Output iterator of the first position.
- * @param output_last Output iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param output_first Start of the destination range.
+ * @param output_last Exclusive end of the destination range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function partial_sort_copy<
   InputIterator extends Readonly<
@@ -173,15 +181,16 @@ export function partial_sort_copy<
 }
 
 /**
- * Place the element that would occupy `nth` in sorted order at that position.
+ * Partition the range so that `nth` holds the element it would have after
+ * sorting. No element after `nth` precedes an element before it. Passing the
+ * end as `nth` leaves the range unchanged.
  *
- * Elements before `nth` precede or are equivalent to elements at and after it.
- * The range is unchanged when `nth` equals `last`.
- *
- * @param first Random access iterator of the first position.
- * @param nth Random access iterator the n'th position.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param nth Position to select. Use the end iterator to leave the range
+ * unchanged.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function nth_element<
   RandomAccessIterator extends General<
@@ -279,13 +288,14 @@ function _Partition<
     INSPECTOR
 --------------------------------------------------------- */
 /**
- * Test whether a range is sorted.
+ * Test whether the range is in nondecreasing order under `comp`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Whether sorted or not.
+ * @return Whether the entire range is sorted.
  */
 export function is_sorted<
   InputIterator extends Readonly<
@@ -300,13 +310,15 @@ export function is_sorted<
 }
 
 /**
- * Find the first unsorted element in range.
+ * Find the end of the longest sorted prefix under `comp`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Iterator to the first element who violates the order.
+ * @return The first iterator out of order, or the end of the range if it is
+ * sorted.
  */
 export function is_sorted_until<
   InputIterator extends Readonly<

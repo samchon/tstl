@@ -9,7 +9,8 @@ import { AdaptorContainer } from "../internal/container/linear/AdaptorContainer"
 import { List } from "./List";
 
 /**
- * Queue; FIFO (First In First Out).
+ * First-in, first-out adaptor. Push appends at the back and pop removes from
+ * the front.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -18,14 +19,14 @@ export class Queue<T> extends AdaptorContainer<T, List<T>, Queue<T>> {
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty Queue.
    */
   public constructor();
 
   /**
-   * Copy Constructor.
+   * Create a Queue from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: Queue<T>);
 
@@ -40,18 +41,18 @@ export class Queue<T> extends AdaptorContainer<T, List<T>, Queue<T>> {
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Get the first element.
+   * Read the element that the next pop would remove.
    *
-   * @return The first element.
+   * @return The first element in the nonempty queue.
    */
   public front(): T {
     return this.source_.front();
   }
 
   /**
-   * Get the last element.
+   * Read the last element pushed into the nonempty queue.
    *
-   * @return The last element.
+   * @return The element at the back of the queue.
    */
   public back(): T {
     return this.source_.back();

@@ -12,7 +12,8 @@ import { IPair } from "../../utility/IPair";
 import { MapContainer } from "./MapContainer";
 
 /**
- * Common interface for hash maps.
+ * Map interface with hash buckets and a configurable hash and equality
+ * predicate.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -51,10 +52,10 @@ export interface IHashMap<
   begin(): IHashMap.Iterator<Key, T, Unique, Source>;
 
   /**
-   * Iterator to the first element in a specific bucket.
+   * Get the first element encountered in a valid, nonempty bucket.
    *
-   * @param index Index number of the specific bucket.
-   * @return Iterator from the specific bucket.
+   * @param index Index of a nonempty bucket.
+   * @return The iterator at the first stored element in that bucket.
    */
   begin(index: number): IHashMap.Iterator<Key, T, Unique, Source>;
 
@@ -64,17 +65,19 @@ export interface IHashMap<
   end(): IHashMap.Iterator<Key, T, Unique, Source>;
 
   /**
-   * Iterator to the end in a specific bucket.
+   * Get the traversal position immediately after the last element in a valid,
+   * nonempty bucket. The intervening traversal can visit elements from other
+   * buckets.
    *
-   * @param index Index number of the specific bucket.
-   * @return Iterator from the specific bucket.
+   * @param index Index of a nonempty bucket.
+   * @return The successor of the bucket's last stored element.
    */
   end(index: number): IHashMap.Iterator<Key, T, Unique, Source>;
 }
 
 export namespace IHashMap {
   /**
-   * Iterator of {@link IHashMap}
+   * Iterator over the elements of `IHashMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -86,7 +89,7 @@ export namespace IHashMap {
   > = MapElementList.Iterator<Key, T, Unique, Source>;
 
   /**
-   * Reverse iterator of {@link IHashMap}
+   * Iterator for reverse traversal of `IHashMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

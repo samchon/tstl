@@ -13,7 +13,7 @@ import { Pair } from "../../utility/Pair";
 import { MapContainer } from "./MapContainer";
 
 /**
- * Basic map container blocking duplicated key.
+ * Base class for maps that keep at most one entry per equivalent key.
  *
  * @template Key Key type
  * @template T Mapped type
@@ -41,10 +41,10 @@ export abstract class UniqueMap<
   }
 
   /**
-   * Get a value.
+   * Look up the value for the given key. The key must exist.
    *
    * @param key Key to search for.
-   * @return The value mapped by the key.
+   * @return The mapped value for the key.
    */
   public get(key: Key): T {
     const it = this.find(key);
@@ -55,13 +55,12 @@ export abstract class UniqueMap<
   }
 
   /**
-   * Take a value.
-   *
-   * Get a value, or set the value and returns it.
+   * Retrieve a mapped value, inserting the result of `generator` when the key
+   * has no entry.
    *
    * @param key Key to search for.
    * @param generator Value generator when the matched key not found
-   * @returns Value, anyway
+   * @returns The existing or newly generated value.
    */
   public take(key: Key, generator: () => T): T {
     const it = this.find(key);
@@ -71,7 +70,7 @@ export abstract class UniqueMap<
   }
 
   /**
-   * Set a value with key.
+   * Set the value for the given key, creating an entry if needed.
    *
    * @param key Key to be mapped or search for.
    * @param val Value to insert or assign.
@@ -84,46 +83,49 @@ export abstract class UniqueMap<
         INSERT
     --------------------------------------------------------- */
   /**
-   * Construct and insert element.
+   * Construct and insert an entry when its key is absent.
    *
    * @param key Key to be mapped or search for.
    * @param value Value to emplace.
-   * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
+   * @return A pair containing the inserted or existing iterator and whether
+   * insertion took place.
    */
   public abstract emplace(key: Key, value: T): Pair<Iterator, boolean>;
 
   /**
-   * Construct and insert element with hint.
+   * Construct an element using the supplied insertion hint.
    *
-   * @param hint Hint for the position where the element can be inserted.
+   * @param hint Suggested position for the insertion.
    * @param key Key of the new element.
    * @param val Value of the new element.
-   * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
+   * @return An iterator to the inserted element or to the existing element
+   * with an equivalent key.
    */
   public abstract emplace_hint(hint: Iterator, key: Key, val: T): Iterator;
 
   /**
-   * Insert an element.
+   * Insert the supplied element.
    *
-   * @param pair A tuple to be referenced for the insert.
+   * @param pair Key and mapped value to insert.
    * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
    */
   public insert(pair: IPair<Key, T>): Pair<Iterator, boolean>;
 
   /**
-   * Insert an element with hint.
+   * Insert an element using the supplied position as a hint.
    *
-   * @param hint Hint for the position where the element can be inserted.
-   * @param pair A tuple to be referenced for the insert.
-   * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
+   * @param hint Suggested position for the insertion.
+   * @param pair Key and mapped value to insert.
+   * @return An iterator to the inserted element or to the existing element
+   * with an equivalent key.
    */
   public insert(hint: Iterator, pair: IPair<Key, T>): Iterator;
 
   /**
-   * Insert range elements.
+   * Insert the elements in the half-open input range.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public insert<
     InputIterator extends Readonly<
@@ -148,21 +150,24 @@ export abstract class UniqueMap<
         ASSIGNS
     --------------------------------------------------------- */
   /**
-   * Insert or assign an element.
+   * Insert a new entry or assign to the mapped value when the key already
+   * exists.
    *
    * @param key Key to be mapped or search for.
    * @param value Value to insert or assign.
-   * @return {@link Pair} of an iterator to the newly inserted element and `true`, if the specified *key* doesn't exist, otherwise {@link Pair} of iterator to the ordinary element and `false`.
+   * @return A pair containing the entry iterator and whether insertion took
+   * place.
    */
   public insert_or_assign(key: Key, value: T): Pair<Iterator, boolean>;
 
   /**
    * Insert or assign an element with hint.
    *
-   * @param hint Hint for the position where the element can be inserted.
+   * @param hint Suggested position for the insertion.
    * @param key Key to be mapped or search for.
    * @param value Value to insert or assign.
-   * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
+   * @return An iterator to the inserted element or to the existing element
+   * with an equivalent key.
    */
   public insert_or_assign(hint: Iterator, key: Key, value: T): Iterator;
 
@@ -200,18 +205,18 @@ export abstract class UniqueMap<
         ERASE
     --------------------------------------------------------- */
   /**
-   * Extract an element by key.
+   * Remove and return the entry for an existing key.
    *
    * @param key Key to search for.
-   * @return The extracted element.
+   * @return The removed entry.
    */
   public extract(key: Key): Entry<Key, T>;
 
   /**
-   * Extract an element by iterator.
+   * Remove the entry at `pos`.
    *
-   * @param pos The iterator to the element for extraction.
-   * @return Iterator following the *pos*, strained by the extraction.
+   * @param pos Iterator to the entry to remove.
+   * @return The removed iterator, or the end iterator when `pos` is the end.
    */
   public extract(pos: Iterator): Iterator;
 
@@ -263,11 +268,11 @@ export abstract class UniqueMap<
 }
 
 /**
- *
+ * Type utilities for UniqueMap.
  */
 export namespace UniqueMap {
   /**
-   * Iterator of {@link UniqueMap}
+   * Iterator over the elements of `UniqueMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */
@@ -280,7 +285,7 @@ export namespace UniqueMap {
   > = MapContainer.Iterator<Key, T, true, SourceT, IteratorT, ReverseT>;
 
   /**
-   * Reverse iterator of {@link UniqueMap}
+   * Iterator for reverse traversal of `UniqueMap`.
    *
    * @author Jenogho Nam <http://samchon.org>
    */

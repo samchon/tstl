@@ -6,9 +6,9 @@
 //================================================================
 export interface IPushBack<T> {
   /**
-   * Insert an element at the end.
+   * Append one element to the back of the sequence.
    *
-   * @param val Value to insert.
+   * @param val Element to append.
    */
   push_back(val: T): void;
 }

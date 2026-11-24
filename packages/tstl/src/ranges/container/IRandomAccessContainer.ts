@@ -11,7 +11,7 @@ import { IRandomAccessIterator } from "../../iterator/IRandomAccessIterator";
 import { IForwardContainer } from "./IForwardContainer";
 
 /**
- * Random-access iterable container.
+ * Range interface with iterators that can jump to an offset.
  *
  * @template Iterator Iterator type
  * @author Jeongho Nam - https://github.com/samchon
@@ -25,7 +25,7 @@ export interface IRandomAccessContainer<
 
 export namespace IRandomAccessContainer {
   /**
-   * Deduct iterator type.
+   * Extract the iterator type from the supplied container type.
    */
   export type IteratorType<
     Container extends Array<any> | IRandomAccessContainer<any>,
@@ -36,7 +36,7 @@ export namespace IRandomAccessContainer {
     : unknown;
 
   /**
-   * Deduct value type.
+   * Extract the element type from the supplied type.
    */
   export type ValueType<
     Container extends Array<any> | IRandomAccessContainer<any>,

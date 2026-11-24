@@ -11,7 +11,7 @@ import { Hasher } from "../functional/Hasher";
 import { HashBuckets } from "./HashBuckets";
 
 /**
- * Hash buckets for map containers.
+ * Associates map entry iterators with buckets by hashing their keys.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -28,7 +28,7 @@ export class MapHashBuckets<
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor
+   * Initialize a MapHashBuckets from the supplied arguments.
    *
    * @param source Source map container
    * @param hasher Hash function

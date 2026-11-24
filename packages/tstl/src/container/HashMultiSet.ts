@@ -16,7 +16,11 @@ import { SetHashBuckets } from "../internal/hash/SetHashBuckets";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 
 /**
- * Multiple-key Set based on Hash buckets.
+ * Hash-based set that permits multiple equivalent keys.
+ *
+ * Custom equality must be an equivalence relation. Equivalent keys must have
+ * the same nonnegative integer hash, and each hash must remain stable while
+ * its key is stored.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -39,19 +43,22 @@ export class HashMultiSet<Key>
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty HashMultiSet.
    *
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(hash?: Hasher<Key>, equal?: BinaryPredicator<Key>);
 
   /**
-   * Initializer Constructor.
+   * Create a HashMultiSet from the supplied entries using the given hash and
+   * equality functions.
    *
-   * @param items Items to assign.
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param items Initial elements in traversal order.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     items: Key[],
@@ -60,19 +67,20 @@ export class HashMultiSet<Key>
   );
 
   /**
-   * Copy Constructor.
+   * Create a HashMultiSet from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: HashMultiSet<Key>);
 
   /**
-   * Range Constructor.
+   * Create a HashMultiSet from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param hash An unary function returns hash code. Default is {hash}.
-   * @param equal A binary function predicates two arguments are equal. Default is {@link equal_to}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param hash Hash function for keys. Defaults to the library’s hash
+   * function.
+   * @param equal Predicate for equivalence. Defaults to {@link equal_to}.
    */
   public constructor(
     first: Readonly<IForwardIterator<Key>>,
@@ -359,12 +367,12 @@ export class HashMultiSet<Key>
 }
 
 /**
- *
+ * Iterator types for HashMultiSet.
  */
 export namespace HashMultiSet {
   // HEAD
   /**
-   * Iterator of {@link HashMultiSet}
+   * Iterator over the elements of `HashMultiSet`.
    */
   export type Iterator<Key> = SetElementList.Iterator<
     Key,
@@ -373,7 +381,7 @@ export namespace HashMultiSet {
   >;
 
   /**
-   * Reverse iterator of {@link HashMultiSet}
+   * Iterator for reverse traversal of `HashMultiSet`.
    */
   export type ReverseIterator<Key> = SetElementList.ReverseIterator<
     Key,

@@ -15,10 +15,11 @@ import { IRandomAccessContainer } from "../container/IRandomAccessContainer";
     PUSH & POP
 --------------------------------------------------------- */
 /**
- * Make a heap.
+ * Rearrange the range into a heap under `comp`.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function make_heap<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -30,10 +31,12 @@ export function make_heap<
 }
 
 /**
- * Push an element into heap.
+ * Restore heap order after appending the last element. The preceding elements
+ * must already form a heap.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function push_heap<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -45,10 +48,12 @@ export function push_heap<
 }
 
 /**
- * Pop an element from heap.
+ * Move the root of a nonempty heap to the last position and restore heap order
+ * in the remaining prefix.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function pop_heap<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -63,12 +68,13 @@ export function pop_heap<
     SORT
 --------------------------------------------------------- */
 /**
- * Test whether a range is heap.
+ * Test whether the entire range satisfies heap order under `comp`.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Whether the range is heap.
+ * @return Whether the entire range is a heap.
  */
 export function is_heap<Range extends Array<any> | IRandomAccessContainer<any>>(
   range: Range,
@@ -78,12 +84,14 @@ export function is_heap<Range extends Array<any> | IRandomAccessContainer<any>>(
 }
 
 /**
- * Find the first element not in heap order.
+ * Find the end of the longest prefix that is a heap under `comp`.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Iterator to the first element not in heap order.
+ * @return The end of the heap prefix, or the end of the range when it is a
+ * heap.
  */
 export function is_heap_until<
   Range extends Array<any> | IRandomAccessContainer<any>,
@@ -95,10 +103,11 @@ export function is_heap_until<
 }
 
 /**
- * Sort elements of a heap.
+ * Sort an existing heap in place under the same ordering used to build it.
  *
- * @param range An iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function sort_heap<
   Range extends Array<any> | IRandomAccessContainer<any>,

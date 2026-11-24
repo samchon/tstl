@@ -8,15 +8,16 @@
 import { Exception } from "./Exception";
 
 /**
- * Logic Error.
+ * Base error for an invalid operation or input that can be diagnosed before it
+ * succeeds.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class LogicError extends Exception {
   /**
-   * Initializer Constructor.
+   * Create the exception with the supplied error details.
    *
-   * @param message The error messgae.
+   * @param message The error message.
    */
   public constructor(message: string) {
     super(message);

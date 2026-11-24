@@ -23,13 +23,13 @@ import { Pair } from "../utility/Pair";
     FOR_EACH
 --------------------------------------------------------- */
 /**
- * Apply a function to elements in range.
+ * Invoke `fn` for each element in traversal order.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param fn The function to apply.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param fn Function invoked for each element.
  *
- * @return The function *fn* itself.
+ * @return The function that was applied.
  */
 export function for_each<
   InputIterator extends Readonly<
@@ -43,13 +43,14 @@ export function for_each<
 }
 
 /**
- * Apply a function to elements in steps.
+ * Invoke `fn` on `n` consecutive elements starting at `first`, in traversal
+ * order. There must be at least `n` elements from that position.
  *
- * @param first Input iterator of the starting position.
- * @param n Steps to maximum advance.
- * @param fn The function to apply.
+ * @param first Start of the range.
+ * @param n Number of elements to visit.
+ * @param fn Function invoked for each element.
  *
- * @return Iterator advanced from *first* for *n* steps.
+ * @return The iterator immediately after the visited elements.
  */
 export function for_each_n<
   InputIterator extends Readonly<
@@ -68,13 +69,14 @@ export function for_each_n<
     AGGREGATE CONDITIONS
 --------------------------------------------------------- */
 /**
- * Test whether all elements meet a specific condition.
+ * Test whether every element satisfies `pred`. An empty range satisfies this
+ * condition.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param pred A function predicates the specific condition.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate to test each element.
  *
- * @return Whether the *pred* returns always `true` for all elements.
+ * @return Whether every element satisfies the predicate.
  */
 export function all_of<
   InputIterator extends Readonly<
@@ -92,13 +94,13 @@ export function all_of<
 }
 
 /**
- * Test whether any element meets a specific condition.
+ * Test whether at least one element satisfies `pred`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param pred A function predicates the specific condition.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate to test each element.
  *
- * @return Whether the *pred* returns at least a `true` for all elements.
+ * @return Whether any element satisfies the predicate.
  */
 export function any_of<
   InputIterator extends Readonly<
@@ -116,13 +118,14 @@ export function any_of<
 }
 
 /**
- * Test whether any element doesn't meet a specific condition.
+ * Test whether no element satisfies `pred`. An empty range satisfies this
+ * condition.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param pred A function predicates the specific condition.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate to test each element.
  *
- * @return Whether the *pred* doesn't return `true` for all elements.
+ * @return Whether no element satisfies the predicate.
  */
 export function none_of<
   InputIterator extends Readonly<
@@ -137,13 +140,15 @@ export function none_of<
 }
 
 /**
- * Test whether two ranges are equal.
+ * Compare corresponding elements in traversal order.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range, which must contain at least as many
+ * elements as the first.
  *
- * @return Whether two ranges are equal.
+ * @return Whether every element in the first range matches its counterpart in
+ * the second.
  */
 export function equal<
   InputIterator1 extends Readonly<
@@ -159,14 +164,16 @@ export function equal<
 ): boolean;
 
 /**
- * Test whether two ranges are equal.
+ * Compare corresponding elements in traversal order.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range, which must contain at least as many
+ * elements as the first.
+ * @param pred Predicate for equivalence.
  *
- * @return Whether two ranges are equal.
+ * @return Whether every element in the first range matches its counterpart in
+ * the second.
  */
 export function equal<
   InputIterator1 extends Readonly<
@@ -211,15 +218,17 @@ export function equal<
 }
 
 /**
- * Compare lexicographically.
+ * Compare two ranges lexicographically. A proper prefix precedes the longer
+ * range.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
- * @param last2 Input iterator of the last position of the 2nd range.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range.
+ * @param last2 Exclusive end of the second range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Whether the 1st range precedes the 2nd.
+ * @return Whether the first range precedes the second.
  */
 export function lexicographical_compare<
   Iterator1 extends Readonly<
@@ -250,13 +259,13 @@ export function lexicographical_compare<
     FINDERS
 --------------------------------------------------------- */
 /**
- * Find a value in range.
+ * Find the first occurrence of `val`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param val The value to find.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param val Value to look for.
  *
- * @return Iterator to the first element {@link equal to equal_to} the value.
+ * @return The first matching iterator, or the end of the range.
  */
 export function find<
   InputIterator extends Readonly<
@@ -271,13 +280,13 @@ export function find<
 }
 
 /**
- * Find a matched condition in range.
+ * Find the first element that satisfies `pred`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param pred A function predicates the specific condition.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate to test each element.
  *
- * @return Iterator to the first element *pred* returns `true`.
+ * @return The first matching iterator, or the end of the range.
  */
 export function find_if<
   InputIterator extends Readonly<
@@ -295,13 +304,13 @@ export function find_if<
 }
 
 /**
- * Find a mismatched condition in range.
+ * Find the first element that fails `pred`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param pred A function predicates the specific condition.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate to test each element.
  *
- * @return Iterator to the first element *pred* returns `false`.
+ * @return The first matching iterator, or the end of the range.
  */
 export function find_if_not<
   InputIterator extends Readonly<
@@ -316,14 +325,15 @@ export function find_if_not<
 }
 
 /**
- * Find the last sub range.
+ * Find the last contiguous occurrence of the second range in the first range.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
- * @param last2 Input iterator of the last position of the 2nd range.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range.
+ * @param last2 Exclusive end of the second range.
  *
- * @return Iterator to the first element of the last sub range.
+ * @return The start of the last match, or the end of the first range if no
+ * match exists.
  */
 export function find_end<
   Iterator1 extends Readonly<
@@ -340,15 +350,16 @@ export function find_end<
 ): Iterator1;
 
 /**
- * Find the last sub range.
+ * Find the last contiguous occurrence of the second range in the first range.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
- * @param last2 Input iterator of the last position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range.
+ * @param last2 Exclusive end of the second range.
+ * @param pred Predicate for equivalence.
  *
- * @return Iterator to the first element of the last sub range.
+ * @return The start of the last match, or the end of the first range if no
+ * match exists.
  */
 export function find_end<
   Iterator1 extends Readonly<
@@ -406,14 +417,15 @@ export function find_end<
 }
 
 /**
- * Find the first sub range.
+ * Find the first element of the first range that matches any element of the
+ * second range.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
- * @param last2 Input iterator of the last position of the 2nd range.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range.
+ * @param last2 Exclusive end of the second range.
  *
- * @return Iterator to the first element of the first sub range.
+ * @return The first matching iterator, or the end of the first range.
  */
 export function find_first_of<
   Iterator1 extends Readonly<
@@ -430,15 +442,16 @@ export function find_first_of<
 ): Iterator1;
 
 /**
- * Find the first sub range.
+ * Find the first element of the first range that matches any element of the
+ * second range.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
- * @param last2 Input iterator of the last position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range.
+ * @param last2 Exclusive end of the second range.
+ * @param pred Predicate for equivalence.
  *
- * @return Iterator to the first element of the first sub range.
+ * @return The first matching iterator, or the end of the first range.
  */
 export function find_first_of<
   Iterator1 extends Readonly<
@@ -483,13 +496,13 @@ export function find_first_of<
 }
 
 /**
- * Find the first adjacent element.
+ * Find the first adjacent pair that satisfies `pred`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
- * @return Iterator to the first element of adjacent find.
+ * @return The first iterator in the matching pair, or the end of the range.
  */
 export function adjacent_find<
   InputIterator extends Readonly<
@@ -514,14 +527,15 @@ export function adjacent_find<
 }
 
 /**
- * Search sub range.
+ * Find the first contiguous occurrence of the second range in the first range.
  *
- * @param first1 Forward iterator of the first position of the 1st range.
- * @param last1 Forward iterator of the last position of the 1st range.
- * @param first2 Forward iterator of the first position of the 2nd range.
- * @param last2 Forward iterator of the last position of the 2nd range.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range.
+ * @param last2 Exclusive end of the second range.
  *
- * @return Iterator to the first element of the sub range.
+ * @return The start of the match, or the end of the first range if no match
+ * exists.
  */
 export function search<
   ForwardIterator1 extends Readonly<
@@ -538,15 +552,16 @@ export function search<
 ): ForwardIterator1;
 
 /**
- * Search sub range.
+ * Find the first contiguous occurrence of the second range in the first range.
  *
- * @param first1 Forward iterator of the first position of the 1st range.
- * @param last1 Forward iterator of the last position of the 1st range.
- * @param first2 Forward iterator of the first position of the 2nd range.
- * @param last2 Forward iterator of the last position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range.
+ * @param last2 Exclusive end of the second range.
+ * @param pred Predicate for equivalence.
  *
- * @return Iterator to the first element of the sub range.
+ * @return The start of the match, or the end of the first range if no match
+ * exists.
  */
 export function search<
   ForwardIterator1 extends Readonly<
@@ -601,15 +616,16 @@ export function search<
 }
 
 /**
- * Search specific and repeated elements.
+ * Find the first run of `count` consecutive elements that match `val`.
  *
- * @param first Forward iterator of the first position.
- * @param last Forward iterator of the last position.
- * @param count Count to be repeated.
- * @param val Value to search.
- * @param pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param count Length of the requested run.
+ * @param val Value to look for.
+ * @param pred Predicate for equivalence. Defaults to {@link equal_to}.
  *
- * @return The first matching position, first when count is nonpositive, or last if no match is found.
+ * @return The first iterator for a nonpositive count, the start of the run
+ * when found, or the end of the range.
  */
 export function search_n<
   ForwardIterator extends Readonly<
@@ -639,13 +655,15 @@ export function search_n<
 }
 
 /**
- * Find the first mistmached position between two ranges.
+ * Find the first pair of corresponding elements that fails the equality test.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range, which must contain at least as many
+ * elements as the first.
  *
- * @return A {@link Pair} of mismatched positions.
+ * @return The iterators at the first mismatch, or both current positions when
+ * comparison stops.
  */
 export function mismatch<
   Iterator1 extends Readonly<
@@ -661,14 +679,16 @@ export function mismatch<
 ): Pair<Iterator1, Iterator2>;
 
 /**
- * Find the first mistmached position between two ranges.
+ * Find the first pair of corresponding elements that fails the equality test.
  *
- * @param first1 Input iterator of the first position of the 1st range.
- * @param last1 Input iterator of the last position of the 1st range.
- * @param first2 Input iterator of the first position of the 2nd range.
- * @param pred A binary function predicates two arguments are equal.
+ * @param first1 Start of the first range.
+ * @param last1 Exclusive end of the first range.
+ * @param first2 Start of the second range, which must contain at least as many
+ * elements as the first.
+ * @param pred Predicate for equivalence.
  *
- * @return A {@link Pair} of mismatched positions.
+ * @return The iterators at the first mismatch, or both current positions when
+ * comparison stops.
  */
 export function mismatch<
   Iterator1 extends Readonly<
@@ -714,13 +734,13 @@ export function mismatch<
     COUNTERS
 --------------------------------------------------------- */
 /**
- * Count matched value in range.
+ * Count the elements equal to `val`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
  * @param val The value to count.
  *
- * @return The matched count.
+ * @return The number of matching elements.
  */
 export function count<
   InputIterator extends Readonly<
@@ -735,13 +755,13 @@ export function count<
 }
 
 /**
- * Count matched condition in range.
+ * Count the elements that satisfy `pred`.
  *
- * @param first Input iterator of the first position.
- * @param last Input iterator of the last position.
- * @param pred A function predicates the specific condition.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param pred Predicate to test each element.
  *
- * @return The matched count.
+ * @return The number of matching elements.
  */
 export function count_if<
   InputIterator extends Readonly<

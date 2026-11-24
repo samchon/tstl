@@ -4,11 +4,8 @@ import { equal } from "../ranges/algorithm/iterations";
 import { TimedSingleton } from "./TimedSingleton";
 
 /**
- * Variadic timed singleton generator.
- *
- * The `VariadicTimedSingleton` is a type of {@link VariadicSingleton} class who re-constructs
- * the singleton value repeatedly whenever specific time has been elapsed after the last lazy
- * construction.
+ * Maintains a separate lazily refreshed cache for each equivalent tuple of
+ * arguments.
  *
  * @template T Type of the value to be lazy-constructed
  * @template Args Type of parameters of the lazy constructor function
@@ -20,12 +17,12 @@ export class VariadicTimedSingleton<T, Args extends any[]> {
   private readonly dict_: HashMap<Args, TimedSingleton<T, Args>>;
 
   /**
-   * Initializer Constructor.
+   * Create a cache in which argument tuples are keys.
    *
-   * @param interval Specific interval time, to determine whether re-generation of the singleton value is required or not, as milliseconds
-   * @param closure Lazy constructor function returning the target value
-   * @param hasher Hash function for the *lazy constructor* function arguments
-   * @param pred Predicator function for the *lazy constructor* function arguments
+   * @param interval Cache lifetime for each argument tuple, in milliseconds.
+   * @param closure Factory used to compute a value for an argument tuple.
+   * @param hasher Hash function for argument tuples.
+   * @param pred Equality predicate for argument tuples.
    */
   public constructor(
     interval: number,
@@ -39,10 +36,12 @@ export class VariadicTimedSingleton<T, Args extends any[]> {
   }
 
   /**
-   * Get value.
+   * Retrieve the cached value for these arguments, recomputing it if the entry
+   * is missing or expired.
    *
-   * @param args Parameters for the lazy constructor function
-   * @returns The lazy constructed value
+   * @param args Arguments that identify the cache entry and are passed to the
+   * factory.
+   * @returns The value for this argument tuple.
    */
   public get(...args: Args): T {
     let it: HashMap.Iterator<Args, TimedSingleton<T, Args>> = this.dict_.find(

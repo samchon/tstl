@@ -11,25 +11,13 @@ export class StringUtil
         BETWEEN(s)
     ------------------------------------------------------------------ */
     /**
-     * Generate a substring.
-     *
-     * Extracts a substring consisting of the characters from specified start to end.
-     * It's same with str.substring( ? = (str.find(start) + start.size()), str.find(end, ?) )
-     *
-     * ```typescript
-     * const str: string = StringUtil.between("ABCD(EFGH)IJK", "(", ")");
-     * console.log(str); // PRINTS "EFGH"
-     * ```
-     *
-     * - If start is not specified, extracts from begin of the string to end. </li>
-     * - If end is not specified, extracts from start to end of the string. </li>
-     * - If start and end are all omitted, returns str, itself. </li>
+     * Return the text between delimiters.
      *
      * @param str Target string to be applied between.
      * @param start A string for separating substring at the front.
      * @param end A string for separating substring at the end.
      *
-     * @return substring by specified terms.
+     * @return The text between the selected delimiters.
      */
     public static between(str: string, start: string = "", end: string = ""): string
     {
@@ -54,23 +42,14 @@ export class StringUtil
     }
 
     /**
-     * Fetch substrings.
-     *
-     * Splits a string into an array of substrings dividing by specified delimeters of start and end.
-     * It's the array of substrings adjusted the between.
-     *
-     * <ul>
-     *    <li> If startStr is omitted, it's same with the split by endStr not having last item. </li>
-     *    <li> If endStr is omitted, it's same with the split by startStr not having first item. </li>
-     *    <li> If startStr and endStar are all omitted, returns *str*. </li>
-     * </ul>
+     * Collect the substrings between repeated delimiter pairs.
      *
      * @param str Target string to split by between.
      * @param start A string for separating substring at the front.
      *              If omitted, it's same with split(end) not having last item.
      * @param end A string for separating substring at the end.
      *            If omitted, it's same with split(start) not having first item.
-     * @return An array of substrings.
+     * @return The collected substrings in input order.
      */
     public static betweens(str: string, start: string = "", end: string = ""): Array<string>
     {
@@ -112,17 +91,18 @@ export class StringUtil
         TRIM
     ------------------------------------------------------------------ */
     /**
-     * An array containing whitespaces.
+     * Whitespace strings recognized by the trimming helpers.
      */
     private static SPACE_ARRAY: Array<string> = [' ', '\t', '\r', '\n'];
 
     /**
-     * Remove all designated characters from the beginning and end of the specified string.
-     * 
-     * @param str The string whose designated characters should be trimmed.
-     * @param args Designated character(s).
+     * Remove the supplied strings from either end. Without explicit
+     * delimiters, trim whitespace.
      *
-     * @return Updated string where designated characters was removed from the beginning and end.
+     * @param str String to trim.
+     * @param args Strings to trim from either edge.
+     *
+     * @return A copy of the string with matching edge text removed.
      */
     public static trim(str: string, ...args: string[]): string
     {
@@ -133,12 +113,13 @@ export class StringUtil
     }
 
     /**
-     * Remove all designated characters from the beginning of the specified string.
+     * Trim matching text from the beginning of the string. Without explicit
+     * delimiters, trim whitespace.
      *
-     * @param str The string should be trimmed.
-     * @param delims Designated character(s).
-     * 
-     * @return Updated string where designated characters was removed from the beginning
+     * @param str String to trim.
+     * @param args Additional strings to remove from the edge.
+     *
+     * @return A copy of the string with matching leading text removed.
      */
     public static ltrim(str: string, ...args: string[]): string
     {
@@ -171,12 +152,13 @@ export class StringUtil
     }
 
     /**
-     * Remove all designated characters from the end of the specified string.
+     * Trim matching text from the end of the string. Without explicit
+     * delimiters, trim whitespace.
      *
-     * @param str The string should be trimmed.
-     * @param delims Designated character(s).
-     * 
-     * @return Updated string where designated characters was removed from the end.
+     * @param str String to trim.
+     * @param args Additional strings to remove from the edge.
+     *
+     * @return A copy of the string with matching trailing text removed.
      */
     public static rtrim(str: string, ...args: string[]): string
     {
@@ -213,17 +195,18 @@ export class StringUtil
         SUBSTITUTE
     ------------------------------------------------------------------ */
     /**
-     * Substitute `{n}` tokens within the specified string.
-     * 
+     * Replace indexed placeholders such as `{0}` with their corresponding
+     * argument values.
+     *
      * @param format The string to make substitutions in. This string can contain special tokens of the form
      *                 `{n}`, where *n* is a zero based index, that will be replaced with the additional parameters
-        *                 found at that index if specified.
-        * @param args Additional parameters that can be substituted in the *format* parameter at each 
-        *               `{n}` location, where *n* is an integer (zero based) index value into the array of values
-        *               specified.
-        *
-        * @return New string with all of the `{n}` tokens replaced with the respective arguments specified.
-        */
+     *                 found at that index if specified.
+     * @param args Additional parameters that can be substituted in the *format* parameter at each
+     *               `{n}` location, where *n* is an integer (zero based) index value into the array of values
+     *               specified.
+     *
+     * @return The formatted string.
+     */
     public static substitute(format: string, ...args: any[]): string
     {
         while (true)
@@ -242,17 +225,18 @@ export class StringUtil
     }
 
     /**
-     * Substitute `{n}` tokens within the specified SQL-string.
-     * 
+     * Replace indexed placeholders in a SQL-format string with their
+     * corresponding formatted argument values.
+     *
      * @param format The string to make substitutions in. This string can contain special tokens of the form
      *                 `{n}`, where *n* is a zero based index, that will be replaced with the additional parameters
-        *                 found at that index if specified.
-        * @param args Additional parameters that can be substituted in the *format* parameter at each 
-        *               `{n}` location, where *n* is an integer (zero based) index value into the array of values
-        *               specified.
-        *
-        * @return New SQL-string with all of the `{n}` tokens replaced with the respective arguments specified.
-        */
+     *                 found at that index if specified.
+     * @param args Additional parameters that can be substituted in the *format* parameter at each
+     *               `{n}` location, where *n* is an integer (zero based) index value into the array of values
+     *               specified.
+     *
+     * @return The formatted string.
+     */
     public static substituteSQL(format: string, ...args: any[]): string
     {
         while (true)
@@ -308,23 +292,23 @@ export class StringUtil
         TRIM
     ------------------------------------------------------------------ */
     /**
-     * Returns a string specified word is replaced.
+     * Replace all occurrences of the supplied text in the string.
      *
      * @param str Target string to replace
      * @param before Specific word you want to be replaced
      * @param after Specific word you want to replace
-     * 
-     * @return A string specified word is replaced
+     *
+     * @return A copy of the string with the replacements applied.
      */
     public static replaceAll(str: string, before: string, after: string): string;
 
     /**
-     * Returns a string specified words are replaced.
+     * Replace all occurrences of the supplied text in the string.
      *
      * @param str Target string to replace
      * @param pairs A specific word's pairs you want to replace and to be replaced
-     * 
-     * @return A string specified words are replaced
+     *
+     * @return A copy of the string with the replacements applied.
      */
     public static replaceAll(str: string, ...pairs: [string, string][]): string;
     
@@ -355,7 +339,7 @@ export class StringUtil
         MISCELLANEOUS
     ------------------------------------------------------------------ */
     /**
-     * Replace all HTML spaces to a literal space.
+     * Replace recognized HTML whitespace sequences with ordinary spaces.
      *
      * @param str Target string to replace.
      */
@@ -369,14 +353,12 @@ export class StringUtil
     }
 
     /**
-     * Repeat a string.
-     * 
-     * Returns a string consisting of a specified string concatenated with itself a specified number of times.
-     * 
+     * Repeat the given string `n` times.
+     *
      * @param str The string to be repeated.
      * @param n The repeat count.
-     * 
-     * @return The repeated string.
+     *
+     * @return The concatenated copies.
      */
     public static repeat(str: string, n: number): string
     {
@@ -443,14 +425,12 @@ export class StringUtil
         NUMBER
     ------------------------------------------------------------------ */
     /**
-     * Number to formatted string with &quot;,&quot; sign.
-     * 
-     * Returns a string converted from the number rounded off from specified precision with &quot;,&quot; symbols.
-     * 
+     * Format a number with comma-separated groups and the specified precision.
+     *
      * @param val A number wants to convert to string.
      * @param precision Target precision of round off.
-     * 
-     * @return A string who represents the number with roundoff and &quot;,&quot; symbols.
+     *
+     * @return The formatted number.
      */
     public static numberFormat(val: number, precision: number = 2): string
     {

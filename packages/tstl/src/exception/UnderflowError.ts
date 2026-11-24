@@ -8,15 +8,15 @@
 import { RuntimeError } from "./RuntimeError";
 
 /**
- * Underflow Error.
+ * Runtime error for a result too small in magnitude for its representation.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class UnderflowError extends RuntimeError {
   /**
-   * Initializer Constructor.
+   * Create the exception with the supplied error details.
    *
-   * @param message The error messgae.
+   * @param message The error message.
    */
   public constructor(message: string) {
     super(message);

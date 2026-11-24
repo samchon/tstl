@@ -13,7 +13,7 @@ import { Hasher } from "../../functional/Hasher";
 import { IAssociativeContainer } from "./IAssociativeContainer";
 
 /**
- * Common interface for hash containers
+ * Shared operations for hash-table capacity, buckets, hashing, and equality.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -55,16 +55,16 @@ export interface IHashContainer<
         PREDICATORS
     --------------------------------------------------------- */
   /**
-   * Get hash function.
+   * Get the function used to hash keys.
    *
-   * @return The hash function.
+   * @return The configured key hash function.
    */
   hash_function(): Hasher<Key>;
 
   /**
-   * Get key equality predicator.
+   * Get the predicate used to compare keys for equivalence.
    *
-   * @return The key equality predicator.
+   * @return The configured key equivalence predicate.
    */
   key_eq(): BinaryPredicator<Key>;
 
@@ -72,37 +72,37 @@ export interface IHashContainer<
         GETTERS
     --------------------------------------------------------- */
   /**
-   * Compute bucket index for the *key*.
+   * Determine the bucket selected by the hash of `key`.
    *
    * @param key Target key.
-   * @return Index number.
+   * @return The bucket index for the given key.
    */
   bucket(key: Key): number;
 
   /**
-   * Get number of buckets.
+   * Get the number of buckets, including empty buckets.
    */
   bucket_count(): number;
 
   /**
-   * Get size of a specific bucket.
+   * Count the elements stored in a bucket.
    *
-   * @param index Specific position.
-   * @return Size of the specific bucket.
+   * @param index Zero-based bucket index.
+   * @return The number of elements in the selected bucket.
    */
   bucket_size(index: number): number;
 
   /**
-   * Compute load factor.
+   * Compute the current number of elements per bucket.
    *
-   * @return `this.size() / this.bucket_count()`
+   * @return The element count divided by the bucket count.
    */
   load_factor(): number;
 
   /**
-   * Get maximum load factor that allowable.
+   * Get the configured threshold used when growing the hash table.
    *
-   * @return The maximum load factor.
+   * @return The current maximum load factor.
    */
   max_load_factor(): number;
 
@@ -110,23 +110,25 @@ export interface IHashContainer<
         SETTERS
     --------------------------------------------------------- */
   /**
-   * Set maximum load factor.
+   * Set the load-factor threshold used when growing the hash table.
    *
-   * @param z The new value to change.
+   * @param z New maximum load factor.
    */
   max_load_factor(z: number): void;
 
   /**
-   * Reserve buckets enable to store *n* elements.
+   * Request enough buckets for `n` elements at the current maximum load
+   * factor.
    *
-   * @param n The capacity to reserve.
+   * @param n Element count to accommodate.
    */
   reserve(n: number): void;
 
   /**
-   * Change of bucktes.
+   * Rebuild the hash table using the requested bucket count, subject to the
+   * library minimum.
    *
-   * @param n The number to change.
+   * @param n Requested number of buckets.
    */
   rehash(n: number): void;
 }

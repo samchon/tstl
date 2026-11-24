@@ -8,7 +8,11 @@
 import { InvalidArgument } from "../../exception/InvalidArgument";
 
 /**
- * Hermite polynomial
+ * Evaluate the physicists’ Hermite polynomial of degree `n` at `x`.
+ *
+ * @param n Nonnegative degree. Fractional values are rounded down.
+ * @param x Real argument at which to evaluate the polynomial.
+ * @throws {@link InvalidArgument} when `n < 0`.
  *
  * @reference https://en.wikipedia.org/wiki/Hermite_polynomials
  */

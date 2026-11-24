@@ -9,10 +9,10 @@ import { IComparable } from "./IComparable";
 import { get_uid } from "./uid";
 
 /**
- * Hash function.
+ * Combine the hash contributions of the supplied values in argument order.
  *
- * @param itemList The items to be hashed.
- * @return The hash code.
+ * @param itemList Values to hash, in order.
+ * @return The combined numeric hash.
  */
 export function hash(...itemList: any[]): number {
   let ret: number = INIT_VALUE;

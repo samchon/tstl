@@ -11,7 +11,7 @@ import { hash } from "../functional/hash";
 import { IPair } from "./IPair";
 
 /**
- * Entry for mapping.
+ * Map entry with a read-only key and a mutable mapped value.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -19,20 +19,20 @@ export class Entry<Key, T>
   implements Readonly<IPair<Key, T>>, IComparable<Entry<Key, T>>
 {
   /**
-   * The first, key element.
+   * The immutable key.
    */
   public readonly first: Key;
 
   /**
-   * The second, mapped element.
+   * The mapped value, which can be reassigned.
    */
   public second: T;
 
   /**
-   * Intializer Constructor.
+   * Create a map entry with a key and a mapped value.
    *
-   * @param first The first, key element.
-   * @param second The second, mapped element.
+   * @param first Key of the entry.
+   * @param second Value associated with the key.
    */
   public constructor(first: Key, second: T) {
     this.first = first;

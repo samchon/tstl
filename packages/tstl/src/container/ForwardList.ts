@@ -26,7 +26,8 @@ import { IForwardContainer } from "../ranges/container/IForwardContainer";
 import { Vector } from "./Vector";
 
 /**
- * Singly Linked List.
+ * Singly linked sequence with a before-begin sentinel for operations that act
+ * after a position.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -55,37 +56,37 @@ export class ForwardList<T>
         CONSTURCTORS
     --------------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty ForwardList.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Create a ForwardList containing the supplied elements.
    *
-   * @param items Items to assign.
+   * @param items Initial elements in traversal order.
    */
   public constructor(items: T[]);
 
   /**
-   * Copy Constructor
+   * Create a ForwardList from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: ForwardList<T>);
 
   /**
-   * Fill Constructor.
+   * Create a ForwardList with `n` copies of `val`.
    *
-   * @param n Initial size.
-   * @param val Value to fill.
+   * @param n Number of initial elements.
+   * @param val Value assigned to each element.
    */
   public constructor(n: number, val: T);
 
   /**
-   * Range Constructor.
+   * Create a ForwardList from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public constructor(
     first: Readonly<IForwardIterator<T>>,
@@ -113,18 +114,18 @@ export class ForwardList<T>
         ASSIGN & CLEAR
     --------------------------------------------------------------- */
   /**
-   * Fill Assigner.
+   * Replace the contents with `n` copies of the supplied value.
    *
-   * @param n Initial size.
-   * @param val Value to fill.
+   * @param n Number of initial elements.
+   * @param val Value assigned to each element.
    */
   public assign(n: number, val: T): void;
 
   /**
-   * Range Assigner.
+   * Replace the contents with the elements in the half-open input range.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
    */
   public assign<
     T,
@@ -179,9 +180,10 @@ export class ForwardList<T>
   }
 
   /**
-   * Iterator to before beginning.
+   * Get the sentinel immediately before the first element. It can be used with
+   * operations such as `insert_after`.
    *
-   * @return Iterator to the before beginning.
+   * @return The before-begin sentinel. Its value cannot be read.
    */
   public before_begin(): ForwardList.Iterator<T> {
     return this.before_begin_;
@@ -223,11 +225,11 @@ export class ForwardList<T>
   }
 
   /**
-   * Insert an element.
+   * Insert a value after `pos`.
    *
-   * @param pos Position to insert after.
+   * @param pos Position after which to insert.
    * @param val Value to insert.
-   * @return An iterator to the newly inserted element.
+   * @return An iterator to the inserted element.
    */
   public insert_after(
     pos: ForwardList.Iterator<T>,
@@ -235,12 +237,12 @@ export class ForwardList<T>
   ): ForwardList.Iterator<T>;
 
   /**
-   * Inserted repeated elements.
+   * Insert `n` copies of a value after `pos`.
    *
-   * @param pos Position to insert after.
+   * @param pos Position after which to insert.
    * @param n Number of elements to insert.
    * @param val Value to insert repeatedly.
-   * @return An iterator to the last of the newly inserted elements.
+   * @return An iterator to the last inserted element.
    */
   public insert_after(
     pos: ForwardList.Iterator<T>,
@@ -249,12 +251,12 @@ export class ForwardList<T>
   ): ForwardList.Iterator<T>;
 
   /**
-   * Insert range elements.
+   * Insert the elements in `[first, last)` after `pos`.
    *
-   * @param pos Position to insert after.
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @return An iterator to the last of the newly inserted elements.
+   * @param pos Position after which to insert.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @return An iterator to the last inserted element.
    */
   public insert_after<
     T,
@@ -330,18 +332,19 @@ export class ForwardList<T>
   }
 
   /**
-   * Erase an element.
+   * Erase the element immediately after `it`. The following element must be
+   * dereferenceable.
    *
-   * @param it Position to erase after.
-   * @return Iterator following the erased element.
+   * @param it Position before the element to erase.
+   * @return The iterator following the erased element.
    */
   public erase_after(it: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
   /**
-   * Erase elements.
+   * Erase the elements strictly after `first` and before `last`.
    *
-   * @param first Position before the first element to erase.
-   * @param last Position following the erased range.
+   * @param first Position preceding the erased range.
+   * @param last Exclusive end of the erased range.
    * @return The iterator `last`.
    */
   public erase_after(
@@ -425,19 +428,23 @@ export class ForwardList<T>
   }
 
   /**
-   * Transfer elements.
+   * Move all nodes from a separate list after `pos`, emptying the source.
+   * Moving from this same list has no effect. Iterators to moved nodes
+   * follow their elements to this list. Work is linear in the moved count.
    *
-   * @param pos Position to insert after.
-   * @param from Target container to transfer.
+   * @param pos A dereferenceable iterator into this list or `before_begin()`.
+   * @param from Source list whose elements are moved.
    */
   public splice_after(pos: ForwardList.Iterator<T>, from: ForwardList<T>): void;
 
   /**
-   * Transfer a single element.
+   * Move the node immediately after `before` to the position after `pos`,
+   * preserving its iterator. When moving within this list, using `before`
+   * or the moved node as `pos` leaves the order unchanged.
    *
-   * @param pos Position to insert after.
-   * @param from Target container to transfer.
-   * @param before Previous position of the single element to transfer.
+   * @param pos A dereferenceable iterator into this list or `before_begin()`.
+   * @param from Source list whose element is moved.
+   * @param before An iterator in `from` whose next position is dereferenceable.
    */
   public splice_after(
     pos: ForwardList.Iterator<T>,
@@ -446,12 +453,14 @@ export class ForwardList<T>
   ): void;
 
   /**
-   * Transfer range elements.
+   * Move `[first_before.next(), last)` to the position after `pos`, preserving
+   * iterators to moved nodes. A destination inside the moved range or equal
+   * to `first_before` leaves the order unchanged when moving within this list.
    *
-   * @param pos Position to insert after.
-   * @param from Target container to transfer.
-   * @param first_before Position before the first element to transfer.
-   * @param last Position following the transferred range.
+   * @param pos A dereferenceable iterator into this list or `before_begin()`.
+   * @param from Source list whose elements are moved.
+   * @param first_before Iterator in `from` preceding the first node to move.
+   * @param last Exclusive end of the range in `from`.
    */
   public splice_after(
     pos: ForwardList.Iterator<T>,
@@ -558,9 +567,9 @@ export class ForwardList<T>
   }
 
   /**
-   * Native function for `JSON.stringify()`.
+   * Return the elements in traversal order for JSON serialization.
    *
-   * @return An array containing children elements.
+   * @return An array of the elements in traversal order.
    */
   public toJSON(): Array<T> {
     const ret: T[] = [];
@@ -571,11 +580,11 @@ export class ForwardList<T>
 }
 
 /**
- *
+ * Iterator types for ForwardList.
  */
 export namespace ForwardList {
   /**
-   * Iterator of {@link ForwardList}
+   * Iterator over the elements of `ForwardList`.
    *
    * @author Jeongho Nam - https://github.com/samchon
    */
@@ -613,7 +622,7 @@ export namespace ForwardList {
             ACCESSORS
         --------------------------------------------------------------- */
     /**
-     * Get source container.
+     * Get the container associated with this iterator.
      *
      * @return The source container.
      */

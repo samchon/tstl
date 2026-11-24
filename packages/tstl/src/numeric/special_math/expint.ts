@@ -8,7 +8,10 @@
 import { MathUtil } from "../../internal/numeric/MathUtil";
 
 /**
- * Exponential integral.
+ * Evaluate the real exponential integral `Ei(x)`.
+ *
+ * @param x Real argument.
+ * @return `Ei(x)`, with `-Infinity` at zero.
  */
 export function expint(x: number): number {
   if (x === 0) return -Infinity;

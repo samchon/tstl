@@ -11,7 +11,7 @@ import { hash } from "../functional/hash";
 import { IPair } from "./IPair";
 
 /**
- * Pair of two elements.
+ * Stores two independently typed values and supports pair comparison.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -32,10 +32,10 @@ export class Pair<First, Second>
         CONSTRUCTORS
     --------------------------------------------------------- */
   /**
-   * Initializer Constructor.
+   * Create a pair with two independently typed values.
    *
-   * @param first The first element.
-   * @param second The second element.
+   * @param first First value.
+   * @param second Second value.
    */
   public constructor(first: First, second: Second) {
     this.first = first;
@@ -76,12 +76,12 @@ export class Pair<First, Second>
 }
 
 /**
- * Create a {@link Pair}.
+ * Create a `Pair` with the given first and second values.
  *
- * @param first The 1st element.
- * @param second The 2nd element.
+ * @param first First value.
+ * @param second Second value.
  *
- * @return A {@link Pair} object.
+ * @return The new pair.
  */
 export function make_pair<First, Second>(
   first: First,

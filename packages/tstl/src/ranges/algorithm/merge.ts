@@ -20,14 +20,17 @@ import { IForwardContainer } from "../container/IForwardContainer";
     MERGE
 --------------------------------------------------------- */
 /**
- * Merge two sorted ranges.
+ * Stably merge two sorted ranges into an output range. Equivalent elements
+ * from the first range precede those from the second. The destination must not
+ * overlap either input range.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param output Output iterator of the first position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range1 First sorted input range.
+ * @param range2 Second sorted input range.
+ * @param output Iterator to the start of the destination.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function merge<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -52,11 +55,13 @@ export function merge<
 }
 
 /**
- * Merge two sorted & consecutive ranges.
+ * Stably merge two consecutive sorted ranges in place. `middle` separates the
+ * input ranges.
  *
- * @param range An iterable ranged container.
- * @param middle Bidirectional iterator of the initial position of the 2nd range.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range Sorted input range.
+ * @param middle Start of the second sorted range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function inplace_merge<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -72,13 +77,16 @@ export function inplace_merge<
     SET OPERATIONS
 --------------------------------------------------------- */
 /**
- * Test whether two sorted ranges are in inclusion relationship.
+ * Check whether the first sorted range contains the elements of the second,
+ * accounting for repetitions.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range1 First sorted input range.
+ * @param range2 Second sorted input range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Whether the first sorted range includes the second with multiplicity.
+ * @return Whether the first range contains each value at least as many times
+ * as the second.
  */
 export function includes<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -100,14 +108,16 @@ export function includes<
 }
 
 /**
- * Combine two sorted ranges to union relationship.
+ * Write the union of two sorted ranges. For each equivalent value, write the
+ * greater of its two multiplicities.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param output Output iterator of the first position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range1 First sorted input range.
+ * @param range2 Second sorted input range.
+ * @param output Iterator to the start of the destination.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function set_union<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -132,14 +142,16 @@ export function set_union<
 }
 
 /**
- * Combine two sorted ranges to intersection relationship.
+ * Write the intersection of two sorted ranges. For each equivalent value,
+ * write the smaller of its two multiplicities.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param output Output iterator of the first position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range1 First sorted input range.
+ * @param range2 Second sorted input range.
+ * @param output Iterator to the start of the destination.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function set_intersection<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -164,14 +176,16 @@ export function set_intersection<
 }
 
 /**
- * Combine two sorted ranges to difference relationship.
+ * Write the elements of the first sorted range left after removing one match
+ * for each equivalent element in the second.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param output Output iterator of the first position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range1 First sorted input range.
+ * @param range2 Second sorted input range.
+ * @param output Iterator to the start of the destination.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function set_difference<
   Range1 extends Array<any> | IForwardContainer<any>,
@@ -196,14 +210,16 @@ export function set_difference<
 }
 
 /**
- * Combine two sorted ranges to symmetric difference relationship.
+ * Write elements present in excess on either side of two sorted ranges, after
+ * canceling matching pairs.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param output Output iterator of the first position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param range1 First sorted input range.
+ * @param range2 Second sorted input range.
+ * @param output Iterator to the start of the destination.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return The iterator immediately after the last value written.
  */
 export function set_symmetric_difference<
   Range1 extends Array<any> | IForwardContainer<any>,

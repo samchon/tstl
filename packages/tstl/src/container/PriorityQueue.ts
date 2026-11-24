@@ -13,7 +13,7 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { Vector } from "./Vector";
 
 /**
- * Priority Queue; Greater Out First.
+ * Priority queue whose top is the greatest element under its comparator.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -28,25 +28,27 @@ export class PriorityQueue<T> extends AdaptorContainer<
         CONSTURCTORS
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an empty PriorityQueue.
    *
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(comp?: Comparator<T>);
 
   /**
-   * Copy Constructor.
+   * Create a PriorityQueue from an existing instance.
    *
-   * @param obj Object to copy.
+   * @param obj Source object to copy.
    */
   public constructor(obj: PriorityQueue<T>);
 
   /**
-   * Range Constructor.
+   * Create a PriorityQueue from the elements in `[first, last)`.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
-   * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Note that, because *equality* is predicated by `!comp(x, y) && !comp(y, x)`, the function must not cover the *equality* like `<=` or `>=`. It must exclude the *equality* like `<` or `>`. Default is {@link less}.
+   * @param first Start of the input range.
+   * @param last Exclusive end of the input range.
+   * @param comp Strict ordering predicate. Return `true` when the first
+   * argument precedes the second. Defaults to {@link less}.
    */
   public constructor(
     first: Readonly<IForwardIterator<T>>,
@@ -103,14 +105,15 @@ export class PriorityQueue<T> extends AdaptorContainer<
         ACCESSORS
     --------------------------------------------------------- */
   /**
-   * Get value comparison function.
+   * Get the ordering predicate used by the priority queue.
    */
   public value_comp(): Comparator<T> {
     return this.comp_;
   }
 
   /**
-   * Get top element.
+   * Read the top element of the nonempty queue, which has the highest priority
+   * under the comparator.
    */
   public top(): T {
     return this.source_.front();

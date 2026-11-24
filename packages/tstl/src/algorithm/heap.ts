@@ -21,11 +21,12 @@ import { advance, distance } from "../iterator/global";
     PUSH & POP
 --------------------------------------------------------- */
 /**
- * Make a heap.
+ * Rearrange the range into a heap under `comp`.
  *
- * @param first Random access iterator of the first position.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function make_heap<
   RandomAccessIterator extends General<
@@ -52,11 +53,13 @@ export function make_heap<
 }
 
 /**
- * Push an element into heap.
+ * Restore heap order after appending the last element. The preceding elements
+ * must already form a heap.
  *
- * @param first Random access iterator of the first position.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function push_heap<
   RandomAccessIterator extends General<
@@ -75,11 +78,13 @@ export function push_heap<
 }
 
 /**
- * Pop an element from heap.
+ * Move the root of a nonempty heap to the last position and restore heap order
+ * in the remaining prefix.
  *
- * @param first Random access iterator of the first position.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function pop_heap<
   RandomAccessIterator extends General<
@@ -104,13 +109,14 @@ export function pop_heap<
     SORT
 --------------------------------------------------------- */
 /**
- * Test whether a range is heap.
+ * Test whether the entire range satisfies heap order under `comp`.
  *
- * @param first Bi-directional iterator of the first position.
- * @param last Bi-directional iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Whether the range is heap.
+ * @return Whether the entire range is a heap.
  */
 export function is_heap<
   RandomAccessIterator extends Readonly<
@@ -129,13 +135,15 @@ export function is_heap<
 }
 
 /**
- * Find the first element not in heap order.
+ * Find the end of the longest prefix that is a heap under `comp`.
  *
- * @param first Bi-directional iterator of the first position.
- * @param last Bi-directional iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  *
- * @return Iterator to the first element not in heap order.
+ * @return The end of the heap prefix, or the end of the range when it is a
+ * heap.
  */
 export function is_heap_until<
   RandomAccessIterator extends Readonly<
@@ -162,11 +170,12 @@ export function is_heap_until<
 }
 
 /**
- * Sort elements of a heap.
+ * Sort an existing heap in place under the same ordering used to build it.
  *
- * @param first Random access iterator of the first position.
- * @param last Random access iterator of the last position.
- * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
+ * @param first Start of the range.
+ * @param last Exclusive end of the range.
+ * @param comp Strict ordering predicate. Return `true` when the first argument
+ * precedes the second. Defaults to {@link less}.
  */
 export function sort_heap<
   RandomAccessIterator extends General<

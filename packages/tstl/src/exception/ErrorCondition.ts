@@ -9,21 +9,21 @@ import { ErrorInstance } from "../internal/exception/ErrorInstance";
 import { ErrorCategory } from "./ErrorCategory";
 
 /**
- * Error condition.
+ * Combines a numeric condition with the category that defines its meaning.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
 export class ErrorCondition extends ErrorInstance {
   /**
-   * Default Constructor.
+   * Create an error condition with value `0` and no assigned category.
    */
   public constructor();
 
   /**
-   * Initializer Constructor.
+   * Create an instance from a numeric value and its category.
    *
-   * @param val Identifier of an error condition.
-   * @param category An error category instance.
+   * @param val Numeric error condition.
+   * @param category Category that defines the numeric value.
    */
   public constructor(val: number, category: ErrorCategory);
 

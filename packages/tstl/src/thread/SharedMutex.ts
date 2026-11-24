@@ -9,7 +9,7 @@ import { ISharedLockable } from "../base/thread/ISharedLockable";
 import { SharedTimedMutex } from "./SharedTimedMutex";
 
 /**
- * Shared mutex.
+ * Asynchronous mutex with an exclusive mode and a shared mode.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */
@@ -20,7 +20,7 @@ export class SharedMutex implements ISharedLockable {
         CONSTRUCTOR
     --------------------------------------------------------- */
   /**
-   * Default Constructor.
+   * Create an unlocked mutex.
    */
   public constructor() {
     this.mutex_ = new SharedTimedMutex(this);
