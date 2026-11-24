@@ -1,7 +1,9 @@
 name: build
 on:
-  pull_request:
-  push:
+  workflow_call:
+    outputs:
+      artifact-id:
+        value: ${{ jobs.build.outputs.artifact-id }}
 
 permissions:
   contents: read
@@ -14,17 +16,22 @@ env:
   npm_config_script_shell: pwsh
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node: [20, 24]
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm test
+      - run: pnpm build
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+        id: upload
+        with:
+          name: tstl-lib-${{ github.run_attempt }}
+          path: packages/tstl/lib
+          if-no-files-found: error
