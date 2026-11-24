@@ -111,6 +111,14 @@ Thus, when you creating a new class, the make it to follow the [PascalCase] and 
 
 
 
+## Releasing
+
+Set the version in `packages/tstl/package.json` and push a matching tag such
+as `v3.0.1`, `v3.0.1-next.0`, or `v3.0.1-rc.0`. The release workflow runs
+the full suite, publishes to the corresponding npm dist-tag, and creates
+GitHub release notes. Configure npm trusted publishing for `samchon/tstl`
+and workflow `release.yml` before the first release.
+
 ## References
 I've referenced contribution guidance of the TypeScript.
   - https://github.com/Microsoft/TypeScript/blob/master/CONTRIBUTING.md

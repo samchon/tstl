@@ -134,7 +134,7 @@ pnpm install --frozen-lockfile
 pnpm test
 ```
 
-See the [contribution guide](https://github.com/samchon/tstl/blob/master/CONTRIBUTING.md) for development commands.
+See the [contribution guide](https://github.com/samchon/tstl/blob/master/CONTRIBUTING.md) for development commands and the release workflow.
 
 ## Appendix
   - **Repositories**

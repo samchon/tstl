@@ -1,0 +1,70 @@
+name: release
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+env:
+  npm_config_script_shell: pwsh
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    outputs:
+      channel: ${{ steps.version.outputs.channel }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - name: Check release version
+        id: version
+        run: |
+          $version = (Get-Content -Raw -LiteralPath packages/tstl/package.json | ConvertFrom-Json).version
+          if ($env:GITHUB_REF_NAME -cne "v$version") {
+            throw "Tag $env:GITHUB_REF_NAME must match package version v$version."
+          }
+          if ($version -cnotmatch '^\d+\.\d+\.\d+(?:-(?<channel>next|rc)\.\d+)?$') {
+            throw "Expected a stable, next, or rc package version."
+          }
+          $channel = if ($Matches.channel) { $Matches.channel } else { 'latest' }
+          Add-Content -LiteralPath $env:GITHUB_OUTPUT -Value "channel=$channel"
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org/
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - name: Publish tstl
+        working-directory: packages/tstl
+        env:
+          RELEASE_CHANNEL: ${{ steps.version.outputs.channel }}
+        run: pnpm publish --tag $env:RELEASE_CHANNEL --access public --provenance --no-git-checks
+
+  release:
+    needs: publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Publish GitHub release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_CHANNEL: ${{ needs.publish.outputs.channel }}
+        run: |
+          $options = @('--verify-tag', '--generate-notes')
+          if ($env:RELEASE_CHANNEL -ne 'latest') { $options += '--prerelease' }
+          gh release create $env:GITHUB_REF_NAME --repo $env:GITHUB_REPOSITORY @options
