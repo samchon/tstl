@@ -2,9 +2,10 @@
 #  CUSTOM IGNORE
 # ======================================================
 assets/benchmarks/
+/test/assets/benchmarks/
 node_modules/
 lib/
 
 package-lock.json
-pnpm-lock.yaml
+/packages/tstl/README.md
 *.log
