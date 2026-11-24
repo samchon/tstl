@@ -14,7 +14,7 @@ export interface IListAlgorithm<T, Source> {
         UNIQUE & REMOVE
     --------------------------------------------------------- */
   /**
-   * Remove duplicated elements.
+   * Remove all but the first element of each run of equivalent elements.
    *
    * @param binary_pred A binary function predicates two arguments are equal. Default is {@link equal_to}.
    */
@@ -38,7 +38,8 @@ export interface IListAlgorithm<T, Source> {
         SEQUENCE
     --------------------------------------------------------- */
   /**
-   * Merge two *sorted* containers.
+   * Stably merge two sorted containers, emptying the source. Iterators to moved
+   * elements follow them into the destination.
    *
    * @param source Source container to transfer.
    * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
@@ -46,14 +47,14 @@ export interface IListAlgorithm<T, Source> {
   merge(from: Source, comp?: Comparator<T>): void;
 
   /**
-   * Sort elements.
+   * Stably sort the elements while preserving their iterators.
    *
    * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
    */
   sort(comp?: Comparator<T>): void;
 
   /**
-   * Reverse elements.
+   * Reverse the order while preserving iterators to elements.
    */
   reverse(): void;
 

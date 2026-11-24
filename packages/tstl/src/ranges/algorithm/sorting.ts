@@ -86,11 +86,10 @@ export function partial_sort_copy<
 }
 
 /**
- * Rearrange for the n'th element.
+ * Partition the range around the element that would occupy `nth` in sorted order.
  *
  * @param range An iterable ranged container.
- * @param nth Random access iterator the n'th position.
- * @param last Random access iterator of the last position.
+ * @param nth Position to select, or the end iterator to leave the range unchanged.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  */
 export function nth_element<

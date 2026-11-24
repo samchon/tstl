@@ -5,17 +5,20 @@
  * @module std
  */
 //================================================================
+import { stable_sort } from "../algorithm/sorting";
 import { IDequeContainer } from "../base/container/IDequeContainer";
 import { IPointer } from "../functional/IPointer";
 import { equal_to, less } from "../functional/comparators";
 import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
 import { ListContainer } from "../internal/container/linear/ListContainer";
+import { ErrorGenerator } from "../internal/exception/ErrorGenerator";
 import { BinaryPredicator } from "../internal/functional/BinaryPredicator";
 import { Comparator } from "../internal/functional/Comparator";
 import { UnaryPredicator } from "../internal/functional/UnaryPredicator";
 import { ListIterator } from "../internal/iterator/ListIterator";
 import { ReverseIterator as ReverseIteratorBase } from "../internal/iterator/ReverseIterator";
 import { IForwardIterator } from "../iterator/IForwardIterator";
+import { Vector } from "./Vector";
 
 /**
  * Doubly Linked List.
@@ -199,7 +202,7 @@ export class List<T>
     let it = this.begin();
     while (source.empty() === false) {
       const first = source.begin();
-      while (!it.equals(this.end()) && comp(it.value, first.value) === true)
+      while (!it.equals(this.end()) && !comp(first.value, it.value))
         it = it.next();
 
       this.splice(it, source, first);
@@ -232,8 +235,8 @@ export class List<T>
    *
    * @param pos Position to insert.
    * @param from Target container to transfer.
-   * @param first Range of the first position to transfer.
-   * @param last Rangee of the last position to transfer.
+   * @param first Position of the first element to transfer.
+   * @param last Position following the transferred range.
    */
   public splice(
     pos: List.Iterator<T>,
@@ -253,8 +256,40 @@ export class List<T>
       last = obj.end();
     } else if (last === undefined) last = first.next();
 
-    this.insert(pos, first, last);
-    obj.erase(first, last);
+    if (pos.source() !== this)
+      throw ErrorGenerator.not_my_iterator(this, "insert");
+    if (pos.erased_ === true)
+      throw ErrorGenerator.erased_iterator(this, "insert");
+    if (first.source() !== obj || last.source() !== obj)
+      throw ErrorGenerator.not_my_iterator(obj, "insert");
+    if (first.erased_ === true || last.erased_ === true)
+      throw ErrorGenerator.erased_iterator(obj, "insert");
+    if (first.equals(last) || pos.equals(last)) return;
+
+    let count = 0;
+    for (let it = first; !it.equals(last); it = it.next()) {
+      if (it.equals(pos)) return;
+      if (it.equals(obj.end_)) throw ErrorGenerator.iterator_end_value(obj);
+      ++count;
+    }
+
+    const before_first = first.prev();
+    const tail = last.prev();
+    const before_pos = pos.prev();
+    List.Iterator._Set_next(before_first, last);
+    List.Iterator._Set_prev(last, before_first);
+    List.Iterator._Set_next(before_pos, first);
+    List.Iterator._Set_prev(first, before_pos);
+    List.Iterator._Set_next(tail, pos);
+    List.Iterator._Set_prev(pos, tail);
+
+    if (obj !== this) {
+      for (let it = first; !it.equals(pos); it = it.next())
+        List.Iterator._Set_source_ptr(it, this.ptr_);
+      this._Transfer_size(obj, count);
+    }
+    this.begin_ = this.end_.next();
+    obj.begin_ = obj.end_.next();
   }
 
   /* ---------------------------------------------------------
@@ -264,49 +299,21 @@ export class List<T>
    * @inheritDoc
    */
   public sort(comp: Comparator<T> = less): void {
-    this._Quick_sort(this.begin(), this.end().prev(), comp);
-  }
+    const nodes = new Vector<List.Iterator<T>>();
+    for (let it = this.begin_; !it.equals(this.end_); it = it.next())
+      nodes.push_back(it);
+    if (nodes.size() < 2) return;
+    stable_sort(nodes.begin(), nodes.end(), (a, b) => comp(a.value, b.value));
 
-  private _Quick_sort(
-    first: List.Iterator<T>,
-    last: List.Iterator<T>,
-    comp: Comparator<T>,
-  ): void {
-    if (
-      !first.equals(last) &&
-      !last.equals(this.end()) &&
-      !first.equals(last.next())
-    ) {
-      const temp: List.Iterator<T> = this._Quick_sort_partition(
-        first,
-        last,
-        comp,
-      );
-
-      this._Quick_sort(first, temp.prev(), comp);
-      this._Quick_sort(temp.next(), last, comp);
+    let previous = this.end_;
+    for (const node of nodes) {
+      List.Iterator._Set_next(previous, node);
+      List.Iterator._Set_prev(node, previous);
+      previous = node;
     }
-  }
-
-  private _Quick_sort_partition(
-    first: List.Iterator<T>,
-    last: List.Iterator<T>,
-    comp: Comparator<T>,
-  ): List.Iterator<T> {
-    const standard: T = last.value; // TO BE COMPARED
-    let prev: List.Iterator<T> = first.prev(); // TO BE SMALLEST
-
-    let it: List.Iterator<T> = first;
-    for (; !it.equals(last); it = it.next())
-      if (comp(it.value, standard)) {
-        prev = prev.equals(this.end()) ? first : prev.next();
-        [prev.value, it.value] = [it.value, prev.value];
-      }
-
-    prev = prev.equals(this.end()) ? first : prev.next();
-    [prev.value, it.value] = [it.value, prev.value];
-
-    return prev;
+    List.Iterator._Set_next(previous, this.end_);
+    List.Iterator._Set_prev(this.end_, previous);
+    this.begin_ = this.end_.next();
   }
 
   /**

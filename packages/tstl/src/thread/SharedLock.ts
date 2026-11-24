@@ -29,8 +29,8 @@ export namespace SharedLock {
    * Read locks a shared mutex with your business.
    *
    * Shares a mutex until be the *closure* has been completed. If there're someone who have
-   * already {@link ILockable.lock monopolied} the mutex, the function call would be blocked
-   * until all of them to {@link unlock return} their acquisitions.
+   * already exclusively locked the mutex, the function call would be blocked
+   * until all of them to release their acquisitions.
    *
    * When succeeded to {@link ISharedLockable.lock_shared share} the mutex, the {@link lock}
    * function will call the *closure*, a custom function defning your business. After the
@@ -62,7 +62,7 @@ export namespace SharedLock {
    *
    * Attemps to share a mutex without blocking. If succeeded to share the mutex immediately, it
    * returns `true` directly. Otherwise there's someone who has already
-   * {@link ILockable.lock monopolied} the mutex, the function gives up the trial immediately
+   * exclusively locked the mutex, the function gives up the trial immediately
    * and returns `false` directly without calling the *closure*.
    *
    * When succeeded to {@link ISharedLockable.lock_shared share} the mutex, the {@link try_lock}
@@ -100,7 +100,7 @@ export namespace SharedLock {
    * *closure*.
    *
    * Failed to acquring the shared lock in the given time (returns `false`), it means that
-   * there's someone who has already {@link ILockable.lock monopolied} the mutex and does not
+   * there's someone who has already exclusively locked the mutex and does not
    * return it over the timeout.
    *
    * When succeeded to {@link ISharedLockable.lock_shared share} the mutex, the
@@ -142,7 +142,7 @@ export namespace SharedLock {
    * `false` without calling the *closure*.
    *
    * Failed to acquring the shared lock in the given time (returns `false`), it means that
-   * there's someone who has already {@link ILockable.lock monopolied} the mutex and does not
+   * there's someone who has already exclusively locked the mutex and does not
    * return it over the time expiration.
    *
    * When succeeded to {@link ISharedLockable.lock_shared share} the mutex, the

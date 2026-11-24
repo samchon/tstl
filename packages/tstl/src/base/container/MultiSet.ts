@@ -31,7 +31,7 @@ export abstract class MultiSet<
   /**
    * Insert an element.
    *
-   * @param pair A tuple to be referenced for the insert.
+   * @param key Element to insert.
    * @return An iterator to the newly inserted element.
    */
   public insert(key: Key): IteratorT;
@@ -40,7 +40,7 @@ export abstract class MultiSet<
    * Insert an element with hint.
    *
    * @param hint Hint for the position where the element can be inserted.
-   * @param pair A tuple to be referenced for the insert.
+   * @param key Element to insert.
    * @return An iterator to the newly inserted element.
    */
   public insert(hint: IteratorT, key: Key): IteratorT;
@@ -48,8 +48,8 @@ export abstract class MultiSet<
   /**
    * Insert range elements.
    *
-   * @param first Input iterator of the first position.
-   * @param last Input iterator of the last position.
+   * @param begin Iterator to the first element.
+   * @param end Past-the-end iterator of the input range.
    */
   public insert<
     InputIterator extends Readonly<IForwardIterator<Key, InputIterator>>,

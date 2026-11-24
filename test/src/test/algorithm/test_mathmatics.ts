@@ -1,4 +1,27 @@
+import { strict as assert } from "assert";
+
 import * as std from "tstl";
+
+export function test_minmax_element_boundaries(): void {
+  const empty = new std.ForwardList<number>();
+  assert.equal(std.ranges.min_element(empty), empty.end());
+  assert.equal(std.ranges.max_element(empty), empty.end());
+  const empty_pair = std.ranges.minmax_element(empty);
+  assert.equal(empty_pair.first, empty.end());
+  assert.equal(empty_pair.second, empty.end());
+
+  const cases = [[1], [2, 2], [2, 1, 2], [2, 1, 1, 2]];
+  for (const values of cases) {
+    let comparisons = 0;
+    const pair = std.ranges.minmax_element(values, (a, b) => {
+      ++comparisons;
+      return a < b;
+    });
+    assert.equal(pair.first.index(), values.indexOf(Math.min(...values)));
+    assert.equal(pair.second.index(), values.lastIndexOf(Math.max(...values)));
+    assert.ok(comparisons <= Math.floor((3 * (values.length - 1)) / 2));
+  }
+}
 
 export function test_mathmatics(): void {
   _Test_min_max();

@@ -15,10 +15,10 @@ import { Hasher } from "../functional/Hasher";
 export class HashBuckets<Key, Elem> {
   private readonly fetcher_: Fetcher<Key, Elem>;
   private readonly hasher_: Hasher<Key>;
+  private readonly bucket_by_element_ = new Map<Elem, Elem[]>();
 
   private max_load_factor_: number;
   private data_: Elem[][];
-  private size_: number;
 
   /* ---------------------------------------------------------
         CONSTRUCTORS
@@ -29,14 +29,13 @@ export class HashBuckets<Key, Elem> {
 
     this.max_load_factor_ = DEFAULT_MAX_FACTOR;
     this.data_ = [];
-    this.size_ = 0;
 
     this.initialize();
   }
 
   public clear(): void {
     this.data_ = [];
-    this.size_ = 0;
+    this.bucket_by_element_.clear();
 
     this.initialize();
   }
@@ -53,6 +52,9 @@ export class HashBuckets<Key, Elem> {
         data[index].push(elem);
       }
     this.data_ = data;
+    // Update locations only after all hashes for the new table succeeded.
+    for (const bucket of data)
+      for (const elem of bucket) this.bucket_by_element_.set(elem, bucket);
   }
 
   public reserve(length: number): void {
@@ -82,7 +84,7 @@ export class HashBuckets<Key, Elem> {
   }
 
   public load_factor(): number {
-    return this.size_ / this.length();
+    return this.bucket_by_element_.size / this.length();
   }
 
   public max_load_factor(): number;
@@ -99,28 +101,21 @@ export class HashBuckets<Key, Elem> {
   /* ---------------------------------------------------------
         ELEMENTS I/O
     --------------------------------------------------------- */
-  private index(elem: Elem): number {
-    return this.hasher_(this.fetcher_(elem)) % this.length();
-  }
-
   public insert(val: Elem): void {
+    const hash = this.hasher_(this.fetcher_(val));
     const capacity: number = this.capacity();
-    if (++this.size_ > capacity) this.reserve(capacity * 2);
+    if (this.bucket_by_element_.size + 1 > capacity) this.reserve(capacity * 2);
 
-    const index: number = this.index(val);
-    this.data_[index].push(val);
+    const bucket = this.data_[hash % this.length()];
+    bucket.push(val);
+    this.bucket_by_element_.set(val, bucket);
   }
 
   public erase(val: Elem): void {
-    const index: number = this.index(val);
-    const bucket: Elem[] = this.data_[index];
-
-    for (let i: number = 0; i < bucket.length; ++i)
-      if (bucket[i] === val) {
-        bucket.splice(i, 1);
-        --this.size_;
-        break;
-      }
+    const bucket = this.bucket_by_element_.get(val);
+    if (bucket === undefined) return;
+    bucket.splice(bucket.indexOf(val), 1);
+    this.bucket_by_element_.delete(val);
   }
 }
 

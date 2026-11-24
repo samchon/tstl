@@ -34,19 +34,8 @@ export class Deque<T>
   implements
     IArrayContainer<T, Deque<T>, Deque.Iterator<T>, Deque.ReverseIterator<T>>
 {
-  // A matrix containing elements.
-  //
-  // This {@link matrix_} is the biggest difference one between {@link Vector} and {@link Deque}.
-  // Its number of rows follows {@link ROW_SIZE} and number of columns follows {@link get_col_size} which
-  // returns divide of {@link capacity} and {@link ROW_SIZE}.
-  //
-  // By separating segment of elements (segment: row, elements in a segment: col), {@link Deque} takes
-  // advantage of time complexity on inserting element in middle position. {@link Deque} is {@link ROW_SIZE}
-  // times faster than {@link Vector} when inserting elements in middle position.
-  //
-  // However, separating segment of elements from matrix, {@link Deque} also takes disadvantage of
-  // time complexity on accessing element. {@link Deque} is {@link ROW_SIZE} times slower than {@link Vector}
-  // when accessing element.
+  // Segments hold elements in their logical order. The row count is capped at
+  // Deque.ROW_SIZE, and the target row length depends on the current capacity.
   private matrix_!: Array<Array<T>>;
 
   // Number of elements stored in the {@link Deque}.
@@ -168,8 +157,7 @@ export class Deque<T>
 
     const expansion: number = n - this.size();
     if (expansion > 0) this.insert(this.end(), expansion, undefined!);
-    else if (expansion < 0)
-      this.erase(this.end().advance(-expansion), this.end());
+    else if (expansion < 0) this.erase(this.nth(n), this.end());
   }
 
   /**
@@ -613,23 +601,12 @@ export namespace Deque {
   // CONSTANTS
   //----
   /**
-   * Row size of the {@link Deque.matrix_ matrix} which contains elements.
-   *
-   * Note that the {@link ROW_SIZE} affects on time complexity of accessing and inserting element.
-   * Accessing element is {@link ROW_SIZE} times slower than ordinary {@link Vector} and inserting element
-   * in middle position is {@link ROW_SIZE} times faster than ordinary {@link Vector}.
-   *
-   * When the {@link ROW_SIZE} returns 8, time complexity of accessing element is O(8) and inserting
-   * element in middle position is O(N/8). ({@link Vector}'s time complexity of accessement is O(1)
-   * and inserting element is O(N)).
+   * Maximum number of storage rows. Indexed access scans at most this many rows.
    */
   export const ROW_SIZE = 8;
 
   /**
-   * Minimum {@link Deque.capacity}.
-   *
-   * Although a {@link Deque} has few elements, even no element is belonged to, the {@link Deque}
-   * keeps the minimum {@link Deque.capacity} at least.
+   * Capacity assigned when a deque is initialized or cleared.
    */
   export const MIN_CAPACITY = 36;
 

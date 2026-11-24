@@ -16,7 +16,7 @@ import { IContainer } from "./IContainer";
  * @template SourceT Derived type extending this {@link Container}
  * @template IteratorT Iterator type
  * @template ReverseT Reverse iterator type
- * @template PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
+ * @template PElem Parent type of *T* accepted by insertion and assignment operations.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

@@ -5,7 +5,7 @@
  * @module std
  */
 //================================================================
-import { sort as sort_func } from "../algorithm/sorting";
+import { stable_sort } from "../algorithm/sorting";
 import { IPointer } from "../functional/IPointer";
 import { equal_to, less } from "../functional/comparators";
 import { IListAlgorithm } from "../internal/container/linear/IListAlgorithm";
@@ -76,7 +76,7 @@ export class ForwardList<T>
   /**
    * Fill Constructor.
    *
-   * @param size Initial size.
+   * @param n Initial size.
    * @param val Value to fill.
    */
   public constructor(n: number, val: T);
@@ -333,16 +333,16 @@ export class ForwardList<T>
    * Erase an element.
    *
    * @param it Position to erase after.
-   * @return Iterator to the erased element.
+   * @return Iterator following the erased element.
    */
   public erase_after(it: ForwardList.Iterator<T>): ForwardList.Iterator<T>;
 
   /**
    * Erase elements.
    *
-   * @param first Range of the first position to erase after.
-   * @param last Rangee of the last position to erase.
-   * @return Iterator to the last removed element.
+   * @param first Position before the first element to erase.
+   * @param last Position following the erased range.
+   * @return The iterator `last`.
    */
   public erase_after(
     first: ForwardList.Iterator<T>,
@@ -373,11 +373,13 @@ export class ForwardList<T>
    * @inheritDoc
    */
   public unique(binary_pred: BinaryPredicator<T> = equal_to): void {
-    for (let it = this.begin().next(); !it.equals(this.end()); it = it.next()) {
+    let it = this.begin();
+    while (!it.equals(this.end())) {
       const next_it = it.next();
       if (next_it.equals(this.end())) break;
 
       if (binary_pred(it.value, next_it.value)) this.erase_after(it);
+      else it = next_it;
     }
   }
 
@@ -392,18 +394,15 @@ export class ForwardList<T>
    * @inheritDoc
    */
   public remove_if(pred: UnaryPredicator<T>): void {
-    let count: number = 0;
-
-    for (
-      let it = this.before_begin();
-      !it.next().equals(this.end());
-      it = it.next()
-    )
-      if (pred(it.next().value) === true) {
-        ForwardList.Iterator._Set_next(it, it.next().next());
-        ++count;
+    let it = this.before_begin();
+    let next = it.next();
+    while (!next.equals(this.end())) {
+      if (pred(next.value) === true) next = this.erase_after(it);
+      else {
+        it = next;
+        next = it.next();
       }
-    this.size_ -= count;
+    }
   }
 
   /* ---------------------------------------------------------------
@@ -418,7 +417,7 @@ export class ForwardList<T>
     let it = this.before_begin();
     while (from.empty() === false) {
       const value = from.begin().value;
-      while (!it.next().equals(this.end()) && comp(it.next().value, value))
+      while (!it.next().equals(this.end()) && !comp(value, it.next().value))
         it = it.next();
 
       this.splice_after(it, from, from.before_begin());
@@ -451,8 +450,8 @@ export class ForwardList<T>
    *
    * @param pos Position to insert after.
    * @param from Target container to transfer.
-   * @param first Range of previous of the first position to transfer.
-   * @param last Rangee of the last position to transfer.
+   * @param first_before Position before the first element to transfer.
+   * @param last Position following the transferred range.
    */
   public splice_after(
     pos: ForwardList.Iterator<T>,
@@ -464,15 +463,43 @@ export class ForwardList<T>
   public splice_after(
     pos: ForwardList.Iterator<T>,
     from: ForwardList<T>,
-    first_before: ForwardList.Iterator<T> = from.before_begin(),
-    last: ForwardList.Iterator<T> = first_before.next().next(),
+    first_before: ForwardList.Iterator<T> | undefined = undefined,
+    last?: ForwardList.Iterator<T>,
   ): void {
-    // DEFAULT PARAMETERS
+    if (pos.source() !== this)
+      throw ErrorGenerator.not_my_iterator(this, "splice_after");
+    if (pos.equals(this.end_)) throw ErrorGenerator.iterator_end_value(this);
+    if (first_before === undefined) {
+      first_before = from.before_begin();
+      last = from.end();
+    } else if (last === undefined) last = first_before.next().next();
     if (last === null) last = from.end();
+    if (first_before.source() !== from || last.source() !== from)
+      throw ErrorGenerator.not_my_iterator(from, "splice_after");
 
-    // INSERT & ERASE
-    this.insert_after(pos, first_before.next(), last!);
-    from.erase_after(first_before, last!);
+    const first = first_before.next();
+    if (first.equals(last) || pos.equals(first_before)) return;
+
+    let tail = first;
+    let count = 1;
+    while (!tail.equals(last)) {
+      if (tail.equals(pos)) return;
+      if (tail.equals(from.end_)) throw ErrorGenerator.iterator_end_value(from);
+      if (tail.next().equals(last)) break;
+      tail = tail.next();
+      ++count;
+    }
+
+    const after = pos.next();
+    ForwardList.Iterator._Set_next(first_before, last);
+    ForwardList.Iterator._Set_next(pos, first);
+    ForwardList.Iterator._Set_next(tail, after);
+    if (from !== this) {
+      for (let it = first; !it.equals(after); it = it.next())
+        ForwardList.Iterator._Set_source_ptr(it, this.ptr_);
+      this.size_ += count;
+      from.size_ -= count;
+    }
   }
 
   /* ---------------------------------------------------------------
@@ -482,18 +509,32 @@ export class ForwardList<T>
    * @inheritDoc
    */
   public sort(comp: Comparator<T> = less): void {
-    const vec = new Vector<T>(this.begin(), this.end());
-    sort_func(vec.begin(), vec.end(), comp);
+    const nodes = new Vector<ForwardList.Iterator<T>>();
+    for (let it = this.begin(); !it.equals(this.end_); it = it.next())
+      nodes.push_back(it);
+    if (nodes.size() < 2) return;
+    stable_sort(nodes.begin(), nodes.end(), (a, b) => comp(a.value, b.value));
 
-    this.assign(vec.begin(), vec.end());
+    let previous = this.before_begin_;
+    for (const node of nodes) {
+      ForwardList.Iterator._Set_next(previous, node);
+      previous = node;
+    }
+    ForwardList.Iterator._Set_next(previous, this.end_);
   }
 
   /**
    * @inheritDoc
    */
   public reverse(): void {
-    const vec = new Vector<T>(this.begin(), this.end());
-    this.assign(vec.rbegin(), vec.rend());
+    let previous = this.end_;
+    for (let it = this.begin(); !it.equals(this.end_); ) {
+      const next = it.next();
+      ForwardList.Iterator._Set_next(it, previous);
+      previous = it;
+      it = next;
+    }
+    ForwardList.Iterator._Set_next(this.before_begin_, previous);
   }
 
   /* ---------------------------------------------------------------
@@ -629,6 +670,14 @@ export namespace ForwardList {
      */
     public static _Set_next<T>(it: Iterator<T>, next: Iterator<T>): void {
       it.next_ = next;
+    }
+
+    /** @internal */
+    public static _Set_source_ptr<T>(
+      it: Iterator<T>,
+      ptr: IPointer<ForwardList<T>>,
+    ): void {
+      it.source_ptr_ = ptr;
     }
   }
 }

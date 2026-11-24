@@ -51,7 +51,7 @@ export abstract class UniqueSet<
    * Insert an element with hint.
    *
    * @param hint Hint for the position where the element can be inserted.
-   * @param pair A tuple to be referenced for the insert.
+   * @param key Element to insert.
    * @return An iterator to the newly inserted element, if the specified key doesn't exist, otherwise an iterator to the ordinary element.
    */
   public insert(hint: IteratorT, key: Key): IteratorT;
@@ -91,8 +91,8 @@ export abstract class UniqueSet<
   /**
    * Extract an element by iterator.
    *
-   * @param pos The iterator to the element for extraction.
-   * @return Iterator following the *pos*, strained by the extraction.
+   * @param it Iterator to the element to extract.
+   * @return Iterator following the extracted element.
    */
   public extract(it: IteratorT): IteratorT;
 

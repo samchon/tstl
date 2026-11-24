@@ -116,7 +116,7 @@ export class Semaphore<Max extends number = number> {
    * not call the {@link release} function after your business, the others who want to
    * {@link acquire} a section from the semaphore would be fall into the forever sleep.
    * Therefore, never forget to calling the {@link release} function or utilize the
-   * {@link UniqueLock.try_acquire_for} function instead with {@link Semaphore.get_lockable} to
+   * {@link UniqueLock.try_lock_for} function instead with {@link Semaphore.get_lockable} to
    * ensure the safety.
    *
    * @param ms The maximum miliseconds for waiting.
@@ -161,7 +161,7 @@ export class Semaphore<Max extends number = number> {
    * not call the {@link release} function after your business, the others who want to
    * {@link acquire} a section from the semaphore would be fall into the forever sleep.
    * Therefore, never forget to calling the {@link release} function or utilize the
-   * {@link UniqueLock.try_acquire_until} function instead with {@link Semaphore.get_lockable}
+   * {@link UniqueLock.try_lock_until} function instead with {@link Semaphore.get_lockable}
    * to ensure the safety.
    *
    * @param at The maximum time point to wait.

@@ -5,12 +5,10 @@
  * @module std
  */
 //================================================================
-import { Vector } from "../container/Vector";
 import { IPointer } from "../functional/IPointer";
 import { Writeonly } from "../internal/functional/Writeonly";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { advance, distance } from "../iterator/global";
-import { sort } from "./sorting";
 
 /**
  * Generate random integer.
@@ -26,7 +24,7 @@ export function randint(x: number, y: number): number {
 }
 
 /**
- * Pick sample elements up.
+ * Sample without replacement in the input's order.
  *
  * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
@@ -48,35 +46,22 @@ export function sample<
   output: OutputIterator,
   n: number,
 ): OutputIterator {
-  // GENERATE REMAINDERS
-  const step: number = distance(first, last);
-  const remainders: number[] = [];
+  const length = distance(first, last);
+  const remaining: number[] = [];
+  for (let i = 0; i < length; ++i) remaining.push(i);
 
-  for (let i: number = 0; i < step; ++i) remainders.push(i);
-
-  //----
-  // CONSTRUCT INDEXES
-  //----
-  const advances: Vector<number> = new Vector();
-  n = Math.min(n, step);
-
-  // PICK SAMPLE INDEXES
+  const selected: number[] = [];
+  n = Math.min(n, length);
   for (let i: number = 0; i < n; ++i) {
-    const idx: number = randint(0, remainders.length - 1);
-    advances.push(remainders.splice(idx, 1)[0]);
+    const index = randint(0, remaining.length - 1);
+    selected.push(remaining.splice(index, 1)[0]);
   }
-  sort(advances.begin(), advances.end());
+  selected.sort((a, b) => a - b);
 
-  // CHANGE INDEXES TO ADVANCES
-  for (let i: number = n - 1; i >= 1; --i)
-    advances.set(i, advances.at(i) - advances.at(i - 1));
-
-  //----
-  // FILL SAMPLES
-  //----
-  for (const adv of advances) {
-    first = advance(first, adv);
-
+  let offset = 0;
+  for (const index of selected) {
+    first = advance(first, index - offset);
+    offset = index;
     output.value = first.value;
     output = output.next();
   }

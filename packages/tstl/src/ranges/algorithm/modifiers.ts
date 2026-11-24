@@ -100,12 +100,12 @@ export function copy_if<
 }
 
 /**
- * Copy elements reversely.
+ * Copy elements into the output range, starting from its end.
  *
  * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
+ * @param output Past-the-end iterator of the output range.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return Iterator to the beginning of the copied range.
  */
 export function copy_backward<
   Range extends Array<any> | IBidirectionalContainer<any, any>,
@@ -120,12 +120,10 @@ export function copy_backward<
 }
 
 /**
- * Fill range elements
+ * Fill the range with a value.
  *
  * @param range An iterable ranged container.
- * @param val The value to fill.
- *
- * @return Output Iterator of the last position by advancing.
+ * @param value Value to assign to each element.
  */
 export function fill<Range extends Array<any> | IForwardContainer<any>>(
   range: Range,
@@ -139,7 +137,7 @@ export function fill<Range extends Array<any> | IForwardContainer<any>>(
  *
  * @param range An iterable ranged container.
  * @param n Number of elements to fill.
- * @param val The value to fill.
+ * @param value Value to assign to each element.
  *
  * @return Output Iterator of the last position by advancing.
  */
@@ -155,8 +153,8 @@ export function fill_n<Range extends Array<any> | IForwardContainer<any>>(
  * Transform elements.
  *
  * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
- * @param op Unary function determines the transform.
+ * @param result Beginning of the output range.
+ * @param op Unary transformation.
  *
  * @return Output Iterator of the last position by advancing.
  */
@@ -174,10 +172,10 @@ export function transform<
 /**
  * Transform elements.
  *
- * @param range1 The 1st iterable ranged container.
- * @param range2 The 2nd iterable ranged container.
- * @param output Output iterator of the first position.
- * @param op Binary function determines the transform.
+ * @param range First input range.
+ * @param first Second input range, with at least as many elements as `range`.
+ * @param result Beginning of the output range.
+ * @param op Binary transformation.
  *
  * @return Output Iterator of the last position by advancing.
  */
@@ -203,9 +201,8 @@ export function transform<Range1 extends Array<any> | IForwardContainer<any>>(
     begin(range1),
     end(range1),
   );
-  if (args.length === 3) return fn(...args);
-  // args: #4
-  else return fn(end(args[1]), args[2], args[3]);
+  if (args.length === 2) return fn(...args);
+  return fn(begin(args[0]), args[1], args[2]);
 }
 
 /**

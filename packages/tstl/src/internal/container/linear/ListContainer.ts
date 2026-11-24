@@ -99,7 +99,7 @@ export abstract class ListContainer<
     const expansion: number = n - this.size();
     if (expansion > 0) this.insert(this.end(), expansion, undefined!);
     else if (expansion < 0)
-      this.erase(advance(<Temporary>this.end(), -expansion), this.end());
+      this.erase(advance(<Temporary>this.end(), expansion), this.end());
   }
 
   /* ---------------------------------------------------------
@@ -307,6 +307,15 @@ export abstract class ListContainer<
     if (first.equals(this.begin_)) this.begin_ = last;
 
     return last;
+  }
+
+  /** @internal */
+  protected _Transfer_size(
+    source: ListContainer<T, SourceT, IteratorT, ReverseIteratorT>,
+    count: number,
+  ): void {
+    this.size_ += count;
+    source.size_ -= count;
   }
 
   /* ---------------------------------------------------------

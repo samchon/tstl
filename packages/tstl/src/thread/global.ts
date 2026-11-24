@@ -10,11 +10,12 @@ import { ILockable } from "../base/thread/ILockable";
 /**
  * Sleep for time span.
  *
- * @param ms The milliseconds to sleep.
+ * @param ms The milliseconds to sleep. A nonpositive duration schedules
+ * completion on the next timer turn.
  */
 export function sleep_for(ms: number): Promise<void> {
   return new Promise<void>((resolve) => {
-    setTimeout(resolve, ms);
+    setTimeout(resolve, Math.max(0, ms));
   });
 }
 

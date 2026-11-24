@@ -1,5 +1,43 @@
+import { strict as assert } from "assert";
+
 import * as std from "tstl";
 import { Point2D } from "../internal/Point2D";
+
+export function test_numeric_boundaries(): void {
+  assert.equal(std.gcd(-6, 0), 6);
+  assert.equal(std.gcd(0, -6), 6);
+  assert.equal(std.lcm(-12, 18), 36);
+  assert.equal(std.lcm(0, 0), 0);
+
+  const values = [3, 7, 15, 31];
+  const result = std.ranges.adjacent_difference(values, std.begin(values));
+  assert.equal(result.index(), values.length);
+  assert.deepEqual(values, [3, 4, 8, 16]);
+
+  const concatenate = (a: string, b: string): string => a + b;
+  const transform = (value: string): string => `[${value}]`;
+  const output = ["a", "b", "c"];
+  const end = std.ranges.transform_inclusive_scan(
+    output,
+    std.begin(output),
+    concatenate,
+    transform,
+    "_",
+  );
+  assert.equal(end.index(), output.length);
+  assert.deepEqual(output, ["_[a]", "_[a][b]", "_[a][b][c]"]);
+
+  const exclusive = ["a", "b", "c"];
+  std.transform_exclusive_scan(
+    std.begin(exclusive),
+    std.end(exclusive),
+    std.begin(exclusive),
+    "_",
+    concatenate,
+    transform,
+  );
+  assert.deepEqual(exclusive, ["_", "_[a]", "_[a][b]"]);
+}
 
 export function test_numeric_algorithms(): void {
   //----

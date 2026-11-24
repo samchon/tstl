@@ -29,9 +29,9 @@ export namespace UniqueLock {
    * Write locks a mutex with your business logic code.
    *
    * Monopolies a mutex until be the *closure* has been completed. If there're someone who have
-   * already {@link ILockable.lock monopolied} or {@link ISharedLockable.lock shared} the mutex,
+   * already {@link ILockable.lock monopolied} or shared the mutex,
    * the function call would be blocked until all of them return their acquisitions by calling
-   * {@link ILockable.unlock} or {@link ISharedLockable.unlock_shared} methods.
+   * {@link ILockable.unlock} or the shared unlock method methods.
    *
    * When succeeded to {@link ILockable.lock monopoly} the mutex, the {@link lock} function will
    * call the *closure*, a custom function definig your business. After the *closure* function
@@ -63,7 +63,7 @@ export namespace UniqueLock {
    *
    * Attempts to monopoly a mutex without blocking. If succeeded to monopoly the mutex
    * immediately, it returns `true` after calling the *closure*. Otherwise there's someone who
-   * has already {@link ILockable.lock monopolied} or {@link ISharedLockable.lock shared} the
+   * has already {@link ILockable.lock monopolied} or shared the
    * mutex, the function gives up the trial immediately and returns `false` directly without
    * calling the *closure*.
    *
@@ -102,7 +102,7 @@ export namespace UniqueLock {
    * the *closure*.
    *
    * Failed to acquiring the lock in the given time (returns `false`), it means that there's
-   * someone who has already {@link ILockable.lock monopolied} or {@link ISharedLockable.lock}
+   * someone who has already {@link ILockable.lock monopolied} or shared
    * the mutex and does not return it over the timeout.
    *
    * When succeeded to {@link ILockable.lock monopoly} the mutex, the {@link try_lock_for}
@@ -141,7 +141,7 @@ export namespace UniqueLock {
    * `false` without calling the *closure*.
    *
    * Failed to acquiring the lock in the given time (returns `false`), it means that there's
-   * someone who has already {@link ILockable.lock monopolied} or {@link ISharedLockable.lock}
+   * someone who has already {@link ILockable.lock monopolied} or shared
    * the mutex and does not return it over the time expiration.
    *
    * When succeeded to {@link ILockable.lock monopoly} the mutex, the {@link try_lock_until}

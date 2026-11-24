@@ -1,4 +1,26 @@
+import { strict as assert } from "assert";
+
 import * as std from "tstl";
+
+export function test_binary_search_boundaries(): void {
+  const ascending = (a: number, b: number) => a < b;
+  const descending = (a: number, b: number) => a > b;
+  for (const [values, comp] of [
+    [[], ascending],
+    [[1, 2, 2, 4], ascending],
+    [[4, 2, 2, 1], descending],
+  ] as const) {
+    const list = new std.ForwardList<number>([...values]);
+    for (const key of [0, 1, 2, 3, 4, 5]) {
+      const lower = values.filter((item) => comp(item, key)).length;
+      const upper = values.filter((item) => !comp(key, item)).length;
+      const pair = std.ranges.equal_range(list, key, comp);
+      assert.equal(std.distance(list.begin(), pair.first), lower);
+      assert.equal(std.distance(list.begin(), pair.second), upper);
+      assert.equal(std.ranges.binary_search(list, key, comp), lower !== upper);
+    }
+  }
+}
 
 export function test_binary_searches(): void {
   _Test_binary_search_of_atom();

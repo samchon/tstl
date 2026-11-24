@@ -80,47 +80,34 @@ export class Barrier {
         ARRIVAL FUNCTIONS
     --------------------------------------------------------- */
   /**
-   * Derecements the counter.
+   * Register `n` arrivals in the current phase.
    *
-   * Decrements the counter by *n* without blocking.
-   *
-   * If the parametric value *n* is equal to or greater than internal counter, so that the
-   * internal counter be equal to or less than zero, everyone who are {@link wait waiting} for
-   * the {@link Latch} would continue their executions.
+   * The final arrival releases current waiters and resets the counter for the next phase.
    *
    * @param n Value of the decrement. Default is 1.
    */
   public async arrive(n: number = 1): Promise<void> {
-    const completed: boolean = (this.count_ += n) <= this.size_;
-    if (completed === false) return;
+    this.count_ -= n;
+    if (this.count_ > 0) return;
 
-    this.count_ %= this.size_;
+    this.count_ = this.size_;
     await this.cv_.notify_all();
   }
 
   /**
-   * Decrements the counter and waits until the counter to be zero.
-   *
-   * Decrements the counter by one and blocks the section until internal counter to be zero.
-   *
-   * If the the remained counter be zero by this decrement, everyone who are
-   * {@link wait waiting} for the {@link Barrier} would continue their executions including
-   * this one.
+   * Register one arrival and wait for the current phase to complete.
    */
   public async arrive_and_wait(): Promise<void> {
+    const waiting = this.wait();
     await this.arrive();
-    await this.wait();
+    await waiting;
   }
 
   /**
-   * Decrements the counter and initial size at the same time.
-   *
-   * Decrements not only internal counter, but also initialize size of the counter at the same
-   * time. If the remained counter be zero by the decrement, everyone who are
-   * {@link wait waiting} for the {@link Barrier} would continue their executions.
+   * Register one arrival and reduce the expected count for future phases by one.
    */
   public async arrive_and_drop(): Promise<void> {
     --this.size_;
-    await this.arrive(0);
+    await this.arrive();
   }
 }

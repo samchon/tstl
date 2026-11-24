@@ -47,7 +47,7 @@ export class TreeSet<Key> extends UniqueTreeSet<
   /**
    * Copy Constructor.
    *
-   * @param obj Object to copy.
+   * @param container Container to copy.
    */
   public constructor(container: TreeSet<Key>);
 

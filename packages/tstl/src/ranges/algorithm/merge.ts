@@ -78,7 +78,7 @@ export function inplace_merge<
  * @param range2 The 2nd iterable ranged container.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  *
- * @return Whether [first, last1) includes [first2, last2).
+ * @return Whether the first sorted range includes the second with multiplicity.
  */
 export function includes<
   Range1 extends Array<any> | IForwardContainer<any>,
