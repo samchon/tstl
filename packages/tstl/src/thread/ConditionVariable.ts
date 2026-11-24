@@ -196,7 +196,8 @@ export class ConditionVariable {
 
     // POP RESOLVERS
     const resolverList: IResolver[] = this.resolvers_.toJSON();
-    this.resolvers_.clear();
+    // Timed waiters use the erased flag to tell that they were notified.
+    this.resolvers_.erase(this.resolvers_.begin(), this.resolvers_.end());
 
     // ITERATE RESOLVERS
     for (const resolver of resolverList)

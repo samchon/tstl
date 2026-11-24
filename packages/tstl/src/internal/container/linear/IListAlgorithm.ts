@@ -41,7 +41,7 @@ export interface IListAlgorithm<T, Source> {
    * Stably merge two sorted containers, emptying the source. Iterators to moved
    * elements follow them into the destination.
    *
-   * @param source Source container to transfer.
+   * @param from Source container to transfer.
    * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
    */
   merge(from: Source, comp?: Comparator<T>): void;

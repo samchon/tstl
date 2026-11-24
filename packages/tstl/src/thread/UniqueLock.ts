@@ -31,7 +31,7 @@ export namespace UniqueLock {
    * Monopolies a mutex until be the *closure* has been completed. If there're someone who have
    * already {@link ILockable.lock monopolied} or shared the mutex,
    * the function call would be blocked until all of them return their acquisitions by calling
-   * {@link ILockable.unlock} or the shared unlock method methods.
+   * {@link ILockable.unlock} or the corresponding shared unlock method.
    *
    * When succeeded to {@link ILockable.lock monopoly} the mutex, the {@link lock} function will
    * call the *closure*, a custom function definig your business. After the *closure* function

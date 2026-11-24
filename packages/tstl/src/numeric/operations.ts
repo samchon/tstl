@@ -194,7 +194,7 @@ export function exclusive_scan<
 
 /**
  * Write each prefix reduction of the transformed input.
- * When supplied, `init` precedes the first transformed value.
+ * When supplied, `unary(init)` precedes the first transformed value.
  */
 export function transform_inclusive_scan<
   InputIterator extends Readonly<
@@ -213,14 +213,10 @@ export function transform_inclusive_scan<
 ): OutputIterator {
   if (first.equals(last)) return output;
 
-  const first_value = unary(first.value);
   let sum =
     init === undefined
-      ? first_value
-      : binary(
-          init as unknown as IPointer.ValueType<OutputIterator>,
-          first_value,
-        );
+      ? unary(first.value)
+      : binary(unary(init), unary(first.value));
   output.value = sum;
   output = output.next();
 
@@ -233,8 +229,8 @@ export function transform_inclusive_scan<
 }
 
 /**
- * Write the reduction of `init` and the transformed input preceding each
- * position. The first output is `init`.
+ * Write the reduction of `unary(init)` and the transformed input preceding
+ * each position. The first output is `unary(init)`.
  */
 export function transform_exclusive_scan<
   InputIterator extends Readonly<
@@ -254,7 +250,7 @@ export function transform_exclusive_scan<
   if (first.equals(last)) return output;
 
   let previous = unary(first.value);
-  let sum = init as unknown as IPointer.ValueType<OutputIterator>;
+  let sum = unary(init);
   output.value = sum;
   output = output.next();
 

@@ -1,6 +1,6 @@
 import { strict as assert } from "assert";
-
 import * as std from "tstl";
+
 import { Point2D } from "../internal/Point2D";
 
 export function test_numeric_boundaries(): void {
@@ -25,7 +25,7 @@ export function test_numeric_boundaries(): void {
     "_",
   );
   assert.equal(end.index(), output.length);
-  assert.deepEqual(output, ["_[a]", "_[a][b]", "_[a][b][c]"]);
+  assert.deepEqual(output, ["[_][a]", "[_][a][b]", "[_][a][b][c]"]);
 
   const exclusive = ["a", "b", "c"];
   std.transform_exclusive_scan(
@@ -36,7 +36,40 @@ export function test_numeric_boundaries(): void {
     concatenate,
     transform,
   );
-  assert.deepEqual(exclusive, ["_", "_[a]", "_[a][b]"]);
+  assert.deepEqual(exclusive, ["[_]", "[_][a]", "[_][a][b]"]);
+}
+
+export function test_transform_scans_with_different_types(): void {
+  const input = [1, 2, 3];
+  const concatenate = (a: string, b: string): string => a.concat(b);
+  const transform = (value: number): string => `[${value}]`;
+  const inclusive: string[] = [];
+  const exclusive: string[] = [];
+  std.ranges.transform_inclusive_scan(
+    input,
+    std.back_inserter(inclusive),
+    concatenate,
+    transform,
+    0,
+  );
+  std.ranges.transform_exclusive_scan(
+    input,
+    std.back_inserter(exclusive),
+    0,
+    concatenate,
+    transform,
+  );
+  assert.deepEqual(inclusive, ["[0][1]", "[0][1][2]", "[0][1][2][3]"]);
+  assert.deepEqual(exclusive, ["[0]", "[0][1]", "[0][1][2]"]);
+
+  const plain: string[] = [];
+  std.ranges.inclusive_scan(
+    ["a", "b"],
+    std.back_inserter(plain),
+    concatenate,
+    "_",
+  );
+  assert.deepEqual(plain, ["_a", "_ab"]);
 }
 
 export function test_numeric_algorithms(): void {

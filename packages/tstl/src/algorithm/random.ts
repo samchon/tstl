@@ -8,7 +8,7 @@
 import { IPointer } from "../functional/IPointer";
 import { Writeonly } from "../internal/functional/Writeonly";
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { advance, distance } from "../iterator/global";
+import { distance } from "../iterator/global";
 
 /**
  * Generate random integer.
@@ -46,24 +46,17 @@ export function sample<
   output: OutputIterator,
   n: number,
 ): OutputIterator {
-  const length = distance(first, last);
-  const remaining: number[] = [];
-  for (let i = 0; i < length; ++i) remaining.push(i);
+  if (!(n > 0)) return output;
 
-  const selected: number[] = [];
-  n = Math.min(n, length);
-  for (let i: number = 0; i < n; ++i) {
-    const index = randint(0, remaining.length - 1);
-    selected.push(remaining.splice(index, 1)[0]);
-  }
-  selected.sort((a, b) => a - b);
-
-  let offset = 0;
-  for (const index of selected) {
-    first = advance(first, index - offset);
-    offset = index;
-    output.value = first.value;
-    output = output.next();
+  let remaining = distance(first, last);
+  let needed = Math.min(Math.ceil(n), remaining);
+  for (; needed > 0; first = first.next(), --remaining) {
+    // Every remaining element has the same chance of filling one of the open slots.
+    if (needed === remaining || randint(0, remaining - 1) < needed) {
+      output.value = first.value;
+      output = output.next();
+      --needed;
+    }
   }
   return output;
 }
