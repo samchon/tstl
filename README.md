@@ -1,8 +1,8 @@
 # TypeScript Standard Template Library
 ![tstl](https://user-images.githubusercontent.com/13158709/222362879-3da6c27f-8f73-4b1d-b63a-ec23ff51e71e.png)
 
-```bash
-npm install --save tstl
+```powershell
+pnpm add tstl
 ```
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/samchon/tstl/blob/master/LICENSE)
@@ -57,14 +57,14 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 
 ### Algorithms
 - [`<algorithm>`](http://www.cplusplus.com/reference/algorithm/)
-    - [iterations](https://github.com/samchon/tstl/blob/master/src/algorithm/iterations.ts)
-    - [modifiers](https://github.com/samchon/tstl/blob/master/src/algorithm/modifiers.ts)
-    - [partitions](https://github.com/samchon/tstl/blob/master/src/algorithm/partitions.ts)
-    - [sortings](https://github.com/samchon/tstl/blob/master/src/algorithm/sortings.ts)
-    - [binary searches](https://github.com/samchon/tstl/blob/master/src/algorithm/binary_searches.ts)
-    - [union sets](https://github.com/samchon/tstl/blob/master/src/algorithm/union_sets.ts)
-    - [heaps](https://github.com/samchon/tstl/blob/master/src/algorithm/heaps.ts)
-    - [mathematics](https://github.com/samchon/tstl/blob/master/src/algorithm/mathematics.ts)
+    - [iterations](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/iterations.ts)
+    - [modifiers](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/modifiers.ts)
+    - [partitions](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/partition.ts)
+    - [sortings](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/sorting.ts)
+    - [binary searches](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/binary_search.ts)
+    - [merge and set operations](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/merge.ts)
+    - [heaps](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/heap.ts)
+    - [mathematics](https://github.com/samchon/tstl/blob/master/packages/tstl/src/algorithm/mathematics.ts)
 
 ### Functors
   - [`<exception>`](http://www.cplusplus.com/reference/exception/)
@@ -77,10 +77,10 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
   - [`<utility>`](http://www.cplusplus.com/reference/utility/)
     - [Pair](https://samchon.github.io/tstl/api/classes/std.pair.html)
   - [`<numeric>`](http://en.cppreference.com/w/cpp/numeric)
-    - [IComputable](https://github.com/samchon/tstl/blob/master/src/numeric/IComputable.ts)
-    - [operations](https://github.com/samchon/tstl/blob/master/src/numeric/operations.ts)
+    - [IComputable](https://github.com/samchon/tstl/blob/master/packages/tstl/src/numeric/IComputable.ts)
+    - [operations](https://github.com/samchon/tstl/blob/master/packages/tstl/src/numeric/operations.ts)
     - [special math](http://en.cppreference.com/w/cpp/numeric/special_math)
-  - [`<thread>`](https://github.com/samchon/tstl/blob/master/src/thread.ts)
+  - [`<thread>`](https://github.com/samchon/tstl/tree/master/packages/tstl/src/thread)
     - [ConditionVariable](https://samchon.github.io/tstl/api/classes/std.conditionvariable.html)
     - [Mutex](https://samchon.github.io/tstl/api/classes/std.mutex.html) & [TimedMutex](https://samchon.github.io/tstl/api/classes/std.timedmutex.html)
     - [SharedMutex](https://samchon.github.io/tstl/api/classes/std.sharedmutex.html) & [SharedTimeMutex](https://samchon.github.io/tstl/api/classes/std.sharedtimedmutex.html)
@@ -95,9 +95,8 @@ Below components are list of provided objects in the **TSTL**. If you want to kn
 ### NPM Module
 Installing **TSTL** in *NodeJS* is very easy. Just install with the `npm`
 
-```bash
-# Install TSTL from the NPM module
-npm install --save tstl
+```powershell
+pnpm add tstl
 ```
 
 ### Usage
@@ -111,7 +110,7 @@ function main(): void
     map.emplace(1, "First");
     map.emplace(4, "Fourth");
     map.emplace(5, "Fifth");
-    map.set(9, "Nineth");
+    map.set(9, "Ninth");
 
     for (const it of map)
         console.log(it.first, it.second);
@@ -124,6 +123,18 @@ main();
 
 
 
+
+## Development
+
+Use the pnpm version pinned in the root manifest. The published library lives in
+`packages/tstl`, and `test` exercises its built entry points.
+
+```powershell
+pnpm install --frozen-lockfile
+pnpm test
+```
+
+See the [contribution guide](https://github.com/samchon/tstl/blob/master/CONTRIBUTING.md) for development commands and the release workflow.
 
 ## Appendix
   - **Repositories**

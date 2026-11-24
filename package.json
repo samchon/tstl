@@ -1,114 +1,17 @@
 {
-  "name": "tstl",
-  "description": "TypeScript-STL (Standard Template Library, migrated from C++)",
-  "author": {
-    "name": "Jeongho Nam",
-    "email": "samchon.github@gmail.com",
-    "url": "https://github.com/samchon"
-  },
-  "version": "3.0.0",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./lib/index.d.ts",
-      "require": "./lib/index.js",
-      "import": "./lib/index.mjs"
-    }
-  },
+  "name": "tstl-workspace",
+  "private": true,
+  "packageManager": "pnpm@12.18.0",
   "scripts": {
-    "api": "typedoc src --exclude \"**/+(test|benchmark)/**\" --excludeNotDocumented --plugin typedoc-plugin-external-module-name --plugin typedoc-plugin-exclude-references --out ../tstl@gh-pages/api",
-    "benchmark": "node benchmark",
-    "build": "rimraf lib && tsc && rollup -c",
-    "dev": "rimraf lib && tsc --watch",
-    "prettier": "prettier --write ./src/**/*.ts",
-    "test": "node lib/test"
+    "build": "pnpm --filter tstl build",
+    "dev": "pnpm --filter tstl dev",
+    "test": "pnpm run build && pnpm --filter @tstl/test test",
+    "benchmark": "pnpm run build && pnpm --filter @tstl/test benchmark",
+    "api": "pnpm --filter tstl api",
+    "prettier": "prettier --write \"packages/tstl/src/**/*.ts\" \"test/src/**/*.ts\""
   },
   "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
-    "@rollup/plugin-typescript": "^11.1.6",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
-    "@types/cli": "^0.11.19",
-    "@types/node": "^14.6.3",
-    "cli": "^1.0.1",
-    "prettier": "^2.8.8",
-    "rimraf": "^3.0.2",
-    "rollup": "^4.13.1",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10.7.0",
-    "tslib": "^2.6.2",
-    "typedoc": "^0.25.12",
-    "typescript": "^5.4.3"
-  },
-  "homepage": "https://github.com/samchon/tstl",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/samchon/tstl"
-  },
-  "bugs": {
-    "url": "https://github.com/samchon/tstl/issues"
-  },
-  "license": "MIT",
-  "keywords": [
-    "tstl",
-    "typecript",
-    "c++",
-    "cpp",
-    "stl",
-    "standard template library",
-    "algorithm",
-    "container",
-    "exception",
-    "functional",
-    "iterator",
-    "numeric",
-    "ranges",
-    "thread",
-    "utility",
-    "base",
-    "experimental",
-    "internal",
-    "Vector",
-    "Deque",
-    "List",
-    "VectorBoolean",
-    "ForwardList",
-    "Stack",
-    "Queue",
-    "PriorityQueue",
-    "FlatMap",
-    "FlatMultiMap",
-    "FlatMultiSet",
-    "FlatSet",
-    "HashMap",
-    "HashMultiMap",
-    "HashMultiSet",
-    "HashSet",
-    "TreeMap",
-    "TreeMultiMap",
-    "TreeMultiSet",
-    "TreeSet",
-    "ConditionVariable",
-    "Semaphore",
-    "Latch",
-    "Barrier",
-    "FlexBarrier",
-    "Mutex",
-    "TimedMutex",
-    "SharedMutex",
-    "SharedTimedMutex",
-    "SharedLock",
-    "UniqueLock",
-    "Singleton"
-  ],
-  "files": [
-    "LICENSE",
-    "README.md",
-    "lib/",
-    "src/",
-    "!lib/benchmark",
-    "!lib/test",
-    "!src/benchmark",
-    "!src/test"
-  ]
+    "prettier": "^2.8.8"
+  }
 }

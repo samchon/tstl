@@ -26,25 +26,21 @@ I always welcome your suggestion. When you publishing a suggestion, then please 
 
 ## Contributing Code
 ### Test your code
-Before sending a pull request, please test your new code. You type the command `npm run build`, then compiling your code and test-automation will be all processed.
 
-```bash
-# COMPILE & TEST AT ONCE
-npm run build
+Use the pnpm version pinned in `package.json`. The root test command builds
+the library and runs the TypeScript tests and the ESM smoke test.
 
-####
-# SPECIAL COMMANDS
-####
-tsc # COMPILE ONLY
-npm run test # TEST ONLY
-
-npm run clean # CLEAN COMPILED RESULTS UP
+```powershell
+pnpm install --frozen-lockfile
+pnpm test
 ```
 
-If you succeeded to compile, but failed to pass the test-automation, then *debug* the test-automation module. I've configured the `.vscode/launch.json`. You just run the `VSCode` and click the `Start Debugging` button or press `F5` key. By the *debugging*, find the reason why the *test* is failed and fix it.
+Use `pnpm build` to build the library, `pnpm benchmark` to run benchmarks,
+and `pnpm api` to generate API documentation in `lib/api`. The VS Code test
+configurations run against the built library.
 
 ### Adding a Test
-If you want to add a testing-logic, then goto the `src/test` directory. It's the directory containing the test-automation module. Declare some functions starting from the prefix `test_`. Then, they will be called after the next testing.
+If you want to add a testing-logic, then goto the `test/src/test` directory. It's the directory containing the test-automation module. Declare some functions starting from the prefix `test_`. Then, they will be called after the next testing.
 
 Note that, the special functions starting from the prefix `test_` must be `export`ed. They also must return one of them:
   - `void`
@@ -114,6 +110,14 @@ Thus, when you creating a new class, the make it to follow the [PascalCase] and 
   - The detailed coding convention will be provided soon.
 
 
+
+## Releasing
+
+Set the version in `packages/tstl/package.json` and push a matching tag such
+as `v3.0.1`, `v3.0.1-next.0`, or `v3.0.1-rc.0`. The release workflow runs
+the full suite, publishes to the corresponding npm dist-tag, and creates
+GitHub release notes. Configure npm trusted publishing for `samchon/tstl`
+and workflow `release.yml` before the first release.
 
 ## References
 I've referenced contribution guidance of the TypeScript.
