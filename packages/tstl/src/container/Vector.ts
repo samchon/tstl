@@ -62,7 +62,7 @@ export class Vector<T>
   /**
    * Fill Constructor.
    *
-   * @param size Initial size.
+   * @param n Initial size.
    * @param val Value to fill.
    */
   public constructor(n: number, val: T);

@@ -12,20 +12,22 @@ import { IForwardIterator } from "../iterator/IForwardIterator";
 import { minus, multiplies, plus } from "./operators";
 
 /**
- * Greatest Common Divider.
+ * Return the nonnegative greatest common divisor of two integers.
  */
 export function gcd(x: number, y: number): number {
   y = y.valueOf(); // `Number` to `number`
   while (y !== 0) [x, y] = [y, x % y];
 
-  return x;
+  return Math.abs(x);
 }
 
 /**
- * Least Common Multiple.
+ * Return the nonnegative least common multiple of two integers.
+ * The result is zero if either integer is zero.
  */
 export function lcm(x: number, y: number): number {
-  return (x * y) / gcd(x, y);
+  if (x === 0 || y === 0) return 0;
+  return Math.abs((x / gcd(x, y)) * y);
 }
 
 /* ---------------------------------------------------------
@@ -92,16 +94,16 @@ export function adjacent_difference<
 
   // INITIALIZE
   let before: IPointer.ValueType<InputIterator>;
-  [first, <any>output, before] = _Initialize<InputIterator, InputIterator>(
+  [first, output, before] = _Initialize<InputIterator, OutputIterator>(
     first,
-    <any>output,
+    output,
   );
 
   // COMPUTE OPERATIONS
   for (; !first.equals(last); first = first.next()) {
-    output.value = subtracter(first.value, before);
-
-    before = first.value;
+    const current = first.value;
+    output.value = subtracter(current, before);
+    before = current;
     output = output.next();
   }
   return output;
@@ -124,9 +126,9 @@ export function partial_sum<
 
   // INITIALIZE
   let sum: IPointer.ValueType<InputIterator>;
-  [first, <any>output, sum] = _Initialize<InputIterator, InputIterator>(
+  [first, output, sum] = _Initialize<InputIterator, OutputIterator>(
     first,
-    <any>output,
+    output,
   );
 
   // COMPUTE OPERATIONS
@@ -190,6 +192,10 @@ export function exclusive_scan<
   );
 }
 
+/**
+ * Write each prefix reduction of the transformed input.
+ * When supplied, `unary(init)` precedes the first transformed value.
+ */
 export function transform_inclusive_scan<
   InputIterator extends Readonly<
     IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
@@ -207,20 +213,25 @@ export function transform_inclusive_scan<
 ): OutputIterator {
   if (first.equals(last)) return output;
 
-  // INITIALIZE
-  let before: IPointer.ValueType<OutputIterator>;
-  [first, output, before] = _Transform_initialize(first, output, unary, init);
+  let sum =
+    init === undefined
+      ? unary(first.value)
+      : binary(unary(init), unary(first.value));
+  output.value = sum;
+  output = output.next();
 
-  // COMPUTE OPERATIONS
-  for (; !first.equals(last); first = first.next()) {
-    before = binary(before, unary(first.value));
-
-    output.value = before;
+  for (first = first.next(); !first.equals(last); first = first.next()) {
+    sum = binary(sum, unary(first.value));
+    output.value = sum;
     output = output.next();
   }
   return output;
 }
 
+/**
+ * Write the reduction of `unary(init)` and the transformed input preceding
+ * each position. The first output is `unary(init)`.
+ */
 export function transform_exclusive_scan<
   InputIterator extends Readonly<
     IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
@@ -238,17 +249,15 @@ export function transform_exclusive_scan<
 ): OutputIterator {
   if (first.equals(last)) return output;
 
-  // INITIALIZE
-  let x: IPointer.ValueType<OutputIterator> = unary(first.value);
-  let y: IPointer.ValueType<OutputIterator>;
-  [first, output, y] = _Transform_initialize(first, output, unary, init);
+  let previous = unary(first.value);
+  let sum = unary(init);
+  output.value = sum;
+  output = output.next();
 
-  // COMPUTE OPERATIONS
-  for (; !first.equals(last); first = first.next()) {
-    y = binary(x, y);
-    x = unary(first.value);
-
-    output.value = y;
+  for (first = first.next(); !first.equals(last); first = first.next()) {
+    sum = binary(sum, previous);
+    previous = unary(first.value);
+    output.value = sum;
     output = output.next();
   }
   return output;
@@ -285,35 +294,13 @@ function _Initialize<
     IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
   >,
   OutputIterator extends Writeonly<
-    IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>
+    IForwardIterator<IPointer.ValueType<InputIterator>, OutputIterator>
   >,
 >(
   first: InputIterator,
   output: OutputIterator,
-  init?: IPointer.ValueType<InputIterator>,
-): [InputIterator, OutputIterator, IPointer.ValueType<OutputIterator>] {
-  return _Transform_initialize(first, output, (val) => <any>val, init);
-}
-
-function _Transform_initialize<
-  InputIterator extends Readonly<
-    IForwardIterator<IPointer.ValueType<InputIterator>, InputIterator>
-  >,
-  OutputIterator extends Writeonly<
-    IForwardIterator<IPointer.ValueType<OutputIterator>, OutputIterator>
-  >,
->(
-  first: InputIterator,
-  output: OutputIterator,
-  unary: Transformer<InputIterator, OutputIterator>,
-  init?: IPointer.ValueType<InputIterator>,
-): [InputIterator, OutputIterator, IPointer.ValueType<OutputIterator>] {
-  // WRITE THE FIRST OR INITIAL VALUE
-  const ret: IPointer.ValueType<OutputIterator> = unary(
-    init === undefined ? first.value : init,
-  );
-  output.value = ret;
-
-  // RETURNS WITH ADVANCES
-  return [first.next(), output.next(), ret];
+): [InputIterator, OutputIterator, IPointer.ValueType<InputIterator>] {
+  const value = first.value;
+  output.value = value;
+  return [first.next(), output.next(), value];
 }

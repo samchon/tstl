@@ -114,6 +114,30 @@ export function test_nth_element_unbalanced_pivots(): void {
   assert.ok(values.slice(nth.index() + 1).every((x) => x >= nth.value));
 }
 
+export function test_sort_reverse_subrange(): void {
+  const values = new std.Vector([99, 3, 1, 2, -99]);
+  std.sort(values.rbegin().next(), values.rend().prev());
+  assert.deepEqual(values.data(), [99, 3, 2, 1, -99]);
+}
+
+export function test_sort_comparison_bound(): void {
+  const length = 512;
+  const cases = [
+    Array<number>(length).fill(7),
+    Array.from({ length }, (_, i) => (i < length / 2 ? i : length - i)),
+  ];
+  for (const values of cases) {
+    const expected = values.slice().sort((a, b) => a - b);
+    let comparisons = 0;
+    const limit = 8 * length * Math.log2(length);
+    std.ranges.sort(values, (a, b) => {
+      assert.ok(++comparisons <= limit, "sort exceeded its comparison budget");
+      return a < b;
+    });
+    assert.deepEqual(values, expected);
+  }
+}
+
 export function test_sortings(): void {
   _Test_atomic_sorting();
   _Test_object_sorting();

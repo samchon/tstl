@@ -16,13 +16,16 @@ interface IModule {
   [key: string]: () => Promise<void>;
 }
 
+let running_test: string | undefined;
+
 async function measure(job: () => Promise<void>): Promise<number> {
   const time: number = Date.now();
   await job();
   return Date.now() - time;
 }
 
-async function iterate(command: ICommand, path: string): Promise<void> {
+async function iterate(command: ICommand, path: string): Promise<number> {
+  let passed = 0;
   const fileList: string[] = await fs.promises.readdir(path);
   for (const file of fileList) {
     const location: string = `${path}/${file}`;
@@ -33,7 +36,7 @@ async function iterate(command: ICommand, path: string): Promise<void> {
       file !== "internal" &&
       file !== "manual"
     ) {
-      await iterate(command, location);
+      passed += await iterate(command, location);
       continue;
     } else if (
       file.substr(-(EXTENSION.length + 1)) !== `.${EXTENSION}` ||
@@ -51,13 +54,17 @@ async function iterate(command: ICommand, path: string): Promise<void> {
       // PRINT TITLE & ELAPSED TIME
       process.stdout.write("  - " + key);
 
+      running_test = key;
       const time: number = await measure(() => external[key]());
+      running_test = undefined;
+      ++passed;
       console.log(`: ${time} ms`);
     }
   }
+  return passed;
 }
 
-async function main(): Promise<void> {
+async function main(directory: string): Promise<void> {
   //----
   // DO TEST
   //----
@@ -69,7 +76,10 @@ async function main(): Promise<void> {
   if (process.argv[2] && process.argv[2][0] !== "-")
     command.target = process.argv[2];
 
-  const time: number = await measure(() => iterate(command, __dirname));
+  const start = Date.now();
+  const passed = await iterate(command, directory);
+  if (passed === 0) throw new Error("No tests matched the selection.");
+  const time = Date.now() - start;
 
   //----
   // TRACE BENCHMARK
@@ -88,9 +98,17 @@ async function main(): Promise<void> {
   }
   console.log("----------------------------------------------------------\n");
 }
-main().catch((e) => {
-  process.stdout.write("\n");
-  console.log(e);
+export function run_tests(directory: string): void {
+  process.once("beforeExit", () => {
+    if (running_test === undefined) return;
+    console.error(`\nTest did not complete: ${running_test}`);
+    process.exitCode = 1;
+  });
+  main(directory).catch((e) => {
+    process.stdout.write("\n");
+    console.log(e);
+    process.exit(1);
+  });
+}
 
-  process.exit(1);
-});
+if (require.main === module) run_tests(__dirname);

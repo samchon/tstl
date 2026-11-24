@@ -5,12 +5,10 @@
  * @module std
  */
 //================================================================
-import { Vector } from "../container/Vector";
 import { IPointer } from "../functional/IPointer";
 import { Writeonly } from "../internal/functional/Writeonly";
 import { IForwardIterator } from "../iterator/IForwardIterator";
-import { advance, distance } from "../iterator/global";
-import { sort } from "./sorting";
+import { distance } from "../iterator/global";
 
 /**
  * Generate random integer.
@@ -26,7 +24,7 @@ export function randint(x: number, y: number): number {
 }
 
 /**
- * Pick sample elements up.
+ * Sample without replacement in the input's order.
  *
  * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
@@ -48,37 +46,17 @@ export function sample<
   output: OutputIterator,
   n: number,
 ): OutputIterator {
-  // GENERATE REMAINDERS
-  const step: number = distance(first, last);
-  const remainders: number[] = [];
+  if (!(n > 0)) return output;
 
-  for (let i: number = 0; i < step; ++i) remainders.push(i);
-
-  //----
-  // CONSTRUCT INDEXES
-  //----
-  const advances: Vector<number> = new Vector();
-  n = Math.min(n, step);
-
-  // PICK SAMPLE INDEXES
-  for (let i: number = 0; i < n; ++i) {
-    const idx: number = randint(0, remainders.length - 1);
-    advances.push(remainders.splice(idx, 1)[0]);
-  }
-  sort(advances.begin(), advances.end());
-
-  // CHANGE INDEXES TO ADVANCES
-  for (let i: number = n - 1; i >= 1; --i)
-    advances.set(i, advances.at(i) - advances.at(i - 1));
-
-  //----
-  // FILL SAMPLES
-  //----
-  for (const adv of advances) {
-    first = advance(first, adv);
-
-    output.value = first.value;
-    output = output.next();
+  let remaining = distance(first, last);
+  let needed = Math.min(Math.ceil(n), remaining);
+  for (; needed > 0; first = first.next(), --remaining) {
+    // Every remaining element has the same chance of filling one of the open slots.
+    if (needed === remaining || randint(0, remaining - 1) < needed) {
+      output.value = first.value;
+      output = output.next();
+      --needed;
+    }
   }
   return output;
 }

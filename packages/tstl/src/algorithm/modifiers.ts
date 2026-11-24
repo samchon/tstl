@@ -14,7 +14,7 @@ import { Writeonly } from "../internal/functional/Writeonly";
 import { IBidirectionalIterator } from "../iterator/IBidirectionalIterator";
 import { IForwardIterator } from "../iterator/IForwardIterator";
 import { IRandomAccessIterator } from "../iterator/IRandomAccessIterator";
-import { advance } from "../iterator/global";
+import { advance, distance } from "../iterator/global";
 import { randint } from "./random";
 
 type UnaryOperatorInferrer<
@@ -139,13 +139,13 @@ export function copy_if<
 }
 
 /**
- * Copy elements reversely.
+ * Copy elements into the output range, starting from its end.
  *
  * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
- * @param output Output iterator of the first position.
+ * @param output Past-the-end iterator of the output range.
  *
- * @return Output Iterator of the last position by advancing.
+ * @return Iterator to the beginning of the copied range.
  */
 export function copy_backward<
   InputIterator extends Readonly<
@@ -159,8 +159,6 @@ export function copy_backward<
   last: InputIterator,
   output: OutputIterator,
 ): OutputIterator {
-  last = last.prev();
-
   while (!last.equals(first)) {
     last = last.prev();
     output = output.prev();
@@ -221,8 +219,8 @@ export function fill_n<
  *
  * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
- * @param output Output iterator of the first position.
- * @param op Unary function determines the transform.
+ * @param result Beginning of the output range.
+ * @param op Unary transformation.
  *
  * @return Output Iterator of the last position by advancing.
  */
@@ -246,8 +244,8 @@ export function transform<
  * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
  * @param first2 Input iterator of the first position of the 2nd range.
- * @param output Output iterator of the first position.
- * @param op Binary function determines the transform.
+ * @param result Beginning of the output range.
+ * @param op Binary transformation.
  *
  * @return Output Iterator of the last position by advancing.
  */
@@ -657,12 +655,12 @@ export function replace_copy<
 }
 
 /**
- * Copy range replacing specfic condition.
+ * Copy a range, replacing elements that satisfy a predicate.
  *
  * @param first Input iterator of the first position.
  * @param last Input iterator of the last position.
- * @param output Output iterator of the first position.
- * @param pred An unary function predicates the change.
+ * @param result Beginning of the output range.
+ * @param pred Predicate selecting elements to replace.
  * @param new_val Specific value to be changed.
  *
  * @return Output Iterator of the last position by advancing.
@@ -801,6 +799,8 @@ export function shift_left<
     IForwardIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
   >,
 >(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator {
+  if (n === 0) return last;
+  if (n >= distance(first, last)) return first;
   const mid = advance(first, n);
   return copy(mid, last, first);
 }
@@ -810,6 +810,8 @@ export function shift_right<
     IBidirectionalIterator<IPointer.ValueType<ForwardIterator>, ForwardIterator>
   >,
 >(first: ForwardIterator, last: ForwardIterator, n: number): ForwardIterator {
+  if (n === 0) return first;
+  if (n >= distance(first, last)) return last;
   const mid = advance(last, -n);
   return copy_backward(first, mid, last);
 }

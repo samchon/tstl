@@ -66,7 +66,7 @@ export interface ILinearContainer<
   ): void;
 
   /**
-   * Resize this {@link Vector} forcibly.
+   * Resize the container. When shrinking, remove elements from the back.
    *
    * @param n New container size.
    */

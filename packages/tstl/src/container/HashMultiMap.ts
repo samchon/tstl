@@ -373,8 +373,14 @@ export class HashMultiMap<Key, T>
     first: HashMultiMap.Iterator<Key, T>,
     last: HashMultiMap.Iterator<Key, T>,
   ): void {
-    for (; !first.equals(last); first = first.next())
-      this.buckets_.insert(first);
+    try {
+      for (; !first.equals(last); first = first.next())
+        this.buckets_.insert(first);
+    } catch (error) {
+      // Unindexed elements from this point onward still reside in the list.
+      this.data_.erase(first, last);
+      throw error;
+    }
   }
 
   protected _Handle_erase(

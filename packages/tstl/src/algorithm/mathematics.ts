@@ -95,6 +95,8 @@ export function min_element<
   last: ForwardIterator,
   comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
 ): ForwardIterator {
+  if (first.equals(last)) return last;
+
   let smallest: ForwardIterator = first;
   first = first.next();
 
@@ -122,6 +124,8 @@ export function max_element<
   last: ForwardIterator,
   comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
 ): ForwardIterator {
+  if (first.equals(last)) return last;
+
   let largest: ForwardIterator = first;
   first = first.next();
 
@@ -138,7 +142,8 @@ export function max_element<
  * @param last Forward iterator of the last position.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  *
- * @return A {@link Pair} of iterators to the minimum & maximum elements.
+ * @return A {@link Pair} of iterators to the first minimum and the last maximum.
+ * Both iterators equal `last` for an empty range.
  */
 export function minmax_element<
   ForwardIterator extends Readonly<
@@ -149,17 +154,28 @@ export function minmax_element<
   last: ForwardIterator,
   comp: Comparator<IPointer.ValueType<ForwardIterator>> = less,
 ): Pair<ForwardIterator, ForwardIterator> {
+  if (first.equals(last)) return new Pair(last, last);
+
   let smallest: ForwardIterator = first;
   let largest: ForwardIterator = first;
 
-  first = first.next();
-  for (; !first.equals(last); first = first.next()) {
-    if (comp(first.value, smallest.value))
-      // first is less than the smallest.
-      smallest = first;
-    if (comp(largest.value, first.value))
-      // first is not less than the largest.
-      largest = first;
+  let it = first.next();
+  if (!it.equals(last)) {
+    if (comp(it.value, first.value)) smallest = it;
+    else largest = it;
+    it = it.next();
+  }
+  while (!it.equals(last)) {
+    let low = it;
+    let high = it;
+    it = it.next();
+    if (!it.equals(last)) {
+      if (comp(it.value, low.value)) low = it;
+      else high = it;
+      it = it.next();
+    }
+    if (comp(low.value, smallest.value)) smallest = low;
+    if (!comp(high.value, largest.value)) largest = high;
   }
   return new Pair(smallest, largest);
 }

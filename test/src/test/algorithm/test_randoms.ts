@@ -1,4 +1,26 @@
+import { strict as assert } from "assert";
 import * as std from "tstl";
+
+export function test_sample_forward_range(): void {
+  const values = new std.ForwardList(["a", "b", "a", "c"]);
+  const output = ["", "", "untouched"];
+  const random = Math.random;
+  const draws = [0.9, 0, 0.9];
+  try {
+    Math.random = () => draws.shift() ?? 0;
+    const end = std.ranges.sample(values, std.begin(output), 2);
+    assert.equal(end.index(), 2);
+    assert.deepEqual(output, ["b", "c", "untouched"]);
+  } finally {
+    Math.random = random;
+  }
+
+  const full: string[] = [];
+  const first = std.back_inserter(full);
+  assert.equal(std.sample(values.begin(), values.end(), first, 0), first);
+  std.sample(values.begin(), values.end(), first, 10);
+  assert.deepEqual(full, ["a", "b", "a", "c"]);
+}
 
 export function test_randoms(): void {
   _Test_rand_ints();

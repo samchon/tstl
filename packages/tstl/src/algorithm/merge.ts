@@ -25,7 +25,8 @@ import { copy } from "./modifiers";
     MERGE
 --------------------------------------------------------- */
 /**
- * Merge two sorted ranges.
+ * Stably merge two sorted ranges. Equivalent elements from the first range
+ * precede those from the second.
  *
  * @param first1 Input iterator of the first position of the 1st range.
  * @param last1 Input iterator of the last position of the 1st range.
@@ -58,7 +59,7 @@ export function merge<
     if (first1.equals(last1)) return copy(<Temporary>first2, last2, output);
     else if (first2.equals(last2)) return copy(first1, last1, output);
 
-    if (comp(first1.value, first2.value)) {
+    if (!comp(first2.value, first1.value)) {
       output.value = first1.value;
       first1 = first1.next();
     } else {
@@ -70,7 +71,8 @@ export function merge<
 }
 
 /**
- * Merge two sorted & consecutive ranges.
+ * Stably merge the consecutive sorted ranges `[first, middle)` and
+ * `[middle, last)` into the original range.
  *
  * @param first Bidirectional iterator of the first position.
  * @param middle Bidirectional iterator of the initial position of the 2nd range.
@@ -109,7 +111,7 @@ export function inplace_merge<
  * @param last2 Input iterator of the last position of the 2nd range.
  * @param comp A binary function predicates *x* element would be placed before *y*. When returns `true`, then *x* precedes *y*. Default is {@link less}.
  *
- * @return Whether [first, last1) includes [first2, last2).
+ * @return Whether [first1, last1) includes [first2, last2).
  */
 export function includes<
   InputIterator1 extends Readonly<

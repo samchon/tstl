@@ -1,5 +1,40 @@
+import { strict as assert } from "assert";
+
 import * as std from "tstl";
 import { Generator } from "../internal/Generator";
+
+export function test_stable_merge(): void {
+  const first = [
+    { key: 1, id: "a" },
+    { key: 2, id: "b" },
+    { key: 2, id: "c" },
+  ];
+  const second = [
+    { key: 2, id: "d" },
+    { key: 3, id: "e" },
+  ];
+  const comp = (a: (typeof first)[number], b: (typeof first)[number]) =>
+    a.key < b.key;
+  const expected = [...first, ...second];
+  const merged = new Array<(typeof first)[number]>(expected.length);
+  assert.equal(
+    std.ranges.merge(first, second, std.begin(merged), comp).index(),
+    merged.length,
+  );
+  assert.deepEqual(merged, expected);
+
+  const in_place = new std.Vector([
+    { key: 0, id: "start" },
+    ...first,
+    ...second,
+    { key: 0, id: "end" },
+  ]);
+  std.inplace_merge(in_place.nth(1), in_place.nth(4), in_place.nth(6), comp);
+  assert.deepEqual(
+    Array.from(in_place, (entry) => entry.id),
+    ["start", "a", "b", "c", "d", "e", "end"],
+  );
+}
 
 export function test_merges(): void {
   _Test_merge();

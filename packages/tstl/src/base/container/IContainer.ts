@@ -20,7 +20,7 @@ import { IBidirectionalContainer } from "../../ranges/container/IBidirectionalCo
  * @template SourceT Derived type extending this {@link IContainer}
  * @template IteratorT Iterator type
  * @template ReverseT Reverse iterator type
- * @template PElem Parent type of *T*, used for inserting elements through {@link assign} and {@link insert}.
+ * @template PElem Parent type of *T* accepted by insertion and assignment operations.
  *
  * @author Jeongho Nam - https://github.com/samchon
  */

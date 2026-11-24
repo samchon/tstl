@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "rimraf lib && tsc",
-    "test": "pnpm run build && node lib/test",
+    "test": "pnpm run build && node lib/test && node esm.mjs",
     "benchmark": "pnpm run build && node lib/benchmark"
   },
   "dependencies": {

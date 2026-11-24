@@ -20,7 +20,7 @@
     "copy-readme": "node -e \"require('node:fs').copyFileSync('../../README.md', 'README.md')\"",
     "build": "rimraf lib && tsc && rollup -c && pnpm run copy-readme",
     "dev": "tsc --watch",
-    "api": "typedoc --excludeNotDocumented --out ../../lib/api src/index.ts",
+    "api": "typedoc",
     "prepack": "pnpm run copy-readme"
   },
   "devDependencies": {

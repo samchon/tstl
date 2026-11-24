@@ -142,7 +142,7 @@ export function front_inserter<
  * Construct back insert iterator.
  *
  * @param source Target container.
- * @return The {@link back insert iterator} object.
+ * @return A {@link BackInsertIterator} that appends assigned values.
  */
 export function back_inserter<Source extends Array<any> | IPushBack<any>>(
   source: Source,

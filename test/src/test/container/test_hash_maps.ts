@@ -1,4 +1,48 @@
+import { strict as assert } from "assert";
 import * as std from "tstl";
+
+export function test_hash_map_failed_growth(): void {
+  let failing = false;
+  const failure = new Error("hash failed during rehash");
+  const map = new std.HashMap<number, number>((key) => {
+    if (failing && key === 0) throw failure;
+    return 0;
+  });
+  const capacity = map.bucket_count();
+  const keys = Array.from({ length: capacity }, (_, key) => key);
+  for (const key of keys) map.emplace(key, key);
+
+  failing = true;
+  assert.throws(
+    () => map.emplace(capacity, capacity),
+    (error) => error === failure,
+  );
+  failing = false;
+  assert.equal(map.size(), capacity);
+  assert.equal(map.load_factor(), 1);
+  assert.deepEqual(
+    Array.from(map, (entry) => entry.first),
+    keys,
+  );
+  assert.equal(map.has(capacity), false);
+  for (const key of keys) assert.equal(map.get(key), key);
+
+  assert.equal(map.emplace(capacity, capacity).second, true);
+  assert.ok(map.bucket_count() > capacity);
+  assert.equal(map.get(capacity), capacity);
+
+  const erased = map.find(0);
+  failing = true;
+  assert.equal(map.erase(erased).first, 1);
+  failing = false;
+  assert.equal(map.has(0), false);
+  assert.equal(map.size(), capacity);
+  assert.equal(map.load_factor(), capacity / map.bucket_count());
+  assert.deepEqual(
+    Array.from(map, (entry) => entry.first),
+    [...keys.slice(1), capacity],
+  );
+}
 
 const CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 

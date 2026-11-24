@@ -111,7 +111,6 @@ export function none_of<Range extends Array<any> | IForwardContainer<any>>(
  *
  * @param range1 The 1st iterable ranged container.
  * @param range2 The 2nd iterable ranged container.
- * @param pred A binary function predicates two arguments are equal.
  *
  * @return Whether two ranges are equal.
  */

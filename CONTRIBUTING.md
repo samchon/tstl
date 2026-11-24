@@ -28,7 +28,7 @@ I always welcome your suggestion. When you publishing a suggestion, then please 
 ### Test your code
 
 Use the pnpm version pinned in `package.json`. The root test command builds
-the library and runs the TypeScript test suite.
+the library and runs the TypeScript tests and the ESM smoke test.
 
 ```powershell
 pnpm install --frozen-lockfile

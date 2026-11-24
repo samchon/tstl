@@ -16,7 +16,7 @@ import { IForwardContainer } from "../container/IForwardContainer";
  * Pick sample elements up.
  *
  * @param range An iterable ranged container.
- * @param output Output iterator of the first position.
+ * @param first Beginning of the output range.
  * @param n Number of elements to pick up.
  *
  * @return Output Iterator of the last position by advancing.

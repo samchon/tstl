@@ -65,7 +65,7 @@ export class VectorBoolean
   /**
    * Initializer Constructor.
    *
-   * @param items Items to assign.
+   * @param array Initial elements.
    */
   public constructor(array: boolean[]);
 
@@ -79,7 +79,7 @@ export class VectorBoolean
   /**
    * Fill Constructor.
    *
-   * @param size Initial size.
+   * @param n Initial size.
    * @param val Value to fill.
    */
   public constructor(n: number, val: boolean);
@@ -148,8 +148,7 @@ export class VectorBoolean
   public resize(n: number): void {
     const expansion: number = n - this.size();
     if (expansion > 0) this.insert(this.end(), expansion, false);
-    else if (expansion < 0)
-      this.erase(this.end().advance(-expansion), this.end());
+    else if (expansion < 0) this.erase(this.nth(n), this.end());
   }
 
   /**

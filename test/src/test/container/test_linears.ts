@@ -59,6 +59,25 @@ export function test_deque_iteration_during_insertion(): void {
   assert.equal(back_iterator.next().done, true);
 }
 
+export function test_linear_resize(): void {
+  for (const values of [
+    new std.Vector([1, 2, 3, 4, 5]),
+    new std.Deque([1, 2, 3, 4, 5]),
+    new std.List([1, 2, 3, 4, 5]),
+    new std.VectorBoolean([true, false, true, false, true]),
+  ]) {
+    const original = [...values];
+    values.resize(4);
+    assert.deepEqual([...values], original.slice(0, 4));
+    values.resize(1);
+    assert.equal(values.size(), 1);
+    assert.deepEqual([...values], original.slice(0, 1));
+    values.resize(3);
+    const fill = values instanceof std.VectorBoolean ? false : undefined;
+    assert.deepEqual([...values], [original[0], fill, fill]);
+  }
+}
+
 export function test_linear_containers(): void {
   _Test_linear(new std.Vector<number>());
   _Test_linear(new std.Deque<number>());
